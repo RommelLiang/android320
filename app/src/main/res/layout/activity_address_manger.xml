@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_address_manger"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/address_tishi"
+    tools:context="com.tiemuyu.chuanchuan.activity.AddressMangerActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/address_tishi">
+
+        <ImageView
+            android:id="@+id/im_back"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_marginBottom="11dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="11dp"
+            android:src="@drawable/home_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="地址管理"
+            android:textColor="@android:color/black"
+            android:textSize="20dp" />
+    </RelativeLayout>
+    <LinearLayout
+        android:background="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"></LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/add_address"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="18dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:text="添加新地址"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/home_click"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+    </RelativeLayout>
+
+    <ListView
+        android:layout_marginTop="15dp"
+        android:id="@+id/lv_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/messageActivityLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/message_activity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/colorLightWhite"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:id="@+id/header">
+        <LinearLayout
+            android:id="@+id/goBack"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="45dp">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="23dp"
+                android:layout_marginLeft="20dp"
+                android:background="@mipmap/back" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorBlack"
+            android:text="客服"/>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/kefu_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+
+</LinearLayout>

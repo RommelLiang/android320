@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorLightWhite"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:id="@+id/header">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:text=""/>
+
+        <ImageView
+            android:id="@+id/iv_wv_share"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/pic_share_btn"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="18dp" />
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:id="@+id/goBack"
+            android:layout_width="60dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:background="@mipmap/back"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="20dp" />
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/im_webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

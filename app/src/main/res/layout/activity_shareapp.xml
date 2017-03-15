@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorLightWhite"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:id="@+id/header">
+        <LinearLayout
+            android:id="@+id/goBack"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            >
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="23dp"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:background="@mipmap/back" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="18sp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorBlack"
+            android:text="邀请好友"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:orientation="vertical"
+        android:background="@drawable/photologo">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/home_rewardxxhdpi"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="6dp"
+                android:id="@+id/imageView5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="我获得的奖励:"
+                android:layout_marginTop="10dp"
+                android:textSize="19sp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/invite_vbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="|"
+                android:textSize="55sp"
+                android:textColor="@color/colorLightWhite"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:id="@+id/cc_coin_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/穿币"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="25dp"
+                android:textSize="19sp"
+                android:layout_toLeftOf="@id/invite_vbar"
+                android:textColor="@color/colorLightWhite" />
+
+            <TextView
+                android:id="@+id/cc_coin_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥9920"
+                android:textSize="35sp"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/colorLightWhite"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/cc_coin_lbl" />
+
+            <TextView
+                android:id="@+id/cc_coin_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥3000"
+                android:textSize="35sp"
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorLightWhite"
+                android:layout_toRightOf="@id/invite_vbar" />
+
+            <TextView
+                android:id="@+id/lingqian_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/零钱"
+                android:textSize="19sp"
+                android:layout_marginTop="25dp"
+                android:layout_toRightOf="@id/cc_coin_val"
+                android:textColor="@color/colorLightWhite" />
+
+        </RelativeLayout>
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:orientation="vertical"-->
+        <!--&gt;-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="34dp"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:textSize="16sp"-->
+        <!--android:text="(可提现10元)？"-->
+        <!--/>-->
+        <!--</LinearLayout>-->
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/jiangliguize" />
+    <Button
+        android:id="@+id/shareapp_share"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape2"
+        android:textColor="@color/colorWhite"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:textSize="22dp"
+        android:text="邀请好友"
+        android:layout_weight="0.00" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/invite_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注："/>
+
+        <TextView
+            android:id="@+id/invite_note1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.穿币在定制支付时可直接抵扣现金（1穿币=1元）"
+            android:layout_toRightOf="@id/invite_note"/>
+
+        <TextView
+            android:id="@+id/invite_note2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2.零钱可直接提现，或在定制支付时抵扣现金"
+            android:layout_below="@id/invite_note1"
+            android:layout_toRightOf="@id/invite_note"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

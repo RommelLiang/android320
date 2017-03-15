@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/hh"
+        layout="@layout/new_search_head"/>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        xmlns:ptr                              = "http://schemas.android.com/apk/res-auto"
+        android:id                             = "@+id/search_resutl_list"
+        android:layout_width                   = "match_parent"
+        android:layout_height                  = "match_parent"
+        android:gravity                        = "center_horizontal"
+        android:horizontalSpacing              = "10dp"
+        android:stretchMode                    = "columnWidth"
+        android:verticalSpacing                = "1dp"
+        ptr:ptrAnimationStyle                  = "flip"
+        ptr:ptrHeaderBackground                = "@color/white"
+        ptr:ptrHeaderSubTextColor              = "@color/ColorNavBackground"
+        ptr:ptrHeaderTextColor                 = "@color/ColorNavBackground"
+        ptr:ptrListViewExtrasEnabled           = "false"
+        ptr:ptrMode                            = "both"
+        ptr:ptrRefreshableViewBackground       = "@color/white"
+        ptr:ptrScrollingWhileRefreshingEnabled = "true" />
+
+</LinearLayout>

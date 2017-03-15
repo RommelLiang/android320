@@ -1,0 +1,165 @@
+package com.tiemuyu.chuanchuan.activity.util;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+
+import android.net.ParseException;
+
+public class HttpTool {
+	public static final int GET = 1;
+	public static final int POST = 2;
+	private static final String CHARSET_UTF8 = HTTP.UTF_8;
+	private static final String CHARSET_GB2312 = "GB2312";
+
+	/**
+	 * 获取String 数据
+	 * */
+	public static String getString(HttpEntity entity) {
+		try {
+			return (entity == null) ? null : EntityUtils.toString(entity,
+					CHARSET_UTF8);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * 获取String 数据
+	 * */
+	public static String getString(String path,
+			ArrayList<BasicNameValuePair> headers,
+			ArrayList<BasicNameValuePair> params, int method)
+			throws IOException {
+		try {
+			HttpEntity entity = getEntity(path, headers, params, method);
+			return (entity == null) ? null : EntityUtils.toString(entity,
+					CHARSET_UTF8);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * 获取数据长度
+	 * */
+	public static long getLength(String path,
+			ArrayList<BasicNameValuePair> headers,
+			ArrayList<BasicNameValuePair> params, int method)
+			throws IOException {
+		long length = 0;
+		HttpEntity entity = getEntity(path, headers, params, method);
+		if (entity != null) {
+			length = entity.getContentLength();
+		}
+		return length;
+	}
+
+	/**
+	 * 获取输入流
+	 * */
+	public static InputStream getStream(String path,
+			ArrayList<BasicNameValuePair> headers,
+			ArrayList<BasicNameValuePair> params, int method)
+			throws IOException {
+		InputStream in = null;
+		HttpEntity entity = getEntity(path, headers, params, method);
+		if (entity != null) {
+			in = entity.getContent();
+		}
+		return in;
+	}
+
+	/**
+	 * 获取byte[]数据
+	 * */
+	public static byte[] getBytes(String path,
+			ArrayList<BasicNameValuePair> headers,
+			ArrayList<BasicNameValuePair> params, int method)
+			throws IOException {
+		byte[] bytes = null;
+		HttpEntity entity = getEntity(path, headers, params, method);
+		if (entity != null) {
+			bytes = EntityUtils.toByteArray(entity);
+		}
+		return bytes;
+	}
+
+	/**
+	 * 获取HttpEntity
+	 * */
+	private static HttpEntity getEntity(String path,
+			ArrayList<BasicNameValuePair> headers,
+			ArrayList<BasicNameValuePair> params, int method)
+			throws IOException {
+		HttpEntity entity = null;
+		// 创建client
+		DefaultHttpClient client = new DefaultHttpClient();
+		// 创建request对象
+		HttpUriRequest request = null;
+		switch (method) {
+		case GET:
+			StringBuilder sb = new StringBuilder(path);
+			// 如果有参数，则将参数名和参数值连接到path之后
+			if (params != null && !params.isEmpty()) {
+				sb.append('?');
+				for (BasicNameValuePair pair : params) {
+					sb.append(pair.getName()).append('=')
+							.append(URLEncoder.encode(pair.getValue()))
+							.append('&');
+				}
+				sb.deleteCharAt(sb.length() - 1);
+			}
+			request = new HttpGet(sb.toString());
+			break;
+		case POST:
+			request = new HttpPost(path);
+			if (params != null && !params.isEmpty()) {
+				// 设置post请求的请求实体
+				UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params);
+				((HttpPost) request).setEntity(ent);
+			}
+			break;
+		}
+		// 如果消息头参数不为空，则循环设置所有的消息头
+		if (headers != null && !headers.isEmpty()) {
+			for (BasicNameValuePair pair : headers) {
+				request.setHeader(pair.getName(), pair.getValue());
+			}
+		}
+		// 执行请求，获得response
+		HttpResponse response = client.execute(request);
+		// 判断response状态码
+		int code = response.getStatusLine().getStatusCode();
+		if (code == HttpStatus.SC_OK) {
+			// 如果请求成功，获得响应实体
+			entity = response.getEntity();
+		}
+		return entity;
+	}
+}

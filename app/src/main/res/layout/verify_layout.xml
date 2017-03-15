@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.tiemuyu.chuanchuan.activity.new_activities.LoginActivity"
+    android:background="@drawable/bkgrd_login">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:id="@+id/header">
+
+        <ImageView
+            android:id="@+id/return_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/white_return" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:textSize="21sp"
+            android:textColor="@color/white"
+            android:text="获取验证码"
+            android:layout_alignTop="@+id/goBack"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+    <!--header之下的所有内容-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <!--穿穿的透明logo-->
+        <ImageView
+            android:layout_marginTop="50dp"
+            android:layout_width="120dp"
+            android:layout_height="85dp"
+            android:src="@drawable/login_logohdpi"
+            android:layout_gravity="center_horizontal"
+            android:maxHeight="50dp"
+            android:maxWidth="50dp"
+            android:layout_weight="0.09" />
+
+        <!--账户名输入框-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            >
+
+            <ImageView
+                android:layout_width="23dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ver_code_icon"
+                android:layout_centerVertical="true"
+                android:id="@+id/imageView3" />
+
+            <com.tiemuyu.chuanchuan.activity.view.ClearEditText
+                android:id="@+id/login_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="请输入验证码"
+                android:maxLength="50"
+                android:textColor="@color/white"
+                android:textColorHint="@color/colorLightWhite"
+                android:textSize="15sp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/imageView3" />
+
+            <View
+                android:layout_below="@id/login_name"
+                android:layout_height="1dp"
+                android:background="@color/colorLightWhite"
+                android:layout_width="fill_parent">
+            </View>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <Button
+                android:id="@+id/login1"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="85dp"
+                android:text="下一步"
+                android:background="@drawable/shape"
+                android:textColor="@color/white"
+                android:textSize="22dp" />
+
+            <TextView
+                android:id="@+id/proc_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textSize="15sp"
+                android:textColor="@color/colorLightWhite"
+                android:text="亲，短信验证码已发送至13530166523，请注意查收"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

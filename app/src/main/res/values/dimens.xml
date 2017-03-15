@@ -1,0 +1,74 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="lit_text_size">@dimen/x35</dimen>
+    <dimen name="big_text_size">@dimen/x40</dimen>
+    <dimen name="setting_text_size">@dimen/x34</dimen>
+    <dimen name="setting_goto_size">@dimen/x35</dimen>
+    <dimen name="setting_about_image_margin">@dimen/y45</dimen>
+    <dimen name="setting_imageToText">@dimen/x30</dimen>
+    <dimen name="setting_marginLeft">@dimen/x30</dimen>
+    <dimen name="setting_marginTop">@dimen/x20</dimen>
+    <dimen name="setting_itemTitle_height">@dimen/y90</dimen>
+    <dimen name="setting_item_height">@dimen/y120</dimen>
+    <dimen name="message_name_to_content">10dp</dimen>
+    <dimen name="message_hear_to_content">10dp</dimen>
+    <dimen name="message_audioTime_to_content">@dimen/y18</dimen>
+    <dimen name="message_content_to_border">120dp</dimen>
+    <dimen name="message_content_textSize">15sp</dimen>
+    <dimen name="message_content_padding">8dp</dimen>
+    <dimen name="message_headImage">45dp</dimen>
+    <dimen name="message_Image_width">@dimen/x170</dimen>
+    <dimen name="message_Image_height">@dimen/y220</dimen>
+    <dimen name="size_middle">16dp</dimen>
+
+    <dimen name="text_hide_size">14dp</dimen>
+    <dimen name="body_label_size">18sp</dimen>
+
+    <!-- 顶部布局 -->
+    <dimen name="top_height">44dp</dimen>
+    <dimen name="top_btn_back">28dp</dimen>
+    <dimen name="top_btn_back_new">45dp</dimen>
+    <dimen name="rl_hight">70dp</dimen>
+
+
+    <!-- 字体大小 -->
+    <dimen name="text_default_size">17dp</dimen>
+    <!-- 默认字体大小，如标题，按钮字体等 -->
+    <!-- 提示字体 -->
+    <dimen name="text_tishi">11dp</dimen>
+    <dimen name="text_xieyi">13dp</dimen>
+    <dimen name="text_tishi_safe">12dp</dimen>
+    <dimen name="text_nichen">16dp</dimen>
+
+    <!-- 按钮高度 -->
+    <dimen name="button_hight">45dp</dimen>
+    <dimen name="my_info_txt_size">18sp</dimen>
+    <dimen name="sli_img">22dp</dimen>
+    <dimen name="sli_tv">15dp</dimen>
+
+    <dimen name="sli_rl_hight">75dp</dimen>
+
+    <!-- 地址item -->
+    <dimen name="address_hight">140dp</dimen><!-- 高度 -->
+    <dimen name="address_margin_left">13dp</dimen>
+
+    <!-- 添加地址 -->
+    <dimen name="add_address_hight">53dp</dimen>
+    <dimen name="add_address_detail_hight">110dp</dimen>
+
+    <!-- 我的钱包 -->
+    <dimen name="mywallet_rl_hight">73dp</dimen>
+
+    <!-- 设置 -->
+    <dimen name="setting_rl_hight">60dp</dimen>
+    <dimen name="cursor_height">5dp</dimen>
+    <dimen name="tab_height">45dp</dimen>
+    <dimen name="cash_number">30dp</dimen>
+
+</resources>

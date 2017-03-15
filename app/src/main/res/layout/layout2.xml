@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ptr="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!--<RelativeLayout
+        android:id="@+id/rl_price_tag"
+        android:layout_width  = "match_parent"
+        android:layout_height = "150dp"
+        android:layout_marginBottom="20dp">
+
+        <android.support.v4.view.ViewPager
+            android:id            = "@+id/vp_banner2"
+            android:layout_width  = "match_parent"
+            android:layout_height = "match_parent"
+            android:text          = "hello_world" />
+
+        <RadioGroup
+            android:id                       = "@+id/radio_group2"
+            android:layout_width             = "100dp"
+            android:layout_height            = "wrap_content"
+            android:orientation              = "horizontal"
+            android:layout_alignParentBottom = "true"
+            android:layout_centerHorizontal  = "true"
+            android:layout_marginBottom      = "0dp">
+
+            <RadioButton
+                android:id            = "@+id/rb_one1"
+                android:layout_width  = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:checked       = "true"
+                style                 = "@style/rb_banner"/>
+
+            <RadioButton
+                android:id            = "@+id/rb_two2"
+                android:layout_width  = "wrap_content"
+                android:layout_height = "wrap_content"
+                style                 = "@style/rb_banner"/>
+
+            <RadioButton
+                android:id            = "@+id/rb_three3"
+                android:layout_width  = "wrap_content"
+                android:layout_height = "wrap_content"
+                style                 = "@style/rb_banner"/>
+
+            <RadioButton
+                android:id            = "@+id/rb_four4"
+                android:layout_width  = "wrap_content"
+                android:layout_height = "wrap_content"
+                style                 = "@style/rb_banner"/>
+
+        </RadioGroup>
+
+    </RelativeLayout>-->
+
+    <!--layout2的瀑布流-->
+    <ListView
+        android:id            = "@+id/lv_dzcp"
+        android:layout_width  = "fill_parent"
+        android:layout_height = "fill_parent" >
+    </ListView>
+
+</LinearLayout>

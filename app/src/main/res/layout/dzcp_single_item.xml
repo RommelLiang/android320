@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/dzcp_img"
+        android:layout_marginTop="8dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src = "@drawable/b"/>
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:id="@+id/dzcp_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorBlack"
+        android:text="女装2017年高级仿皮革双层短款外套"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorLightGrey"
+            android:text="定制价"/>
+
+        <TextView
+            android:id="@+id/dzcp_price_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="￥1111"
+            android:textColor="@color/ColorSplashBackground"
+            android:layout_marginBottom="8dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

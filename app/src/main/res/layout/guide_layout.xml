@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_guide"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY" />
+
+
+    <Button
+        android:id="@+id/btn_guide_start_experience"
+        android:layout_width="@dimen/x120"
+        android:layout_height="@dimen/y30"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dip"
+        android:background="@drawable/yy_cy"
+        android:paddingBottom="5dip"
+        android:paddingLeft="20dip"
+        android:paddingRight="20dip"
+        android:paddingTop="5dip"
+        android:text="立即体验"
+        android:textColor="#7FCAC6"
+        android:textSize="@dimen/x15"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/btn_bypass"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="20dip"
+        android:background="@mipmap/pic_20_1_icon_product_list_cross"
+        android:visibility="invisible" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dip">
+
+        <LinearLayout
+            android:id="@+id/ll_guide_point_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"></LinearLayout>
+
+        <View
+            android:id="@+id/select_point"
+            android:layout_width="10dip"
+            android:layout_height="10dip"
+            android:background="@drawable/point_select" />
+    </RelativeLayout>
+
+</RelativeLayout>

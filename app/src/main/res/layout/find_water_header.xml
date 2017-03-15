@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="210dp">
+
+            <ImageView
+                android:id="@+id/header_big_img"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:background="@drawable/e"
+                android:layout_height="210dp" />
+
+            <TextView
+                android:id="@+id/header_img_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="我是一个兵，来自老百姓，革命战争考验了我，立场更坚定。哦嘿嘿枪杆握得紧，眼睛看得清"
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="7dp"
+            android:weightSum="1">
+
+            <RelativeLayout
+                android:id="@+id/rl_paixufangshi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5">
+
+                <TextView
+                    android:id="@+id/tv_sort_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="排序方式"
+                    android:textColor="@color/colorBlack"
+                    android:layout_centerHorizontal="true" />
+
+                <ImageView
+                    android:id="@+id/iv_sort_arrow"
+                    android:layout_width="15dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/find_water_up_arrow"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/tv_sort_type"
+                    android:layout_marginLeft="5dp"/>
+
+            </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="0.5"
+                    android:text="筛选"
+                    android:textColor="@color/colorBlack"
+                    android:textAlignment="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/colorLightGrey">
+
+            <LinearLayout
+                android:id="@+id/ll_sort_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rl_zonghepaixu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:background="@color/white"
+                    android:layout_marginBottom="1dp">
+
+                    <TextView
+                        android:id="@+id/tv_zonghepaixu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="综合排序"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/colorBlack"/>
+
+                    <ImageView
+                        android:id="@+id/iv_zonghepaixu_gou"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/correct_noselected"
+                        android:layout_marginRight="10dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_gaodaodi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:background="@color/white"
+                    android:layout_marginBottom="1dp">
+
+                    <TextView
+                        android:id="@+id/tv_gaodaodi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="价格由高到低"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/colorBlack"/>
+
+                    <ImageView
+                        android:id="@+id/iv_gaodaodi_gou"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/correct_noselected"
+                        android:layout_marginRight="10dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_didaogao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:background="@color/white"
+                    android:layout_marginBottom="1dp">
+
+                    <TextView
+                        android:id="@+id/tv_didaogao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="价格由低到高"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="@color/colorBlack"/>
+
+                    <ImageView
+                        android:id="@+id/iv_didaogao_gou"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/correct_noselected"
+                        android:layout_marginRight="10dp"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:id="@+id/hsv_keys"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/ll_water_search_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

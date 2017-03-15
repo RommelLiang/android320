@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    >
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/colorWhite"
+        >
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="24dp"
+            android:src="@drawable/login_phonehdpi"
+            android:background="@color/colorWhite"
+            android:id="@+id/imageView4"
+            android:layout_gravity="center"
+            />
+
+        <EditText
+            android:layout_width="331dp"
+            android:background="@color/colorWhite"
+            android:layout_height="49dp"
+            android:paddingLeft="10dp"
+            android:textSize="14dp"
+            android:id="@+id/mima"
+            android:hint="请输入注册手机号码" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorLightWhite"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="1dp"></LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorLightWhite"
+        >
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="25dp"
+        android:background="@color/colorWhite">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="24dp"
+            android:src="@drawable/login_anquan"
+            android:background="@color/colorWhite"
+            android:layout_gravity="center"
+            />
+
+        <EditText
+            android:layout_width="255dp"
+            android:background="@color/colorWhite"
+            android:layout_height="49dp"
+            android:paddingLeft="10dp"
+            android:textSize="14dp"
+            android:id="@+id/yanzhengma"
+            android:hint="请输入验证码" />
+        <TextView
+            android:layout_width="67dp"
+            android:layout_height="wrap_content"
+            android:text="重新获取"
+            android:textColor="#cfb166"
+
+
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorLightWhite"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="1dp"></LinearLayout>
+
+    <Button
+        android:id="@+id/next_step"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape2"
+        android:textColor="@color/colorWhite"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="50dp"
+        android:textSize="22dp"
+        android:text="下一步"
+        android:layout_weight="0.00" />
+
+
+</LinearLayout>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="ColorMessageOur">#96E444</color>
+    <!-- 颜色 -->
+    <color name="ColorPageBackground">#EEEDED</color>
+    <color name="ColorLaunchBackground">#571233</color>
+    <color name="ColorLaunchSkip">#00000000</color>
+    <color name="ColorLaunchSkipText">#D4B45C</color>
+    <color name="ColorSeparateLine">#C9C9CA</color>
+    <color name="ColorTabbar">#727171</color>
+    <color name="ColorTabbarActive">#3D3B3E</color>
+    <color name="ColorPostPicBkgd">#e84034</color>
+    <!--<color name="ColorTabbarBackground">white</color>-->
+    <color name="ColorTabbarLine">#C9C9CA</color>
+    <color name="ColorNavBackground">#571233</color>
+    <color name="ColorNavText">#D4B45C</color>
+    <color name="ColorNavSettingText">#D4B45C</color>
+    <color name="ColorSplashBackground">#571233</color>
+    <color name="ColorSearchPlacehodler">#D3D3D3</color>
+    <color name="ColorSearchOutter">#EEEDED</color>
+    <color name="ColorSendButtonBackground">#00000000</color>
+    <color name="ColorSendButtonText">#717071</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorTre">#00000000</color>
+    <color name="colorTransparent">#70000000</color>
+    <color name="colorTransparent2">#90000000</color>
+    <color name="colorSomber">#2B2B2B</color>
+    <color name="colorLineGrey">#DDDDDD</color>
+    <!-- 白烟 -->
+    <color name="colorSmoke">#F5F5F5</color>
+    <color name="colorF">#F0F0F0</color>
+    <color name="colorCyan">#7FCAC6</color>
+    <color name="colorLightGray">#B6B6B6</color>
+    <color name="colorIvory">#FFFFF0</color>
+    <color name="colorLightWhite">#EBE9ED</color>
+    <color name="colorLightBlue">#F0F8FF</color>
+    <color name="colorBlue">#38a2dc</color>
+    <color name="colorRed">#d20000</color>
+    <color name="colorAudioTime">#F7693D</color>
+    <color name="colorDdd">#cccccc</color>
+    <color name="colorNine">#999999</color>
+    <color name="colorLine">#cfcfcf</color>
+    <color name="colorC">#c9c9c9</color>
+    <color name="color_message_edit_bg">#bfbfbf</color>
+    <color name="color_message_default_bg">#e9ecf0</color>
+    <color name="colorGray">#BFBFBF</color>
+    <color name="colorBackground">#eeeeee</color>
+    <color name="colorPCABackground">#d1edfd</color>
+    <color name="colorgray">#7d7d7d</color>
+    <color name="message_user_name">#555555</color>
+    <!--轮播器所需-->
+    <color name="white">#FFF</color>
+    <color name="red">#F00</color>
+    <color name="green">#0F0</color>
+    <color name="green_dark">#45C01A</color>
+    <color name="blue">#00F</color>
+    <color name="yellow">#FF0</color>
+    <color name="yellow_a">#5e5e09</color>
+    <color name="pink">#F0F</color>
+    <!-- 浅灰色 -->
+    <color name="colorLightGrey">#D3D3D3</color>
+    <color name="colorOrange">#f39010</color>
+    <color name="colorC2">#c4c4c4</color>
+    <!--umeng所需颜色-->
+    <color name="umeng_white">#ffffff</color>
+    <color name="umeng_blue">#469ef8</color>
+    <color name="umeng_black">#000000</color>
+
+
+    <!-- 注册 -->
+    <color name="regist_edittext_hint">#D0D0D0</color>
+    <color name="regist_invite">#6B6B6B</color>
+
+
+    <color name="hint_tishi">#9F9F9F</color>
+    <color name="hint_tishi_mid">#9B9B9B</color>
+
+    <color name="address_tishi">#ededea</color>
+
+    <color name="sli_left_bottom_press">#F8F8F8</color>
+
+    <color name="home_tishi">#A1A1A1</color>
+
+
+    <!-- 重置密码 -->
+    <color name="reset_pass_phone">#2B2B2B</color>
+    <color name="reset_pass_hint">#BDBCBC</color>
+    <color name="reset_pass_tishi">#9F9F9F</color>
+    <color name="reset_pass_next">#5A5959</color>
+    <color name="reset_pass_code">#575757</color>
+    <color name="reset_pass_pass">#2D2D2D</color>
+    <color name="reset_pass_third_hint">#BFBFBF</color>
+    <color name="reset_pass_newtishi">#CFCFCF</color>
+
+    <!-- 登录 -->
+    <color name="login_text">#837F7F</color>
+    <color name="default_text_color">#2B2B2B</color>
+    <color name="view_line">#9c9c9c</color>
+
+
+
+    <!--新添加-->
+
+    <color name="colorDingzhijia">#666666</color>
+    <color name="colorNewPrice">#450525</color>
+
+
+
+</resources>

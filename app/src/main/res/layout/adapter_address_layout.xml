@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/address_tishi">
+    <RelativeLayout
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:id="@+id/rl_adress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp">
+
+
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/consignee"
+                    android:text="黄颖颖"
+                    android:textColor="#666666"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tv_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="35dp"
+                    android:layout_toRightOf="@+id/tv_name"
+                    android:text="135844184843"
+                    android:textColor="#666666"
+                    android:textSize="18dp" />
+
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="8dp"
+                >
+                <TextView
+                    android:id="@+id/tv_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="广东省深圳市福田区商报路10号12栋601"
+                    android:textColor="#666666"
+                    android:textSize="18dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/address" />
+            </RelativeLayout>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/im_select"
+            android:layout_centerVertical="true"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:paddingTop="10dp"
+            android:layout_marginRight="10dp"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:background="@color/colorGray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"></LinearLayout>
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/yellow_a"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:textSize="18dp"
+            android:id="@+id/tv_edit"
+            android:text="编辑"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textColor="@color/yellow_a"
+            android:layout_toLeftOf="@id/tv_edit"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:textSize="18dp"
+            android:id="@+id/tv_delete"
+            android:text="删除"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</LinearLayout>

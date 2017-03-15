@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_execute_charge"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tiemuyu.chuanchuan.activity.ExecuteChargeActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/address_tishi">
+
+        <ImageView
+            android:id="@+id/im_back"
+            android:layout_width="70dp"
+            android:layout_height="25dp"
+            android:layout_marginBottom="11dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="11dp"
+            android:src="@drawable/home_back" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="充值"
+            android:textColor="@android:color/black"
+            android:textSize="20dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:text="我的零钱"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:background="@null"
+            android:id="@+id/tv_mine"
+            android:text="0"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/ColorLaunchBackground"
+            android:textSize="18dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <View
+        android:background="@color/address_tishi"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:text="金额"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:background="@null"
+            android:gravity="right"
+            android:id="@+id/tv_execute"
+            android:inputType="number"
+            android:hint="请填写充值金额"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="18dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <View
+        android:background="@color/address_tishi"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:text="支付方式"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:background="@null"
+            android:gravity="right"
+            android:id="@+id/tv_get"
+            android:inputType="number"
+            android:textColorHint="@color/ColorLaunchBackground"
+            android:hint="支付宝"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="18dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <View
+        android:background="@color/address_tishi"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+    <Button
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:id="@+id/btnActivityForgetPasswordNext"
+        android:background="@color/ColorLaunchBackground"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:text="下一步"
+        android:textStyle="bold"/>
+</LinearLayout>

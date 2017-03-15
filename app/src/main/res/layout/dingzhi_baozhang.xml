@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+
+    android:layout_marginLeft="15dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="30dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:background="@drawable/circle_shape_selected"
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+            <TextView
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="透明报价"
+                android:textColor="@android:color/black"
+                android:textSize="18dp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:text="报价明细一目了然"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:textSize="18dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="30dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:background="@drawable/circle_shape_selected"
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+            <TextView
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="品质保障"
+                android:textColor="@android:color/black"
+                android:textSize="18dp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:text="一线品牌工艺控制标准"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:textSize="18dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="30dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:background="@drawable/circle_shape_selected"
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+            <TextView
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="物流保障"
+                android:textColor="@android:color/black"
+                android:textSize="18dp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:text="全国顺风包邮"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:textSize="18dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="30dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:background="@drawable/circle_shape_selected"
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+            <TextView
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="免费修改"
+                android:textColor="@android:color/black"
+                android:textSize="18dp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:text="不限次免费修改"
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:textSize="18dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

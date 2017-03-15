@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:text="请上传清晰、完整的衣服图片"
+            android:layout_marginTop="17dp"
+            android:layout_marginLeft="12dp"
+            android:textSize="19sp"
+            android:textColor="#2e2e2e"
+            />
+        <ImageView
+            android:layout_width="136dp"
+            android:layout_height="109dp"
+            android:src="@drawable/home_photo"
+            android:layout_marginTop="12dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@color/colorLightWhite"
+
+            android:layout_marginTop="40dp"
+            android:layout_height="1dp"
+            android:layout_weight="0.01"></LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="0.10">
+        <Button
+            android:layout_width="75dp"
+            android:layout_height="33dp"
+            android:background="@drawable/shape3"
+            android:textColor="@color/colorWhite"
+            android:layout_marginRight="25dp"
+            android:textSize="15dp"
+            android:text="上装"
+            android:id="@+id/jacket" />
+        <Button
+            android:layout_width="75dp"
+            android:layout_height="33dp"
+            android:background="@drawable/shape4"
+            android:textColor="#2e2e2e"
+            android:textSize="15dp"
+            android:text="下装"
+            android:layout_marginRight="25dp"
+            android:id="@+id/download" />
+
+        <Button
+            android:layout_width="75dp"
+            android:layout_height="33dp"
+            android:background="@drawable/shape4"
+            android:textColor="#2e2e2e"
+            android:textSize="15dp"
+            android:text="套装"
+            android:layout_marginRight="25dp"
+            android:id="@+id/suit" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:text="未选择类别则默认上装"
+            android:layout_marginTop="10dp"
+            ></TextView>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorLightWhite"
+
+        android:layout_marginTop="10dp"
+        android:layout_height="10dp"
+        android:layout_weight="0.01"></LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:text="要跟穿穿交代点什么："
+            android:layout_marginTop="13dp"
+            android:textSize="19sp"
+            android:textColor="#2e2e2e"
+            ></TextView>
+
+        <EditText
+            android:layout_height="171dp"
+            android:background="@drawable/shape6"
+            android:textColorHint="#AAAAAA"
+            android:layout_marginTop="3dp"
+            android:textSize="17sp"
+            android:hint="如更换面料颜色、什么样的感觉或穿着场景等信息"
+            android:paddingTop="8dp"
+            android:gravity="clip_horizontal"
+            android:id="@+id/textvalues"
+            android:layout_width="fill_parent">
+        </EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:text="请注意接收报价信息"
+            android:layout_marginTop="12dp"
+            android:textSize="20sp"
+            android:textColor="#2e2e2e"
+            ></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:text="(24:00~9:00发图，将在9点后报价)"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="12dp"
+            android:textSize="16sp"
+            android:textColor="#2e2e2e"
+            ></TextView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center">
+
+        <Button
+            android:background="@drawable/shape5"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="设置推送"
+            android:textColor="#cfb166" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:orientation="vertical"></LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape2"
+        android:textColor="@color/colorWhite"
+        android:textSize="42dp"
+        android:text="发布"
+        android:id="@+id/nextstep"
+        />
+</LinearLayout>

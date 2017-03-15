@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:tools               = "http://schemas.android.com/tools"
+    android:orientation       = "vertical"
+    android:layout_width      = "match_parent"
+    android:layout_height     = "wrap_content"
+    tools:showIn              = "@layout/activity_main">
+
+    <RelativeLayout
+        android:layout_width  = "match_parent"
+        android:layout_height = "80dp"
+        android:background    = "#f0f0f0"
+        android:orientation   = "horizontal"
+        android:visibility    = "gone"
+        android:id            = "@+id/header">
+        <LinearLayout
+            android:id               = "@+id/goBack"
+            android:layout_width     = "60dp"
+            android:layout_height    = "35dp"
+            android:layout_marginTop = "40dp">
+            <ImageView
+                android:layout_width      = "16dp"
+                android:layout_height     = "25dp"
+                android:layout_marginLeft = "20dp"
+                android:background        = "@mipmap/back" />
+        </LinearLayout>
+        <TextView
+            android:id                      = "@+id/tv_title"
+            android:layout_width            = "wrap_content"
+            android:layout_height           = "wrap_content"
+            android:layout_centerHorizontal = "true"
+            android:layout_marginTop        = "40dp"
+            android:textSize                = "20sp"
+            android:textColor               = "@color/colorBlack"
+            android:text                    = "发现"/>
+        <TextView
+            android:id="@+id/right_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:layout_marginRight="16dp"
+            android:visibility="gone"
+            android:text="保存"
+            android:layout_marginEnd="15dp"
+            android:layout_alignBaseline="@+id/tv_title"
+            android:layout_alignBottom="@+id/tv_title"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <!--上面的搜索输入框-->
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:id               = "@+id/search"
+        android:layout_width     = "match_parent"
+        android:layout_height    = "60dp"
+        android:layout_marginTop = "20dp"
+        android:background       = "@color/colorLightWhite"
+        android:orientation      = "horizontal">
+
+        <RelativeLayout
+            android:layout_width       = "wrap_content"
+            android:layout_height      = "45dp"
+            android:layout_marginLeft  = "2dp"
+            android:layout_marginTop   = "11dp"
+            android:layout_marginRight = "10dp"
+            android:layout_weight      = "1"
+            android:orientation        = "horizontal">
+
+            <LinearLayout
+                android:id                      = "@+id/message_top_right"
+                android:layout_width            = "25dp"
+                android:layout_height           = "25dp"
+                android:layout_alignParentRight = "true"
+                android:layout_centerVertical   = "true"
+                android:layout_marginRight      = "3dp"
+                android:gravity                 = "center" >
+
+                <ImageView
+                    android:layout_width  = "25dp"
+                    android:layout_height = "25dp"
+                    android:src           = "@drawable/new_msg_top_right" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id                 = "@+id/ly_search"
+                android:layout_width       = "wrap_content"
+                android:layout_height      = "33dp"
+                android:layout_marginLeft  = "10dp"
+                android:layout_marginRight = "40dp"
+                android:layout_marginTop   = "6dp"
+                android:background         = "@drawable/edit"
+                android:orientation        = "horizontal"
+                android:visibility         = "visible">
+
+                <ImageView
+                    android:id                = "@+id/imageButton"
+                    android:background        = "@mipmap/search"
+                    android:layout_height     = "22dp"
+                    android:layout_width      = "22dp"
+                    android:layout_gravity    = "center_vertical"
+                    android:layout_marginLeft = "10dp"
+                    android:layout_marginTop  = "6dp"/>
+
+                <EditText
+                    android:id                      = "@+id/ed_search"
+                    android:layout_width            = "match_parent"
+                    android:layout_height           = "match_parent"
+                    android:background              = "@null"
+                    android:imeOptions              = "actionSearch"
+                    android:inputType               = "text"
+                    android:hint                    = "搜索"
+                    android:paddingLeft             = "38dp"
+                    android:layout_alignParentTop   = "true"
+                    android:layout_alignParentStart = "true"
+                    />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

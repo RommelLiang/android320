@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto">
+    <ListView
+        android:id                             = "@+id/pull_refresh_grid"
+        android:layout_width                   = "match_parent"
+        android:layout_height                  = "match_parent"
+        android:gravity                        = "center_horizontal"
+        android:horizontalSpacing              = "10dp"
+        android:stretchMode                    = "columnWidth"
+        android:verticalSpacing                = "1dp"/>
+
+    <ImageView
+        android:layout_centerInParent="true"
+        android:background="@drawable/home_image_blank"
+        android:id="@+id/im_no_order"
+        android:layout_width="150dp"
+        android:layout_height="150dp" />
+</RelativeLayout>

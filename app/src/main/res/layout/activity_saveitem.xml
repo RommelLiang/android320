@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    android:layout_width    = "match_parent"
+    android:layout_height   = "match_parent"
+    android:background      = "@color/colorLightGray"
+    android:orientation     = "vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/colorLightWhite"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:id="@+id/header">
+        <LinearLayout
+            android:id="@+id/MyShoucangBack"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="22dp">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="23dp"
+                android:layout_marginLeft="20dp"
+                android:background="@mipmap/back" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:text="我的收藏"
+            android:layout_alignTop="@+id/goBack"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <!-- The PullToRefreshGridView replaces a standard GridView widget. -->
+    <com.handmark.pulltorefresh.library.PullToRefreshGridView
+        xmlns:ptr                              = "http://schemas.android.com/apk/res-auto"
+        android:id                             = "@+id/fav_listview"
+        android:layout_width                   = "match_parent"
+        android:layout_height                  = "match_parent"
+        android:gravity                        = "center_horizontal"
+        android:horizontalSpacing              = "10dp"
+        android:numColumns                     = "1"
+        android:stretchMode                    = "columnWidth"
+        android:verticalSpacing                = "1dp"
+        ptr:ptrAnimationStyle                  = "flip"
+        ptr:ptrHeaderBackground                = "@color/colorLightGray"
+        ptr:ptrHeaderSubTextColor              = "@color/ColorNavBackground"
+        ptr:ptrHeaderTextColor                 = "@color/ColorNavBackground"
+        ptr:ptrListViewExtrasEnabled           = "false"
+        ptr:ptrMode                            = "both"
+        ptr:ptrRefreshableViewBackground       = "@color/colorLightGray"
+        ptr:ptrScrollingWhileRefreshingEnabled = "true"/>
+    <!--android:columnWidth                    = "200dp"-->
+
+</LinearLayout>

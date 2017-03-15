@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="body_size">
+        <item>XXXS</item>
+        <item>XXS</item>
+        <item>XS</item>
+        <item>S</item>
+        <item>M</item>
+        <item>L</item>
+        <item>XL</item>
+        <item>XXL</item>
+        <item>XXXL</item>
+    </string-array>
+
+    <string-array name="body_shape">
+        <item>S型</item>
+        <item>苹果型</item>
+        <item>梨形</item>
+        <item>香蕉型</item>
+    </string-array>
+
+</resources>

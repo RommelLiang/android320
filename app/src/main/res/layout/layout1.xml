@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    android:layout_width    = "match_parent"
+    android:layout_height   = "match_parent"
+    android:background      = "#ffffff"
+    android:orientation     = "vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:id="@+id/rl_main_header">
+
+        <LinearLayout
+            android:id="@+id/main_header_goback"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="23dp"
+                android:layout_marginLeft="20dp"
+                android:background="@mipmap/back" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_main_header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/colorBlack"
+            android:text="载入中……"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id                             = "@+id/pull_refresh_grid"
+        android:layout_width                   = "match_parent"
+        android:layout_height                  = "match_parent"
+        android:gravity                        = "center_horizontal"
+        android:horizontalSpacing              = "10dp"
+        android:stretchMode                    = "columnWidth"
+        android:verticalSpacing                = "1dp"
+        ptr:ptrAnimationStyle                  = "flip"
+        ptr:ptrHeaderBackground                = "@color/white"
+        ptr:ptrHeaderSubTextColor              = "@color/ColorNavBackground"
+        ptr:ptrHeaderTextColor                 = "@color/ColorNavBackground"
+        ptr:ptrListViewExtrasEnabled           = "false"
+        ptr:ptrMode                            = "both"
+        ptr:ptrRefreshableViewBackground       = "@color/white"
+        ptr:ptrScrollingWhileRefreshingEnabled = "true" />
+
+
+</LinearLayout>
