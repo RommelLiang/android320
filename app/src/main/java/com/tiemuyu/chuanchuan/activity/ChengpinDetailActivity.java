@@ -529,7 +529,9 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
             return;
         }
         User now=DBTools.getUser();
-        Toast.makeText(this,  "######"+now.getAccid()+"    "+now.getAccToken(), Toast.LENGTH_SHORT).show();
+        if (now.getAccid() == null) {
+            Toast.makeText(this,  "网络异常" , Toast.LENGTH_SHORT).show();
+        }
         LoginInfo loginInfo = new LoginInfo(now.getAccid(), now.getAccToken());
 //        System.out.println("accid after new LoginInfo: " + accid);
 //        System.out.println("acctoken after new LoginInfo: " + token);
@@ -541,7 +543,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 
             @Override
             public void onSuccess(LoginInfo loginInfo) {
-                Toast.makeText(ChengpinDetailActivity.this, "登录成功", Toast.LENGTH_LONG).show();
+
                 isLogIn = true;
                 request(Request.Method.GET, "http://imserver.myappcc.com/api/Getuseracc", null, "", tag, 100);
 

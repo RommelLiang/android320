@@ -714,7 +714,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                    Toast.makeText(getActivity(), "tryy", Toast.LENGTH_SHORT).show();
 
 
                 ClassJumpTool.startToNextActivity(getActivity(), MyWebview.class, URL.UrlOrder);
@@ -732,7 +731,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                Toast.makeText(getActivity(), "tryy2", Toast.LENGTH_SHORT).show();
                 ClassJumpTool.startToNextActivityForResult(getActivity(), MyWallet.class, 10);
             }};
 
@@ -742,11 +740,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-
-                Toast.makeText(getActivity(), "tryy3", Toast.LENGTH_SHORT).show();
-
+                if (user==null) {
+                    Toast.makeText(mainActivity, "您还未登录", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 ClassJumpTool.startToNextActivityForResult(getActivity(),  MyInfo.class, 10);
-
 
 
             }};
@@ -759,7 +757,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                Toast.makeText(getActivity(), "tryy4", Toast.LENGTH_SHORT).show();
 
                 ClassJumpTool.startToNextActivityForResult(getActivity(),   MyBody.class, 10);
 
@@ -776,8 +773,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-
-                Toast.makeText(getActivity(), "tryy5", Toast.LENGTH_SHORT).show();
+                if (user==null) {
+                    Toast.makeText(mainActivity, "您还未登录", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 ClassJumpTool.startToNextActivityForResult(getActivity(),   ShareApp.class, 10);
 
@@ -796,7 +795,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                Toast.makeText(getActivity(), "tryy6", Toast.LENGTH_SHORT).show();
 
                 ClassJumpTool.startToNextActivityForResult(getActivity(),   AboutUs.class, 10);
 
@@ -815,7 +813,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                Toast.makeText(getActivity(), "tryy7", Toast.LENGTH_SHORT).show();
 
                 ClassJumpTool.startToNextActivityForResult(getActivity(),   MyShaitu.class, 10);
 
@@ -832,7 +829,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                Toast.makeText(getActivity(), "tryy8", Toast.LENGTH_SHORT).show();
 
                 ClassJumpTool.startToNextActivityForResult(getActivity(),   MySaveItem.class, 10);
 

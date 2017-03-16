@@ -75,7 +75,7 @@
     <string name="MessageNewMessage">＞ 您有新的消息，请点击查收！</string>
     <string name="MessageVibrate">消息震动提示</string>
     <string name="MessageSound">消息声音提示</string>
-    <string name="MessagePostHint">请尽量上传清晰、完整图片，并说明要求。稍后我们的客服将会与你联系。</string>
+    <string name="MessagePostHint">请上传清晰、完整图片</string>
     <string name="MessageDefaultType">未选择类别则默认为上装</string>
 
     <!-- Icon图标 -->

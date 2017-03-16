@@ -165,6 +165,7 @@
                     android:layout_centerVertical="true"/>
 
                 <EditText
+                    android:inputType="number"
                     android:text="0"
                     android:id="@+id/usr_age"
                     android:layout_width="wrap_content"
@@ -216,6 +217,7 @@
                     android:layout_centerVertical="true"/>
 
                 <EditText
+                    android:inputType="number"
                     android:text="0"
                     android:id="@+id/usr_weight"
                     android:layout_width="wrap_content"
@@ -267,6 +269,7 @@
                     android:layout_centerVertical="true"/>
 
                 <EditText
+                    android:inputType="number"
                     android:text="0"
                     android:id="@+id/usr_height"
                     android:layout_width="wrap_content"
@@ -408,6 +411,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/relativeLayout">
                     <EditText
+                        android:inputType="number"
                         android:id="@+id/jiankuan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -437,6 +441,7 @@
                     android:layout_marginTop="50dp"
                     >
                     <EditText
+                        android:inputType="number"
                         android:id="@+id/xiongwei"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -476,6 +481,7 @@
                         android:layout_toLeftOf="@+id/xiaotuiwei" />
 
                     <EditText
+                        android:inputType="number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -493,6 +499,7 @@
                     android:layout_marginTop="100dp"
                     >
                     <EditText
+                        android:inputType="number"
                         android:id="@+id/yaowei"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -532,6 +539,7 @@
                         android:layout_toLeftOf="@+id/xiwei" />
 
                     <EditText
+                        android:inputType="number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -550,6 +558,7 @@
                     android:layout_marginTop="150dp" >
 
                     <EditText
+                        android:inputType="number"
                         android:id="@+id/tunwei"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -588,6 +597,7 @@
                         android:layout_toLeftOf="@+id/jiaowei" />
 
                     <EditText
+                        android:inputType="number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -605,6 +615,7 @@
                     android:layout_marginTop="200dp"
                     >
                     <EditText
+                        android:inputType="number"
                         android:id="@+id/xiuchang"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -645,6 +656,7 @@
                         android:layout_toLeftOf="@+id/kuchang" />
 
                     <EditText
+                        android:inputType="number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -676,6 +688,7 @@
                         android:layout_toLeftOf="@+id/datuiwei"
                         />
                     <EditText
+                        android:inputType="number"
                         android:id="@+id/datuiwei"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

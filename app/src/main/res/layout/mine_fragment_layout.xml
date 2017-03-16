@@ -12,22 +12,16 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="203dp"
-        android:background="@drawable/beijing"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true">
+        android:background="@drawable/beijing">
 
 
         <com.tiemuyu.chuanchuan.activity.chat_tools.view.CircleImageView
+            android:layout_centerHorizontal="true"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/circle_logo"
             android:layout_gravity="center"
             android:id="@+id/imageView"
-            android:layout_alignRight="@+id/textView2"
-            android:layout_alignEnd="@+id/textView2"
             android:layout_marginTop="48dp" />
 
 

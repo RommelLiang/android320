@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -16,19 +17,31 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.lzy.imagepicker.ui.ImageGridActivity;
+import com.lzy.imagepicker.view.CropImageView;
+import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.GetPathFromUri4kitkat;
 import com.tiemuyu.chuanchuan.activity.MainActivity;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
 import com.tiemuyu.chuanchuan.activity.R;
+import com.tiemuyu.chuanchuan.activity.adapter.ChildAdapter;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.User;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
@@ -40,6 +53,7 @@ import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.DownloadService;
 import com.tiemuyu.chuanchuan.activity.util.LogHelper;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
+import com.tiemuyu.chuanchuan.activity.util.PicassoImageLoader;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.ServerUtils;
 import com.tiemuyu.chuanchuan.activity.util.StringUtil;
@@ -47,6 +61,7 @@ import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 import com.tiemuyu.chuanchuan.activity.util.Utility;
 import com.tiemuyu.chuanchuan.activity.view.ClearEditText;
+import com.tiemuyu.chuanchuan.activity.view.HorizontalListVIew;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,44 +77,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import it.sephiroth.android.library.util.ViewHelperFactory;
+
 /**
  * Created by CC2.0 on 2017/1/16.
  */
 
-public class FatuActivity extends BaseActivityG
-{
+public class FatuActivity extends BaseActivityG {
+    private static final int IMAGE_PICKER = 255;
 
 //两个按钮
-
-
-
-    @ViewInject(R.id.add_img1)
-    private ImageView fatu_bt1;// 加载图片十字
-
-
-    @ViewInject(R.id.add_img2)
-    private ImageView fatu_bt2;// 加载图片十字
-
-    @ViewInject(R.id.add_img3)
-    private ImageView fatu_bt3;// 加载图片十字
-
-    @ViewInject(R.id.add_img4)
-    private ImageView fatu_bt4;// 加载图片十字
-
-    @ViewInject(R.id.add_img5)
-    private ImageView fatu_bt5;// 加载图片十字
-
-    @ViewInject(R.id.add_img6)
-    private ImageView fatu_bt6;// 加载图片十字
-
-    @ViewInject(R.id.add_img7)
-    private ImageView fatu_bt7;// 加载图片十字
-
-    @ViewInject(R.id.add_img8)
-    private ImageView fatu_bt8;// 加载图片十字
-
-
-
 
 
     @ViewInject(R.id.post_pic)
@@ -110,23 +97,24 @@ public class FatuActivity extends BaseActivityG
     private LinearLayout bt_back;// 回退
 
 
-
     @ViewInject(R.id.customize_description)
-    private EditText et_text;// 说明输入框
+    private TextView et_text;// 说明输入框
+
+    //private ImageView add_img1;
+    private HorizontalListVIew horizontalListVIew;
+    ArrayList<ImageItem> mImages;
 
 
-
-private   int CURRENT=1;
-
+    private int CURRENT = 1;
+    private EditText tv_message;
     public static final int TAKE_PHOTO = 1;
     public static final int SELECT_FROM_ALBUM = 2;
     public Uri imageUri;
-    public String result="";
+    public String result = "";
 
     private IntentFilter myIntentFilter;
 
     private List<String> imagelist = new ArrayList<String>();
-
 
 
     private String TAG_FABU_MOMENT = "TAG_FABU_MOMENT";
@@ -140,52 +128,47 @@ private   int CURRENT=1;
     private Handler handler1;
     private String TAG_FATU = "TAG_FATU";
     private String TAG_FABU_IMFO = "TAG_FABU_IMFO";
-
+    private ImagePicker imagePicker;
+    private ImageView add_img1;
+    private MyAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.post_pic_layout);
 
-        fatu_bt1=(ImageView) findViewById(R.id.add_img1);
+        imagePicker = ImagePicker.getInstance();
+        imagePicker.setImageLoader(new PicassoImageLoader());   //设置图片加载器
+        imagePicker.setShowCamera(true);  //显示拍照按钮
+        imagePicker.setCrop(true);        //允许裁剪（单选才有效）
+        imagePicker.setSaveRectangle(true); //是否按矩形区域保存
+        imagePicker.setSelectLimit(9);    //选中数量限制
+        imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //裁剪框的形状
+        imagePicker.setFocusWidth(800);   //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setFocusHeight(800);  //裁剪框的高度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setOutPutX(1000);//保存文件的宽度。单位像素
+        imagePicker.setOutPutY(1000);//保存文件的高度。单位像素
 
-        fatu_bt2=(ImageView) findViewById(R.id.add_img2);
+        fabu_bt = (Button) findViewById(R.id.post_pic);
 
-        fatu_bt3=(ImageView) findViewById(R.id.add_img3);
+        bt_back = (LinearLayout) findViewById(R.id.PostPicGoBack);
 
-        fatu_bt4=(ImageView) findViewById(R.id.add_img4);
+        et_text = (TextView) findViewById(R.id.customize_description);
 
-        fatu_bt5=(ImageView) findViewById(R.id.add_img5);
-        fatu_bt6=(ImageView) findViewById(R.id.add_img6);
-
-        fatu_bt7=(ImageView) findViewById(R.id.add_img7);
-
-        fatu_bt8=(ImageView) findViewById(R.id.add_img8);
-
-
-
-
-
-
-        fabu_bt=(Button) findViewById(R.id.post_pic);
-
-        bt_back=(LinearLayout)  findViewById(R.id.PostPicGoBack);
-
-        et_text=(EditText)  findViewById(R.id.customize_description);
-
-
-
+        add_img1 = (ImageView) findViewById(R.id.add_img1);
+        add_img1.setOnClickListener(this);
+        horizontalListVIew = (HorizontalListVIew) findViewById(R.id.listview_horizon);
+        /*ImageItem imageItem = new ImageItem();
+        mImages.add(imageItem)*/
         // 添加Activity到堆栈
         AppManager.getAppManager().addActivity(this);
         //  Constant.VERSION = Version.getAppVersionName(this);
         // _global = GlobalVariable.getInstance();
-
+        tv_message = (EditText) findViewById(R.id.message);
         initProcess();
 
 
     }
-
-
 
 
     /**
@@ -194,7 +177,6 @@ private   int CURRENT=1;
     protected void initProcess() {
         initData();
         initAppAccess();
-        initUI();
         initListener();
     }
 
@@ -205,23 +187,11 @@ private   int CURRENT=1;
     protected void initAppAccess() {
 
     }
+
     protected void initListener() {
         // TODO Auto-generated method stub
-        fatu_bt1.setOnClickListener(this);
         fabu_bt.setOnClickListener(this);
         bt_back.setOnClickListener(this);
-
-
-        fatu_bt2.setOnClickListener(this);
-
-        fatu_bt3.setOnClickListener(this);
-
-        fatu_bt4.setOnClickListener(this);
-        fatu_bt5.setOnClickListener(this);
-        fatu_bt6.setOnClickListener(this);
-        fatu_bt7.setOnClickListener(this);
-        fatu_bt8.setOnClickListener(this);
-
 
 
         //todo   上下装套装选择。
@@ -238,94 +208,10 @@ private   int CURRENT=1;
     }
 
 
-
-
-
-//高伟豪  更新ui
-    protected void initUI()
-    {
-        // TODO Auto-generated method stub
-
-
-        handler1 = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                // TODO Auto-generated method stub
-                super.handleMessage(msg);
-                switch (msg.what) {
-                    case 0:
-
-                        setView(msg.obj);
-                    break;
-
-                }
-            }
-        };
-
-    }
-
-
-
-
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
-            case R.id.add_img1:
-                //todo 调用发图的函数
-                System.out.println("#####调用发图按钮啊");
-                if(CURRENT==1)
-                    exFatu();
-                break;
-            case R.id.add_img2:
-                //todo 调用发图的函数
-                Toast.makeText(getApplicationContext(),"#####调用发图按钮啊",Toast.LENGTH_SHORT);
-                System.out.println("#####调用发图按钮啊");
-                if(CURRENT==2)
-                    exFatu();
 
-                break;
-            case R.id.add_img3:
-                //todo 调用发图的函数
-                System.out.println("#####调用发图按钮啊");
-                if(CURRENT==3)
-                    exFatu();
-
-                break;
-            case R.id.add_img4:
-                //todo 调用发图的函数
-                System.out.println("#####调用发图按钮啊");
-                if(CURRENT==4)
-                    exFatu();
-
-                break;
-            case R.id.add_img5:
-                //todo 调用发图的函数
-                System.out.println("#####调用发图按钮啊");
-                if(CURRENT==5)
-                    exFatu();
-
-                break;
-            case R.id.add_img6:
-                //todo 调用发图的函数
-                System.out.println("#####调用发图按钮啊");
-                if(CURRENT==6)
-                    exFatu();
-
-                break;
-            case R.id.add_img7:
-                //todo 调用发图的函数
-                System.out.println("#####调用发图按钮啊");
-                if(CURRENT==7)
-                    exFatu();
-
-                break;
-            case R.id.add_img8:
-                //todo 调用发图的函数
-                System.out.println("#####调用发图按钮啊");
-                if(CURRENT==8)
-                    exFatu();
-
-                break;
 
             case R.id.post_pic:
                 //todo 调用发布的函数
@@ -338,129 +224,20 @@ private   int CURRENT=1;
 
 
             case R.id.PostPicGoBack:
-                //starttobackactivity 的方法是 自动终结当前activity 会退到第二个acitvity 传递一个data 可以设置为null当没有的时候
-                ClassJumpTool.startToBackActivity(this, MainActivity.class,null, 10);
+                ClassJumpTool.startToBackActivity(this, MainActivity.class, null, 10);
+                break;
+            case R.id.add_img1:
 
-
-
+                if (mImages != null && mImages.size() == 9) {
+                    Toast.makeText(this, "你已经选择了九张图片", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent intent = new Intent(this, ImageGridActivity.class);
+                startActivityForResult(intent, IMAGE_PICKER);
                 break;
 
         }
     }
-
-
-
-//
-//    @Override
-//    public void onFinish() {
-//        // TODO Auto-generated method stub
-//
-//    }
-//
-//    @Override
-//    public void onFinish(String img_url) {
-//        // TODO Auto-generated method stub
-////        LogHelper.d("-----下载成功:本地地址" + img_url);
-////            // UserImg=img_url;
-////            url_ls.clear();
-////            thirdLoginBean.setUserImg(img_url);
-////        handler.sendEmptyMessage(8);
-//
-//    }
-
-
-//    @Override
-//    public void onFailed() {
-//        // TODO Auto-generated method stub
-//        LogHelper.d("-----下载失败");
-//    }
-
-
-
-    /**
-     * @Title: setView
-     * @Description: TODO 更新显示数据
-     * @param @param user 设定文件
-     * @return void 返回类型
-     * @throws
-     */
-    private void setView(Object obj) {
-        System.out.println("#####更新当前ui");
-
-
-//        if (!StringUtil.isNull(obj.toString())
-        if(CURRENT==1)
-        {
-            ImageLoader.getInstance().displayImage(obj.toString(), fatu_bt1);
-            fatu_bt2.setVisibility(View.VISIBLE);
-
-
-        }
-        else if(CURRENT==2)
-        {
-            ImageLoader.getInstance().displayImage(obj.toString(), fatu_bt2);
-            fatu_bt3.setVisibility(View.VISIBLE);
-
-
-        }
-        else if(CURRENT==3)
-        {
-            ImageLoader.getInstance().displayImage(obj.toString(), fatu_bt3);
-            fatu_bt4.setVisibility(View.VISIBLE);
-
-
-        }
-        else if(CURRENT==4)
-        {
-            ImageLoader.getInstance().displayImage(obj.toString(), fatu_bt4);
-            fatu_bt5.setVisibility(View.VISIBLE);
-
-
-        }
-        else if(CURRENT==5)
-        {
-            ImageLoader.getInstance().displayImage(obj.toString(), fatu_bt5);
-            fatu_bt6.setVisibility(View.VISIBLE);
-
-
-        }
-        else if(CURRENT==6)
-        {
-            ImageLoader.getInstance().displayImage(obj.toString(), fatu_bt6);
-            fatu_bt7.setVisibility(View.VISIBLE);
-
-
-        }
-        else if(CURRENT==7)
-        {
-            ImageLoader.getInstance().displayImage(obj.toString(), fatu_bt7);
-            fatu_bt8.setVisibility(View.VISIBLE);
-
-
-        }
-        else if(CURRENT==8)
-        {
-            ImageLoader.getInstance().displayImage(obj.toString(), fatu_bt8);
-        }
-        else
-        {
-            Toast.makeText(getApplicationContext(), "最多只能上传八张图",Toast.LENGTH_SHORT);
-
-        }
-
-        System.out.println("当前的current"+CURRENT);
-        CURRENT++;
-        imagelist.add(obj.toString());
-
-        //// TODO: 2017/1/16  要把上传的图片往后放
-        System.out.println("######添加一张图片成功:"+obj.toString());
-
-
-
-    }
-
-
-
 
 
     @Override
@@ -472,114 +249,112 @@ private   int CURRENT=1;
     }
 
 
-
-
     /**
      * 发布图片
      */
-    public  void  exFabu()
-    {
-
-
+    public void exFabu() {
+        if (imagelist == null || mImages == null) {
+            Toast.makeText(this, "请选择图片", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (imagelist.size() < mImages.size()) {
+            ToastHelper.show(this, "网络较差，请稍后重试");
+            return;
+        }
         if (Utility.isFastDoubleClick()) // 连续点击
             return;
-        if (imagelist.size()==0)
-        {
+        if (imagelist.size() == 0) {
             ToastHelper.show(this, "请先上传图片");
             return;
         }
-        String tag="上装";
-        String text="";
-        String imgs="";
-        text = et_text.getText().toString().trim();
+        String tag = "上装";
+        String text = "";
+        String imgs = "";
+        String s = String.valueOf(tv_message.getText());
+        text = s.toString().trim() + "";
 
 
-        if (imagelist.size()==1)
-            imgs+=imagelist.get(0);
+        if (imagelist.size() == 1)
+            imgs += imagelist.get(0);
         else {
             for (int i = 0; i < imagelist.size() - 1; i++)
                 imgs += imagelist.get(i) + ",";
-            imgs+=imagelist.get(imagelist.size()-1);
+            imgs += imagelist.get(imagelist.size() - 1);
         }
 
 
-        System.out.println("#####发图"+text);
+        System.out.println("#####发图" + text);
         MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
-                    TAG_FABU_MOMENT, Constant.REQUEST_POST, ParamsTools.fabu(
-                    UrlManager.Fabu_Moment(), tag, text,imgs), FatuActivity.this,
-                    "发图中...", false));
-
-
+                TAG_FABU_MOMENT, Constant.REQUEST_POST, ParamsTools.fabu(
+                UrlManager.Fabu_Moment(), tag, text, imgs), FatuActivity.this,
+                "发图中...", false));
 
 
     }
 
 
-
-
     /**
      * 发图
      */
-        public  void  exFatu()
-        {
-            if (Utility.isFastDoubleClick()) // 连续点击
-                return;
-            System.out.println("**************调用photoMOMENT");
-            AlertDialog.Builder multiDia=new AlertDialog.Builder(this);
-            multiDia.setTitle("选择照片： ");
-            multiDia.setPositiveButton("相册", new DialogInterface.OnClickListener() {
+    public void exFatu() {
+        if (Utility.isFastDoubleClick()) // 连续点击
+            return;
+        System.out.println("**************调用photoMOMENT");
+        AlertDialog.Builder multiDia = new AlertDialog.Builder(this);
+        multiDia.setTitle("选择照片： ");
+        multiDia.setPositiveButton("相册", new DialogInterface.OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // TODO Auto-generated method stub
-                    System.out.println("********进入相册");
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                System.out.println("********进入相册");
 //                    ToastHelper.show(this, "点击相册");
 
 //                    Toast.makeText(, "点击相册", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent("android.intent.action.GET_CONTENT");    //设置新的intent是用来从相册里面选取照片
-                    intent.setType("image/*");
-                    //intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                    startActivityForResult(intent, SELECT_FROM_ALBUM);                  //开始相册的activity，设置标签为SELECT_FROM_ALBUM
-                }
-            });
-            multiDia.setNeutralButton("照相机", new DialogInterface.OnClickListener() {
+                Intent intent = new Intent("android.intent.action.GET_CONTENT");    //设置新的intent是用来从相册里面选取照片
+                intent.setType("image/*");
+                //intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, SELECT_FROM_ALBUM);                  //开始相册的activity，设置标签为SELECT_FROM_ALBUM
+            }
+        });
+        multiDia.setNeutralButton("照相机", new DialogInterface.OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // TODO Auto-generated method stub
-                    System.out.println("**********进入照相机");
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                System.out.println("**********进入照相机");
 //                    ToastHelper.show(this, "点击照相机");
 
 //                    Toast.makeText(getActivity(), "点击照相机", Toast.LENGTH_SHORT).show();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-                    Date date = new Date();
-                    String fileName = format.format(date);
-                    File outputImage = new File("/storage/emulated/0/DCIM/Camera/", fileName + ".jpg");
-                    System.out.println("******path:" + outputImage.toString());
-                    try {
-                        if (outputImage.exists()) {
-                            outputImage.delete();
-                        }
-                        outputImage.createNewFile();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+                Date date = new Date();
+                String fileName = format.format(date);
+                File outputImage = new File("/storage/emulated/0/DCIM/Camera/", fileName + ".jpg");
+                System.out.println("******path:" + outputImage.toString());
+                try {
+                    if (outputImage.exists()) {
+                        outputImage.delete();
                     }
-                    imageUri = Uri.fromFile(outputImage);
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                    startActivityForResult(intent, TAKE_PHOTO);
+                    outputImage.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            });
-            multiDia.create().show();
+                imageUri = Uri.fromFile(outputImage);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, TAKE_PHOTO);
+            }
+        });
+        multiDia.create().show();
 
-        }
+    }
 
 
     //史力：接收相机或相册返回图片uri
     @SuppressWarnings("deprecation")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) {
+        /*if (resultCode != Activity.RESULT_OK) {
             return;
         }
         switch (requestCode) {
@@ -758,22 +533,59 @@ private   int CURRENT=1;
                 break;
             default:
                 break;
-        }
+        }*/
+        //
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e("onActivityResult", requestCode + "onActivityResult: " + resultCode + data);
+        if (resultCode == 1004) {
+            Log.e("resultCode", "onActivityResult: " + "1111111");
+            if (data != null && requestCode == 255) {
+                mImages = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+
+                Log.e("ArrayList", "onActivityResult: " + mImages.size());
+                adapter = new MyAdapter(mImages);
+                horizontalListVIew.setAdapter(adapter);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < mImages.size(); i++) {
+                            Log.e("path", "onActivityResult: " + mImages.get(i).path);
+                            /*String path = GetPathFromUri4kitkat.getPath(FatuActivity.this, Uri.parse(mImages.get(i).path));
+                            Log.e("after path", "onActivityResult: "+path);*/
+                            result = ServerUtils.formUpload(com.tiemuyu.chuanchuan.activity.view.URL.UPLOAD_URLMoment, mImages.get(i).path);
+                            Log.e("result", "onActivityResult: " + result);
+                            if (!TextUtils.isEmpty(result)) {
+                                System.out.println("******进入非空判断");
+                                handler.sendEmptyMessage(1);
+                                System.out.println(result);//成功
+                            } else {
+                                handler.sendEmptyMessage(2);//失败
+                            }
+                        }
+                    }
+                }).start();
+
+            } else {
+                Toast.makeText(this, "没有数据", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (mImages != null && mImages.size() != 0) {
+            add_img1.setVisibility(View.GONE);
+        }
     }
+
     @SuppressLint("HandlerLeak")
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
-                    Toast.makeText(getApplicationContext(), "图片上传成功", Toast.LENGTH_SHORT).show();
                     System.out.println("*******图片上传成功");
                     addPageLoad();
                     break;
                 case 2:
-                    Toast.makeText(getApplicationContext(), "图片上传失败", Toast.LENGTH_SHORT).show();
+                    Log.e("图片上传失败", "handleMessage: ");
                     System.out.println("*******图片上传失败");
                     break;
                 default:
@@ -783,7 +595,7 @@ private   int CURRENT=1;
     };
 
     public void addPageLoad() {
-        if(!TextUtils.isEmpty(result)) {
+        if (!TextUtils.isEmpty(result)) {
             System.out.println(result + "@@@@基类@@成功上传图片");
             //String str = "{\"Code\":1,\"Msg\":\"OK\",\"Data\":{\"ImageUrl\":\"http://f1.myappcc.com/zfs/7E0/1240/RIC/240174344351CABGTOTZGT.jpg\"}}";
             try {
@@ -793,7 +605,8 @@ private   int CURRENT=1;
                 final String json_url = jsonObject1.getString("ImageUrl");
                 System.out.println(json_url);
                 //todo 把json_url发送给ui重置用个handler
-                setMsg(0,json_url);
+                imagelist.add(json_url);
+                setMsg(0, json_url);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -802,15 +615,16 @@ private   int CURRENT=1;
     }
 
     private void setMsg(int msg_id, Object object) {
-        Message message = handler1.obtainMessage();
+        /*Message message = handler1.obtainMessage();
         message.what = msg_id;
         message.obj = object;
-        handler1.sendMessage(message);
+        handler1.sendMessage(message);*/
     }
 
 
-
-/**********************继承的接口****************************/
+    /**********************
+     * 继承的接口
+     ****************************/
 
 
     @Override
@@ -820,12 +634,13 @@ private   int CURRENT=1;
 //        dissMissDialog(isShowDiolog);
         super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
 
-        ToastHelper.show(this, callBackMsg+"  来自tag  "+resultTag);
+        ToastHelper.show(this, callBackMsg + "  来自tag  " + resultTag);
 
         if (resultTag.equals(TAG_FABU_MOMENT)) {
             System.out.println("######成功了callback");
-            ClassJumpTool.startToBackActivity(this, MainActivity.class,null, 10);
+            ClassJumpTool.startToBackActivity(this, MainActivity.class, null, 10);
             ToastHelper.show(this, "发布成功");
+            finish();
         }
 
 
@@ -878,7 +693,7 @@ private   int CURRENT=1;
         // TODO Auto-generated method stub
         super.failCallBack(arg0, resultTag, isShowDiolog);
 
-        if (resultTag.equals(TAG_FABU_MOMENT) ) {
+        if (resultTag.equals(TAG_FABU_MOMENT)) {
             System.out.println("#####失败:" + arg0.getMessage());
             ToastHelper.show(this, "失败");
         }
@@ -887,9 +702,91 @@ private   int CURRENT=1;
     }
 
 
-/*************************************************/
+    /*************************************************/
+
+    private class MyAdapter extends BaseAdapter {
+
+        private List<ImageItem> items;
+
+        public MyAdapter(List<ImageItem> items) {
+            this.items = items;
+        }
+
+        public void setData(List<ImageItem> items) {
+            this.items = items;
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public int getCount() {
+            return items.size() + 1;
+        }
+
+        @Override
+        public ImageItem getItem(int position) {
+            return items.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ChildHolder childHolder;
+            int width = add_img1.getWidth();
+            Log.e("width", "getView: " + width);
+            if (convertView == null) {
+                childHolder = new ChildHolder();
+                convertView = LayoutInflater.from(FatuActivity.this).inflate(R.layout.image_layout, parent, false);
+                childHolder.imageView = (ImageView) convertView.findViewById(R.id.image);
+                childHolder.delect = (ImageView) convertView.findViewById(R.id.delect);
+                convertView.setTag(childHolder);
+            } else {
+                childHolder = (ChildHolder) convertView.getTag();
+            }
+            if (position == items.size()) {
+                Picasso.with(FatuActivity.this)
+                        .load(R.drawable.add_image)
+                        .resize(width, width)
+                        .into(childHolder.imageView);
+                childHolder.delect.setVisibility(View.GONE);
+                childHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mImages.size() != 9) {
+                            Intent intent = new Intent(FatuActivity.this, ImageGridActivity.class);
+                            startActivityForResult(intent, IMAGE_PICKER);
+                        } else {
+                            Toast.makeText(FatuActivity.this, "您已选择了九张图片", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                return convertView;
+
+            }
+            if (position < items.size()) {
+                //Picasso.
+                (new PicassoImageLoader()).displayImage(FatuActivity.this, items.get(position).path, childHolder.imageView, width, width);
+                childHolder.delect.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mImages.remove(position);
+                        adapter.notifyDataSetChanged();
+                        if (mImages.size() == 1) {
+                            add_img1.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+            }
+            return convertView;
+        }
 
 
+    }
 
-
+    private static class ChildHolder {
+        ImageView imageView, delect;
+    }
 }

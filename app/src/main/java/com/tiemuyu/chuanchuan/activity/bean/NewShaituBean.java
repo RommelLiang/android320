@@ -1,5 +1,6 @@
 package com.tiemuyu.chuanchuan.activity.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  * @version：
  */
 
-public class NewShaituBean {
+public class NewShaituBean implements Serializable{
     /**
      * Code : 1
      * Msg : OK
@@ -46,7 +47,7 @@ public class NewShaituBean {
         this.Data = Data;
     }
 
-    public static class DataBean {
+    public static class DataBean  implements Serializable{
         /**
          * Pagedata : {"CurrentPage":1,"PageSize":8,"Total":2,"Rows":[{"MomentTypeDesc":"定制发图","UserName":null,"SharedDay":null,"SharedMonth":0,"ReviewSum":0,"FriendReview":null,"FriendReviewTop3":null,"UserImg":null,"UserNickName":null,"ProductPrice":0,"ProductName":null,"ContentBrief":"麻烦客服帮忙报个价谢谢","IsPraise":true,"SharedTimeStr":"2017-01-10 21:25:38","Images":["http://f1.myappcc.com/zfs/7E1/1010/VLW/010212405744CABHXXHKPP.jpg"],"Id":68697,"UserId":74886,"OrderId":0,"ProductId":54590,"SharedTime":"2017-01-10 21:25:38","Content":"麻烦客服帮忙报个价谢谢","ReviewTimes":0,"ViewTimes":464,"PraiseTimes":1,"MomentType":1,"IsPrivate":0,"IsOffer":1,"OfferTime":"2017-01-10 21:29:14","Tag":"上装","ImageNum":1,"Image1":"http://f1.myappcc.com/zfs/7E1/1010/VLW/010212405744CABHXXHKPP.jpg","Image2":"","Image3":"","Image4":"","Image5":"","Image6":"","Image7":"","Image8":"","Image9":"","RegApp":"","PkValue":68697},{"MomentTypeDesc":"定制发图","UserName":null,"SharedDay":null,"SharedMonth":0,"ReviewSum":0,"FriendReview":null,"FriendReviewTop3":null,"UserImg":null,"UserNickName":null,"ProductPrice":0,"ProductName":null,"ContentBrief":"","IsPraise":false,"SharedTimeStr":"2016-12-18 21:11:41","Images":["http://f1.myappcc.com/zfs/7E0/1353/VLW/353211356539CABGYRCSJA.jpg"],"Id":60558,"UserId":74886,"OrderId":0,"ProductId":48103,"SharedTime":"2016-12-18 21:11:41","Content":"","ReviewTimes":0,"ViewTimes":72,"PraiseTimes":0,"MomentType":1,"IsPrivate":0,"IsOffer":1,"OfferTime":"2016-12-18 21:18:42","Tag":"上装","ImageNum":1,"Image1":"http://f1.myappcc.com/zfs/7E0/1353/VLW/353211356539CABGYRCSJA.jpg","Image2":"","Image3":"","Image4":"","Image5":"","Image6":"","Image7":"","Image8":"","Image9":"","RegApp":"","PkValue":60558}],"PageCount":1,"PageRecordStartNum":1,"PageRocordEndNum":2}
          * Users : [{"Roles":null,"OrderCount":0,"DisplayName":"我是狗狗(13145975793)","HideName":"131******93","Id":74886,"Username":"13145975793","Password":"78D404C207BEF4ABAB92538E2496EF0B2CEC7769FD37979EE380929100A9FE6B","NickName":"我是狗狗","UserImg":"http://f1.myappcc.com/zfs/7E1/1023/VLW/023214557911CABHXCBKLB.jpg","UserIdentity":1,"PassErrCount":0,"IsLockPassword":0,"LogonCount":613,"OnlineTimes":0,"Mobile":"13145975793","Email":"","IsEnabled":1,"IsDelete":0,"LastLogonIp":"113.91.213.230","LastLogonTime":"2017-02-21 16:02:15","ActSource":"","RegSource":"null","RegVer":"3.0.58","LastVer":"","InvitedCode":"4AY","InviteCode":"7XUK","InviteTimes":0,"CreatorDate":"2016-11-19 16:16:07","CreatorUsername":"APP","Rmk":"","UpdateDate":"2016-11-19 16:16:07","UpdateUsername":"APP","RegIp":"113.91.215.145","RegApp":"Mozilla","PId":29122,"PpId":0,"RegDeviceInfo":"HUAWEI;HUAWEI P8max;6.0;","LastLoginDeviceInfo":"HUAWEI;HUAWEI P8max;6.0;","Latitude":0,"Longitude":0,"Gender":2,"PkValue":74886}]
@@ -71,7 +72,7 @@ public class NewShaituBean {
             this.Users = Users;
         }
 
-        public static class PagedataBean {
+        public static class PagedataBean  implements Serializable{
             /**
              * CurrentPage : 1
              * PageSize : 8
@@ -146,7 +147,7 @@ public class NewShaituBean {
                 this.Rows = Rows;
             }
 
-            public static class RowsBean {
+            public static class RowsBean  implements Serializable{
                 /**
                  * MomentTypeDesc : 定制发图
                  * UserName : null
@@ -563,7 +564,7 @@ public class NewShaituBean {
             }
         }
 
-        public static class UsersBean {
+        public static class UsersBean  implements Serializable{
             /**
              * Roles : null
              * OrderCount : 0

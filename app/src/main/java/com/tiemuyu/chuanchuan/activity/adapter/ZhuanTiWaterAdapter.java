@@ -99,11 +99,11 @@ public class ZhuanTiWaterAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         holder.text_one.setText(messageList.get((position + 1) * 2 - 2).getProductname());
-        holder.price_one.setText(messageList.get((position + 1) * 2 - 2).getPrice() + "");
+        holder.price_one.setText("￥ " + messageList.get((position + 1) * 2 - 2).getPrice() + "");
         imageLoader.displayImage(messageList.get((position + 1) * 2 - 2).getProductmainpic(), holder.image_one, options, animateFirstListener);
 
         holder.text.setText(messageList.get((position + 1) * 2 - 1).getProductname());
-        holder.price.setText(messageList.get((position + 1) * 2 - 1).getPrice() + "");
+        holder.price.setText("￥ " + messageList.get((position + 1) * 2 - 1).getPrice() + "");
         imageLoader.displayImage(messageList.get((position + 1) * 2 - 1).getProductmainpic(),holder.image, options, animateFirstListener);
 
         holder.left.setOnClickListener(new View.OnClickListener() {

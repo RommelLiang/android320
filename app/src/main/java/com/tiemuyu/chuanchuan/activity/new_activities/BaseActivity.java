@@ -8,9 +8,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.tiemuyu.chuanchuan.activity.R;
-import com.tiemuyu.chuanchuan.activity.util.SystemBarTintManager;
-
-import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivity;
 
 public class BaseActivity extends Activity {
 
@@ -43,7 +40,7 @@ public class BaseActivity extends Activity {
                 //透明导航栏
                 getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
                 //创建状态栏的管理实例
-                SystemBarTintManager tintManager = new SystemBarTintManager(this);
+                /*SystemBarTintManager tintManager = new SystemBarTintManager(this);
                 //激活状态栏设置
                 tintManager.setStatusBarTintEnabled(true);
                 //设置状态栏颜色
@@ -51,7 +48,7 @@ public class BaseActivity extends Activity {
                 //激活导航栏设置
                 tintManager.setNavigationBarTintEnabled(true);
                 //设置导航栏颜色
-                tintManager.setNavigationBarTintResource(R.color.green_dark);
+                tintManager.setNavigationBarTintResource(R.color.green_dark);*/
             }
         }
     }

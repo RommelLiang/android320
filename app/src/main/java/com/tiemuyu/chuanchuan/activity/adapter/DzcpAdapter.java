@@ -73,10 +73,5 @@ public class DzcpAdapter extends BaseAdapter {
         return view;
     }
 
-//    private Class ViewHolder {
-//        ImageView dzcp_img;
-//        TextView dzcp_name;
-//        TextView dzcp_price;
-//    }
 
 }

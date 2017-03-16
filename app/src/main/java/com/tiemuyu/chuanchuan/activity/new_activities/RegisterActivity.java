@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
+import com.tiemuyu.chuanchuan.activity.MyBody;
 import com.tiemuyu.chuanchuan.activity.MyWebview;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
@@ -52,11 +53,12 @@ import java.security.InvalidAlgorithmParameterException;
 
 //public class TestActivity extends AppCompatActivity
 
-public class RegisterActivity extends BaseActivityG
-{
+public class RegisterActivity extends BaseActivityG {
 
 
-    /** 布局一 */
+    /**
+     * 布局一
+     */
 
 
     @ViewInject(R.id.login_name)
@@ -92,10 +94,9 @@ public class RegisterActivity extends BaseActivityG
     private TextView reg_showinfo1;// 已同意《用户注册协议》
 
 
-
-
-
-    /** 布局二 */
+    /**
+     * 布局二
+     */
 
 
     @ViewInject(R.id.zhuce_lay4)
@@ -117,13 +118,6 @@ public class RegisterActivity extends BaseActivityG
     private TextView reg_showinfo2;// 验证码已经发送给请注意查收
 
 
-
-
-
-
-
-
-
     private MyCountTimer timeCount;
 
     private String name;// 账号
@@ -131,7 +125,7 @@ public class RegisterActivity extends BaseActivityG
     private String yaoqingma;// 邀请码
     private String TAG_GETCODE = "TAG_GETCODE";
     private String token;
-private  String get_code;
+    private String get_code;
     private String yanzhengma;
     private String passkey;
     private String v1;// 用户登录信息
@@ -150,37 +144,36 @@ private  String get_code;
         this.setContentView(R.layout.register_layout);
 
 
-
         bt_next_one = (Button) findViewById(R.id.login1);
-         et_account=(EditText) findViewById(R.id.login_name);
-         et_pass=(EditText) findViewById(R.id.login_password);
+        et_account = (EditText) findViewById(R.id.login_name);
+        et_pass = (EditText) findViewById(R.id.login_password);
 
-         et_yaoqingma=(EditText) findViewById(R.id.ivcode_new);
+        et_yaoqingma = (EditText) findViewById(R.id.ivcode_new);
 
-        zhuce_lay=(RelativeLayout) findViewById(R.id.zhuce_lay);
+        zhuce_lay = (RelativeLayout) findViewById(R.id.zhuce_lay);
 
-        zhuce_lay2=(RelativeLayout) findViewById(R.id.zhuce_lay2);
-        zhuce_lay3=(RelativeLayout) findViewById(R.id.zhuce_lay3);
+        zhuce_lay2 = (RelativeLayout) findViewById(R.id.zhuce_lay2);
+        zhuce_lay3 = (RelativeLayout) findViewById(R.id.zhuce_lay3);
 
-        zhuce_lay4=(RelativeLayout) findViewById(R.id.zhuce_lay4);
+        zhuce_lay4 = (RelativeLayout) findViewById(R.id.zhuce_lay4);
 
-        zhuce_lay5=(RelativeLayout) findViewById(R.id.zhuce_lay5);
+        zhuce_lay5 = (RelativeLayout) findViewById(R.id.zhuce_lay5);
 
-        zhuce_lay6=(RelativeLayout) findViewById(R.id.zhuce_lay6);
+        zhuce_lay6 = (RelativeLayout) findViewById(R.id.zhuce_lay6);
 
 
-        et_yanzhengma=(EditText) findViewById(R.id.ivcode_yanzheng);
+        et_yanzhengma = (EditText) findViewById(R.id.ivcode_yanzheng);
 
-        bt_next_two=(Button) findViewById(R.id.login2);
+        bt_next_two = (Button) findViewById(R.id.login2);
 
-        reg_getyanzheng=(Button) findViewById(R.id.reg_getyanzheng);
+        reg_getyanzheng = (Button) findViewById(R.id.reg_getyanzheng);
 
         timeCount = new MyCountTimer(reg_getyanzheng);
 
 
-        reg_showinfo1=(TextView) findViewById(R.id.reg_showinfo1);
+        reg_showinfo1 = (TextView) findViewById(R.id.reg_showinfo1);
 
-        reg_showinfo2=(TextView) findViewById(R.id.reg_showinfo2);
+        reg_showinfo2 = (TextView) findViewById(R.id.reg_showinfo2);
 
 
         // 添加Activity到堆栈
@@ -188,14 +181,23 @@ private  String get_code;
         //  Constant.VERSION = Version.getAppVersionName(this);
         // _global = GlobalVariable.getInstance();
 
-       initProcess();
-
+        initProcess();
+        findViewById(R.id.return_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        findViewById(R.id.reg_showinfo1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClassJumpTool.startToNextActivity(RegisterActivity.this,
+                        MyWebview.class,
+                        "http://ios.myappcc.com/h5/register.html");
+            }
+        });
 
     }
-
-
-
-
 
 
     /**
@@ -206,8 +208,6 @@ private  String get_code;
 
         initListener();
     }
-
-
 
 
     protected void initUI() {
@@ -224,9 +224,6 @@ private  String get_code;
     }
 
 
-
-
-
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
@@ -235,7 +232,7 @@ private  String get_code;
                 if (Utility.isFastDoubleClick()) // 连续点击
                     return;
                 Toast.makeText(this, "测试成功", Toast.LENGTH_LONG).show();
-                 getCodeMethod();
+                getCodeMethod();
                 break;
             case R.id.login2:
                 if (Utility.isFastDoubleClick()) // 连续点击
@@ -270,24 +267,16 @@ private  String get_code;
                 break;
 
 
-
-
-
-
-
-
         }
     }
 
 
-
-
     /**
-     * @Title: getPasskeyMethod
-     * @Description: TODO 获取passkey
      * @param @param tag 设定文件
      * @return void 返回类型
      * @throws
+     * @Title: getPasskeyMethod
+     * @Description: TODO 获取passkey
      */
     protected void getPasskeyMeth(String tag) {
         System.out.println("#####getPasskeyMeth");
@@ -297,14 +286,12 @@ private  String get_code;
     }
 
 
-
-
     /**
-     * @Title: getCodeMethod
-     * @Description: TODO 获取验证码
-     *  设定文件
      * @return void 返回类型
      * @throws
+     * @Title: getCodeMethod
+     * @Description: TODO 获取验证码
+     * 设定文件
      */
     private void getCodeMethod() {
         name = et_account.getText().toString().trim();
@@ -343,11 +330,6 @@ private  String get_code;
     }
 
 
-
-
-
-
-
     @Override
     public void failCallBack(Throwable arg0, String resultTag,
                              boolean isShowDiolog) {
@@ -373,21 +355,15 @@ private  String get_code;
             ToastHelper.show(this, baseBean.getMsg());
             System.out.println("######-TAG_GETCODE:" + callBackMsg);
 
-            }
-
-
-    else if (resultTag.equals(TAG_REGIST)
+        } else if (resultTag.equals(TAG_REGIST)
                 || resultTag.equals(TAG_REGIST_MODIFY)) {
             System.out.println("######-muji:" + callBackMsg);
 
 
-            ToastHelper.show(this, baseBean.getMsg()+"，您的账号可能已经注册。");
+            ToastHelper.show(this, baseBean.getMsg() + "，您的账号可能已经注册。");
         }
 
     }
-
-
-
 
 
     @Override
@@ -403,38 +379,30 @@ private  String get_code;
     private void successParse(String msg, String resultTag) {
 
 
-         if (resultTag.equals(TAG_GETCODE)) {
+        if (resultTag.equals(TAG_GETCODE)) {
             // 获取验证码
             codeResult(msg);
 
+        } else if (resultTag.equals(TAG_GETPASSKEY)) {
+
+            System.out.println("#####注册获取passkey->" + msg);
+            getPasskeyAndRegist(msg);
+
+        } else if (resultTag.equals(TAG_REGIST)) {
+            // 注册
+            registResult(msg);
         }
-        else if (resultTag.equals( TAG_GETPASSKEY))
-         {
-
-             System.out.println("#####注册获取passkey->" + msg);
-             getPasskeyAndRegist(msg);
-
-         }
-         else if (resultTag.equals(TAG_REGIST)) {
-             // 注册
-             registResult(msg);
-         }
-
-
 
 
     }
 
 
-
-
-
     /**
-     * @Title: registResult
-     * @Description: TODO 注册结果操作
      * @param @param msg 设定文件
      * @return void 返回类型
      * @throws
+     * @Title: registResult
+     * @Description: TODO 注册结果操作
      */
     private void registResult(String msg) {
         if (isOk(msg)) {
@@ -531,27 +499,22 @@ private  String get_code;
     }
 
 
-
-
-
     /**
-     * @Title: codeResult
-     * @Description: TODO 获取验证码结果操作
      * @param @param msg 设定文件
      * @return void 返回类型
      * @throws
+     * @Title: codeResult
+     * @Description: TODO 获取验证码结果操作
      */
     private void codeResult(String msg) {
         System.out.println("---获取验证成功->" + msg);
         TokenResultBean bean = JsonTools.fromJson(msg, TokenResultBean.class);
-        if(bean!=null){
+        if (bean != null) {
             token = bean.getData().getToken();
 
 
-
-
 //// TODO: 2017/1/17 跳转   发送成功跳转到第二个界面
-            setView(false,true);
+            setView(false, true);
             reg_showinfo2.setText("亲,短信验证码已发送至" + name + ",请注意查收");
             timeCount.start();
 //            tv_tishi.setText("亲,短信验证码已发送至" + name + ",请注意查收");
@@ -562,10 +525,9 @@ private  String get_code;
     }
 
 
-
-
-
-    /** 布局的显示隐藏 **/
+    /**
+     * 布局的显示隐藏
+     **/
     private void setView(boolean one_show, boolean two_show) {
         if (one_show) {
             zhuce_lay.setVisibility(View.VISIBLE);
@@ -590,14 +552,6 @@ private  String get_code;
 
 
     }
-
-
-
-
-
-
-
-
 
 
 }

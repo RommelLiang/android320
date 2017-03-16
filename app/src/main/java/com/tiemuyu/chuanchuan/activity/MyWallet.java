@@ -6,16 +6,19 @@ import android.os.Bundle;
 
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
+import com.tiemuyu.chuanchuan.activity.bean.StringListBean;
+import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MyWallet extends BaseActivityG implements OnItemClickListener {
 
     private LinearLayout ll_one,ll_two,ll_three,ll_four,ll_five;
-
+    private TextView mw_lingqian,mw_chuanbi;
 
 
     @Override
@@ -32,6 +35,17 @@ public class MyWallet extends BaseActivityG implements OnItemClickListener {
         ll_three.setOnClickListener(this);
         ll_four.setOnClickListener(this);
         ll_five.setOnClickListener(this);
+        mw_lingqian = (TextView) findViewById(R.id.mw_lingqian);
+        mw_chuanbi = (TextView) findViewById(R.id.mw_chuanbi);
+        mw_lingqian.setText(String.valueOf(mw_lingqian.getText()) +" "+ MineFragment.user.getAmounts());
+        mw_chuanbi.setText(String.valueOf(mw_chuanbi.getText()) + " " +(MineFragment.user.getCcCoin()-MineFragment.user.getFrzCcCoin()));
+
+        findViewById(R.id.MyWalletBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void onClick(View v) {

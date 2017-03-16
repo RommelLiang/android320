@@ -83,8 +83,7 @@
                 android:text="|"
                 android:textSize="55sp"
                 android:textColor="@color/colorLightWhite"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerInParent="true" />
 
             <TextView
                 android:id="@+id/cc_coin_lbl"

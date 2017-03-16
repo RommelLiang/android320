@@ -92,7 +92,7 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
         search_input = (EditText) headerview.findViewById(R.id.find_topic_header_serach_txt);
         search_btn = (TextView) headerview.findViewById(R.id.search_btn);
         ll_search_btns = (LinearLayout) headerview.findViewById(R.id.ll_search_btns);
-
+        search_btn.setOnClickListener(this);
         find_topic_header_goback.setOnClickListener(this);
         pullToRefreshListView = (PullToRefreshListView) findViewById(R.id.lv_find_topic);
         getHead();

@@ -67,7 +67,7 @@ public class MessageActivity extends Activity implements AdapterView.OnItemClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.message_activity);//设置状态栏为透明
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         Bundle bu = getIntent().getBundleExtra("bundle");
         dataList = bu.getParcelableArrayList("data");

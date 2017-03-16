@@ -49,7 +49,7 @@ import cn.qqtheme.framework.picker.AddressPicker;
  * Created by CC2.0 on 2017/1/23.
  */
 
-public class MyInfo extends BaseActivityG{
+public class MyInfo extends BaseActivityG {
 
 
     @ViewInject(R.id.yaoqingma)
@@ -60,7 +60,7 @@ public class MyInfo extends BaseActivityG{
     private TextView nicheng_text;
 
     @ViewInject(R.id.change_nicheng)
-    private  RelativeLayout change_nicheng;
+    private RelativeLayout change_nicheng;
 
     @ViewInject(R.id.touxiang)
     private ImageView touxiang;
@@ -74,11 +74,11 @@ public class MyInfo extends BaseActivityG{
     @ViewInject(R.id.countryid)
     private TextView countryid;
 
-    private RelativeLayout rl_address,rl_location;
+    private RelativeLayout rl_address, rl_location;
 
 
-    String GET_INVITECODE="GET_INVITECODE";
-    String UPDATE_ADDRESS="UPDATE_ADDRESS";
+    String GET_INVITECODE = "GET_INVITECODE";
+    String UPDATE_ADDRESS = "UPDATE_ADDRESS";
 
     private ProgressDialog pd;
     private ArrayList<AddressPicker.Province> province;
@@ -99,7 +99,7 @@ public class MyInfo extends BaseActivityG{
         data.addAll(province);
         picker = new AddressPicker(this, data);
         picker.setSelectedItem("北京市", "北京", "东城区");
-        countryid=(TextView) findViewById(R.id.countryid);
+        countryid = (TextView) findViewById(R.id.countryid);
         picker.setOnAddressPickListener(new AddressPicker.OnAddressPickListener() {
             @Override
             public void onAddressPicked(String province, String city, String county) {
@@ -112,7 +112,7 @@ public class MyInfo extends BaseActivityG{
                         new ThreadPoolTaskHttp(MyInfo.this,
                                 UPDATE_ADDRESS,
                                 Constant.REQUEST_POST,
-                                ParamsTools.changeArea(mprovince,mcity,mcounty),
+                                ParamsTools.changeArea(mprovince, mcity, mcounty),
                                 MyInfo.this, "修改收货地址",
                                 false));
             }
@@ -129,9 +129,14 @@ public class MyInfo extends BaseActivityG{
         initProcess();
         User user = MineFragment.user;
         if (user.getProvince() != null && !user.getProvince().equals("")) {
-            countryid.setText(user.getProvince()+" " + user.getCity() + "" + user.getDistrict());
+            countryid.setText(user.getProvince() + " " + user.getCity() + "" + user.getDistrict());
         }
-
+        findViewById(R.id.MyInfoGoBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 
@@ -157,16 +162,13 @@ public class MyInfo extends BaseActivityG{
 //        // TODO Auto-generated method stub
 
 
-
         getMyInfo();
-
 
 
     }
 
 
-    private  void setView()
-    {
+    private void setView() {
 
 //        PreferenceUtils.setPrefBoolean(getActivity(), "firstload", true);
 //
@@ -177,39 +179,31 @@ public class MyInfo extends BaseActivityG{
         pd.dismiss();
 
 
-
-
     }
 
 
-
-
-    private void init(){
+    private void init() {
         pd = new ProgressDialog(this);//加载的ProgressDialog
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);//选择加载风格 这里是圆圈 STYLE_HORIZONTAL 是水平进度条
         pd.setMessage("加载中....");
     }
 
 
-
-
-
     protected void initUI() {
 
 
-        yaoqingma_text=(TextView) findViewById(R.id.invitation_codetext);
+        yaoqingma_text = (TextView) findViewById(R.id.invitation_codetext);
 
-        yaoqingma=(RelativeLayout) findViewById(R.id.yaoqingma);
+        yaoqingma = (RelativeLayout) findViewById(R.id.yaoqingma);
 
-        nicheng_text=(TextView) findViewById(R.id.nicheng_text);
+        nicheng_text = (TextView) findViewById(R.id.nicheng_text);
 
-        change_nicheng=(RelativeLayout) findViewById(R.id.change_nicheng);
+        change_nicheng = (RelativeLayout) findViewById(R.id.change_nicheng);
 
-        touxiang=(ImageView) findViewById(R.id.touxiang);
+        touxiang = (ImageView) findViewById(R.id.touxiang);
 
-        change_touxiang=(RelativeLayout) findViewById(R.id.change_tx);
-        rl_location=(RelativeLayout) findViewById(R.id.rl_location);
-
+        change_touxiang = (RelativeLayout) findViewById(R.id.change_tx);
+        rl_location = (RelativeLayout) findViewById(R.id.rl_location);
 
 
         rl_address = (RelativeLayout) findViewById(R.id.rl_address);
@@ -217,7 +211,6 @@ public class MyInfo extends BaseActivityG{
         ImageLoader.getInstance().displayImage(MineFragment.user.getUserImg(), touxiang);
         yaoqingma_text.setText(MineFragment.user.getInviteCode());
         countryid.setText(MineFragment.user.getProvince());
-
 
 
         rl_address.setOnClickListener(this);
@@ -234,9 +227,6 @@ public class MyInfo extends BaseActivityG{
 //        bt_zhuce.setOnClickListener(this);
 
 
-
-
-
         yaoqingma.setOnClickListener(this);
 
         change_touxiang.setOnClickListener(this);
@@ -246,17 +236,15 @@ public class MyInfo extends BaseActivityG{
     }
 
 
-
-
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.yaoqingma:
                 if (Utility.isFastDoubleClick()) // 连续点击
                     return;
-                ClassJumpTool.startToNextActivityForResult(this,
-                        MyInviteCode.class, 10);
-
+                Intent intent = new Intent(this, MyInviteCode.class);
+                intent.putExtra("accid", MineFragment.user.getAccid());
+                startActivity(intent);
                 break;
             case R.id.change_tx:
                 if (Utility.isFastDoubleClick()) // 连续点击
@@ -274,8 +262,8 @@ public class MyInfo extends BaseActivityG{
                 break;
 
             case R.id.rl_address:
-                Intent intent = new Intent(MyInfo.this,AddressMangerActivity.class);
-                startActivity(intent);
+                Intent intent2 = new Intent(MyInfo.this, AddressMangerActivity.class);
+                startActivity(intent2);
                 break;
 
             case R.id.rl_location:
@@ -284,7 +272,6 @@ public class MyInfo extends BaseActivityG{
 
         }
     }
-
 
 
     /**
@@ -304,12 +291,6 @@ public class MyInfo extends BaseActivityG{
                 GET_INVITECODE, Constant.REQUEST_GET, new RequestParams(UrlManager
                 .GET_MYINVITECODE()), this, "获取我的邀请码", false));
     }
-
-
-
-
-
-
 
 
     @Override
@@ -340,7 +321,7 @@ public class MyInfo extends BaseActivityG{
 //            loginSuc(msg);
 
         } else if (resultTag.equals(UPDATE_ADDRESS)) {
-            Log.e("UPDATE_ADDRESS", "successParse: "+msg );
+            Log.e("UPDATE_ADDRESS", "successParse: " + msg);
             Toast.makeText(this, "操作成功", Toast.LENGTH_SHORT).show();
         }
 
@@ -361,16 +342,6 @@ public class MyInfo extends BaseActivityG{
 //        }
 
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }

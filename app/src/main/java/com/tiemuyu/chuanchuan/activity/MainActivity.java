@@ -466,7 +466,6 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 
                 else {
 
-                    System.out.println("######点击发图按钮");
 
                 ClassJumpTool.startToNextActivityForResult(this,
                         FatuActivity.class, 10);
@@ -522,7 +521,9 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
             return;
         }
         User now=DBTools.getUser();
-        Toast.makeText(this,  "######"+now.getAccid()+"    "+now.getAccToken(), Toast.LENGTH_SHORT).show();
+        if (now.getAccid() == null) {
+            Toast.makeText(this,  "网络异常" , Toast.LENGTH_SHORT).show();
+        }
         LoginInfo loginInfo = new LoginInfo(now.getAccid(), now.getAccToken());
 //        System.out.println("accid after new LoginInfo: " + accid);
 //        System.out.println("acctoken after new LoginInfo: " + token);
@@ -534,7 +535,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 
             @Override
             public void onSuccess(LoginInfo loginInfo) {
-                Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_LONG).show();
+
                 isIMLogin = true;
                 request(Request.Method.GET, "http://imserver.myappcc.com/api/Getuseracc", null, "", tag, 100);
             }

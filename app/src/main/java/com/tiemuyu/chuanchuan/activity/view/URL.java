@@ -18,7 +18,7 @@ public class URL {
 
     public static final String source="new59";
 
-    public static  final String currentversion="3.0.60";
+    public static  final String currentversion="4.0";
 
     public static boolean loginstatus=true;
     /**

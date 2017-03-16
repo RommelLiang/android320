@@ -4,9 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
+
 import org.xutils.x;
 
 import com.android.volley.RequestQueue;
@@ -32,13 +31,16 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
 
-import com.tiemuyu.chuanchuan.activity.chat_tools.NimTaskExecutor;
-import com.tiemuyu.chuanchuan.activity.chat_tools.activity.MessageActivity;
-import com.tiemuyu.chuanchuan.activity.chat_tools.fragment.TextMessageActivity;
+
 import com.tiemuyu.chuanchuan.activity.chat_tools.utils.StorageUtil;
+
+
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolManager;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+
+import im.fir.sdk.FIR;
+
 
 /**
  * describe :
@@ -54,14 +56,11 @@ public class MyApplication extends Application {
     public static ThreadPoolManager poolManager;//线程池
 
 
-
-
-
-
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        FIR.init(this);
         context = this;
         //网络
         //图片
@@ -76,9 +75,7 @@ public class MyApplication extends Application {
         OpenInstall.init(this);
         OpenInstall.setDebug(true);
         init();
-
     }
-
 
 
     private void init() {
@@ -124,19 +121,9 @@ public class MyApplication extends Application {
 //        });
 
         /** 开启请求线程池 */
-        poolManager=new ThreadPoolManager(ThreadPoolManager.TYPE_FIFO, 8);
+        poolManager = new ThreadPoolManager(ThreadPoolManager.TYPE_FIFO, 8);
         poolManager.start();
     }
-
-
-
-
-
-
-
-
-
-
 
 
     {
@@ -155,6 +142,7 @@ public class MyApplication extends Application {
     public static Context getContext() {
         return context;
     }
+
     /**
      * 图片加载
      */
@@ -269,6 +257,7 @@ public class MyApplication extends Application {
     }
 
     public RequestQueue requestQueue;
+
     public RequestQueue getRequestQueue() {
         if (requestQueue == null) {
         }

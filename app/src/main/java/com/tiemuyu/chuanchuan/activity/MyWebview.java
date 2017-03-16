@@ -139,6 +139,7 @@ public class MyWebview extends BaseActivityG {
         information = getIntent().getStringExtra("Intent_Data_Packet");
         title = getIntent().getStringExtra("title");
         img_url = getIntent().getStringExtra("img_url");
+        Log.e("MyWeb", "onCreate: "+information + "\n" +title+"："+img_url );
         if (imageUri == null) {
             iv_wv_share.setVisibility(View.GONE);
         }
@@ -265,7 +266,6 @@ public class MyWebview extends BaseActivityG {
             JSInterface2.setWvClientClickListener(new webviewClick());
             System.out.println("**************加載完成" + url);
             tv_title.setText(currentTitle);
-            ToastHelper.show(getApplicationContext(),currentTitle);
             System.out.println("#####!!!!"+currentTitle);
         }
 

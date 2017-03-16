@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tiemuyu.chuanchuan.activity"
     android:versionCode="60"
-    android:versionName="3.0.60">
+    android:versionName="4.0">
 
     <!-- 权限声明 -->
     <uses-permission android:name="android.permission.READ_LOGS" />
@@ -65,7 +65,9 @@
      APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
      如果 SDKOptions 中提供了，取 SDKOptions 中的值。
         -->
-
+        <meta-data
+            android:name="BUG_HD_SDK_GENERAL_KEY"
+            android:value="e6c72c5e7957d5f9418e9ef1407464ae" />
         <meta-data
             android:name="com.netease.nim.appKey"
             android:value="2cc75f84168a2eaf3fd5ffdb4a97371e" />
@@ -365,7 +367,8 @@
         </activity>
         <activity android:name=".LingQianPayActivity" />
         <activity android:name=".TuiKuanActivity" />
-        <activity android:name=".SetBodyActivity"></activity>
+        <activity android:name=".SetBodyActivity" />
+        <activity android:name=".MyShaiTuDetailActivity"></activity>
     </application>
 
 </manifest>

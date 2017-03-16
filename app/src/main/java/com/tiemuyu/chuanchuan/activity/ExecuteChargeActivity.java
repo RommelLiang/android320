@@ -57,6 +57,12 @@ public class ExecuteChargeActivity extends BaseActivityG {
             }
         });
         user = MineFragment.user;
+        findViewById(R.id.im_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

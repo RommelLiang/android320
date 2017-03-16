@@ -29,6 +29,7 @@ import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.FindTopicActivity;
 import com.tiemuyu.chuanchuan.activity.FindWaterActivity;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
+import com.tiemuyu.chuanchuan.activity.MyWebview;
 import com.tiemuyu.chuanchuan.activity.ProtocolActivity;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.adapter.DzcpAdapter;
@@ -576,12 +577,11 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
                         startActivity(intent);
                     }
                     else if(type == 1) {
-                        Intent intent = new Intent(getActivity(), ProtocolActivity.class);
-                        intent.putExtra("url", homeBannerData.get(position - 1).getLinkUrl());
-                        intent.putExtra("title", homeBannerData.get(position - 1).getTitle());
-                        //0:无需分享.,1,url,2产品
-                        intent.putExtra("type",1);
-                        intent.putExtra("img_url",homeBannerData.get(position - 1).getImgUrl());
+                        Intent intent = new Intent(getActivity(), MyWebview.class);
+                        intent.putExtra("Intent_Data_Packet", homeBannerData.get(position-1).getLinkUrl());
+                        intent.putExtra("title", homeBannerData.get(position-1).getTitle());
+                        intent.putExtra("type", 1);
+                           intent.putExtra("img_url", homeBannerData.get(position-1).getImgUrl());
                         startActivity(intent);
                     }
                     else if(type == 2) {
@@ -635,12 +635,11 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
                         startActivity(intent);
                     }
                     else if(type == 1) {
-                        Intent intent = new Intent(getActivity(), ProtocolActivity.class);
-                        intent.putExtra("url", homeBannerData.get(position - 1).getLinkUrl());
-                        intent.putExtra("title", homeBannerData.get(position - 1).getTitle());
-                        //0:无需分享.,1,url,2产品
-                        intent.putExtra("type",1);
-                        intent.putExtra("img_url",homeBannerData.get(position - 1).getImgUrl());
+                        Intent intent = new Intent(getActivity(), MyWebview.class);
+                        intent.putExtra("Intent_Data_Packet", homeBannerData.get(position-1).getLinkUrl());
+                        intent.putExtra("title", homeBannerData.get(position-1).getTitle());
+                        intent.putExtra("type", 1);
+                        intent.putExtra("img_url", homeBannerData.get(position-1).getImgUrl());
                         startActivity(intent);
                     }
                     else if(type == 2) {

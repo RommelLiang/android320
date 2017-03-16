@@ -129,7 +129,8 @@ public class ShareApp extends BaseActivityG {
 
     public void share()
     {
-        String accid=MineFragment.user.getAccid();
+        String accid = MineFragment.user.getAccid();
+        Log.e("accid", "share: " + accid );
         new ShareAction(this).setDisplayList(
                         SHARE_MEDIA.SINA,
                         SHARE_MEDIA.WEIXIN,

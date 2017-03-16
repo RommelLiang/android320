@@ -135,19 +135,15 @@ public class UserOrderActivity extends BaseActivityG implements IDataChanger{
         switch (v.getId()) {
             case R.id.tv_all:
                 viewPager.setCurrentItem(0);
-                Toast.makeText(this, "0", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_pay:
                 viewPager.setCurrentItem(1);
-                Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_shouhuo:
                 viewPager.setCurrentItem(2);
-                Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_tuihuo:
                 viewPager.setCurrentItem(3);
-                Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.im_back:
                 finish();

@@ -69,7 +69,6 @@ public class ChildAdapter extends BaseAdapter {
         childHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, listBean.get(position).getProid() +"", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, ChengpinDetailActivity.class);
                 intent.putExtra("productid",listBean.get(position).getId());
                 context.startActivity(intent);
