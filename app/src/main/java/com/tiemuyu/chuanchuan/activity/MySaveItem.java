@@ -97,7 +97,7 @@ public class MySaveItem extends BaseActivityG {
                 .showImageOnFail(R.drawable.icon_morentupian2)
                 .cacheInMemory()
                 .cacheOnDisc()
-                .displayer(new RoundedBitmapDisplayer(20))
+                .displayer(new RoundedBitmapDisplayer(0))
                 .build();
         images=new ArrayList<String>();
         fav_goback = (LinearLayout) findViewById(R.id.MyShoucangBack);

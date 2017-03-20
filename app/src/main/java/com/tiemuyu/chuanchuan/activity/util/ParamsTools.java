@@ -412,7 +412,7 @@ public class ParamsTools {
 	 */
 	public static RequestParams removeAddress(String url, String id) {
 		RequestParams params = new RequestParams(url);
-		params.addQueryStringParameter(Constant.ADDRESS_ID,id);
+		params.addBodyParameter(Constant.ADDRESS_ID,id);
 		return params;
 	}
 

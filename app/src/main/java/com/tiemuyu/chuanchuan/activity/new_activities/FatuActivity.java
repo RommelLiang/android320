@@ -277,7 +277,7 @@ public class FatuActivity extends BaseActivityG {
         if (imagelist.size() == 1)
             imgs += imagelist.get(0);
         else {
-            for (int i = 0; i < imagelist.size() - 1; i++)
+            for (int i = 0; i < mImages.size() - 1; i++)
                 imgs += imagelist.get(i) + ",";
             imgs += imagelist.get(imagelist.size() - 1);
         }
@@ -540,8 +540,29 @@ public class FatuActivity extends BaseActivityG {
         if (resultCode == 1004) {
             Log.e("resultCode", "onActivityResult: " + "1111111");
             if (data != null && requestCode == 255) {
-                mImages = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                ArrayList<ImageItem> list = new ArrayList<>();
+                list = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                if (mImages == null) {
+                    mImages = new ArrayList<>();
+                    mImages.addAll(list);
+                } else {
+                    boolean isSelect;
+                    for (int i = 0; i < list.size(); i++) {
+                        isSelect = false;
+                        for (int i1 = 0; i1 < mImages.size(); i1++) {
+                            if (mImages.get(i1).path.equals(list.get(i).path)) {
+                                isSelect = true;
+                            }
+                        }
+                        if (!isSelect) {
+                            mImages.add(list.get(i));
+                        }
+                    }
+                }
 
+                if (imagelist != null || imagelist.size() != 0) {
+                    imagelist.clear();
+                }
                 Log.e("ArrayList", "onActivityResult: " + mImages.size());
                 adapter = new MyAdapter(mImages);
                 horizontalListVIew.setAdapter(adapter);
@@ -633,8 +654,6 @@ public class FatuActivity extends BaseActivityG {
         // TODO Auto-generated method stub
 //        dissMissDialog(isShowDiolog);
         super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
-
-        ToastHelper.show(this, callBackMsg + "  来自tag  " + resultTag);
 
         if (resultTag.equals(TAG_FABU_MOMENT)) {
             System.out.println("######成功了callback");
@@ -749,7 +768,7 @@ public class FatuActivity extends BaseActivityG {
             if (position == items.size()) {
                 Picasso.with(FatuActivity.this)
                         .load(R.drawable.add_image)
-                        .resize(width, width)
+                        .resize(width-30, width-30)
                         .into(childHolder.imageView);
                 childHolder.delect.setVisibility(View.GONE);
                 childHolder.imageView.setOnClickListener(new View.OnClickListener() {
@@ -769,14 +788,23 @@ public class FatuActivity extends BaseActivityG {
             if (position < items.size()) {
                 //Picasso.
                 (new PicassoImageLoader()).displayImage(FatuActivity.this, items.get(position).path, childHolder.imageView, width, width);
+
                 childHolder.delect.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mImages.remove(position);
-                        adapter.notifyDataSetChanged();
+                        Log.e("delect", "getView: "+mImages.size());
                         if (mImages.size() == 1) {
-                            add_img1.setVisibility(View.VISIBLE);
+                            mImages.clear();
+                            //add_img1.setVisibility(View.VISIBLE);
+                            adapter.notifyDataSetChanged();
+                        } else if (imagelist.size() == mImages.size()) {
+                            mImages.remove(position);
+                            imagelist.remove(position);
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            ToastHelper.show(FatuActivity.this,"请稍候重试");
                         }
+
                     }
                 });
             }

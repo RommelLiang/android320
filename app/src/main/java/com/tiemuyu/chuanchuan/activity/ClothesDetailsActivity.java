@@ -68,7 +68,7 @@ public class ClothesDetailsActivity extends BaseActivityG implements NetResponse
     private final String TAG_POST_Delfav = "TAG_POST_Delfav";
     private ClothesDetail clothesDetail;
     private ImageView im_user_header, im_back, im_suggest, im_must_know,im_share;
-    private TextView tv_user_name, tv_price, tv_product_name, tv_suggest, tv_shu_ju, tv_fu_wu, tv_shi_jian, tv_shou_hou;
+    private TextView tv_user_name, tv_price, tv_product_name, tv_suggest, tv_shu_ju, tv_fu_wu, tv_shi_jian;
     private WebView webView;
     private Banner banner;
     private List<String> images;
@@ -134,7 +134,6 @@ public class ClothesDetailsActivity extends BaseActivityG implements NetResponse
         tv_shu_ju = (TextView) findViewById(R.id.tv_shu_ju);
         tv_fu_wu = (TextView) findViewById(R.id.tv_fu_wu);
         tv_shi_jian = (TextView) findViewById(R.id.tv_shi_jian);
-        tv_shou_hou = (TextView) findViewById(R.id.tv_shou_hou);
         ll_banner = (LinearLayout) findViewById(R.id.ll_banner);
         ll_ke_fu = (LinearLayout) findViewById(R.id.ll_ke_fu);
         ll_shou_cang = (LinearLayout) findViewById(R.id.ll_shou_cang);
@@ -158,8 +157,6 @@ public class ClothesDetailsActivity extends BaseActivityG implements NetResponse
                         "内发货，以第三方物流记录的发货时间为准" +
                         "\n因用户信息确认等所造成的时间延误会直接在原发货时长基础上延长")
         );
-        tv_shou_hou.setText("收货后7天内，因穿穿所造成的制衣及尺码问题均可申请免费修改甚至重做。" +
-                "\n显示器色差、与主观感觉不符等原因不在免费修改之列");
     }
 
     @Override

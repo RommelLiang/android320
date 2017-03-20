@@ -26,6 +26,7 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.FindTopicActivity;
 import com.tiemuyu.chuanchuan.activity.FindWaterActivity;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
@@ -101,7 +102,7 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
                 .showImageOnFail(R.drawable.icon_morentupian2)
                 .cacheInMemory()
                 .cacheOnDisc()
-                .displayer(new RoundedBitmapDisplayer(20))
+                .displayer(new RoundedBitmapDisplayer(0))
                 .build();
 
         //给发现页面的header里面控件赋值
@@ -338,7 +339,8 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
             holder.title_txt.setText(findWaterBean.getData().getList().get(position).getName());
             if (position == 0)
                 logetag("position 0 pic: " + findWaterBean.getData().getList().get(position).getImg());
-            imageLoader.displayImage(findWaterBean.getData().getList().get(position).getImg(), holder.main_img, options, animateFirstListener);
+            Picasso.with(getActivity()).load(findWaterBean.getData().getList().get(position).getImg()).into(holder.main_img);
+            //imageLoader.displayImage(findWaterBean.getData().getList().get(position).getImg(), holder.main_img, options, animateFirstListener);
             holder.desp_txt.setText(findWaterBean.getData().getList().get(position).getMiaoshu());
             holder.view_num.setText(findWaterBean.getData().getList().get(position).getLooksum() + "");
             final Intent intent = new Intent(getActivity(), MyWebview.class);
@@ -414,7 +416,9 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
             find_txt1.setText(findHeaderBean.getData().get(0).getName());
             imageLoader.displayImage(findHeaderBean.getData().get(1).getImg(), find_img2, options, animateFirstListener);
             find_txt2.setText(findHeaderBean.getData().get(1).getName());
-            imageLoader.displayImage(findHeaderBean.getData().get(2).getImg(), find_img3, options, animateFirstListener);
+            imageLoader
+                    .displayImage(findHeaderBean.getData().get(2).getImg(),
+                            find_img3, options, animateFirstListener);
             find_txt3.setText(findHeaderBean.getData().get(2).getName());
             imageLoader.displayImage(findHeaderBean.getData().get(3).getImg(), find_img4, options, animateFirstListener);
             find_txt4.setText(findHeaderBean.getData().get(3).getName());

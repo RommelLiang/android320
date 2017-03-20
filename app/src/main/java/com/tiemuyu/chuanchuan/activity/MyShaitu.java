@@ -65,11 +65,11 @@ public class MyShaitu extends BaseActivityG {
     protected ImageLoader imageLoader = ImageLoader.getInstance();
 
     DisplayImageOptions options;
-    private  String TAG_GetShaitu="TAG_GetShaitu";   //获取初始瀑布流
-    private  String TAG_GetMoreShaitu="TAG_GetMoreShaitu";   //获取更多瀑布流
+    private String TAG_GetShaitu = "TAG_GetShaitu";   //获取初始瀑布流
+    private String TAG_GetMoreShaitu = "TAG_GetMoreShaitu";   //获取更多瀑布流
     List<List<ShaituWaterBean>> waterfall_listwhole = new ArrayList<>();
-    private ZhuantiWaterExtBean zhuantiinfo=new ZhuantiWaterExtBean();
-    private  static int watercount;
+    private ZhuantiWaterExtBean zhuantiinfo = new ZhuantiWaterExtBean();
+    private static int watercount;
 
     private WaterAdapter wateradaper;
 
@@ -101,48 +101,24 @@ public class MyShaitu extends BaseActivityG {
                 .showImageOnFail(R.drawable.icon_morentupian2)
                 .cacheInMemory()
                 .cacheOnDisc()
-                .displayer(new RoundedBitmapDisplayer(20))
+                .displayer(new RoundedBitmapDisplayer(0))
                 .build();
-        shaitu_back = (LinearLayout) findViewById(R.id.MyShaituGoBack) ;
+        shaitu_back = (LinearLayout) findViewById(R.id.MyShaituGoBack);
         shaitu_back.setOnClickListener(this);
-        images=new ArrayList<>();
+        images = new ArrayList<>();
         //不需要获取数据
         //        final String  information = getIntent().getStringExtra("Intent_Data_Packet");//.getStringExtra("et1");
         //        ZhuantiId=information;
         mPullRefreshListView = (PullToRefreshGridView) findViewById(R.id.pull_refresh_grid);
         initZuixinbaojiaDatas();//给瀑布流初始化数据
         initIndicator();//初始化indicator
-        mPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<GridView>() {
 
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
-
-                String label = DateUtils.formatDateTime(
-                        getApplicationContext(),
-                        System.currentTimeMillis(),
-                        DateUtils.FORMAT_SHOW_TIME
-                                | DateUtils.FORMAT_SHOW_DATE
-                                | DateUtils.FORMAT_ABBREV_ALL);
-                // Update the LastUpdatedLabel
-                refreshView.getLoadingLayoutProxy()
-                        .setLastUpdatedLabel(label);
-//                addupWater();
-                new GetDataTaskDown().execute();
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView) {
-                Log.e("TAG", "onPullUpToRefresh"); // Do work to refresh the list here.
-                System.out.println("######mPullRefreshListView  高伟豪");
-                new GetDataTask().execute();
-            }
-        });
         initProcess();
         pd.dismiss();
     }
 
     public void onClick(View v) {
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.MyShaituGoBack:
                 finish();
                 break;
@@ -339,7 +315,7 @@ public class MyShaitu extends BaseActivityG {
                 holder = new ViewHolder();
                 holder.main_pic = (ImageView) view.findViewById(R.id.shaitu_main_pic);
                 holder.text = (TextView) view.findViewById(R.id.shaitu_usr_name);
-                holder.price=(TextView) view.findViewById(R.id.chakandingzhi_btn);
+                holder.price = (TextView) view.findViewById(R.id.chakandingzhi_btn);
                 holder.shaitu_usr_image = (ImageView) view.findViewById(R.id.shaitu_usr_img);
                 holder.ll_item = (LinearLayout) view.findViewById(R.id.ll_item);
                 view.setTag(holder);
@@ -353,20 +329,28 @@ public class MyShaitu extends BaseActivityG {
             //imageLoader.displayImage(images.get(position), holder.shaitu_usr_image, options, animateFirstListener);
 
             //sl:用新的bean来显示瀑布流图片和文字
+            Log.e("isIsPraise", "getView: "+newShaituBean.getData().getPagedata().getRows().get(position).isIsPraise());
+            if (newShaituBean.getData().getPagedata().getRows().get(position).getIsOffer() !=1) {
+                holder.price.setVisibility(View.GONE);
+            } else {
+                holder.price.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent2 = new Intent(MyShaitu.this, ClothesDetailsActivity.class);
+                        intent2.putExtra("productid",newShaituBean.getData().getPagedata().getRows().get(position).getProductId());
+                        startActivity(intent2);
+                    }
+                });
+            }
             holder.text.setText(newShaituBean.getData().getUsers().get(0).getNickName());
             holder.price.setText("查看定制");
             holder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (newShaituBean.getData().getPagedata().getRows().get(position).isIsPraise()){
-                        Intent intent2 = new Intent(MyShaitu.this, ClothesDetailsActivity.class);
-                        intent2.putExtra("productid",newShaituBean.getData().getPagedata().getRows().get(position).getProductId());
-                        startActivity(intent2);
-                    } else {
-                        Intent intent = new Intent(MyShaitu.this, MyShaiTuDetailActivity.class);
-                        intent.putExtra("data",newShaituBean.getData().getPagedata().getRows().get(position));
-                        startActivity(intent);
-                    }
+                    Intent intent = new Intent(MyShaitu.this, MyShaiTuDetailActivity.class);
+                    intent.putExtra("data", newShaituBean.getData().getPagedata().getRows().get(position));
+                    startActivity(intent);
+
                 }
             });
             imageLoader.displayImage(newShaituBean.getData().getUsers().get(0).getUserImg(), holder.shaitu_usr_image, options, animateFirstListener);
@@ -375,7 +359,9 @@ public class MyShaitu extends BaseActivityG {
         }
     }
 
-    /********************************高伟豪添加********************************/
+    /********************************
+     * 高伟豪添加
+     ********************************/
     public void ShaituAction(String msg, String resultTag) {
         if (resultTag.equals(TAG_GetShaitu)) {
             Log.e("TAG", msg);
@@ -395,8 +381,32 @@ public class MyShaitu extends BaseActivityG {
             NewShaituBean newShaituBean = gson.fromJson(msg, NewShaituBean.class);
             Log.e("TEST", "ContentBrief: " + newShaituBean.getData().getPagedata().getRows().get(0).getContentBrief());
             initNewOfferDatas(newShaituBean);
-        }
-        else if (resultTag.equals(TAG_GetMoreShaitu)) {
+            mPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<GridView>() {
+
+                @Override
+                public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
+
+                    String label = DateUtils.formatDateTime(
+                            getApplicationContext(),
+                            System.currentTimeMillis(),
+                            DateUtils.FORMAT_SHOW_TIME
+                                    | DateUtils.FORMAT_SHOW_DATE
+                                    | DateUtils.FORMAT_ABBREV_ALL);
+                    // Update the LastUpdatedLabel
+                    refreshView.getLoadingLayoutProxy()
+                            .setLastUpdatedLabel(label);
+//                addupWater();
+                    new GetDataTaskDown().execute();
+                }
+
+                @Override
+                public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView) {
+                    Log.e("TAG", "onPullUpToRefresh"); // Do work to refresh the list here.
+                    System.out.println("######mPullRefreshListView  高伟豪");
+                    new GetDataTask().execute();
+                }
+            });
+        } else if (resultTag.equals(TAG_GetMoreShaitu)) {
             //todo 数据解析
             //后台都没做方法
             System.out.println("########waterfall msg is: " + msg + "; " + resultTag);//打印信息验证是否正确
@@ -423,14 +433,16 @@ public class MyShaitu extends BaseActivityG {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent2 = new Intent(MyShaitu.this, ClothesDetailsActivity.class);
-                Log.e("商品", "onItemClick: " + waterfall_listwhole.get(position/10).get(position%10).getProductId());
-                intent2.putExtra("productid",Integer.parseInt(waterfall_listwhole.get(position/10).get(position%10).getProductId()));
+                Log.e("商品", "onItemClick: " + waterfall_listwhole.get(position / 10).get(position % 10).getProductId());
+                intent2.putExtra("productid", Integer.parseInt(waterfall_listwhole.get(position / 10).get(position % 10).getProductId()));
                 startActivity(intent2);
             }
         });
     }
 
-    /********************************添加的接口********************************/
+    /********************************
+     * 添加的接口
+     ********************************/
     @Override
     public void successCallBack(String resultTag, BaseBean baseBean, String callBackMsg, boolean isShowDiolog) {
         super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
@@ -440,17 +452,25 @@ public class MyShaitu extends BaseActivityG {
 
     //		public void loadingCallBack(long total, long current, boolean isUploading,
 //				String resultTag);/** 加载中 */
-    public void failCallBack(Throwable arg0, String resultTag,boolean isShowDiolog) {
+    public void failCallBack(Throwable arg0, String resultTag, boolean isShowDiolog) {
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!failed callback!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    }/**请求失败*/
+    }
+
+    /**
+     * 请求失败
+     */
 
 //    public void startCallBack(String resultTag,boolean isShowDiolog,String showTitle){} /** 开始*/
 //    public void cancelCallBack(String resultTag){}/**取消*/
-    public void failShowCallBack(String resultTag, BaseBean baseBean,String callBackMsg,boolean isShowDiolog){
+    public void failShowCallBack(String resultTag, BaseBean baseBean, String callBackMsg, boolean isShowDiolog) {
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!succeed but code != 1 !!!!!!!!!!!!!!!!!!!!!!!!!");
-    }/** 请求成功，但code!=1 */
+    }
 
-    public void reLoginCallBack(String resultTag,boolean isShowDiolog){
+    /**
+     * 请求成功，但code!=1
+     */
+
+    public void reLoginCallBack(String resultTag, boolean isShowDiolog) {
         System.out.println("!!!!!!!!!!!!!!request succeed! but need relogin!!!!!!!!!!!!!!!!!");
     }/** 请求成功,但要重新登录 */
     /***************************************************************/

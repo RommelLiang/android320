@@ -115,13 +115,15 @@ public class MessageActivity extends Activity implements AdapterView.OnItemClick
     @Override
     protected void onResume() {
         super.onResume();
-        NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_ALL, SessionTypeEnum.None);
+        NIMClient.getService(MsgService.class)
+                .setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_ALL, SessionTypeEnum.None);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_NONE, SessionTypeEnum.None);
+        NIMClient.getService(MsgService.class)
+                .setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_NONE, SessionTypeEnum.None);
     }
 
     @Override
@@ -146,6 +148,7 @@ public class MessageActivity extends Activity implements AdapterView.OnItemClick
                 this.videoMessageHelper.onCaptureVideoResult(data);
                 break;
         }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -169,6 +172,7 @@ public class MessageActivity extends Activity implements AdapterView.OnItemClick
                 startActivityForResult(intent, 1000);
             else
                 startActivity(intent);
+            sharedPress.putInt(sessionId + "unread", 0);
         }
     }
 }

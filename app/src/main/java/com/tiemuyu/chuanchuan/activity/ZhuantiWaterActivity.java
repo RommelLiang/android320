@@ -116,7 +116,7 @@ public class ZhuantiWaterActivity extends BaseActivityG {
                 .showImageOnFail(R.drawable.icon_morentupian2)
                 .cacheInMemory()
                 .cacheOnDisc()
-                .displayer(new RoundedBitmapDisplayer(20))
+                .displayer(new RoundedBitmapDisplayer(0))
                 .build();
 
         headerView = View.inflate(ZhuantiWaterActivity.this, R.layout.zhuanti_water_header, null);

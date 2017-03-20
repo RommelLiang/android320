@@ -59,6 +59,7 @@ public class MyWallet extends BaseActivityG implements OnItemClickListener {
                 break;
             case R.id.ll_three:
                 start(PasswordManngerActivity.class);
+                break;
             case R.id.ll_four:
                 new AlertView("温馨提示", "提现操作完成后，您的提现将在一个工\n作日内到达您设置的支付账户。\n\n" +
                         "如有问题请联系穿穿客服热线：\n0755-86625823(工作日9:00-18:00)",

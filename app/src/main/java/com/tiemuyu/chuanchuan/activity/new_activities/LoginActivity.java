@@ -546,7 +546,6 @@ public class LoginActivity extends BaseActivityG implements
                                 String callBackMsg, boolean isShowDiolog) {
         // TODO Auto-generated method stub
 //        dissMissDialog(isShowDiolog);
-        ToastHelper.show(this, callBackMsg+"  来自tag  "+resultTag);
         successMethod(callBackMsg, resultTag);
         sucMethiod(callBackMsg, resultTag);
 
@@ -566,7 +565,7 @@ public class LoginActivity extends BaseActivityG implements
             GetPassKey key = JsonTools.fromJson(msg, GetPassKey.class);
             passkey = key.getData().getPassKey();
 
-            System.out.println("#####进入tag_getpasskey" + passkey +"name:"+name+"pass:"+pass);
+
 
             if (JudgmentLegal.validatePhoneNumber(name))
 //                System.out.println("手机登录需要的oauthid：  " );

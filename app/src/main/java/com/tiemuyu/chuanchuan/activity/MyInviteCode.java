@@ -47,6 +47,12 @@ public class MyInviteCode extends BaseActivityG {
                 share();
             }
         });
+        findViewById(R.id.go_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     /**

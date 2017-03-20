@@ -1,6 +1,7 @@
 package com.tiemuyu.chuanchuan.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
@@ -26,11 +27,14 @@ public class AboutUs extends BaseActivityG {
 //        pd.show();
 //
 //        initProcess();
-
+        findViewById(R.id.im_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
-
-
 
 
 }

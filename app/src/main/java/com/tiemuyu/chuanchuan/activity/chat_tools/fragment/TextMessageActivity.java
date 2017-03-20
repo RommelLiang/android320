@@ -222,9 +222,9 @@ public class TextMessageActivity extends Activity implements View.OnClickListene
                     sharedPress.putLong(sessionId + "Time", list.get(list.size() - 1).getTime());
                 }
             }
-            for (int i = 0; i < messages.size(); i++) {
+           /* for (int i = 0; i < messages.size(); i++) {
                 Log.e("imMessageArrayList", "incomingMessageObserver: clear" + list.get(i).getContent() + list.get(i).getMsgType().getValue());
-            }
+            }*/
             historyMessage.receiveMessageRefresh(list);
         }
     };

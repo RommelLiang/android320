@@ -88,7 +88,12 @@ public class MyNick extends BaseActivityG {
         //  Constant.VERSION = Version.getAppVersionName(this);
         // _global = GlobalVariable.getInstance();
         initProcess();
-
+        findViewById(R.id.im_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 

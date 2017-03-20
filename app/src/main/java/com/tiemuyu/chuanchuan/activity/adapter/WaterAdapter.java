@@ -14,6 +14,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.ClothesDetailsActivity;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.ZhuantiWaterActivity;
@@ -98,10 +99,10 @@ public class WaterAdapter extends BaseAdapter {
         }
         holder.text.setText(rows.get((position + 1) * 2 - 1).getProductName());
         holder.price.setText("￥" + rows.get((position + 1) * 2 - 1).getPrice() + "");
-        imageLoader.displayImage(rows.get((position + 1) * 2 - 1).getMainImage(), holder.image, options, animateFirstListener);
+        Picasso.with(context).load(rows.get((position + 1) * 2 - 1).getMainImage()).into(holder.image);
         holder.text_one.setText(rows.get((position + 1) * 2 - 2).getProductName());
         holder.price_one.setText("￥" + rows.get((position + 1) * 2 - 2).getPrice() + "");
-        imageLoader.displayImage(rows.get((position + 1) * 2 - 2).getMainImage(), holder.image_one, options, animateFirstListener);
+        Picasso.with(context).load(rows.get((position + 1) * 2 - 2).getMainImage()).into(holder.image_one);
         holder.left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -72,7 +72,9 @@ public class AcountManngerActivity extends BaseActivityG {
                 String id = accountMannger.getData().getIdCard();
                 String pay = accountMannger.getData().getCashAccount();
                 tv_ali_pay.setText(pay);
+                tv_ali_pay.setEnabled(false);
                 tv_name.setText(name);
+                tv_name.setEnabled(false);
                 tv_id.setText(id);
                 tv_id.setEnabled(false);
             } else {

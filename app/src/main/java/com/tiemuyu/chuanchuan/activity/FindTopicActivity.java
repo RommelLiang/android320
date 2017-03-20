@@ -35,6 +35,9 @@ import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 
 import org.xutils.http.RequestParams;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -120,17 +123,25 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
 
     private void initData(String key_word, int topic_id) {
         Log.e("tag", "url: " + UrlManager.getSearchArticles(key_word, topic_id));
-        String url = UrlManager.getSearchArticles(key_word, topic_id);
-        url = url.replaceAll(" ", "");
-        Log.e("tag", url);
-        MyApplication.poolManager.addAsyncTask(//史力：发现页面头部的图文请求
-                new ThreadPoolTaskHttp(this,
-                        SEARCH_ARTICLE_LIST,
-                        Constant.REQUEST_GET,
-                        new RequestParams(url),
-                        this,
-                        "获取发现页面第一次加载的所有文章",
-                        false));
+        try {
+            String word = URLEncoder.encode(key_word, "UTF-8");
+            Log.e("word", "initData: "+word );
+            String url = UrlManager.getSearchArticles(word, topic_id);
+            url = url.replaceAll(" ", "");
+            Log.e("tag", url);
+            MyApplication.poolManager.addAsyncTask(//史力：发现页面头部的图文请求
+                    new ThreadPoolTaskHttp(this,
+                            SEARCH_ARTICLE_LIST,
+                            Constant.REQUEST_GET,
+                            new RequestParams(url),
+                            this,
+                            "获取发现页面第一次加载的所有文章",
+                            false));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            Log.e("Exception", "initData: " + e.getLocalizedMessage());
+        }
+
     }
 
     private void FindTopicAction(String resultTag, String callbackMessage) {
@@ -158,7 +169,7 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
                     .showImageOnFail(R.drawable.icon_morentupian2)
                     .cacheInMemory()
                     .cacheOnDisc()
-                    .displayer(new RoundedBitmapDisplayer(20))
+                    .displayer(new RoundedBitmapDisplayer(0))
                     .build();
             imageLoader.displayImage(topicss.getBigimg(), header_big_img, options, animateFirstListener);
             header_img_txt.setText(topicss.getMiaoshu());
@@ -186,7 +197,7 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
     @Override
     public void failCallBack(Throwable arg0, String resultTag, boolean isShowDiolog) {
         super.failCallBack(arg0, resultTag, isShowDiolog);
-        Log.e("tag", "failed: " + resultTag);
+        Log.e(resultTag, "failed: " + arg0.getLocalizedMessage());
     }
 
     @Override
@@ -247,7 +258,8 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
         @Override
         public void onClick(View v) {
             Log.e("tag", "btn id: " + tv.getId());
-            search_input.setText(key_word);//当点击搜索框下面的文字时候，将上面的搜索框的文字设置成按钮里面的文字
+            //search_input.setText(key_word);//当点击搜索框下面的文字时候，将上面的搜索框的文字设置成按钮里面的文字
+            initData(key_word,topicss.getId());
         }
     }
 

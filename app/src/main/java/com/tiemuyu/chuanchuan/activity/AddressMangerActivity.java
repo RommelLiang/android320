@@ -123,7 +123,7 @@ public class AddressMangerActivity extends BaseActivityG {
     @Override
     public void failCallBack(Throwable arg0, String resultTag, boolean isShowDiolog) {
         super.failCallBack(arg0, resultTag, isShowDiolog);
-        Log.e("failCallBack: ", arg0.getLocalizedMessage() );
+        Log.e(resultTag + "failCallBack: " , arg0.getLocalizedMessage() );
     }
 
     private class AddressAdapter extends BaseAdapter{

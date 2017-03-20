@@ -308,6 +308,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
             ll_shou_cang.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.e("onClick: ",isFav+"" );
                     if (!PreferenceUtils.getPrefBoolean(ChengpinDetailActivity.this, Constant.CC_IFLOGIN, false))
                     {
                         Toast.makeText(ChengpinDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
@@ -324,17 +325,21 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
             ll_zhi_fu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!PreferenceUtils.getPrefBoolean(ChengpinDetailActivity.this, Constant.CC_IFLOGIN, false))
-                    {
-                        Toast.makeText(ChengpinDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    Intent intent = new Intent(ChengpinDetailActivity.this, PayMentActivity.class);
-                    intent.putExtra("productid", dIngzhi.getData().getDingzhiItem().getId());
-                    intent.putExtra("image", dIngzhi.getData().getDingzhiItem().getPromianpic());
-                    intent.putExtra("detial", dIngzhi.getData().getDingzhiItem().getProname());
-                    intent.putExtra("price",  dIngzhi.getData().getDingzhiItem().getPrice() + "");
-                    startActivity(intent);
+                   try {
+                       if (!PreferenceUtils.getPrefBoolean(ChengpinDetailActivity.this, Constant.CC_IFLOGIN, false))
+                       {
+                           Toast.makeText(ChengpinDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
+                           return;
+                       }
+                       Intent intent = new Intent(ChengpinDetailActivity.this, PayMentActivity.class);
+                       intent.putExtra("productid", dIngzhi.getData().getDingzhiItem().getProid());
+                       intent.putExtra("image", dIngzhi.getData().getDingzhiItem().getPromianpic());
+                       intent.putExtra("detial", dIngzhi.getData().getDingzhiItem().getProname());
+                       intent.putExtra("price",  dIngzhi.getData().getDingzhiItem().getPrice() + "");
+                       startActivity(intent);
+                   } catch (Exception e) {
+                       Log.e("Exception", "onClick: "+e.getLocalizedMessage());
+                   }
                 }
             });
         } else if(resultTag.equals(TAG_POST_Addfav)) {
@@ -435,7 +440,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
                         Constant.REQUEST_POST,
                         ParamsTools.AddFavorites(
                                 UrlManager.Addfav()+
-                                        dIngzhi.getData().getDingzhiItem().getId()),
+                                        dIngzhi.getData().getDingzhiItem().getProid()),
                         ChengpinDetailActivity.this,"添加收藏",
                         false));
     }
@@ -445,7 +450,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
                         TAG_POST_Delfav,
                         Constant.REQUEST_POST,
                         ParamsTools.delFavorites(
-                                UrlManager.Delfav(), dIngzhi.getData().getDingzhiItem().getId()+""),
+                                UrlManager.Delfav(), dIngzhi.getData().getDingzhiItem().getProid()+""),
                         ChengpinDetailActivity.this, "取消收藏",
                         false));
     }

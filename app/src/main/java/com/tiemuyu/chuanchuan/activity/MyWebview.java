@@ -140,7 +140,7 @@ public class MyWebview extends BaseActivityG {
         title = getIntent().getStringExtra("title");
         img_url = getIntent().getStringExtra("img_url");
         Log.e("MyWeb", "onCreate: "+information + "\n" +title+"："+img_url );
-        if (imageUri == null) {
+        if (img_url == null || img_url.equals("")) {
             iv_wv_share.setVisibility(View.GONE);
         }
         DataContoler.synCookies(this, information);

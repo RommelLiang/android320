@@ -787,6 +787,8 @@ public class UrlManager {
     }
 
     public static final String findSecondWater(int topicID, int state, int index, String key_word) {
-        return "http://test.myappcc.com/api/apppi?GetCoattpPage&topicsId=" + topicID + "&state=" + state + "&pageindex=" + index + "&guanjianzi=" + key_word;
+        return "http://test.myappcc.com/api/apppi?GetCoattpPage&topicsId=" + topicID +
+                "&state=" + state + "&pageindex=" + index +
+                "&guanjianzi=" + key_word;
     }
 }

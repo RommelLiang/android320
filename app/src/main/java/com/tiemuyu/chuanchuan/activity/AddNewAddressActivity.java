@@ -88,7 +88,7 @@ public class AddNewAddressActivity extends BaseActivityG {
         tv_save.setOnClickListener(this);
         ll_location.setOnClickListener(this);
         tvLocation.setOnClickListener(this);
-
+        findViewById(R.id.im_back).setOnClickListener(this);
     }
 
     @Override

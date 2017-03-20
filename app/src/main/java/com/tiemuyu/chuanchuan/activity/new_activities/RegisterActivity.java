@@ -1,9 +1,12 @@
 package com.tiemuyu.chuanchuan.activity.new_activities;
 
 import android.app.Activity;
+import android.content.ClipboardManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
 import com.tiemuyu.chuanchuan.activity.MyBody;
@@ -53,7 +58,7 @@ import java.security.InvalidAlgorithmParameterException;
 
 //public class TestActivity extends AppCompatActivity
 
-public class RegisterActivity extends BaseActivityG {
+public class RegisterActivity extends BaseActivityG implements OnItemClickListener {
 
 
     /**
@@ -135,6 +140,9 @@ public class RegisterActivity extends BaseActivityG {
 
     private String TAG_GETPASSKEY = "TAG_GETPASSKEY";
     private User user;
+    private String s[] = {"拨打客服电话", "复制客服微信", "呼叫"};
+    private AlertView build;
+    private AlertView build1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,7 +239,6 @@ public class RegisterActivity extends BaseActivityG {
                 // 下一步
                 if (Utility.isFastDoubleClick()) // 连续点击
                     return;
-                Toast.makeText(this, "测试成功", Toast.LENGTH_LONG).show();
                 getCodeMethod();
                 break;
             case R.id.login2:
@@ -351,9 +358,24 @@ public class RegisterActivity extends BaseActivityG {
                                  String callBackMsg, boolean isShowDiolog) {
         // TODO Auto-generated method stub
         super.failShowCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
+        Log.e( "failShowCallBack: ",resultTag +":"+callBackMsg );
         if (resultTag.equals(TAG_GETCODE)) {
-            ToastHelper.show(this, baseBean.getMsg());
-            System.out.println("######-TAG_GETCODE:" + callBackMsg);
+            int code = baseBean.getCode();
+            if (code == 0) {
+                ToastHelper.show(RegisterActivity.this,"您的手机号码已在穿穿注册，请直接登录");
+                return;
+            } else if (code != 1) {
+                build1 = new AlertView.Builder().setContext(RegisterActivity.this)
+                        .setStyle(AlertView.Style.ActionSheet)
+                        .setTitle("发送验证码失败")
+                        .setMessage(null)
+                        .setCancelText("取消")
+                        .setDestructive(s[0], s[1])
+                        .setOthers(null)
+                        .setOnItemClickListener(this)
+                        .build();
+                build1.show();
+            }
 
         } else if (resultTag.equals(TAG_REGIST)
                 || resultTag.equals(TAG_REGIST_MODIFY)) {
@@ -371,7 +393,7 @@ public class RegisterActivity extends BaseActivityG {
                                 String callBackMsg, boolean isShowDiolog) {
         // TODO Auto-generated method stub
         super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
-
+        Log.e("successCallBack: ", callBackMsg);
         successParse(callBackMsg, resultTag);
     }
 
@@ -553,5 +575,21 @@ public class RegisterActivity extends BaseActivityG {
 
     }
 
+
+    @Override
+    public void onItemClick(Object o, int position) {
+        switch (position) {
+            case 0:
+                Intent intent = new Intent("android.intent.action.CALL", Uri.parse("tel:" + "0755-86678543"));
+                startActivity(intent);
+                break;
+            case 1:
+                ToastHelper.show(RegisterActivity.this,"客服微信已复制到剪贴板");
+                ClipboardManager cmb = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                cmb.setText("myappcc");
+                break;
+
+        }
+    }
 
 }

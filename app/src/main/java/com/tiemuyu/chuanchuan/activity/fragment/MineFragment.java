@@ -552,10 +552,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     getActivity(), HttpTools.TAG_AULOGIN, Constant.REQUEST_POST,
                     ParamsTools.login(UrlManager.LOGIN(), login_v, oauthid),
                     callBack, "正在登录...", false));
-
-
-
-
         }
 
     }
@@ -643,6 +639,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     private void loginOutUpView() {
         tv_nick.setText("点击登录");
+        iv_head.setImageResource(R.drawable.circle_logo);
         tv_ye.setText("");
         tv_cb.setText("");
     }
@@ -730,7 +727,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-
+                if (user==null) {
+                    Toast.makeText(mainActivity, "您还未登录", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 ClassJumpTool.startToNextActivityForResult(getActivity(), MyWallet.class, 10);
             }};
 

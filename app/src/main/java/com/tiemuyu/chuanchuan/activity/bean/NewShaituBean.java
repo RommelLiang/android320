@@ -148,6 +148,53 @@ public class NewShaituBean implements Serializable{
             }
 
             public static class RowsBean  implements Serializable{
+                @Override
+                public String toString() {
+                    return "RowsBean{" +
+                            "MomentTypeDesc='" + MomentTypeDesc + '\'' +
+                            ", UserName=" + UserName +
+                            ", SharedDay=" + SharedDay +
+                            ", SharedMonth=" + SharedMonth +
+                            ", ReviewSum=" + ReviewSum +
+                            ", FriendReview=" + FriendReview +
+                            ", FriendReviewTop3=" + FriendReviewTop3 +
+                            ", UserImg=" + UserImg +
+                            ", UserNickName=" + UserNickName +
+                            ", ProductPrice=" + ProductPrice +
+                            ", ProductName=" + ProductName +
+                            ", ContentBrief='" + ContentBrief + '\'' +
+                            ", IsPraise=" + IsPraise +
+                            ", SharedTimeStr='" + SharedTimeStr + '\'' +
+                            ", Id=" + Id +
+                            ", UserId=" + UserId +
+                            ", OrderId=" + OrderId +
+                            ", ProductId=" + ProductId +
+                            ", SharedTime='" + SharedTime + '\'' +
+                            ", Content='" + Content + '\'' +
+                            ", ReviewTimes=" + ReviewTimes +
+                            ", ViewTimes=" + ViewTimes +
+                            ", PraiseTimes=" + PraiseTimes +
+                            ", MomentType=" + MomentType +
+                            ", IsPrivate=" + IsPrivate +
+                            ", IsOffer=" + IsOffer +
+                            ", OfferTime='" + OfferTime + '\'' +
+                            ", Tag='" + Tag + '\'' +
+                            ", ImageNum=" + ImageNum +
+                            ", Image1='" + Image1 + '\'' +
+                            ", Image2='" + Image2 + '\'' +
+                            ", Image3='" + Image3 + '\'' +
+                            ", Image4='" + Image4 + '\'' +
+                            ", Image5='" + Image5 + '\'' +
+                            ", Image6='" + Image6 + '\'' +
+                            ", Image7='" + Image7 + '\'' +
+                            ", Image8='" + Image8 + '\'' +
+                            ", Image9='" + Image9 + '\'' +
+                            ", RegApp='" + RegApp + '\'' +
+                            ", PkValue=" + PkValue +
+                            ", Images=" + Images +
+                            '}';
+                }
+
                 /**
                  * MomentTypeDesc : 定制发图
                  * UserName : null
@@ -564,7 +611,7 @@ public class NewShaituBean implements Serializable{
             }
         }
 
-        public static class UsersBean  implements Serializable{
+        public static class UsersBean {
             /**
              * Roles : null
              * OrderCount : 0

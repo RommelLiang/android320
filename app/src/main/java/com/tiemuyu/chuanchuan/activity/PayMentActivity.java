@@ -71,7 +71,7 @@ public class PayMentActivity extends BaseActivityG {
         Picasso.with(this).load(image).placeholder(R.drawable.circle_logo).into(product_image);
         tv_balance.setText(user.getCcCoin() + "");
         tv_current_balance.setText(user.getCcCoin() - user.getFrzCcCoin() + "");
-        int max = (int) (Integer.parseInt(price) * 0.2);
+        int max = (int) (Double.parseDouble(price) * 0.2);
         tv_big_balance.setText(max + "");
         tv_check_agree.setText(Html.fromHtml("同意<font color=\"#450525\"><b>《定制协议》</b></font>"));
         add.setOnClickListener(this);
@@ -116,13 +116,13 @@ public class PayMentActivity extends BaseActivityG {
         switch (v.getId()) {
             case (R.id.add):
                 number++;
-                tv_total_price.setText("￥  " + (Integer.parseInt(price) * number));
+                tv_total_price.setText("￥  " + (Double.parseDouble(price) * number));
                 num.setText(number + "");
                 break;
             case (R.id.reduce):
                 if (number > 1) {
                     number--;
-                    tv_total_price.setText("￥  " + (Integer.parseInt(price) * number));
+                    tv_total_price.setText("￥  " + (Double.parseDouble(price) * number));
                     num.setText(number + "");
                 }
                 break;
@@ -130,12 +130,12 @@ public class PayMentActivity extends BaseActivityG {
                 if (isUseCHua) {
                     isUseCHua = false;
                     usechuan.setBackground(getResources().getDrawable(R.drawable.noselect));
-                    tv_total_price.setText("￥  " + (Integer.parseInt(price) * number));
+                    tv_total_price.setText("￥  " + (Double.parseDouble(price) * number));
                     ordInfo.setCoin(0 + "");
                 } else {
                     isUseCHua = true;
                     usechuan.setBackground(getResources().getDrawable(R.drawable.select));
-                    tv_total_price.setText("￥  " + (Integer.parseInt(price) * number - (user.getCcCoin() - user.getFrzCcCoin())));
+                    tv_total_price.setText("￥  " + (Double.parseDouble(price) * number - (user.getCcCoin() - user.getFrzCcCoin())));
                     ordInfo.setCoin((user.getCcCoin() - user.getFrzCcCoin()) + "");
                 }
                 break;
@@ -156,8 +156,8 @@ public class PayMentActivity extends BaseActivityG {
                     Toast.makeText(this, "请阅读《定制协议》并同意", Toast.LENGTH_SHORT).show();
                 } else {
                     ordInfo.setTotalNum(number + "");
-                    ordInfo.setTotalFee((Integer.parseInt(price) * number) + "");
-                    ordInfo.setActualFee((Integer.parseInt(price) * number - Integer.parseInt(ordInfo.getCoin())) + "");
+                    ordInfo.setTotalFee((Double.parseDouble(price) * number) + "");
+                    ordInfo.setActualFee((Double.parseDouble(price) * number - Integer.parseInt(ordInfo.getCoin())) + "");
                     String msg = String.valueOf(tv_message.getText());
                     if (msg.equals("")) {
                         msg = "0";

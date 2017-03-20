@@ -6,6 +6,29 @@
     android:id="@+id/ll_regist_thrid"
     android:background="@color/colorWhite"
     >
+    <RelativeLayout
+        android:id="@+id/hander"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/address_tishi">
+
+        <ImageView
+            android:id="@+id/im_back"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_marginBottom="11dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="11dp"
+            android:src="@drawable/home_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="头像昵称"
+            android:textColor="@android:color/black"
+            android:textSize="20dp" />
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="486dp"

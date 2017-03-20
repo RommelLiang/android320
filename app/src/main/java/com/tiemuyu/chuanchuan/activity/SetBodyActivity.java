@@ -1,6 +1,7 @@
 package com.tiemuyu.chuanchuan.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.tiemuyu.chuanchuan.activity.db.DBTools;
 import com.tiemuyu.chuanchuan.activity.http.HttpTools;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
+import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 
@@ -409,6 +411,7 @@ public class SetBodyActivity extends BaseActivityG {
         } if (resultTag.equals(HttpTools.TAG_SET_BODY_DATA)) {
             Log.e("BODY", "modify body callback success!");
             Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
+            ClassJumpTool.startToNextActivityForResult(this, UserOrderActivity.class, 10);
             finish();
         }
     }

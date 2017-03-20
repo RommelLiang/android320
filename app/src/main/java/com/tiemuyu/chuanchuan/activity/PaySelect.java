@@ -89,8 +89,8 @@ public class PaySelect extends BaseActivityG {
         final String information = getIntent().getStringExtra("Intent_Data_Packet");//.getStringExtra("et1");
 
         ordInfo = (OrdInfo) getIntent().getSerializableExtra("ordInfo");
-        productid = String.valueOf(getIntent().getIntExtra("productid", 0));
-        addressId = String.valueOf(getIntent().getIntExtra("AddressId", 0));
+        productid = String.valueOf(getIntent().getIntExtra("product#", 0));
+        addressId = String.valueOf(getIntent().getIntExtra("Address#", 0));
         tv_total_price.setText(ordInfo.getActualFee() + "");
         user = MineFragment.user;
         lingqian = user.getAmounts() - user.getFrzAmounts();
@@ -275,6 +275,10 @@ public class PaySelect extends BaseActivityG {
             switch (msg.what) {
                 case 1: {
                     Toast.makeText(getApplicationContext(), "支付成功!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(PaySelect.this,SetBodyActivity.class);
+                    intent.putExtra("id",id);
+                    startActivity(intent);
+                    finish();
                     break;
                 }
                 case 2: {
@@ -302,7 +306,7 @@ public class PaySelect extends BaseActivityG {
 //            {"Code":1,"Msg":"OK","Data":{"PayMomeny":100.0,"OrderId":9850}}
             id = DataContoler.parseOrderId(msg);
 
-            ToastHelper.show(this, "####" + id);
+
             System.out.println("###" + id);
             //得到了订单id之后走支付流程
             if (payType == 5) {

@@ -462,7 +462,6 @@ public class SettingActivity extends Activity implements View.OnClickListener,Th
                                 String callBackMsg, boolean isShowDiolog) {
         // TODO Auto-generated method stub
 //        dissMissDialog(isShowDiolog);
-        ToastHelper.show(this, callBackMsg+"  来自tag  "+resultTag);
 //        successMethod(callBackMsg, resultTag);
 //        sucMethiod(callBackMsg, resultTag);
 

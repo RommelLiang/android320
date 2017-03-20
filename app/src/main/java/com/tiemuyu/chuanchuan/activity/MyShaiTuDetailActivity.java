@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import java.util.List;
 
 public class MyShaiTuDetailActivity extends AppCompatActivity {
     private TextView tv_time, tv_shuoming;
+    private Button chakandingzhi_btn;
     private HorizontalListVIew listview_horizon;
     NewShaituBean.DataBean.PagedataBean.RowsBean rowsBean;
     List<String> mImage;
@@ -33,10 +35,12 @@ public class MyShaiTuDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         rowsBean = (NewShaituBean.DataBean.PagedataBean.RowsBean) getIntent().getSerializableExtra("data");
+        Log.e("onCreate: ",rowsBean.toString() );
         setContentView(R.layout.activity_my_shai_tu_detail);
         tv_time = (TextView) findViewById(R.id.tv_time);
         tv_shuoming = (TextView) findViewById(R.id.tv_shuoming);
         listview_horizon = (HorizontalListVIew) findViewById(R.id.listview_horizon);
+        chakandingzhi_btn = (Button) findViewById(R.id.chakandingzhi_btn);
         tv_time.setText(rowsBean.getSharedTime());
         tv_shuoming.setText("定制说明："+rowsBean.getContentBrief() +"");
         mImage = new ArrayList<>();
@@ -51,31 +55,31 @@ public class MyShaiTuDetailActivity extends AppCompatActivity {
         }
 
         if (rowsBean.getImage2() != null && !rowsBean.getImage2().equals("")) {
-            mImage.add(rowsBean.getImage1());
+            mImage.add(rowsBean.getImage2());
         }
 
         if (rowsBean.getImage3() != null && !rowsBean.getImage3().equals("")) {
-            mImage.add(rowsBean.getImage1());
+            mImage.add(rowsBean.getImage3());
         }
 
         if (rowsBean.getImage4() != null && !rowsBean.getImage4().equals("")) {
-            mImage.add(rowsBean.getImage1());
+            mImage.add(rowsBean.getImage4());
         }
 
         if (rowsBean.getImage5() != null && !rowsBean.getImage5().equals("")) {
-            mImage.add(rowsBean.getImage1());
+            mImage.add(rowsBean.getImage5());
         }
 
         if (rowsBean.getImage6() != null && !rowsBean.getImage6().equals("")) {
-            mImage.add(rowsBean.getImage1());
+            mImage.add(rowsBean.getImage6());
         }
 
         if (rowsBean.getImage7() != null && !rowsBean.getImage7().equals("")) {
-            mImage.add(rowsBean.getImage1());
+            mImage.add(rowsBean.getImage7());
         }
 
         if (rowsBean.getImage8() != null && !rowsBean.getImage8().equals("")) {
-            mImage.add(rowsBean.getImage1());
+            mImage.add(rowsBean.getImage8());
         }
 
         if (rowsBean.getImage9() != null && !rowsBean.getImage9().equals("")) {
@@ -83,6 +87,18 @@ public class MyShaiTuDetailActivity extends AppCompatActivity {
         }
         MyAdapter myAdapter = new MyAdapter(mImage);
         listview_horizon.setAdapter(myAdapter);
+        if (rowsBean.getIsOffer() == 1) {
+            chakandingzhi_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MyShaiTuDetailActivity.this, ClothesDetailsActivity.class);
+                    intent.putExtra("data",rowsBean);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            chakandingzhi_btn.setVisibility(View.GONE);
+        }
     }
 
     private class MyAdapter extends BaseAdapter {

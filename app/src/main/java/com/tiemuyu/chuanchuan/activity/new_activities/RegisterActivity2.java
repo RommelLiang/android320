@@ -95,7 +95,6 @@ public class RegisterActivity2 extends Activity implements ThreadPoolTaskHttp.Ht
     public void successCallBack(String resultTag, BaseBean baseBean,
                                 String callBackMsg, boolean isShowDiolog) {
         // TODO Auto-generated method stub
-        ToastHelper.show(this, callBackMsg+"  来自tag  "+resultTag);
 
     }
 

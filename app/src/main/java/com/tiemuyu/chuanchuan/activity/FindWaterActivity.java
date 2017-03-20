@@ -55,7 +55,6 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
 
     private View headerview;
     private PullToRefreshListView pullToRefreshListView;
-    //private FindHeaderBean.DataBean headerDataBean;//保存从上一个activity得到的数据
     private int btn_tag;
     private RelativeLayout rl_main_header;
     private LinearLayout main_header_goback;
@@ -264,7 +263,7 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
                     .showImageOnFail(R.drawable.icon_morentupian2)
                     .cacheInMemory()
                     .cacheOnDisc()
-                    .displayer(new RoundedBitmapDisplayer(20))
+                    .displayer(new RoundedBitmapDisplayer(0))
                     .build();
 
             tv_main_header_title.setText(topicss.getName().toString());

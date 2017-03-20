@@ -62,15 +62,30 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp" />
-
-        <TextView
-            android:layout_marginLeft="15dp"
-            android:id="@+id/tv_shuoming"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="定制说明："
-            android:textColor="@color/colorBlack"
-            android:textSize="15dp" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:id="@+id/tv_shuoming"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="定制说明："
+                android:textColor="@color/colorBlack"
+                android:textSize="15dp" />
+            <Button
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:id="@+id/chakandingzhi_btn"
+                android:layout_width="55dp"
+                android:layout_height="18dp"
+                android:text="查看定制"
+                android:background="@drawable/pay_btn_style"
+                android:textColor="@color/ColorNavBackground"
+                android:layout_gravity="center_vertical"
+                android:textSize="11sp"/>
+        </RelativeLayout>
+
 
         <View
             android:layout_width="wrap_content"
