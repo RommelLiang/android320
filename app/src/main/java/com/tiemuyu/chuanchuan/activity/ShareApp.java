@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tiemuyu.chuanchuan.activity.bean.User;
+import com.tiemuyu.chuanchuan.activity.db.DBTools;
 import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
@@ -55,7 +56,7 @@ public class ShareApp extends BaseActivityG {
 //        init();
 //        pd.show();
 //
-        user = MineFragment.user;
+        user = DBTools.getUser();
         cc_coin_txt = (TextView) findViewById(R.id.cc_coin_txt);
         cc_coin_val = (TextView) findViewById(R.id.cc_coin_val);
         cc_coin_txt.setText(user.getCcCoin()+"");
