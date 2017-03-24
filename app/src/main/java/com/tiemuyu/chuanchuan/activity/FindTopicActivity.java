@@ -1,11 +1,13 @@
 package com.tiemuyu.chuanchuan.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,7 +26,6 @@ import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
-import com.tiemuyu.chuanchuan.activity.bean.FindHeaderBean;
 import com.tiemuyu.chuanchuan.activity.bean.FindTopicBean;
 import com.tiemuyu.chuanchuan.activity.bean.TopicHeander;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
@@ -32,11 +33,11 @@ import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
+import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 
 import org.xutils.http.RequestParams;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -82,7 +83,7 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
         //史力：从上一个activity接收数据
         Intent intent = getIntent();
         //headerDataBean = (FindHeaderBean.DataBean) intent.getSerializableExtra("img1_info");
-        id = intent.getIntExtra("id",0);
+        id = intent.getIntExtra("id", 0);
 
         setContentView(R.layout.find_topic_layout);
 
@@ -105,7 +106,7 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.header_find_goback:
                 finish();
                 break;
@@ -117,6 +118,11 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
                 }
                 Log.e("tag", "search: " + search_input.getText().toString());
                 initData(search_input.getText().toString(), topicss.getId());
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                boolean active = imm.isActive();
+                if (active){
+
+                }
                 break;
         }
     }
@@ -125,7 +131,7 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
         Log.e("tag", "url: " + UrlManager.getSearchArticles(key_word, topic_id));
         try {
             String word = URLEncoder.encode(key_word, "UTF-8");
-            Log.e("word", "initData: "+word );
+            Log.e("word", "initData: " + word);
             String url = UrlManager.getSearchArticles(word, topic_id);
             url = url.replaceAll(" ", "");
             Log.e("tag", url);
@@ -146,12 +152,14 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
 
     private void FindTopicAction(String resultTag, String callbackMessage) {
         if (resultTag.equals(SEARCH_ARTICLE_LIST)) {
-            Gson gson  = new Gson();
+            Gson gson = new Gson();
             Log.e("FindTopicAction: ", callbackMessage);
             findTopicBean = gson.fromJson(callbackMessage, FindTopicBean.class);
-            Log.e("tag", "In callback function: " + findTopicBean.getData().get(0).getMiaoshu());
             findTopicAdapter = new FindTopicAdapter();
             pullToRefreshListView.setAdapter(findTopicAdapter);
+            if (findTopicBean.getData().size() == 0) {
+                ToastHelper.show(this,"没有搜索到任何结果");
+            }
         } else if (resultTag.equals(TAG_GETHANDER)) {
             TopicHeander topicHeander = GsonUtils.fromData(callbackMessage, TopicHeander.class);
             topicss = topicHeander.getData().getTopicss();
@@ -259,7 +267,7 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
         public void onClick(View v) {
             Log.e("tag", "btn id: " + tv.getId());
             //search_input.setText(key_word);//当点击搜索框下面的文字时候，将上面的搜索框的文字设置成按钮里面的文字
-            initData(key_word,topicss.getId());
+            initData(key_word, topicss.getId());
         }
     }
 
@@ -267,7 +275,7 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
 
 //        Intent intent;
 
-        class ViewHolder{
+        class ViewHolder {
             LinearLayout ll_find_topic_adapter;
             ImageView big_img;
             TextView art_title;
@@ -329,13 +337,15 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
             return view;
         }
     }
+
     private String TAG_GETHANDER = "TAG_GETHANDER";
-    private void getHead(){
+
+    private void getHead() {
         MyApplication.poolManager.addAsyncTask(
                 new ThreadPoolTaskHttp(this,
                         TAG_GETHANDER,
                         Constant.REQUEST_GET,
-                        new RequestParams(UrlManager.findSecondWater(id,0,1,"")),
+                        new RequestParams(UrlManager.findSecondWater(id, 0, 1, "")),
                         this,
                         "获取Hander",
                         false));

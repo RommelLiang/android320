@@ -69,8 +69,10 @@
                 android:id="@+id/imageView3" />
 
             <com.tiemuyu.chuanchuan.activity.view.ClearEditText
+                android:layout_marginLeft="10dp"
+                android:background="@null"
                 android:id="@+id/login_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="请输入手机号码"
                 android:maxLength="50"
@@ -81,6 +83,7 @@
                 android:layout_toEndOf="@+id/imageView3" />
 
             <View
+                android:layout_marginTop="8dp"
                 android:layout_below="@id/login_name"
                 android:layout_height="1dp"
                 android:background="@color/colorLightWhite"
@@ -105,8 +108,10 @@
                 android:id="@+id/imageView4" />
 
             <com.tiemuyu.chuanchuan.activity.view.ClearEditText
+                android:layout_marginLeft="10dp"
+                android:background="@null"
                 android:id="@+id/login_password"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="请输入您的密码"
                 android:inputType="textPassword"
@@ -118,6 +123,7 @@
                 android:layout_toEndOf="@+id/imageView4" />
 
             <View
+                android:layout_marginTop="8dp"
                 android:layout_below="@id/login_password"
                 android:layout_height="1dp"
                 android:background="@color/colorLightWhite"

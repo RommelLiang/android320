@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.bean.Address;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
@@ -69,7 +68,7 @@ public class PayMentActivity extends BaseActivityG {
         num.setText(number + "");
         product_name.setText(detial);
         Picasso.with(this).load(image).placeholder(R.drawable.circle_logo).into(product_image);
-        tv_balance.setText(user.getCcCoin() + "");
+        tv_balance.setText(user.getCcCoin() - user.getFrzCcCoin() + "");
         tv_current_balance.setText(user.getCcCoin() - user.getFrzCcCoin() + "");
         int max = (int) (Double.parseDouble(price) * 0.2);
         tv_big_balance.setText(max + "");

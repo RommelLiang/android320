@@ -2,25 +2,20 @@ package com.tiemuyu.chuanchuan.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.util.Log;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.webkit.WebView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,12 +30,10 @@ import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.squareup.picasso.Picasso;
-import com.tiemuyu.chuanchuan.activity.adapter.ChildAdapter;
+import com.squareup.picasso.Transformation;
 import com.tiemuyu.chuanchuan.activity.adapter.ViewPagerAdapter;
 import com.tiemuyu.chuanchuan.activity.bean.Base;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
-import com.tiemuyu.chuanchuan.activity.bean.ClothesDetail;
-import com.tiemuyu.chuanchuan.activity.bean.DIngzhi;
 import com.tiemuyu.chuanchuan.activity.bean.DingZhiItem;
 import com.tiemuyu.chuanchuan.activity.bean.User;
 import com.tiemuyu.chuanchuan.activity.chat_tools.activity.MessageActivity;
@@ -66,13 +59,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
-
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Map;
-
-import static com.umeng.analytics.a.p;
 
 public class ChengpinDetailActivity extends BaseActivityG implements NetResponses {
     public String tag = "MESSAGE";
@@ -82,7 +71,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
     private final String TAG_POST_Addfav = "TAG_POST_Addfav";
     private final String TAG_POST_Delfav = "TAG_POST_Delfav";
     /*private ClothesDetail clothesDetail;*/
-    private ImageView im_user_header, im_back, im_must_know, im_main_image,im_share;
+    private ImageView im_user_header, im_back, im_must_know, im_main_image, im_share;
     private TextView tv_user_name, tv_price, tv_product_name,
             tv_shu_ju, tv_fu_wu, tv_shi_jian, tv_shou_hou,
             tv_kuanshi, tv_dingzhi;
@@ -102,13 +91,14 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
     private int currIndex = 0;// 当前页卡编号
     private boolean isFav = false;
     private ImageView im_collect;
-    private String title,url,img_url;
+    private String title, url, img_url;
     private DingZhiItem dIngzhi;
     private TextView mianliao;
     private ArrayList<Contacts> dataList = new ArrayList<>();
     public static String OWN_HEADER_URL = "";//gao 在这里更改有效
     private DataSharedPress sharedPress;
     private boolean isLogIn = false;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,12 +137,15 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
             }
         });
     }
+
     private NetResponses netResponses;
+
     public void setNetResponses(NetResponses netResponses) {
         this.netResponses = netResponses;
     }
+
     private void initView() {
-        productid =  mIntent.getIntExtra("productid",0);
+        productid = mIntent.getIntExtra("productid", 0);
         vp_find_home = (ViewPager) findViewById(R.id.vp_find_home);
         findLl = (RelativeLayout) findViewById(R.id.find_ll);
         im_user_header = (ImageView) findViewById(R.id.im_user_image_detail);
@@ -233,15 +226,15 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
             xijie = dIngzhi.getData().getDingzhiItem().getImgList();
             for (int i = 0; i < xijie.size(); i++) {
                 ImageView im = new ImageView(this);
-                LinearLayout.LayoutParams imparams =
-                        new LinearLayout.LayoutParams(width - 100, width);
-                if (i == xijie.size() - 1) {
-                    Picasso.with(this).load(xijie.get(i)).into(im);
-                } else {
-                    Picasso.with(this).load(xijie.get(i)).resize(width - 100, width - 100).into(im);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                if (i != 0)
+                    //lp.setMargins(0, 10, 0, 0);
+                if (imageView == null) {
+                    imageView = im;
                 }
-
-                ll_image.addView(im, imparams);
+                Picasso.with(this).load(xijie.get(i)).transform(transformation).into(im);
+                ll_image.addView(im, lp);
             }
 
             images.add(dIngzhi.getData().getDingzhiItem().getPromianpic());
@@ -294,8 +287,8 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
                     title = dIngzhi.getData().getDingzhiItem().getProname();
                     img_url = dIngzhi.getData().getDingzhiItem().getPromianpic();
                     url = "http://ios.myappcc.com/cc/Find/DingZhiXiangQingAction?id="
-                            + dIngzhi.getData().getDingzhiItem().getId() +"&type=3";
-                    Log.e("url", "onClick: "+url);
+                            + dIngzhi.getData().getDingzhiItem().getId() + "&type=3";
+                    Log.e("url", "onClick: " + url);
                     share();
                 }
             });
@@ -308,9 +301,8 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
             ll_shou_cang.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e("onClick: ",isFav+"" );
-                    if (!PreferenceUtils.getPrefBoolean(ChengpinDetailActivity.this, Constant.CC_IFLOGIN, false))
-                    {
+                    Log.e("onClick: ", isFav + "");
+                    if (!PreferenceUtils.getPrefBoolean(ChengpinDetailActivity.this, Constant.CC_IFLOGIN, false)) {
                         Toast.makeText(ChengpinDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -325,25 +317,24 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
             ll_zhi_fu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   try {
-                       if (!PreferenceUtils.getPrefBoolean(ChengpinDetailActivity.this, Constant.CC_IFLOGIN, false))
-                       {
-                           Toast.makeText(ChengpinDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
-                           return;
-                       }
-                       Intent intent = new Intent(ChengpinDetailActivity.this, PayMentActivity.class);
-                       intent.putExtra("productid", dIngzhi.getData().getDingzhiItem().getProid());
-                       intent.putExtra("image", dIngzhi.getData().getDingzhiItem().getPromianpic());
-                       intent.putExtra("detial", dIngzhi.getData().getDingzhiItem().getProname());
-                       intent.putExtra("price",  dIngzhi.getData().getDingzhiItem().getPrice() + "");
-                       startActivity(intent);
-                   } catch (Exception e) {
-                       Log.e("Exception", "onClick: "+e.getLocalizedMessage());
-                   }
+                    try {
+                        if (!PreferenceUtils.getPrefBoolean(ChengpinDetailActivity.this, Constant.CC_IFLOGIN, false)) {
+                            Toast.makeText(ChengpinDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Intent intent = new Intent(ChengpinDetailActivity.this, PayMentActivity.class);
+                        intent.putExtra("productid", dIngzhi.getData().getDingzhiItem().getProid());
+                        intent.putExtra("image", dIngzhi.getData().getDingzhiItem().getPromianpic());
+                        intent.putExtra("detial", dIngzhi.getData().getDingzhiItem().getProname());
+                        intent.putExtra("price", dIngzhi.getData().getDingzhiItem().getPrice() + "");
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Log.e("Exception", "onClick: " + e.getLocalizedMessage());
+                    }
                 }
             });
-        } else if(resultTag.equals(TAG_POST_Addfav)) {
-            Log.e("TAG_POST_Addfav", "successCallBack: "+callBackMsg );
+        } else if (resultTag.equals(TAG_POST_Addfav)) {
+            Log.e("TAG_POST_Addfav", "successCallBack: " + callBackMsg);
             Base base = GsonUtils.fromData(callBackMsg, Base.class);
             if (base.getCode() == 1) {
                 Toast.makeText(this, base.getMsg(), Toast.LENGTH_SHORT).show();
@@ -361,8 +352,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
     }
 
     private void kefu() {
-        if (!PreferenceUtils.getPrefBoolean(ChengpinDetailActivity.this, Constant.CC_IFLOGIN, false))
-        {
+        if (!PreferenceUtils.getPrefBoolean(ChengpinDetailActivity.this, Constant.CC_IFLOGIN, false)) {
             Toast.makeText(ChengpinDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -372,7 +362,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
             bundle.putParcelableArrayList("data", dataList);
             intent.putExtra("bundle", bundle);
             startActivity(intent);
-        }else {
+        } else {
             login();
         }
     }
@@ -433,27 +423,30 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 
         }
     };
+
     private void addToFav() {
         MyApplication.poolManager.addAsyncTask(
                 new ThreadPoolTaskHttp(ChengpinDetailActivity.this,
                         TAG_POST_Addfav,
                         Constant.REQUEST_POST,
                         ParamsTools.AddFavorites(
-                                UrlManager.Addfav()+
+                                UrlManager.Addfav() +
                                         dIngzhi.getData().getDingzhiItem().getProid()),
-                        ChengpinDetailActivity.this,"添加收藏",
+                        ChengpinDetailActivity.this, "添加收藏",
                         false));
     }
+
     private void delToFav() {
         MyApplication.poolManager.addAsyncTask(
                 new ThreadPoolTaskHttp(ChengpinDetailActivity.this,
                         TAG_POST_Delfav,
                         Constant.REQUEST_POST,
                         ParamsTools.delFavorites(
-                                UrlManager.Delfav(), dIngzhi.getData().getDingzhiItem().getProid()+""),
+                                UrlManager.Delfav(), dIngzhi.getData().getDingzhiItem().getProid() + ""),
                         ChengpinDetailActivity.this, "取消收藏",
                         false));
     }
+
     public void share() {
         new ShareAction(this).setDisplayList(
                 SHARE_MEDIA.SINA,
@@ -463,7 +456,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
                 SHARE_MEDIA.SMS,
                 SHARE_MEDIA.MORE)
                 .withTitle(title)
-                .withText(title)
+                .withText("穿穿，一座由你做主的时装定制工厂")
                 .withTargetUrl(url)
                 .withMedia(new UMImage(getApplicationContext(), img_url))
                 .setCallback(umShareListener)
@@ -477,15 +470,15 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
         public void onResult(SHARE_MEDIA platform) {
             com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
             if (platform.name().equals("WEIXIN_FAVORITE")) {
-                Toast.makeText(getApplicationContext(), platform + "收藏成功啦", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "收藏成功啦", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplicationContext(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "分享成功啦", Toast.LENGTH_SHORT).show();
             }
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(getApplicationContext(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "分享失败啦", Toast.LENGTH_SHORT).show();
             if (t != null) {
                 Log.d("throw", "throw:" + t.getMessage());
             }
@@ -503,7 +496,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
         Contacts contacts;
         if (type == 100) {
             JSONArray array = jsonObject.optJSONArray("kefulist");
-            Log.e("array", "success: "+array);
+            Log.e("array", "success: " + array);
             for (int i = 0; i < array.length(); i++) {
                 contacts = new Contacts(Parcel.obtain());
                 JSONObject object = array.optJSONObject(i);
@@ -513,11 +506,10 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
                 dataList.add(contacts);
             }
             kefu();
-        }
-        else if(type == 200){
-            System.out.println("*********"+jsonObject.toString());
-            sharedPress.putString("accid",jsonObject.optString("accid"));
-            sharedPress.putString("token",jsonObject.optString("token"));
+        } else if (type == 200) {
+            System.out.println("*********" + jsonObject.toString());
+            sharedPress.putString("accid", jsonObject.optString("accid"));
+            sharedPress.putString("token", jsonObject.optString("token"));
             OWN_HEADER_URL = jsonObject.optString("userimg");
             login();
         }
@@ -527,15 +519,15 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
     public void fail() {
 
     }
+
     public void login() {
         //LoginInfo loginInfo = new LoginInfo("tmy1", "68c58f02597daa4fdc3ab86ed103e0c6");//测试账号
-        if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false)==false)
-        {
+        if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false) == false) {
             return;
         }
-        User now=DBTools.getUser();
+        User now = DBTools.getUser();
         if (now.getAccid() == null) {
-            Toast.makeText(this,  "网络异常" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "网络异常", Toast.LENGTH_SHORT).show();
         }
         LoginInfo loginInfo = new LoginInfo(now.getAccid(), now.getAccToken());
 //        System.out.println("accid after new LoginInfo: " + accid);
@@ -543,7 +535,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
         String getinfo = now.getUserImg();
         ///sp.getString("userimag", "");
         //获取用户的im头像 gao
-        OWN_HEADER_URL=getinfo;
+        OWN_HEADER_URL = getinfo;
         RequestCallback<LoginInfo> callback = new RequestCallback<LoginInfo>() {
 
             @Override
@@ -560,10 +552,12 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
             }
 
             @Override
-            public void onException(Throwable throwable) {}
+            public void onException(Throwable throwable) {
+            }
         };
         NIMClient.getService(AuthService.class).login(loginInfo).setCallback(callback);
     }
+
     public void request(int method, final String URL, Map map, final String session, String tag, final int type) {
         this.tag = tag;
         JSONObject jsonObject;
@@ -587,6 +581,36 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
         jsonRequest.setTag(tag);
         // 将请求添加到队列中
         ((MyApplication) getApplication()).getRequestQueue().add(jsonRequest);
-
     }
+
+    Transformation transformation = new Transformation() {
+
+        @Override
+        public Bitmap transform(Bitmap source) {
+
+            int mTargetWidth = width;
+
+
+            if (source.getWidth() == 0) {
+                return source;
+            }
+            double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
+            int targetHeight = (int) (mTargetWidth * aspectRatio);
+            if (targetHeight != 0 && mTargetWidth != 0) {
+                Bitmap result = Bitmap.createScaledBitmap(source, mTargetWidth, targetHeight, false);
+                if (result != source) {
+                    // Same bitmap is returned if sizes are the same
+                    source.recycle();
+                }
+                return result;
+            } else {
+                return source;
+            }
+        }
+
+        @Override
+        public String key() {
+            return "transformation" + " desiredWidth";
+        }
+    };
 }

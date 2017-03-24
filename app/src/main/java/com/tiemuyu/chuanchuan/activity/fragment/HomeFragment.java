@@ -30,7 +30,6 @@ import com.tiemuyu.chuanchuan.activity.FindTopicActivity;
 import com.tiemuyu.chuanchuan.activity.FindWaterActivity;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
 import com.tiemuyu.chuanchuan.activity.MyWebview;
-import com.tiemuyu.chuanchuan.activity.ProtocolActivity;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.adapter.DzcpAdapter;
 import com.tiemuyu.chuanchuan.activity.adapter.HeoizonListViewAdapter;
@@ -50,7 +49,6 @@ import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.youth.banner.listener.OnBannerClickListener;
-
 
 import org.xutils.http.RequestParams;
 
@@ -235,22 +233,16 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
         System.out.println("next step????????????");
         viewPager.setAdapter(pagerAdapter);
         refreshableView = mPullRefreshListView.getRefreshableView();
-        mPullRefreshListView.setOnRefreshListener(this);
 
         refreshableView3 = mPullRefreshListView3.getRefreshableView();
-        mPullRefreshListView3.setOnRefreshListener(this);
 
         refreshableView4 = mPullRefreshListView4.getRefreshableView();
-        mPullRefreshListView4.setOnRefreshListener(this);
 
         refreshableView5 = mPullRefreshListView5.getRefreshableView();
-        mPullRefreshListView5.setOnRefreshListener(this);
 
         refreshableView6 = mPullRefreshListView6.getRefreshableView();
-        mPullRefreshListView6.setOnRefreshListener(this);
 
         refreshableView7 = mPullRefreshListView7.getRefreshableView();
-        mPullRefreshListView7.setOnRefreshListener(this);
     }
 //==============================================
 
@@ -555,6 +547,7 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
             rows = lastPrice.getData().getRows();
             wateradaper = new WaterAdapter(rows, getActivity());
             mPullRefreshListView.setAdapter(wateradaper);
+            mPullRefreshListView.setOnRefreshListener(this);
             int headerViewsCount = refreshableView.getHeaderViewsCount();
             if (headerViewsCount == 0) {
                 headerView = View.inflate(getActivity(), R.layout.header_banner, null);
@@ -616,7 +609,6 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
             heoizonListViewAdapter = new HeoizonListViewAdapter(dIngzhiData, getActivity());
             refreshableView2 = mPullRefreshListView2.getRefreshableView();
             mPullRefreshListView2.setAdapter(heoizonListViewAdapter);
-
             int headerViewsCount2 = refreshableView2.getHeaderViewsCount();
             if (headerViewsCount2 == 0) {
                 refreshableView2.addHeaderView(headerView2);
@@ -674,6 +666,7 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
             qunZhuangList = QunZhuanagMessage.getData().getList();
             zhuanTiWaterAdapter3 = new ZhuanTiWaterAdapter(qunZhuangList, getActivity());
             mPullRefreshListView3.setAdapter(zhuanTiWaterAdapter3);
+            mPullRefreshListView3.setOnRefreshListener(this);
             int headerViewsCount3 = refreshableView3.getHeaderViewsCount();
             if (headerViewsCount3 == 0) {
                 headerImage1 = View.inflate(getActivity(), R.layout.header_image, null);
@@ -721,6 +714,7 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
             shangYilist = shangyi.getData().getList();
             zhuanTiWaterAdapter5 = new ZhuanTiWaterAdapter(shangYilist, getActivity());
             mPullRefreshListView5.setAdapter(zhuanTiWaterAdapter5);
+            mPullRefreshListView5.setOnRefreshListener(this);
             int headerViewsCount5 = refreshableView5.getHeaderViewsCount();
             if (headerViewsCount5 == 0) {
                 headerImage3 = View.inflate(getActivity(), R.layout.header_image, null);
@@ -744,6 +738,7 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
             kuLeilist = kulei.getData().getList();
             zhuanTiWaterAdapter6 = new ZhuanTiWaterAdapter(kuLeilist, getActivity());
             mPullRefreshListView6.setAdapter(zhuanTiWaterAdapter6);
+            mPullRefreshListView6.setOnRefreshListener(this);
             int headerViewsCount6 = refreshableView6.getHeaderViewsCount();
             if (headerViewsCount6 == 0) {
                 headerImage4 = View.inflate(getActivity(), R.layout.header_image, null);
@@ -768,6 +763,7 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
             taoZhuanglist = taozhuang.getData().getList();
             zhuanTiWaterAdapter7 = new ZhuanTiWaterAdapter(taoZhuanglist, getActivity());
             mPullRefreshListView7.setAdapter(zhuanTiWaterAdapter7);
+            mPullRefreshListView3.setOnRefreshListener(this);
             int headerViewsCount7 = refreshableView7.getHeaderViewsCount();
             if (headerViewsCount7 == 0) {
                 headerImage5 = View.inflate(getActivity(), R.layout.header_image, null);
@@ -847,5 +843,7 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
         System.out.println("!!!!!!!!!!!!!!request succeed! but need relogin!!!!!!!!!!!!!!!!!");
     }/** 请求成功,但要重新登录 */
     /****************************************************************/
+
+
 
 }

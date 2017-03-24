@@ -197,6 +197,6 @@
     <string name="umeng_self_check">自检工具</string>
     <string name="getcode">点击获取验证码</string>
     <string name="title_activity_pay">PayActivity</string>
-
+    <string name="we_chat">微信支付结果：%s</string>
 
 </resources>

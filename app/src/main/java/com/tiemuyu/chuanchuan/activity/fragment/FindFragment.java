@@ -8,12 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -27,26 +25,27 @@ import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 import com.tiemuyu.chuanchuan.activity.FindTopicActivity;
 import com.tiemuyu.chuanchuan.activity.FindWaterActivity;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
-import com.tiemuyu.chuanchuan.activity.MyShaitu;
 import com.tiemuyu.chuanchuan.activity.MyWebview;
-import com.tiemuyu.chuanchuan.activity.ProtocolActivity;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.FindHeaderBean;
 import com.tiemuyu.chuanchuan.activity.bean.FindWaterBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
+import com.tiemuyu.chuanchuan.activity.helper.PicassoRoundTransform;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
-import com.tiemuyu.chuanchuan.activity.view.URL;
 
 import org.xutils.http.RequestParams;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+import static com.umeng.socialize.utils.DeviceConfig.context;
 
 /**
  * Created by Lonze on 2016/8/23.
@@ -68,7 +67,7 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
     private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();//sl:
     FindAdapter findApdater;
     private int page_num = 1;
-
+    private ImageView iv;
     //header的所有控件
     ImageView find_img1;
     ImageView find_img2;
@@ -76,6 +75,7 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
     ImageView find_img4;
     ImageView find_img5;
     ImageView find_img6;
+    ImageView imageView;
 
     TextView find_txt1;
     TextView find_txt2;
@@ -129,7 +129,6 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
         //sl: 给pulltorefreshlistview添加header
         ListView listView = pullToRefreshListView.getRefreshableView();
         listView.addHeaderView(headerView);
-        pullToRefreshListView.setOnRefreshListener(this);
         return view;
     }
 
@@ -332,6 +331,7 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
                 holder.main_img = (ImageView) view.findViewById(R.id.find_main_pic);
                 holder.desp_txt = (TextView) view.findViewById(R.id.desp_txt);
                 holder.view_num = (TextView) view.findViewById(R.id.view_num_txt);
+                iv = holder.main_img;
                 view.setTag(holder);
             } else {
                 holder = (ViewHolder) view.getTag();
@@ -339,7 +339,10 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
             holder.title_txt.setText(findWaterBean.getData().getList().get(position).getName());
             if (position == 0)
                 logetag("position 0 pic: " + findWaterBean.getData().getList().get(position).getImg());
-            Picasso.with(getActivity()).load(findWaterBean.getData().getList().get(position).getImg()).into(holder.main_img);
+            Picasso.with(getActivity())
+                    .load(findWaterBean.getData().getList().get(position).getImg())
+                    .transform(mTransformation)
+                    .into(holder.main_img);
             //imageLoader.displayImage(findWaterBean.getData().getList().get(position).getImg(), holder.main_img, options, animateFirstListener);
             holder.desp_txt.setText(findWaterBean.getData().getList().get(position).getMiaoshu());
             holder.view_num.setText(findWaterBean.getData().getList().get(position).getLooksum() + "");
@@ -412,19 +415,37 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
             findHeaderBean = gson.fromJson(callbackMsg, FindHeaderBean.class);
 
             //sl：给每个发现头控件加载图文
-            imageLoader.displayImage(findHeaderBean.getData().get(0).getImg(), find_img1, options, animateFirstListener);
+            imageView = find_img1;
+
+            Picasso.with(context)
+                    .load(findHeaderBean.getData().get(0).getImg())
+                    .transform(new PicassoRoundTransform())
+                    .into(find_img1);
             find_txt1.setText(findHeaderBean.getData().get(0).getName());
-            imageLoader.displayImage(findHeaderBean.getData().get(1).getImg(), find_img2, options, animateFirstListener);
+            Picasso.with(context)
+                    .load(findHeaderBean.getData().get(1).getImg())
+                    .transform(new PicassoRoundTransform())
+                    .into(find_img2);
             find_txt2.setText(findHeaderBean.getData().get(1).getName());
-            imageLoader
-                    .displayImage(findHeaderBean.getData().get(2).getImg(),
-                            find_img3, options, animateFirstListener);
+            Picasso.with(context)
+                    .load(findHeaderBean.getData().get(2).getImg())
+                    .transform(new PicassoRoundTransform())
+                    .into(find_img3);
             find_txt3.setText(findHeaderBean.getData().get(2).getName());
-            imageLoader.displayImage(findHeaderBean.getData().get(3).getImg(), find_img4, options, animateFirstListener);
+            Picasso.with(context)
+                    .load(findHeaderBean.getData().get(3).getImg())
+                    .transform(new PicassoRoundTransform())
+                    .into(find_img4);
             find_txt4.setText(findHeaderBean.getData().get(3).getName());
-            imageLoader.displayImage(findHeaderBean.getData().get(4).getImg(), find_img5, options, animateFirstListener);
+            Picasso.with(context)
+                    .load(findHeaderBean.getData().get(4).getImg())
+                    .transform(new PicassoRoundTransform())
+                    .into(find_img5);
             find_txt5.setText(findHeaderBean.getData().get(4).getName());
-            imageLoader.displayImage(findHeaderBean.getData().get(5).getImg(), find_img6, options, animateFirstListener);
+            Picasso.with(context)
+                    .load(findHeaderBean.getData().get(5).getImg())
+                    .transform(new PicassoRoundTransform())
+                    .into(find_img6);
             find_txt6.setText(findHeaderBean.getData().get(5).getName());
             //sl:给每个控件定义事件响应
             find_img1.setOnClickListener(this);
@@ -448,13 +469,19 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
             logetag("find get water result:" + findWaterBean.getData().getList().get(0).getMiaoshu());//史力：测试通过
             findApdater = new FindAdapter();
             pullToRefreshListView.setAdapter(findApdater);
+            pullToRefreshListView.setOnRefreshListener(this);
         } else if (resultTag.equals(TAG_GET_MORE_FIND)) {
             logetag("find more water call back success!");
             logetag("page num in callback: " + page_num);
             Gson gson = new Gson();
             FindWaterBean tmp = gson.fromJson(callbackMsg, FindWaterBean.class);
-            for (FindWaterBean.DataBean.ListBean tmp_list_bean : tmp.getData().getList()) {
-                findWaterBean.getData().getList().add(tmp_list_bean);
+            if (tmp.getData().getList().size() == 0) {//如果拉不出数据
+                page_num--;
+                return;
+            } else {
+                for (FindWaterBean.DataBean.ListBean tmp_list_bean : tmp.getData().getList()) {
+                    findWaterBean.getData().getList().add(tmp_list_bean);
+                }
             }
             logetag("size of list after refresh: " + findWaterBean.getData().getList().size());
             findApdater.notifyDataSetChanged();
@@ -516,4 +543,98 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
         endLabels.setRefreshingLabel("正在刷新...");// 刷新时
         endLabels.setReleaseLabel("松开即可刷新...");// 下来达到一定距离时，显示的提示
     }
+
+    Transformation transformation = new Transformation() {
+
+        @Override
+        public Bitmap transform(Bitmap source) {
+
+            int mTargetWidth = imageView.getWidth();
+            int mTargetHeight = imageView.getHeight();
+
+
+            if (source.getWidth() == 0) {
+                return source;
+            }
+            if (source.getWidth() < source.getHeight()) {
+                double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
+                int targetHeight = (int) (mTargetWidth * aspectRatio);
+                if (targetHeight != 0 && mTargetWidth != 0) {
+                    Bitmap result = Bitmap.createScaledBitmap(source, mTargetWidth, targetHeight, false);
+                    if (result != source) {
+                        // Same bitmap is returned if sizes are the same
+                        source.recycle();
+                    }
+                    return result;
+                } else {
+                    return source;
+                }
+            } else {
+                double aspectRatio = (double) source.getWidth()/ (double) source.getHeight();
+                int targetWidth = (int) (mTargetHeight * aspectRatio);
+                if (targetWidth != 0 && targetWidth != 0) {
+                    Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, mTargetHeight, false);
+                    if (result != source) {
+                        // Same bitmap is returned if sizes are the same
+                        source.recycle();
+                    }
+                    return result;
+                } else {
+                    return source;
+                }
+            }
+        }
+
+        @Override
+        public String key() {
+            return "transformation" + " desiredWidth";
+        }
+    };
+
+    Transformation mTransformation = new Transformation() {
+
+        @Override
+        public Bitmap transform(Bitmap source) {
+
+            int mTargetWidth = iv.getWidth();
+            int mTargetHeight = iv.getHeight();
+
+
+            if (source.getWidth() == 0) {
+                return source;
+            }
+            if (source.getWidth() < source.getHeight()) {
+                double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
+                int targetHeight = (int) (mTargetWidth * aspectRatio);
+                if (targetHeight != 0 && mTargetWidth != 0) {
+                    Bitmap result = Bitmap.createScaledBitmap(source, mTargetWidth, targetHeight, false);
+                    if (result != source) {
+                        // Same bitmap is returned if sizes are the same
+                        source.recycle();
+                    }
+                    return result;
+                } else {
+                    return source;
+                }
+            } else {
+                double aspectRatio = (double) source.getWidth()/ (double) source.getHeight();
+                int targetWidth = (int) (mTargetHeight * aspectRatio);
+                if (targetWidth != 0 && targetWidth != 0) {
+                    Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, mTargetHeight, false);
+                    if (result != source) {
+                        // Same bitmap is returned if sizes are the same
+                        source.recycle();
+                    }
+                    return result;
+                } else {
+                    return source;
+                }
+            }
+        }
+
+        @Override
+        public String key() {
+            return "transformation" + " desiredWidth";
+        }
+    };
 }

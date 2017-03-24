@@ -1,110 +1,68 @@
 package com.tiemuyu.chuanchuan.activity.new_activities;
 
-import android.app.Activity;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.widget.Button;
-import android.widget.EditText;
-
-import com.tiemuyu.chuanchuan.activity.ForgetPassword;
-import com.tiemuyu.chuanchuan.activity.MainActivity;
-import com.tiemuyu.chuanchuan.activity.R;
-import com.tiemuyu.chuanchuan.activity.SearchActivity;
-import com.tiemuyu.chuanchuan.activity.SettingActivity;
-import com.tiemuyu.chuanchuan.activity.TestActivity;
-import com.tiemuyu.chuanchuan.activity.constant.Constant;
-import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
-import com.tiemuyu.chuanchuan.activity.util.AppManager;
-import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
-import com.tiemuyu.chuanchuan.activity.view.ClearEditText;
-
-import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
-import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp.HttpCallBack;
-
-
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.json.JSONObject;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
-import org.xutils.view.annotation.ViewInject;
-
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.Handler;
-import android.os.Handler.Callback;
 import android.os.Message;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.tiemuyu.chuanchuan.activity.ForgetPassword;
+import com.tiemuyu.chuanchuan.activity.MainActivity;
+import com.tiemuyu.chuanchuan.activity.MyApplication;
+import com.tiemuyu.chuanchuan.activity.R;
+import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
+import com.tiemuyu.chuanchuan.activity.bean.GetPassKey;
+import com.tiemuyu.chuanchuan.activity.bean.User;
+import com.tiemuyu.chuanchuan.activity.constant.Constant;
+import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
+import com.tiemuyu.chuanchuan.activity.db.DBTools;
+import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
+import com.tiemuyu.chuanchuan.activity.util.AppManager;
+import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
+import com.tiemuyu.chuanchuan.activity.util.ConnectionUtil;
+import com.tiemuyu.chuanchuan.activity.util.DataContoler;
+import com.tiemuyu.chuanchuan.activity.util.DownloadService.DownloadStateListener;
+import com.tiemuyu.chuanchuan.activity.util.JsonTools;
+import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
+import com.tiemuyu.chuanchuan.activity.util.LogHelper;
+import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
+import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
+import com.tiemuyu.chuanchuan.activity.util.StringUtil;
+import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
+import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp.HttpCallBack;
+import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
+import com.tiemuyu.chuanchuan.activity.util.Utility;
+import com.tiemuyu.chuanchuan.activity.view.ClearEditText;
+import com.umeng.analytics.MobclickAgent;
+
+import org.xutils.http.RequestParams;
+import org.xutils.view.annotation.ViewInject;
+
+import java.util.ArrayList;
+
 //import cn.sharesdk.framework.Platform;
 //import cn.sharesdk.framework.PlatformActionListener;
 //import cn.sharesdk.framework.ShareSDK;
 //import cn.sharesdk.sina.weibo.SinaWeibo;
 //import cn.sharesdk.tencent.qq.QQ;
 //import cn.sharesdk.wechat.friends.Wechat;
-
 //import com.baidu.location.LocationClient;
 //import com.mob.tools.utils.UIHandler;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.tiemuyu.chuanchuan.activity.MyApplication;
-import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
-import com.tiemuyu.chuanchuan.activity.bean.GetPassKey;
-import com.tiemuyu.chuanchuan.activity.bean.LoginDataBean;
-import com.tiemuyu.chuanchuan.activity.bean.LoginResultBean;
-import com.tiemuyu.chuanchuan.activity.bean.SmsCodeResultBean;
-import com.tiemuyu.chuanchuan.activity.bean.ThirdLoginBean;
-import com.tiemuyu.chuanchuan.activity.bean.UpImgBean;
-import com.tiemuyu.chuanchuan.activity.bean.UpImgResultBean;
-import com.tiemuyu.chuanchuan.activity.bean.User;
-import com.tiemuyu.chuanchuan.activity.constant.Constant;
-import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
-import com.tiemuyu.chuanchuan.activity.db.DBTools;
 //import com.tiemuyu.chuanchuan.activity.fragment.MenuLeftFragment;
-import com.tiemuyu.chuanchuan.activity.util.AppManager;
-import com.tiemuyu.chuanchuan.activity.util.DataContoler;
 //import com.tiemuyu.chuanchuan.activity.util.DialogHelper;
-import com.tiemuyu.chuanchuan.activity.util.DownloadService;
-import com.tiemuyu.chuanchuan.activity.util.DownloadService.DownloadStateListener;
 //import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
-import com.tiemuyu.chuanchuan.activity.util.ConnectionUtil;
-import com.tiemuyu.chuanchuan.activity.util.JsonTools;
-import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
-import com.tiemuyu.chuanchuan.activity.util.LogHelper;
-import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
-import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 //import com.tiemuyu.chuanchuan.activity.util.SelectPicPopupWindow;
-import com.tiemuyu.chuanchuan.activity.util.StringUtil;
-import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
-import com.tiemuyu.chuanchuan.activity.util.TimeUtil;
-import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 //import com.tiemuyu.chuanchuan.activity.util.UrlSelectPopupWindow;
-import com.tiemuyu.chuanchuan.activity.util.Utility;
-import com.tiemuyu.chuanchuan.activity.view.ClearEditText;
 //import com.tiemuyu.chuanchuan.activity.view.LoadingDialog;
-import com.umeng.analytics.MobclickAgent;
-
-
-import org.xutils.view.annotation.ViewInject;
 
 /**
  * @项目名： android1128
@@ -473,15 +431,19 @@ public class LoginActivity extends BaseActivityG implements
 
 
 
+    private ProgressDialog pd;
 
+    private void initPd() {
+        pd = new ProgressDialog(this);//加载的ProgressDialog
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);//选择加载风格 这里是圆圈 STYLE_HORIZONTAL 是水平进度条
+        pd.setMessage("登录中....");
+    }
 
 
     /**
      * 登录
      */
     private void exLogin() {
-        if (Utility.isFastDoubleClick()) // 连续点击
-            return;
 
         name = et_name.getText().toString().trim();
         pass = et_pass.getText().toString().trim();
@@ -504,6 +466,8 @@ public class LoginActivity extends BaseActivityG implements
             return;
         }
         getloginPasskeyMethod(TAG_GET_PASSKEY);
+        initPd();
+        pd.show();
 
     }
 
@@ -551,11 +515,13 @@ public class LoginActivity extends BaseActivityG implements
 
     }
 
+    @Override
+    public void failCallBack(Throwable arg0, String resultTag, boolean isShowDiolog) {
+        super.failCallBack(arg0, resultTag, isShowDiolog);
+        if (resultTag.equals(TAG_GET_PASSKEY)) {
 
-
-
-
-
+        }
+    }
 
     private void sucMethiod(String msg, String resultTag) {
 
@@ -564,6 +530,7 @@ public class LoginActivity extends BaseActivityG implements
         {
             GetPassKey key = JsonTools.fromJson(msg, GetPassKey.class);
             passkey = key.getData().getPassKey();
+
 
 
 
@@ -576,6 +543,7 @@ public class LoginActivity extends BaseActivityG implements
         }
         else if (resultTag.equals(TAG_LOGIN))
         {
+            pd.dismiss();
 //            LogHelper.d("----登录成功--" + msg);
             ToastHelper.show(this, "登录成功");
 

@@ -2,10 +2,8 @@ package com.tiemuyu.chuanchuan.activity.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -16,36 +14,26 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.xutils.http.RequestParams;
-import org.xutils.view.annotation.ViewInject;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tiemuyu.chuanchuan.activity.AboutUs;
 import com.tiemuyu.chuanchuan.activity.GetPathFromUri4kitkat;
 import com.tiemuyu.chuanchuan.activity.MainActivity;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
-//import com.tiemuyu.chuanchuan.activity.MyBody;
 import com.tiemuyu.chuanchuan.activity.MyBody;
 import com.tiemuyu.chuanchuan.activity.MyInfo;
-import com.tiemuyu.chuanchuan.activity.MyOrder;
+import com.tiemuyu.chuanchuan.activity.MyNick;
 import com.tiemuyu.chuanchuan.activity.MySaveItem;
 import com.tiemuyu.chuanchuan.activity.MyShaitu;
 import com.tiemuyu.chuanchuan.activity.MyWallet;
 import com.tiemuyu.chuanchuan.activity.MyWebview;
-import com.tiemuyu.chuanchuan.activity.PublishPicToGetPriceActivity;
-//import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.SettingActivity;
 import com.tiemuyu.chuanchuan.activity.ShareApp;
@@ -58,10 +46,7 @@ import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.db.DBTools;
 import com.tiemuyu.chuanchuan.activity.http.HttpTools;
-import com.tiemuyu.chuanchuan.activity.new_activities.FatuActivity;
 import com.tiemuyu.chuanchuan.activity.new_activities.LoginActivity;
-import com.tiemuyu.chuanchuan.activity.new_activities.RegisterActivity;
-import com.tiemuyu.chuanchuan.activity.util.AppManager;
 import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.ConnectionUtil;
 import com.tiemuyu.chuanchuan.activity.util.DataContoler;
@@ -78,7 +63,15 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xutils.http.RequestParams;
+import org.xutils.view.annotation.ViewInject;
+
 import java.text.DecimalFormat;
+
+//import com.tiemuyu.chuanchuan.activity.MyBody;
+//import com.tiemuyu.chuanchuan.activity.R;
 
 /**
  * Created by Lonze on 2016/8/23.
@@ -628,7 +621,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         tv_nick.setText(user.getNickName());
 
         tv_ye.setText("零钱："+df.format(user.getAmounts() - user.getFrzAmounts()) + "");
-        tv_cb.setText("穿币："+String.valueOf(user.getCcCoin() - user.getFrzCcCoin()));
+        tv_cb.setText("穿币："+String.valueOf(user.getCcCoin()));
 
 
 //        mainActivity.setTopView(user);    高伟豪不知道有什么用。暂时关掉
@@ -683,7 +676,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 Intent intent = new Intent(getActivity(), SettingActivity.class);
                 getActivity().startActivity(intent);
             }};
-        im_setting.setOnClickListener(lsn);
+         if (im_setting != null) {
+             im_setting.setOnClickListener(lsn);
+         }
         final View.OnClickListener login = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -697,8 +692,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 }
                 else
                 {
-                    System.out.println("#####已经登录等待新的页面");
-                    Toast.makeText(getActivity(), "已经登录等待新的页面", Toast.LENGTH_SHORT).show();
+                    ClassJumpTool.startToNextActivityForResult(getActivity(),
+                            MyNick.class, 10);
                 }
 
 

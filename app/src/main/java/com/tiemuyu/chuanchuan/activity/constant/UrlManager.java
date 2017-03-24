@@ -556,6 +556,10 @@ public class UrlManager {
         return BASEURL + "api/ccorderapi?Pay&orderid=";//xxx&payType";
     }
 
+    public static final String weChat_Pay_OK(String orderid) {
+        return BASEURL + "api/ccorderapi?Paids&orderId="+orderid+"&payType=1";//xxx&payType";
+    }
+
 
     /**
      * lws 在这里添加的接口zhuanti

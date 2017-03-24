@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -114,17 +113,17 @@ public class MyInviteCode extends BaseActivityG {
             System.out.println("为什么啊为什么啊");
             com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
             if(platform.name().equals("WEIXIN_FAVORITE")){
-                Toast.makeText(getApplicationContext(), platform + " 收藏成功啦",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext()," 收藏成功啦",Toast.LENGTH_SHORT).show();
                 System.out.println("收藏成功啦@@@@@@@@@@@@@@@@@@@@@@@@@");
             }else{
-                Toast.makeText(getApplicationContext(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), " 分享成功啦", Toast.LENGTH_SHORT).show();
                 System.out.println("分享成功啦@@@@@@@@@@@@@@@@@@");
             }
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(getApplicationContext(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), " 分享失败啦", Toast.LENGTH_SHORT).show();
             System.out.println("分享失败啦@@@@@@@@@@@@@@@@@@");
             if(t!=null){
                 Log.d("throw", "throw:" + t.getMessage());
@@ -133,7 +132,7 @@ public class MyInviteCode extends BaseActivityG {
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(getApplicationContext(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "分享取消了", Toast.LENGTH_SHORT).show();
             System.out.println("分享取消了@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         }
 

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -18,10 +17,6 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.chat_tools.adapter.ContactsAdapter;
 import com.tiemuyu.chuanchuan.activity.chat_tools.bean.Contacts;
@@ -29,6 +24,10 @@ import com.tiemuyu.chuanchuan.activity.chat_tools.fragment.TextMessageActivity;
 import com.tiemuyu.chuanchuan.activity.chat_tools.utils.HistoryMessage;
 import com.tiemuyu.chuanchuan.activity.chat_tools.video.VideoMessageHelper;
 import com.tiemuyu.chuanchuan.activity.util.DataSharedPress;
+import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * describe :
@@ -71,6 +70,9 @@ public class MessageActivity extends Activity implements AdapterView.OnItemClick
 
         Bundle bu = getIntent().getBundleExtra("bundle");
         dataList = bu.getParcelableArrayList("data");
+        if (dataList.size()==0) {
+            ToastHelper.show(this,"网络较差，拉取客服信息失败");
+        }
         sharedPress = DataSharedPress.getSharedPress(this);
         registerObservers(incomingMessageObserver, true);
         adapter = new ContactsAdapter(this, dataList);

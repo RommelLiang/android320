@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -54,7 +52,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -360,7 +357,7 @@ public class ClothesDetailsActivity extends BaseActivityG implements NetResponse
                 SHARE_MEDIA.SMS,
                 SHARE_MEDIA.MORE)
                 .withTitle(title)
-                .withText(title)
+                .withText("穿穿，一座由你做主的时装定制工厂")
                 .withTargetUrl(url)
                 .withMedia(new UMImage(getApplicationContext(), img_url))
                 .setCallback(umShareListener)
@@ -374,15 +371,15 @@ public class ClothesDetailsActivity extends BaseActivityG implements NetResponse
         public void onResult(SHARE_MEDIA platform) {
             com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
             if (platform.name().equals("WEIXIN_FAVORITE")) {
-                Toast.makeText(getApplicationContext(), platform + "收藏成功啦", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "收藏成功啦", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplicationContext(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), " 分享成功啦", Toast.LENGTH_SHORT).show();
             }
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(getApplicationContext(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "分享失败啦", Toast.LENGTH_SHORT).show();
             if (t != null) {
                 Log.d("throw", "throw:" + t.getMessage());
             }
@@ -390,7 +387,7 @@ public class ClothesDetailsActivity extends BaseActivityG implements NetResponse
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(getApplicationContext(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "分享取消了", Toast.LENGTH_SHORT).show();
         }
 
     };

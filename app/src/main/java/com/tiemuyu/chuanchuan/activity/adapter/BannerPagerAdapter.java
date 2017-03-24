@@ -11,9 +11,11 @@ import java.util.ArrayList;
  */
 public class BannerPagerAdapter extends PagerAdapter {
     private ArrayList<View> list;
+
     public BannerPagerAdapter(ArrayList<View> list){
         this.list=list;
     }
+
     @Override
     public int getCount() {
         return list.size();
@@ -27,7 +29,6 @@ public class BannerPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup view, int position) {
         view.addView(list.get(position));
-        //ffffffff
         return list.get(position);
     }
 

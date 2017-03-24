@@ -1,25 +1,20 @@
 package com.tiemuyu.chuanchuan.activity.new_activities;
 
-import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
-import com.tiemuyu.chuanchuan.activity.MyBody;
 import com.tiemuyu.chuanchuan.activity.MyWebview;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
@@ -47,7 +42,6 @@ import com.tiemuyu.chuanchuan.activity.view.URL;
 
 import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
@@ -122,6 +116,7 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
     @ViewInject(R.id.reg_showinfo2)
     private TextView reg_showinfo2;// 验证码已经发送给请注意查收
 
+    private TextView no_code;
 
     private MyCountTimer timeCount;
 
@@ -183,7 +178,6 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 
         reg_showinfo2 = (TextView) findViewById(R.id.reg_showinfo2);
 
-
         // 添加Activity到堆栈
         AppManager.getAppManager().addActivity(this);
         //  Constant.VERSION = Version.getAppVersionName(this);
@@ -204,7 +198,22 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
                         "http://ios.myappcc.com/h5/register.html");
             }
         });
-
+        build1 = new AlertView.Builder().setContext(RegisterActivity.this)
+                .setStyle(AlertView.Style.ActionSheet)
+                .setTitle("发送验证码失败")
+                .setMessage(null)
+                .setCancelText("取消")
+                .setDestructive(s[0], s[1])
+                .setOthers(null)
+                .setOnItemClickListener(this)
+                .build();
+        no_code = (TextView) findViewById(R.id.no_code);
+        no_code.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                build1.show();
+            }
+        });
     }
 
 
@@ -236,17 +245,12 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.login1:
-                // 下一步
-                if (Utility.isFastDoubleClick()) // 连续点击
-                    return;
+
                 getCodeMethod();
                 break;
             case R.id.login2:
-                if (Utility.isFastDoubleClick()) // 连续点击
-                    return;
-                get_code = et_yanzhengma.getText().toString().trim();
-                Toast.makeText(this, get_code, Toast.LENGTH_LONG).show();
 
+                get_code = String.valueOf(et_yanzhengma.getText());
                 if (StringUtil.isNull(get_code)) {
                     Toast.makeText(this, "请输入验证码", Toast.LENGTH_LONG).show();
                     return;
@@ -345,7 +349,10 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
         if (resultTag.equals(TAG_GETCODE)) {
             System.out.println("---获取验证失败->" + arg0.toString());
             ToastHelper.show(this, "获取验证码失败");
+
+            build1.show();
         } else if (resultTag.equals(TAG_REGIST)) {
+            Log.e("TAG_REGIST", "failCallBack: "+arg0.getLocalizedMessage());
             ToastHelper.show(this, "注册失败");
         } else if (resultTag.equals(TAG_REGIST_MODIFY)) {
             ToastHelper.show(this, "修改资料失败");

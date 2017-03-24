@@ -119,9 +119,41 @@
             android:background="@drawable/noselect"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
-
     <RelativeLayout
         android:layout_below="@id/rl_zhifubao"
+        android:id="@+id/rl_weChat"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentStart="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信支付"
+            android:textColor="#353535"
+            android:textSize="21sp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/ps_wechat"
+            android:layout_centerVertical="true" />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/ps_wechat"
+            android:src="@drawable/home_wechat"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true" />
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/iv_wechat"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/noselect"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_lingqian"
+        android:layout_below="@id/rl_weChat"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_alignParentStart="true">
@@ -150,6 +182,6 @@
             android:layout_marginRight="15dp"
             android:background="@drawable/noselect"
             android:layout_centerVertical="true"/>
-
     </RelativeLayout>
+
 </RelativeLayout>

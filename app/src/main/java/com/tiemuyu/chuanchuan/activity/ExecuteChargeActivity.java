@@ -1,5 +1,10 @@
 package com.tiemuyu.chuanchuan.activity;
 
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,9 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.ExecuteBean;
+import com.tiemuyu.chuanchuan.activity.bean.SignWeChat;
 import com.tiemuyu.chuanchuan.activity.bean.User;
+import com.tiemuyu.chuanchuan.activity.bean.WeChatExecute;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.db.DBTools;
@@ -23,7 +35,7 @@ import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 
 import org.xutils.http.RequestParams;
 
-public class ExecuteChargeActivity extends BaseActivityG {
+public class ExecuteChargeActivity extends BaseActivityG implements OnItemClickListener {
 
     private TextView tv_mine,tv_execute;
     private Button btnActivityForgetPasswordNext;
@@ -33,14 +45,35 @@ public class ExecuteChargeActivity extends BaseActivityG {
     private ExecuteBean executeBean;
     private User user;
     private String s;
+    private int PayType = 2;
+    private TextView tv_get;
+
+    private static IWXAPI iwxapi;
+    private int chargeId;
+    private Receiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_execute_charge);
+        regToWx();
         tv_mine = (TextView) findViewById(R.id.tv_mine);
         tv_execute = (TextView) findViewById(R.id.tv_execute);
+        tv_get = (TextView) findViewById(R.id.tv_get);
         btnActivityForgetPasswordNext = (Button) findViewById(R.id.btnActivityForgetPasswordNext);
+        tv_get.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               new AlertView.Builder().setContext(ExecuteChargeActivity.this)
+                        .setStyle(AlertView.Style.ActionSheet)
+                        .setMessage(null)
+                        .setCancelText("取消")
+                        .setDestructive("微信", "支付宝")
+                        .setOthers(null)
+                        .setOnItemClickListener(ExecuteChargeActivity.this)
+                        .build().show();
+            }
+        });
         btnActivityForgetPasswordNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,10 +82,12 @@ public class ExecuteChargeActivity extends BaseActivityG {
                     Toast.makeText(ExecuteChargeActivity.this, "请输入正确的金额", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
+                    initPd();
+                    pd.show();
                     money = Double.parseDouble(s);
                     MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(ExecuteChargeActivity.this,
                             TAG_EXCUTECharger, Constant.REQUEST_GET, new RequestParams(UrlManager
-                            .excuteCharger(money,2,"android")), ExecuteChargeActivity.this, "获取passkey", false));
+                            .excuteCharger(money,PayType,"android")), ExecuteChargeActivity.this, "获取passkey", false));
                 }
             }
         });
@@ -70,19 +105,22 @@ public class ExecuteChargeActivity extends BaseActivityG {
         super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
         Log.e("TAG_EXCUTECharger", "successCallBack: "+callBackMsg);
         if (resultTag.equals(TAG_EXCUTECharger)) {
-            executeBean = GsonUtils.fromData(callBackMsg, ExecuteBean.class);
-            pay(executeBean.getData().getSignStr(), String.valueOf(executeBean.getData().getChargeId()));
+            if (PayType == 2) {
+                executeBean = GsonUtils.fromData(callBackMsg, ExecuteBean.class);
+                pay(executeBean.getData().getSignStr(), String.valueOf(executeBean.getData().getChargeId()));
+                chargeId = executeBean.getData().getChargeId();
+            } else {
+                Log.e("successCallBack: ", callBackMsg);
+                WeChatExecute wechatExecute = GsonUtils.fromData(callBackMsg, WeChatExecute.class);
+                chargeId = wechatExecute.getData().getChargeId();
+                SignWeChat signWeChat = GsonUtils.fromData(wechatExecute.getData().getSignStr(), SignWeChat.class);
+                weChatPay(signWeChat);
+            }
         }
         if (resultTag.equals(TAG_PAID)){
             Log.e("TAG_PAID", "successCallBack: "+callBackMsg);
             Toast.makeText(this, "支付成功", Toast.LENGTH_SHORT).show();
         }
-        findViewById(R.id.im_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     @Override
@@ -148,4 +186,77 @@ public class ExecuteChargeActivity extends BaseActivityG {
             }
         }
     };
+
+    @Override
+    public void onItemClick(Object o, int position) {
+        switch (position) {
+            case 0:
+                tv_get.setText("微信");
+                PayType = 1;
+                break;
+            case 1:
+                tv_get.setText("支付宝");
+                PayType = 2;
+                break;
+        }
+    }
+    private void weChatPay(SignWeChat signWeChat) {
+        IntentFilter intentFilter = new IntentFilter("tiemuyu.cc.wechat.pay");
+        receiver = new Receiver();
+        registerReceiver(receiver,intentFilter);
+        PayReq req = new PayReq();
+        req.appId = signWeChat.getAppid();
+        req.partnerId = signWeChat.getPartnerid();
+        req.prepayId = signWeChat.getPrepayid();
+        req.nonceStr = signWeChat.getNoncestr();
+        req.timeStamp = signWeChat.getTimestamp();
+        req.packageValue = "Sign=WXPay";
+        req.sign = signWeChat.getSign();
+        iwxapi.sendReq(req);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (receiver!=null) {
+            unregisterReceiver(receiver);
+        }
+    }
+
+    private void regToWx() {
+        //将微信支付接入应用
+        iwxapi = WXAPIFactory.createWXAPI(this, Constant.WE_chat_APP_ID, true);
+        iwxapi.registerApp(Constant.WE_chat_APP_ID);
+    }
+    public class Receiver extends BroadcastReceiver {
+        public void onReceive(Context context, Intent intent) {
+            int code = intent.getIntExtra("code", 1);
+            Log.e( "onReceive: ", code+"");
+            if (code == 0) {
+                MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(ExecuteChargeActivity.this,
+                        TAG_PAID, Constant.REQUEST_GET, new RequestParams(UrlManager
+                        .paid(1,executeBean.getData().getChargeId())), ExecuteChargeActivity.this, "支付回调成功", false));
+                double amounts = user.getAmounts();
+                amounts+=money;
+                user.setAmounts(amounts);
+                DBTools.loginDb(ExecuteChargeActivity.this, user);
+                tv_mine.setText(amounts+"");
+            }
+        }
+    }
+    private ProgressDialog pd;
+
+    private void initPd() {
+        pd = new ProgressDialog(this);//加载的ProgressDialog
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);//选择加载风格 这里是圆圈 STYLE_HORIZONTAL 是水平进度条
+        pd.setMessage("跳转中....");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (pd!=null) {
+            pd.dismiss();
+        }
+    }
 }

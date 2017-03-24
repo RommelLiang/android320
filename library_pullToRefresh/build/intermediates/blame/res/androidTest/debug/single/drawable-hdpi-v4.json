@@ -1,58 +1,10 @@
 [
     {
-        "merged": "C:\\Users\\Lonze\\Desktop\\310LWSL\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_rotate.png",
-        "source": "C:\\Users\\Lonze\\Desktop\\310LWSL\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_rotate.png"
+        "merged": "E:\\project\\android320\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_rotate.png",
+        "source": "E:\\project\\android320\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_rotate.png"
     },
     {
-        "merged": "E:\\MyWorks\\an4\\310LWSandroidpay\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_rotate.png",
-        "source": "E:\\MyWorks\\an4\\310LWSandroidpay\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_rotate.png"
-    },
-    {
-        "merged": "F:\\working\\215androidpay\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_rotate.png",
-        "source": "F:\\working\\215androidpay\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_rotate.png"
-    },
-    {
-        "merged": "C:\\Users\\Lonze\\Desktop\\310LWSL\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_arrow.png",
-        "source": "C:\\Users\\Lonze\\Desktop\\310LWSL\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_arrow.png"
-    },
-    {
-        "merged": "E:\\MyWorks\\CC4.0\\313SHILIHE\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_arrow.png",
-        "source": "E:\\MyWorks\\CC4.0\\313SHILIHE\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_arrow.png"
-    },
-    {
-        "merged": "E:\\Workspace\\310LWSL\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_rotate.png",
-        "source": "E:\\Workspace\\310LWSL\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_rotate.png"
-    },
-    {
-        "merged": "E:\\MyWorks\\an4\\310LWSandroidpay\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_arrow.png",
-        "source": "E:\\MyWorks\\an4\\310LWSandroidpay\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_arrow.png"
-    },
-    {
-        "merged": "F:\\working\\215androidpay\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_arrow.png",
-        "source": "F:\\working\\215androidpay\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_arrow.png"
-    },
-    {
-        "merged": "E:\\MyWorks\\CC4.0\\310LWSL\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_rotate.png",
-        "source": "E:\\MyWorks\\CC4.0\\310LWSL\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_rotate.png"
-    },
-    {
-        "merged": "E:\\313SHILIHE\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_rotate.png",
-        "source": "E:\\313SHILIHE\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_rotate.png"
-    },
-    {
-        "merged": "E:\\313SHILIHE\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_arrow.png",
-        "source": "E:\\313SHILIHE\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_arrow.png"
-    },
-    {
-        "merged": "E:\\Workspace\\310LWSL\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_arrow.png",
-        "source": "E:\\Workspace\\310LWSL\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_arrow.png"
-    },
-    {
-        "merged": "E:\\MyWorks\\CC4.0\\310LWSL\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_arrow.png",
-        "source": "E:\\MyWorks\\CC4.0\\310LWSL\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_arrow.png"
-    },
-    {
-        "merged": "E:\\MyWorks\\CC4.0\\313SHILIHE\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_rotate.png",
-        "source": "E:\\MyWorks\\CC4.0\\313SHILIHE\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_rotate.png"
+        "merged": "E:\\project\\android320\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\default_indicator_arrow.png",
+        "source": "E:\\project\\android320\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\default_indicator_arrow.png"
     }
 ]

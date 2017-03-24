@@ -357,7 +357,7 @@ public class Constant {
     public static final String FATU_REFRESH="FATU_REFRESH";//裤长
 
 
-
+    public static final String WE_chat_APP_ID = "wxbe4f4acfeb2d68e6";
 
 
 

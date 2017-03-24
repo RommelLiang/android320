@@ -8,8 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Parcel;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,8 +25,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.fm.openinstall.OpenInstall;
-import com.fm.openinstall.listener.AppInstallListener;
 import com.fm.openinstall.listener.AppWakeUpListener;
 import com.fm.openinstall.model.AppData;
 import com.fm.openinstall.model.Error;
@@ -38,15 +37,6 @@ import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.android.volley.Request;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeSet;
-
 import com.tiemuyu.chuanchuan.activity.bean.CacheBean;
 import com.tiemuyu.chuanchuan.activity.bean.Jump;
 import com.tiemuyu.chuanchuan.activity.bean.User;
@@ -61,20 +51,30 @@ import com.tiemuyu.chuanchuan.activity.fragment.FindFragment;
 import com.tiemuyu.chuanchuan.activity.fragment.FriendFragment;
 import com.tiemuyu.chuanchuan.activity.fragment.HomeFragment;
 import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
-//import com.tiemuyu.chuanchuan.activity.new_activities.FatuActivity;
+import com.tiemuyu.chuanchuan.activity.helper.GuideHelper;
 import com.tiemuyu.chuanchuan.activity.new_activities.FatuActivity;
 import com.tiemuyu.chuanchuan.activity.share_auth.ShareAdapter;
 import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.DataSharedPress;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
-import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 import com.tiemuyu.chuanchuan.activity.util.ViewTools;
 import com.tiemuyu.chuanchuan.activity.view.CustomButton;
+import com.tiemuyu.chuanchuan.activity.view.GuideView;
 import com.tiemuyu.chuanchuan.activity.web.ExampleWebViewClient;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.shareboard.SnsPlatform;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeSet;
+
+//import com.tiemuyu.chuanchuan.activity.new_activities.FatuActivity;
 
 /**
  * Created by Administrator on 2016/8/4.
@@ -102,7 +102,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
     private ExampleWebViewClient client;
     private  TextView textView2;
     public static CacheBean cacheBean = new CacheBean();// cashe数据
-
+    private GuideView guideView;
 
     //以下变量为FY所加
     private TreeSet<Contacts> data1 = new TreeSet<>();
@@ -119,6 +119,8 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        GuideHelper guideHelper = new GuideHelper(this);
+        guideHelper.openGuide();
         //史力：设置键盘上抬
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         //设置状态栏为透明

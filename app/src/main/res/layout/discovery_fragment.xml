@@ -17,7 +17,7 @@
         ptr:ptrHeaderSubTextColor              = "@color/ColorNavBackground"
         ptr:ptrHeaderTextColor                 = "@color/ColorNavBackground"
         ptr:ptrListViewExtrasEnabled           = "false"
-        ptr:ptrMode                            = "both"
+        ptr:ptrMode                            = "pullFromEnd"
         ptr:ptrRefreshableViewBackground       = "@color/white"
         ptr:ptrScrollingWhileRefreshingEnabled = "true"/>
 

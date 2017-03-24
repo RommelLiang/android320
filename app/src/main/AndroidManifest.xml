@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tiemuyu.chuanchuan.activity"
-    android:versionCode="60"
-    android:versionName="4.0">
+    android:versionCode="63"
+    android:versionName="4.0.2">
 
     <!-- 权限声明 -->
     <uses-permission android:name="android.permission.READ_LOGS" />
@@ -94,6 +94,7 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
         <!-- 云信进程间通信 Receiver -->
         <receiver android:name="com.netease.nimlib.service.ResponseReceiver" />
         <!-- 安卓保活配置 -->
@@ -189,11 +190,9 @@
             android:name=".PaySelect"
             android:label="payselect" />
         <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:launchMode="singleTop" />
 
         <!-- renren need -->
         <activity
@@ -239,14 +238,6 @@
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
-        <service
-            android:name="com.sina.weibo.sdk.net.DownloadService"
-            android:exported="false" />
-
-        <activity
-            android:name=".common.CommWebView"
-            android:label="title_activity_comm_web_view" />
         <activity
             android:name=".new_activities.BaseActivity"
             android:label="title_activity_base" />
@@ -358,7 +349,9 @@
         <activity android:name=".GetCashActivity" />
         <activity android:name=".ExecuteChargeActivity" />
         <activity android:name=".GetCashPasswordAcyivity" />
-        <activity android:name=".SplashActivity">
+        <activity
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -368,7 +361,26 @@
         <activity android:name=".LingQianPayActivity" />
         <activity android:name=".TuiKuanActivity" />
         <activity android:name=".SetBodyActivity" />
-        <activity android:name=".MyShaiTuDetailActivity"></activity>
+        <activity android:name=".MyShaiTuDetailActivity" />
+        <!--  -->
+        <!-- <meta-data -->
+        <!-- android:name="UMENG_APPKEY" -->
+        <!-- android:value="57ea4d3767e58e5c0f00134a" /> -->
+
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="5fee12b8414e7344d2e1b5c6ea3e3679" />
+
+        <!-- <meta-data -->
+        <!-- android:name="UMENG_CHANNEL" -->
+        <!-- android:value="Channel ID" > -->
+        <!-- </meta-data> -->
+
+        <activity
+            android:name=".GuideActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".wxapi.Main2Activity" />
+        <activity android:name=".wxapi.WXEntryActivity"></activity>
     </application>
 
 </manifest>

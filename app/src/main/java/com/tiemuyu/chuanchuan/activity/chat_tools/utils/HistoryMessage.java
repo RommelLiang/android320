@@ -14,13 +14,11 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
+import com.tiemuyu.chuanchuan.activity.chat_tools.adapter.MessageAdapter;
+import com.tiemuyu.chuanchuan.activity.chat_tools.bean.MessageData;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.tiemuyu.chuanchuan.activity.chat_tools.adapter.MessageAdapter;
-import com.tiemuyu.chuanchuan.activity.chat_tools.bean.MessageData;
-import com.tiemuyu.chuanchuan.activity.chat_tools.fragment.TextMessageActivity;
 
 /**
  * describe :
@@ -57,8 +55,6 @@ public class HistoryMessage {
     }
 
     public boolean aaaa(List<IMMessage> imMessages, final int count, boolean isGET) {
-        Log.e(TAG, "aaaa: " + isGET);
-        Log.e(TAG, "aaaa: imMessages:" + imMessages.size());
         if (isGET)
             imMessageArrayList.clear();
 
@@ -164,7 +160,7 @@ public class HistoryMessage {
                     public void onResult(int i, List<IMMessage> imMessages, Throwable throwable) {
 
                         Log.e(TAG, "onResult:asd " + asd);
-                        aaaa(imMessages, count, isGET);
+                         aaaa(imMessages, count, isGET);
                         asd++;
 
                     }

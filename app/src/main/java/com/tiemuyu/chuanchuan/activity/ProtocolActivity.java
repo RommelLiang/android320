@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -79,15 +78,15 @@ public class ProtocolActivity extends BaseActivityG {
         public void onResult(SHARE_MEDIA platform) {
             com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
             if (platform.name().equals("WEIXIN_FAVORITE")) {
-                Toast.makeText(getApplicationContext(), platform + "收藏成功啦", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "收藏成功啦", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplicationContext(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), " 分享成功啦", Toast.LENGTH_SHORT).show();
             }
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(getApplicationContext(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), " 分享失败啦", Toast.LENGTH_SHORT).show();
             if (t != null) {
                 Log.d("throw", "throw:" + t.getMessage());
             }
@@ -95,7 +94,7 @@ public class ProtocolActivity extends BaseActivityG {
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(getApplicationContext(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), " 分享取消了", Toast.LENGTH_SHORT).show();
         }
 
     };

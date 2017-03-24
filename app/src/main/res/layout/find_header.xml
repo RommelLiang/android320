@@ -18,10 +18,10 @@
             android:layout_weight="1">
 
             <ImageView
+                android:scaleType="fitXY"
                 android:id="@+id/find_img1"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:src="@drawable/a"
                 android:layout_centerInParent="true"
                 android:layout_weight="1"/>
 
@@ -47,10 +47,10 @@
             android:layout_weight="1">
 
             <ImageView
+                android:scaleType="fitXY"
                 android:id="@+id/find_img2"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:src="@drawable/a"
                 android:layout_centerInParent="true"
                 android:layout_weight="1"/>
 
@@ -76,10 +76,10 @@
             android:layout_weight="1">
 
             <ImageView
+                android:scaleType="fitXY"
                 android:id="@+id/find_img3"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:src="@drawable/a"
                 android:layout_centerInParent="true"
                 android:layout_weight="1"/>
 
@@ -114,10 +114,10 @@
             android:layout_weight="1">
 
             <ImageView
+                android:scaleType="fitCenter"
                 android:id="@+id/find_img4"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:src="@drawable/a"
                 android:layout_centerInParent="true"
                 android:layout_weight="1"/>
 
@@ -143,12 +143,13 @@
             android:layout_weight="1">
 
             <ImageView
+                android:scaleType="fitXY"
                 android:id="@+id/find_img5"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@drawable/a"
+                android:layout_width="117dp"
+                android:layout_height="117dp"
                 android:layout_centerInParent="true"
                 android:layout_weight="1"/>
+
 
             <TextView
                 android:id="@+id/find_txt5"
@@ -172,10 +173,10 @@
             android:layout_weight="1">
 
             <ImageView
+                android:scaleType="fitXY"
                 android:id="@+id/find_img6"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:src="@drawable/a"
                 android:layout_centerInParent="true"
                 android:layout_weight="1"/>
 

@@ -3,40 +3,28 @@ package com.tiemuyu.chuanchuan.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
-import com.tiemuyu.chuanchuan.activity.bean.GetPassKey;
 import com.tiemuyu.chuanchuan.activity.bean.User;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
-import com.tiemuyu.chuanchuan.activity.db.DBTools;
 import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
-import com.tiemuyu.chuanchuan.activity.http.HttpTools;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
-import com.tiemuyu.chuanchuan.activity.new_activities.LoginActivity;
-import com.tiemuyu.chuanchuan.activity.new_activities.RegisterActivity;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
 import com.tiemuyu.chuanchuan.activity.util.AssetsUtils;
 import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.DataContoler;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
-import com.tiemuyu.chuanchuan.activity.util.JsonTools;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
-import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.tiemuyu.chuanchuan.activity.util.Utility;
-import com.tiemuyu.chuanchuan.activity.view.ClearEditText;
 
 import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ViewInject;
@@ -316,7 +304,6 @@ public class MyInfo extends BaseActivityG {
             System.out.println("######获取了邀请码--:" + data);
             pd.dismiss();
 //            setView();
-            Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
 
 //            loginSuc(msg);
 

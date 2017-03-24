@@ -2,6 +2,7 @@ package com.tiemuyu.chuanchuan.activity.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,17 +11,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 import com.tiemuyu.chuanchuan.activity.ClothesDetailsActivity;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.ZhuantiWaterActivity;
-import com.tiemuyu.chuanchuan.activity.bean.ClothesDetail;
-import com.tiemuyu.chuanchuan.activity.bean.L1WaterItemBean;
 import com.tiemuyu.chuanchuan.activity.bean.ZhuanTiMessage;
 
 import java.util.List;
@@ -30,12 +30,14 @@ import java.util.List;
  */
 
 public class ZhuanTiWaterAdapter extends BaseAdapter {
+    private ImageView imageView;
     private List<ZhuanTiMessage.DataBean.ListBean> messageList;
     private ImageLoadingListener animateFirstListener = new ZhuantiWaterActivity.AnimateFirstDisplayListener();
     private LayoutInflater layoutInflater;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     DisplayImageOptions options;
     private Context context;
+
     private class ViewHolder {
         public TextView text_one;
         public ImageView image_one;
@@ -84,7 +86,6 @@ public class ZhuanTiWaterAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             view = layoutInflater.inflate(R.layout.zhuan_ti_wather, parent, false);
-
             holder.text = (TextView) view.findViewById(R.id.new_price_pro_name);
             holder.price = (TextView) view.findViewById(R.id.new_price_txt);
             holder.image = (ImageView) view.findViewById(R.id.new_price_pic);
@@ -93,6 +94,7 @@ public class ZhuanTiWaterAdapter extends BaseAdapter {
             holder.image_one = (ImageView) view.findViewById(R.id.new_price_pic_one);
             holder.left = (LinearLayout) view.findViewById(R.id.listview_item_left);
             holder.right = (LinearLayout) view.findViewById(R.id.listview_item_right);
+            imageView = holder.image;
             view.setTag(holder);
 
         } else {
@@ -100,18 +102,22 @@ public class ZhuanTiWaterAdapter extends BaseAdapter {
         }
         holder.text_one.setText(messageList.get((position + 1) * 2 - 2).getProductname());
         holder.price_one.setText("￥ " + messageList.get((position + 1) * 2 - 2).getPrice() + "");
-        imageLoader.displayImage(messageList.get((position + 1) * 2 - 2).getProductmainpic(), holder.image_one, options, animateFirstListener);
-
+        Picasso.with(context)
+                .load(messageList.get((position + 1) * 2 - 2).getProductmainpic())
+                .transform(transformation)
+                .into(holder.image_one);
         holder.text.setText(messageList.get((position + 1) * 2 - 1).getProductname());
         holder.price.setText("￥ " + messageList.get((position + 1) * 2 - 1).getPrice() + "");
-        imageLoader.displayImage(messageList.get((position + 1) * 2 - 1).getProductmainpic(),holder.image, options, animateFirstListener);
-
+        Picasso.with(context)
+                .load(messageList.get((position + 1) * 2 - 1).getProductmainpic())
+                .transform(transformation)
+                .into(holder.image);
         holder.left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("left", "onClick: " + messageList.get((position + 1) * 2 - 2).getProductmainpic());
                 Intent intent = new Intent(context, ClothesDetailsActivity.class);
-                intent.putExtra("productid",messageList.get((position + 1) * 2 - 2).getProductid());
+                intent.putExtra("productid", messageList.get((position + 1) * 2 - 2).getProductid());
                 context.startActivity(intent);
             }
         });
@@ -120,10 +126,57 @@ public class ZhuanTiWaterAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Log.e("left", "onClick: " + messageList.get((position + 1) * 2 - 1).getProductmainpic());
                 Intent intent = new Intent(context, ClothesDetailsActivity.class);
-                intent.putExtra("productid",messageList.get((position + 1) * 2 - 1).getProductid());
+                intent.putExtra("productid", messageList.get((position + 1) * 2 - 1).getProductid());
                 context.startActivity(intent);
             }
         });
         return view;
     }
+
+    Transformation transformation = new Transformation() {
+
+        @Override
+        public Bitmap transform(Bitmap source) {
+
+            int mTargetWidth = imageView.getWidth();
+            int mTargetHeight = imageView.getHeight();
+
+
+            if (source.getWidth() == 0) {
+                return source;
+            }
+            if (source.getWidth() < source.getHeight()) {
+                double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
+                int targetHeight = (int) (mTargetWidth * aspectRatio);
+                if (targetHeight != 0 && mTargetWidth != 0) {
+                    Bitmap result = Bitmap.createScaledBitmap(source, mTargetWidth, targetHeight, false);
+                    if (result != source) {
+                        // Same bitmap is returned if sizes are the same
+                        source.recycle();
+                    }
+                    return result;
+                } else {
+                    return source;
+                }
+            } else {
+                double aspectRatio = (double) source.getWidth()/ (double) source.getHeight();
+                int targetWidth = (int) (mTargetHeight * aspectRatio);
+                if (targetWidth != 0 && targetWidth != 0) {
+                    Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, mTargetHeight, false);
+                    if (result != source) {
+                        // Same bitmap is returned if sizes are the same
+                        source.recycle();
+                    }
+                    return result;
+                } else {
+                    return source;
+                }
+            }
+        }
+
+        @Override
+        public String key() {
+            return "transformation" + " desiredWidth";
+        }
+    };
 }

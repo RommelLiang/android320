@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Environment;
 
-import org.xutils.x;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.fm.openinstall.OpenInstall;
@@ -28,16 +26,14 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
-
-import java.io.File;
-
-
 import com.tiemuyu.chuanchuan.activity.chat_tools.utils.StorageUtil;
-
-
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolManager;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
+
+import org.xutils.x;
+
+import java.io.File;
 
 import im.fir.sdk.FIR;
 
@@ -56,9 +52,26 @@ public class MyApplication extends Application {
     public static ThreadPoolManager poolManager;//线程池
 
 
+
     @Override
     public void onCreate() {
         super.onCreate();
+        /*PushAgent mPushAgent = PushAgent.getInstance(this);
+
+        //注册推送服务，每次调用register方法都会回调该接口
+        mPushAgent.register(new IUmengRegisterCallback() {
+
+            @Override
+            public void onSuccess(String deviceToken) {
+                //注册成功会返回device token
+                android.util.Log.e("umeng", "device token: " + deviceToken);
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+
+            }
+        });*/
         mInstance = this;
         FIR.init(this);
         context = this;
@@ -76,6 +89,8 @@ public class MyApplication extends Application {
         OpenInstall.setDebug(true);
         init();
     }
+
+
 
 
     private void init() {

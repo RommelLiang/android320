@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,16 +13,11 @@ import com.tiemuyu.chuanchuan.activity.db.DBTools;
 import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
-import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.Utility;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
-
 
 import org.xutils.view.annotation.ViewInject;
 
@@ -57,10 +51,12 @@ public class ShareApp extends BaseActivityG {
 //        pd.show();
 //
         user = DBTools.getUser();
+        //user = MineFragment.user;
+        Log.e("user", "onCreate: "+user.getNickName());
         cc_coin_txt = (TextView) findViewById(R.id.cc_coin_txt);
         cc_coin_val = (TextView) findViewById(R.id.cc_coin_val);
-        cc_coin_txt.setText(user.getCcCoin()+"");
-        cc_coin_val.setText(user.getAccVoucher()+"");
+        cc_coin_txt.setText((user.getCcCoin())+"");
+        cc_coin_val.setText((user.getAmounts() - user.getFrzAmounts())+"");
         initProcess();
 
 
@@ -154,17 +150,17 @@ public class ShareApp extends BaseActivityG {
             System.out.println("为什么啊为什么啊");
             com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
             if(platform.name().equals("WEIXIN_FAVORITE")){
-                Toast.makeText(getApplicationContext(), platform + " 收藏成功啦",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),  " 收藏成功啦",Toast.LENGTH_SHORT).show();
                 System.out.println("收藏成功啦@@@@@@@@@@@@@@@@@@@@@@@@@");
             }else{
-                Toast.makeText(getApplicationContext(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), " 分享成功啦", Toast.LENGTH_SHORT).show();
                 System.out.println("分享成功啦@@@@@@@@@@@@@@@@@@");
             }
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(getApplicationContext(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), " 分享失败啦", Toast.LENGTH_SHORT).show();
             System.out.println("分享失败啦@@@@@@@@@@@@@@@@@@");
             if(t!=null){
                 Log.d("throw", "throw:" + t.getMessage());
@@ -173,7 +169,7 @@ public class ShareApp extends BaseActivityG {
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(getApplicationContext(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),  " 分享取消了", Toast.LENGTH_SHORT).show();
             System.out.println("分享取消了@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         }
 

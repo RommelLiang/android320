@@ -1,59 +1,50 @@
 package com.tiemuyu.chuanchuan.activity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.google.gson.Gson;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.CheckPassword;
-import com.tiemuyu.chuanchuan.activity.bean.GetPassKey;
 import com.tiemuyu.chuanchuan.activity.bean.OrdInfo;
 import com.tiemuyu.chuanchuan.activity.bean.PayInfoBean;
+import com.tiemuyu.chuanchuan.activity.bean.SignWeChat;
 import com.tiemuyu.chuanchuan.activity.bean.User;
-import com.tiemuyu.chuanchuan.activity.bean.ZhuantiWaterBean;
+import com.tiemuyu.chuanchuan.activity.bean.WeChatPay;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
-import com.tiemuyu.chuanchuan.activity.fragment.BaseFragment;
 import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
 import com.tiemuyu.chuanchuan.activity.util.DataContoler;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
-import com.tiemuyu.chuanchuan.activity.util.JsonTools;
-import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
-import com.tiemuyu.chuanchuan.activity.util.MyCountTimer;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
-import com.tiemuyu.chuanchuan.activity.util.StringUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
-import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
-import com.tiemuyu.chuanchuan.activity.util.Utility;
 
 import org.xutils.http.RequestParams;
-import org.xutils.view.annotation.ViewInject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.tiemuyu.chuanchuan.activity.R.raw.msg;
 
 /**
  * Created by CC2.0 on 2017/2/10.
  */
 
-public class PaySelect extends BaseActivityG {
+public class PaySelect extends BaseActivityG{
 
 
     private Button ps_ok;  //专题头部image
@@ -61,7 +52,7 @@ public class PaySelect extends BaseActivityG {
     private String TAG_CHECKPASSWORD = "TAG_CHECKPASSWORD";
     private String productid;
     PayInfoBean payinfo = new PayInfoBean();
-    private ImageView iv_ling, iv_zhifubao;
+    private ImageView iv_ling, iv_zhifubao, iv_wechat;
     private int payType = 0;
     private User user;
     private double lingqian;
@@ -77,6 +68,9 @@ public class PaySelect extends BaseActivityG {
     private OrdInfo ordInfo;
     private String addressId;
     private String id;
+    private static IWXAPI iwxapi;
+    private Receiver receiver;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +83,8 @@ public class PaySelect extends BaseActivityG {
         final String information = getIntent().getStringExtra("Intent_Data_Packet");//.getStringExtra("et1");
 
         ordInfo = (OrdInfo) getIntent().getSerializableExtra("ordInfo");
-        productid = String.valueOf(getIntent().getIntExtra("product#", 0));
-        addressId = String.valueOf(getIntent().getIntExtra("Address#", 0));
+        productid = String.valueOf(getIntent().getIntExtra("productid", 0));
+        addressId = String.valueOf(getIntent().getIntExtra("AddressId", 0));
         tv_total_price.setText(ordInfo.getActualFee() + "");
         user = MineFragment.user;
         lingqian = user.getAmounts() - user.getFrzAmounts();
@@ -105,10 +99,14 @@ public class PaySelect extends BaseActivityG {
             }
         });
         initProcess();
-
-
+        regToWx();
     }
 
+    private void regToWx() {
+        //将微信支付接入应用
+        iwxapi = WXAPIFactory.createWXAPI(this, Constant.WE_chat_APP_ID, true);
+        iwxapi.registerApp(Constant.WE_chat_APP_ID);
+    }
 
     /**
      * 加载的流程
@@ -125,6 +123,7 @@ public class PaySelect extends BaseActivityG {
 
         ps_ok = (Button) findViewById(R.id.ps_ok);
         iv_ling = (ImageView) findViewById(R.id.iv_ling);
+        iv_wechat = (ImageView) findViewById(R.id.iv_wechat);
         iv_zhifubao = (ImageView) findViewById(R.id.iv_zhifubao);
         tv_lingqian = (TextView) findViewById(R.id.tv_lingqian);
         iv_ling.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +134,7 @@ public class PaySelect extends BaseActivityG {
                 } else {
                     iv_ling.setBackground(getResources().getDrawable(R.drawable.select));
                     iv_zhifubao.setBackground(getResources().getDrawable(R.drawable.noselect));
+                    iv_wechat.setBackground(getResources().getDrawable(R.drawable.noselect));
                     payType = 5;
                 }
             }
@@ -144,7 +144,17 @@ public class PaySelect extends BaseActivityG {
             public void onClick(View v) {
                 iv_zhifubao.setBackground(getResources().getDrawable(R.drawable.select));
                 iv_ling.setBackground(getResources().getDrawable(R.drawable.noselect));
+                iv_wechat.setBackground(getResources().getDrawable(R.drawable.noselect));
                 payType = 2;
+            }
+        });
+        iv_wechat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iv_wechat.setBackground(getResources().getDrawable(R.drawable.select));
+                iv_ling.setBackground(getResources().getDrawable(R.drawable.noselect));
+                iv_zhifubao.setBackground(getResources().getDrawable(R.drawable.noselect));
+                payType = 1;
             }
         });
         tv_lingqian.setText("零钱￥" + lingqian);
@@ -169,6 +179,8 @@ public class PaySelect extends BaseActivityG {
                     Toast.makeText(this, "请选择支付方式", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                initPd();
+                pd.show();
                 sendpayment();
                 break;
         }
@@ -191,11 +203,12 @@ public class PaySelect extends BaseActivityG {
         Log.e("sendpayment: ", toJson);
         Log.e("sendpayment: ", addressId + ":" + productid);
         String json = "{\"TotalNum\":\"" + ordInfo.getTotalNum() +
-                "\",\"TotalFee\":\"" + ordInfo.getTotalFee() +
+                "\",\"TotalFee\":\"" + ((int) Double.parseDouble(ordInfo.getTotalFee())) +
                 "\",\"Coin\":\"" + ordInfo.getCoin() +
                 "\"," + "\"DiscountedPrice\":\"" + ordInfo.getDiscountedPrice() +
-                "\",\"ActualFee\":\"" + ordInfo.getActualFee() +
+                "\",\"ActualFee\":\"" + ((int) Double.parseDouble(ordInfo.getActualFee())) +
                 "\",\"CustomerRmk\":\"good\",\"RegApp\":\"00\"}";
+        Log.e("json", "sendpayment: " + json);
         MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
                 TAG_SENDPAY, Constant.REQUEST_POST, ParamsTools.sendPay(
                 UrlManager.Send_Pay(), addressId, productid, json), this, "发送新订单", true));
@@ -267,6 +280,20 @@ public class PaySelect extends BaseActivityG {
         payThread.start();
     }
 
+    private void weChatPay(SignWeChat signWeChat) {
+        IntentFilter intentFilter = new IntentFilter("tiemuyu.cc.wechat.pay");
+        receiver = new Receiver();
+        registerReceiver(receiver,intentFilter);
+        PayReq req = new PayReq();
+        req.appId = signWeChat.getAppid();
+        req.partnerId = signWeChat.getPartnerid();
+        req.prepayId = signWeChat.getPrepayid();
+        req.nonceStr = signWeChat.getNoncestr();
+        req.timeStamp = signWeChat.getTimestamp();
+        req.packageValue = "Sign=WXPay";
+        req.sign = signWeChat.getSign();
+        iwxapi.sendReq(req);
+    }
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -275,8 +302,8 @@ public class PaySelect extends BaseActivityG {
             switch (msg.what) {
                 case 1: {
                     Toast.makeText(getApplicationContext(), "支付成功!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(PaySelect.this,SetBodyActivity.class);
-                    intent.putExtra("id",id);
+                    Intent intent = new Intent(PaySelect.this, SetBodyActivity.class);
+                    intent.putExtra("id", id);
                     startActivity(intent);
                     finish();
                     break;
@@ -306,7 +333,7 @@ public class PaySelect extends BaseActivityG {
 //            {"Code":1,"Msg":"OK","Data":{"PayMomeny":100.0,"OrderId":9850}}
             id = DataContoler.parseOrderId(msg);
 
-
+            Log.e("PaySelectAction: ", msg);
             System.out.println("###" + id);
             //得到了订单id之后走支付流程
             if (payType == 5) {
@@ -328,6 +355,10 @@ public class PaySelect extends BaseActivityG {
             if (payType == 2) {
                 payinfo = DataContoler.parseIdandSignStr(msg);
                 payfunction(payinfo.getSignStr(), payinfo.getOrderId());
+            } else if (payType == 1) {
+                WeChatPay weChatPay = GsonUtils.fromData(msg, WeChatPay.class);
+                SignWeChat signWeChat = GsonUtils.fromData(weChatPay.getData().getSignStr(), SignWeChat.class);
+                weChatPay(signWeChat);
             }
 
         } else if (resultTag.equals("TAG_CHECKPASSWORD")) {
@@ -335,14 +366,18 @@ public class PaySelect extends BaseActivityG {
             if (checkPassword.isData()) {
                 Intent intent = new Intent(PaySelect.this, LingQianPayActivity.class);
                 intent.putExtra("orderid", id);
-                startActivityForResult(intent,requestCode);
+                startActivityForResult(intent, requestCode);
             } else {
                 Toast.makeText(this, "您尚未设置支付密码", Toast.LENGTH_SHORT).show();
             }
             Log.e("lingqian", "PaySelectAction: " + msg);
+        } else if(resultTag.equals(we_chat_ok)){
+            Log.e("PaySelectAction: ", msg);
+            Intent intent1 = new Intent(PaySelect.this, SetBodyActivity.class);
+            intent1.putExtra("id", id);
+            startActivity(intent1);
+            finish();
         }
-
-
     }
 
 
@@ -362,7 +397,7 @@ public class PaySelect extends BaseActivityG {
 //				String resultTag);/** 加载中 */
     public void failCallBack(Throwable arg0, String resultTag, boolean isShowDiolog) {
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!failed callback!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        Log.e("failCallBack: "+resultTag, arg0.getLocalizedMessage());
+        Log.e("failCallBack: " + resultTag, arg0.getLocalizedMessage()+"");
     }
 
     /**
@@ -385,13 +420,56 @@ public class PaySelect extends BaseActivityG {
     /****************************************************************/
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int mrequestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == requestCode && resultCode == requestCode) {
-            Intent intent = new Intent(this,SetBodyActivity.class);
-            intent.putExtra("id",id);
+        if (requestCode == mrequestCode && resultCode == requestCode) {
+            Intent intent = new Intent(this, SetBodyActivity.class);
+            intent.putExtra("id", id);
             startActivity(intent);
             finish();
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (pd!=null) {
+            pd.dismiss();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (receiver!=null) {
+            unregisterReceiver(receiver);
+        }
+    }
+
+    private ProgressDialog pd;
+
+    private void initPd() {
+        pd = new ProgressDialog(this);//加载的ProgressDialog
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);//选择加载风格 这里是圆圈 STYLE_HORIZONTAL 是水平进度条
+        pd.setMessage("跳转中....");
+    }
+    private final String we_chat_ok = "we_chat_ok";
+    public class Receiver extends BroadcastReceiver {
+        public void onReceive(Context context, Intent intent) {
+            int code = intent.getIntExtra("code", 1);
+            Log.e( "onReceive: ", code+"");
+            if (code == 0) {
+                MyApplication.poolManager.addAsyncTask(
+                        new ThreadPoolTaskHttp(PaySelect.this,
+                                we_chat_ok,
+                                Constant.REQUEST_GET,
+                                new RequestParams(
+                                        UrlManager.weChat_Pay_OK(id)),
+                                PaySelect.this,
+                                "微信支付完成",
+                                false));
+            }
+        }
+    }
+
 }

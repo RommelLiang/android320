@@ -11,7 +11,10 @@ import com.tiemuyu.chuanchuan.activity.util.AppManager;
  */
 
 public class AboutUs extends BaseActivityG {
-
+    //测试commit
+    //shili, test commit
+    //7897897
+    //史力 史力 少时诵诗书所
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

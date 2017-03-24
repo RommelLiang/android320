@@ -2,23 +2,23 @@
 
 package com.tiemuyu.chuanchuan.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -28,18 +28,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-//import net.tsz.afinal.FinalBitmap;
-import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.MediaStore;
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.text.TextUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.xutils.view.annotation.ViewInject;
 
 import com.alipay.sdk.app.PayTask;
 import com.tiemuyu.chuanchuan.activity.InterfacePac.JsInterface;
@@ -47,20 +35,25 @@ import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.DataContoler;
 import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.util.NetworkUtil;
-import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
+import com.tiemuyu.chuanchuan.activity.util.ServerUtils;
 import com.tiemuyu.chuanchuan.activity.view.ImagePreviewActivity;
 import com.tiemuyu.chuanchuan.activity.view.URL;
-import com.tiemuyu.chuanchuan.activity.util.ServerUtils;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+//import net.tsz.afinal.FinalBitmap;
 
 
 /**
@@ -192,7 +185,7 @@ public class MyWebview extends BaseActivityG {
                 SHARE_MEDIA.SMS,
                 SHARE_MEDIA.MORE)
                 .withTitle(title)
-                .withText(title)
+                .withText("穿穿，一座由你做主的时装定制工厂")
                 .withTargetUrl(information)
                 .withMedia(new UMImage(getApplicationContext(), img_url))
                 .setCallback(umShareListener)
@@ -205,15 +198,15 @@ public class MyWebview extends BaseActivityG {
         public void onResult(SHARE_MEDIA platform) {
             com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
             if (platform.name().equals("WEIXIN_FAVORITE")) {
-                Toast.makeText(getApplicationContext(), platform + "收藏成功啦", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),  "收藏成功啦", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplicationContext(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), " 分享成功啦", Toast.LENGTH_SHORT).show();
             }
         }
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(getApplicationContext(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), " 分享失败啦", Toast.LENGTH_SHORT).show();
             if (t != null) {
                 Log.d("throw", "throw:" + t.getMessage());
             }
@@ -221,7 +214,7 @@ public class MyWebview extends BaseActivityG {
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(getApplicationContext(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     };
 
