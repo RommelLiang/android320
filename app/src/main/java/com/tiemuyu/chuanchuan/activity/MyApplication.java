@@ -1,10 +1,11 @@
 package com.tiemuyu.chuanchuan.activity;
 
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Environment;
+import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -28,6 +29,8 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.tiemuyu.chuanchuan.activity.chat_tools.utils.StorageUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolManager;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -45,7 +48,7 @@ import im.fir.sdk.FIR;
  * ProjectName HouseKeeper_android.
  */
 
-public class MyApplication extends Application {
+public class MyApplication extends MultiDexApplication {
     public static MyApplication mInstance;
     DisplayImageOptions defaultOptions;
     private static Context context;
@@ -56,7 +59,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        /*PushAgent mPushAgent = PushAgent.getInstance(this);
+        PushAgent mPushAgent = PushAgent.getInstance(this);
 
         //注册推送服务，每次调用register方法都会回调该接口
         mPushAgent.register(new IUmengRegisterCallback() {
@@ -64,14 +67,15 @@ public class MyApplication extends Application {
             @Override
             public void onSuccess(String deviceToken) {
                 //注册成功会返回device token
-                android.util.Log.e("umeng", "device token: " + deviceToken);
+                Log.e("onSuccessumeng: ",deviceToken);
             }
 
             @Override
             public void onFailure(String s, String s1) {
 
+                Log.e("onFailureumeng: ",s +":"+s1);
             }
-        });*/
+        });
         mInstance = this;
         FIR.init(this);
         context = this;

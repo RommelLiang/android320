@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.tiemuyu.chuanchuan.activity"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 22
         versionCode 63
         versionName "4.0.2"
@@ -20,7 +20,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
     signingConfigs {
         debug {
             storeFile file('cc.keystore')
@@ -33,7 +36,7 @@ android {
 }
 
 dependencies {
-
+    testCompile 'junit:junit:4.12'
     // 基础功能 (必需)
     compile 'com.netease.nimlib:basesdk:3.4.0'
     // 聊天室需要
@@ -61,28 +64,17 @@ dependencies {
     compile files('libs/android-support-design.jar')
     compile files('libs/SocialSDK_QQ_Full.jar')
     //下面两个为左右滑动按钮所需
-
-    //compile 'com.android.support:appcompat-v7:23.0.0'
-
-    //compile 'com.android.support:design:23.0.0'
     compile files('libs/xUtils-3.0.1.jar')
-    //    compile project(':imgeseletor')
     compile files('libs/glide-3.6.1.jar')
-    //compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     //轮播图片Banner
     compile 'com.youth.banner:banner:1.4.8'
     //图片加载框架
     compile 'com.squareup.picasso:picasso:2.5.2'
-    //compile 'com.android.support:design:23.4.0'
-    testCompile 'junit:junit:4.12'
     //地址选择控件
     compile 'cn.qqtheme.framework:WheelPicker:1.1.2'
     compile 'cn.qqtheme.framework:FilePicker:1.1.2'
-    //buttrknife
-
-    //compile 'com.jakewharton:butterknife:8.5.1'
     compile 'it.sephiroth.android.library.horizontallistview:hlistview:1.2.2'
     compile 'com.bigkoo:alertview:1.0.3'
     compile files('libs/OpenInstall_v1.1.0.jar')
@@ -92,7 +84,8 @@ dependencies {
     //微信支付
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:1.0.2'
     compile 'org.greenrobot:eventbus:3.0.0'
-    //compile project(':PushSDK')
+    //友盟推送
+    compile project(':PushSDK')
 }
 
 //Error:Execution failed for task ':app:transformClassesWithJarMergingForDebug'.

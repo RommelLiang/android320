@@ -323,9 +323,7 @@
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="57ea4d3767e58e5c0f00134a" />
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="UMENG_CHANNEL60" />
+
 
         <activity android:name=".ZhuanTiWatherActivity" />
         <activity android:name=".ClothesDetailsActivity" />
@@ -362,19 +360,13 @@
         <activity android:name=".TuiKuanActivity" />
         <activity android:name=".SetBodyActivity" />
         <activity android:name=".MyShaiTuDetailActivity" />
-        <!--  -->
-        <!-- <meta-data -->
-        <!-- android:name="UMENG_APPKEY" -->
-        <!-- android:value="57ea4d3767e58e5c0f00134a" /> -->
+
 
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
             android:value="5fee12b8414e7344d2e1b5c6ea3e3679" />
 
-        <!-- <meta-data -->
-        <!-- android:name="UMENG_CHANNEL" -->
-        <!-- android:value="Channel ID" > -->
-        <!-- </meta-data> -->
+
 
         <activity
             android:name=".GuideActivity"

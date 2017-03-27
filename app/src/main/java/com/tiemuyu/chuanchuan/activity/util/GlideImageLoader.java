@@ -12,9 +12,12 @@ import com.youth.banner.loader.ImageLoader;
  */
 
 public class GlideImageLoader extends ImageLoader {
+    private ImageView imageView;
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {
         Log.e("图片的路径",(String) path);
+        this.imageView = imageView;
         Picasso.with(context).load((String) path).into(imageView);
+
     }
 }

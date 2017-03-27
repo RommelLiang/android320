@@ -8,10 +8,13 @@
     android:background="@android:color/black"
     tools:context="com.tiemuyu.chuanchuan.activity.ImageDetailsActivity">
     <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
         android:layout_centerInParent="true"
-        android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <com.youth.banner.Banner
+           app:image_scale_type="center_inside"
             android:id="@+id/banner_image"
             app:is_auto_play="false"
             android:layout_width="wrap_content"

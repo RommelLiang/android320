@@ -1,1 +1,1 @@
-include ':app', ':library_pullToRefresh', ':imageselector'
+include ':app', ':library_pullToRefresh', ':imageselector', ':PushSDK'

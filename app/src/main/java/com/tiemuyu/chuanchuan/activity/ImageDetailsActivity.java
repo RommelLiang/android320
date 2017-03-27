@@ -1,11 +1,11 @@
 package com.tiemuyu.chuanchuan.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.RelativeLayout;
 
-import com.tiemuyu.chuanchuan.activity.util.GlideImageLoader;
+import com.tiemuyu.chuanchuan.activity.util.ImageLoarderDetail;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
@@ -26,6 +26,6 @@ public class ImageDetailsActivity extends AppCompatActivity {
         position = intent.getIntExtra("position", 0);
         banner = (Banner) findViewById(R.id.banner_image);
         relativeLayout = (RelativeLayout) findViewById(R.id.activity_image_details);
-        banner.setImages(images).setImageLoader(new GlideImageLoader()).start();
+        banner.setImages(images).setImageLoader(new ImageLoarderDetail()).start();
     }
 }
