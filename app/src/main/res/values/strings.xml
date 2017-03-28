@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">穿穿</string>
-
+    <string name="versionCode">63</string>
     <!-- 界面文字配置 -->
     <string name="TextAppName">穿穿</string>
     <string name="TextAppCodeName">CC</string>

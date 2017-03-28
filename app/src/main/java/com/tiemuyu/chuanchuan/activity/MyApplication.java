@@ -1,11 +1,14 @@
 package com.tiemuyu.chuanchuan.activity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -31,6 +34,8 @@ import com.tiemuyu.chuanchuan.activity.chat_tools.utils.StorageUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolManager;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
+import com.umeng.message.UmengNotificationClickHandler;
+import com.umeng.message.entity.UMessage;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -53,7 +58,7 @@ public class MyApplication extends MultiDexApplication {
     DisplayImageOptions defaultOptions;
     private static Context context;
     public static ThreadPoolManager poolManager;//线程池
-
+    private String device_token = "device_token";
 
 
     @Override
@@ -68,6 +73,10 @@ public class MyApplication extends MultiDexApplication {
             public void onSuccess(String deviceToken) {
                 //注册成功会返回device token
                 Log.e("onSuccessumeng: ",deviceToken);
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(MyApplication.this);
+                SharedPreferences.Editor edit = sp.edit();
+                edit.putString(device_token, deviceToken);
+                edit.commit();
             }
 
             @Override
@@ -76,6 +85,13 @@ public class MyApplication extends MultiDexApplication {
                 Log.e("onFailureumeng: ",s +":"+s1);
             }
         });
+        UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler(){
+            @Override
+            public void dealWithCustomAction(Context context, UMessage msg) {
+                Toast.makeText(context, msg.custom, Toast.LENGTH_LONG).show();
+            }
+        };
+        mPushAgent.setNotificationClickHandler(notificationClickHandler);
         mInstance = this;
         FIR.init(this);
         context = this;
@@ -93,6 +109,7 @@ public class MyApplication extends MultiDexApplication {
         OpenInstall.setDebug(true);
         init();
     }
+
 
 
 

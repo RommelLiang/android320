@@ -100,7 +100,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
     private CustomButton[] buttons = new CustomButton[4];
     private EditText search_btn;
     private ExampleWebViewClient client;
-    private  TextView textView2;
+    private TextView textView2;
     public static CacheBean cacheBean = new CacheBean();// cashe数据
     private GuideView guideView;
 
@@ -181,7 +181,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
             }
         });
 
-        textView2 = (TextView) ((RelativeLayout)header).findViewById(R.id.right_text);
+        textView2 = (TextView) ((RelativeLayout) header).findViewById(R.id.right_text);
 
         textView2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,10 +192,10 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
                     case 1:
                         System.out.println("1");
                         //homeFragment.saveload();
-                    break;
+                        break;
                     case 4:
                         System.out.println("2");
-                        if(textView2.getText().equals("保存"))
+                        if (textView2.getText().equals("保存"))
                             mineFragment.saveload();
                         else//只有保存和不保存，不保存统一设为分享。并且目前只有minefragment有
                             mineFragment.share();
@@ -235,6 +235,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
         super.onResume();
         MobclickAgent.onResume(this);
     }
+
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
@@ -268,10 +269,10 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
             }
             for (IMMessage message : messages) {
                 String sessionId = message.getSessionId();
-                Log.e("MainActivity", "onEvent: "+sessionId );
-                isKuFu = sessionId.startsWith("90")?true:false;
+                Log.e("MainActivity", "onEvent: " + sessionId);
+                isKuFu = sessionId.startsWith("90") ? true : false;
                 if (message.getTime() > sharedPress.getLong(sessionId + "Time") && isKuFu) {
-                    Log.e("MainActivity", "onEvent: "+sharedPress.getLong(sessionId + "Time")+":"+isKuFu);
+                    Log.e("MainActivity", "onEvent: " + sharedPress.getLong(sessionId + "Time") + ":" + isKuFu);
                     sharedPress.putInt(sessionId + "unread", sharedPress.getInt(sessionId + "unread") + 1);
                     sharedPress.putInt("unreadTotal", sharedPress.getInt("unreadTotal") + 1);
                     sharedPress.putString(sessionId + "content", message.getContent());
@@ -312,6 +313,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
     }
 
     private long agoTime = 0L;
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (!isTopTask && (keyCode == KeyEvent.KEYCODE_BACK)) {
             System.out.println("*****@@@onKeyDown()------");
@@ -330,14 +332,13 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
                     break;
             }
             return true;
-        }
-        else {
+        } else {
             long currentTime = System.currentTimeMillis();
-            if (currentTime - agoTime < 2000){
+            if (currentTime - agoTime < 2000) {
                 System.exit(0);
-            }else {
+            } else {
                 agoTime = currentTime;
-                Toast.makeText(MainActivity.this,"再按一次返回键将退出程序",Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "再按一次返回键将退出程序", Toast.LENGTH_LONG).show();
                 return true;
             }
         }
@@ -381,21 +382,17 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
                 break;
             //客服
             case R.id.message_top_right:
-                // 史力：测试分享功能
-             //   break;
+                Intent intent = new Intent(MainActivity.this,PushHistoryActivity.class);
+                startActivity(intent);
+                break;
             case R.id.main_kfbtn:
-
 
 
                 flag = 2;
 
-        if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false)==false)
-            {
-                Toast.makeText(this, "没登录", Toast.LENGTH_SHORT).show();
-            }
-
-                else if(isIMLogin)
-                {
+                if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false) == false) {
+                    Toast.makeText(this, "没登录", Toast.LENGTH_SHORT).show();
+                } else if (isIMLogin) {
                     //Toast.makeText(getApplicationContext(), "第一个！", Toast.LENGTH_SHORT).show();
                     System.out.println("accid after kefu is clicked: " + sp.getString("accid", ""));
                     System.out.println("acctoken after kefu is clicked: " + sp.getString("acctoken", ""));
@@ -404,17 +401,12 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
                     bundle.putParcelableArrayList("data", dataList);
                     intent1.putExtra("bundle", bundle);
                     startActivity(intent1);
-                }
-                else
-                {
+                } else {
                     login();
                 }
 
 
-
                 break;
-
-
 
 
             //发现
@@ -426,7 +418,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
                 ViewTools.showText(header, search, "omg", false);
                 if (findFragment == null) {
                     findFragment = new FindFragment();
-                    findFragment.setHeader(header,search,im_setting,bottom);
+                    findFragment.setHeader(header, search, im_setting, bottom);
                     transaction.add(R.id.fra_webView, findFragment);
                 }
                 transaction.show(findFragment);
@@ -442,8 +434,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
             case R.id.main_ccftxj:
 
 
-                if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false)==false)
-                {
+                if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false) == false) {
 
                     AlertDialog.Builder multiDia = new AlertDialog.Builder(MainActivity.this);
                     multiDia.setTitle("亲，您还没登录哦！ ");
@@ -451,7 +442,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // TODO Auto-generated method stub
-                            Toast toast =Toast.makeText(getApplicationContext(), "点击右下角\"我的\"登录！", Toast.LENGTH_LONG);//.show();
+                            Toast toast = Toast.makeText(getApplicationContext(), "点击右下角\"我的\"登录！", Toast.LENGTH_LONG);//.show();
                             toast.setGravity(Gravity.CENTER, 0, 10);
                             toast.show();
                         }
@@ -464,13 +455,11 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
                     });
                     multiDia.create().show();
 
-                }
-
-                else {
+                } else {
 
 
-                ClassJumpTool.startToNextActivityForResult(this,
-                        FatuActivity.class, 10);
+                    ClassJumpTool.startToNextActivityForResult(this,
+                            FatuActivity.class, 10);
 
 
                 }
@@ -485,8 +474,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
                     mineFragment = new MineFragment();
                     mineFragment.setHeader(header, search, im_setting, bottom);
                     transaction.add(R.id.fra_webView, mineFragment);
-                }
-                else{
+                } else {
                     mineFragment.www();
                 }
                 transaction.show(mineFragment);
@@ -518,13 +506,12 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 
     public void login() {
         //LoginInfo loginInfo = new LoginInfo("tmy1", "68c58f02597daa4fdc3ab86ed103e0c6");//测试账号
-        if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false)==false)
-        {
+        if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false) == false) {
             return;
         }
-        User now=DBTools.getUser();
+        User now = DBTools.getUser();
         if (now.getAccid() == null) {
-            Toast.makeText(this,  "网络异常" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "网络异常", Toast.LENGTH_SHORT).show();
         }
         LoginInfo loginInfo = new LoginInfo(now.getAccid(), now.getAccToken());
 //        System.out.println("accid after new LoginInfo: " + accid);
@@ -532,7 +519,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
         String getinfo = now.getUserImg();
         ///sp.getString("userimag", "");
         //获取用户的im头像 gao
-        OWN_HEADER_URL=getinfo;
+        OWN_HEADER_URL = getinfo;
         RequestCallback<LoginInfo> callback = new RequestCallback<LoginInfo>() {
 
             @Override
@@ -548,18 +535,19 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
             }
 
             @Override
-            public void onException(Throwable throwable) {}
+            public void onException(Throwable throwable) {
+            }
         };
         NIMClient.getService(AuthService.class).login(loginInfo).setCallback(callback);
     }
 
     @Override
     public void success(int type, JSONObject jsonObject) {
-        Log.e("success: ", type +"");
+        Log.e("success: ", type + "");
         Contacts contacts;
         if (type == 100) {
             JSONArray array = jsonObject.optJSONArray("kefulist");
-            Log.e("array", "success: "+array);
+            Log.e("array", "success: " + array);
             for (int i = 0; i < array.length(); i++) {
                 contacts = new Contacts(Parcel.obtain());
                 JSONObject object = array.optJSONObject(i);
@@ -568,11 +556,10 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
                 contacts.setHeader(object.optString("userimg"));
                 dataList.add(contacts);
             }
-        }
-        else if(type == 200){
-            System.out.println("*********"+jsonObject.toString());
-            sharedPress.putString("accid",jsonObject.optString("accid"));
-            sharedPress.putString("token",jsonObject.optString("token"));
+        } else if (type == 200) {
+            System.out.println("*********" + jsonObject.toString());
+            sharedPress.putString("accid", jsonObject.optString("accid"));
+            sharedPress.putString("token", jsonObject.optString("token"));
             OWN_HEADER_URL = jsonObject.optString("userimg");
             login();
         }
@@ -583,8 +570,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
         System.out.println("*********request failed");
     }
 
-    public void clearcache()
-    {
+    public void clearcache() {
         clearCacheFolder(this.getCacheDir(), System.currentTimeMillis());
         clearCookies(this);
         SharedPreferences sp = getSharedPreferences("UserInfo", Activity.MODE_PRIVATE);
@@ -600,9 +586,9 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
     private int clearCacheFolder(File dir, long numDays) {
         System.out.println("@@@@@@@@@@@@@@@@@@@@@进入clearcache");
         int deletedFiles = 0;
-        if (dir!= null && dir.isDirectory()) {
+        if (dir != null && dir.isDirectory()) {
             try {
-                for (File child:dir.listFiles()) {
+                for (File child : dir.listFiles()) {
                     if (child.isDirectory()) {
                         deletedFiles += clearCacheFolder(child, numDays);
                     }
@@ -612,7 +598,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
                         }
                     }
                 }
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -626,14 +612,13 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
         CookieSyncManager.getInstance().sync();
     }
 
-    public void information(String validcode)
-    {
+    public void information(String validcode) {
         mineFragment.loadinformation(validcode);
     }
 
-    public void sessionweb(String x ,String x1){
+    public void sessionweb(String x, String x1) {
         System.out.println(x + "zaban");
-         mineFragment.sessionweb(x, x1);
+        mineFragment.sessionweb(x, x1);
     }
 
     private void refresh() {
@@ -643,8 +628,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
     }
 
     //关闭回退的方法
-    public void hideback()
-    {
+    public void hideback() {
         System.out.println("hideback");
         goBackButton.setVisibility(View.GONE);
     }
@@ -655,10 +639,10 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
     }
 
 
-
     //与js交互类
     public class WebAppInterface {
         Context mContext;
+
         //初始化类
         WebAppInterface(Context c) {
             mContext = c;
@@ -686,10 +670,11 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Log.e("onNewIntent", "onNewIntent: "+intent.toString() );
+        Log.e("onNewIntent", "onNewIntent: " + intent.toString());
         setIntent(intent);
         OpenInstall.getWakeUp(this, this);
     }
+
     @Override
     public void onWakeUpFinish(AppData appData, Error error) {
         if (error == null) {
@@ -703,13 +688,13 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
                 case 2:
                     // 产品详情
                     Intent intent2 = new Intent(MainActivity.this, ClothesDetailsActivity.class);
-                    intent2.putExtra("productid",jump.getUid());
+                    intent2.putExtra("productid", jump.getUid());
                     startActivity(intent2);
                     break;
                 case 3:
                     //定制详情
                     Intent intent3 = new Intent(MainActivity.this, ChengpinDetailActivity.class);
-                    intent3.putExtra("productid",jump.getUid());
+                    intent3.putExtra("productid", jump.getUid());
                     startActivity(intent3);
                     break;
                 case 4:
@@ -718,7 +703,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
                     break;
             }
         } else {
-            Log.e("MainActivity", "error : "+error.toString());
+            Log.e("MainActivity", "error : " + error.toString());
         }
     }
 }

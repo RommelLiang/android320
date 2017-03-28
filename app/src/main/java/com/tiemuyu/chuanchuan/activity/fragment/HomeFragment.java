@@ -507,12 +507,24 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
         @Override
         protected void onPostExecute(Void result) {
             Log.e("GetDataTask", "onPostExecute: " + result);
-            wateradaper.notifyDataSetChanged();
-            zhuanTiWaterAdapter3.notifyDataSetChanged();
-            zhuanTiWaterAdapter4.notifyDataSetChanged();
-            zhuanTiWaterAdapter5.notifyDataSetChanged();
-            zhuanTiWaterAdapter6.notifyDataSetChanged();
-            zhuanTiWaterAdapter7.notifyDataSetChanged();
+            if (wateradaper != null) {
+                wateradaper.notifyDataSetChanged();
+            }
+            if (zhuanTiWaterAdapter3 != null) {
+                zhuanTiWaterAdapter3.notifyDataSetChanged();
+            }
+            if (zhuanTiWaterAdapter4 != null) {
+                zhuanTiWaterAdapter4.notifyDataSetChanged();
+            }
+            if (zhuanTiWaterAdapter5 != null) {
+                zhuanTiWaterAdapter5.notifyDataSetChanged();
+            }
+            if (zhuanTiWaterAdapter6 != null) {
+                zhuanTiWaterAdapter6.notifyDataSetChanged();
+            }
+            if (zhuanTiWaterAdapter7 != null) {
+                zhuanTiWaterAdapter7.notifyDataSetChanged();
+            }
             mPullRefreshListView.onRefreshComplete();
             mPullRefreshListView2.onRefreshComplete();
             mPullRefreshListView3.onRefreshComplete();

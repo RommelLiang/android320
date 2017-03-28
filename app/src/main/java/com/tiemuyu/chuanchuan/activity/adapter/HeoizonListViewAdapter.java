@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.bean.DIngzhi;
-import com.tiemuyu.chuanchuan.activity.view.HorizontalListVIew;
 
 import java.util.List;
 
@@ -50,7 +49,8 @@ public class HeoizonListViewAdapter extends BaseAdapter {
         ParentHolder parentHolder = null;
         DIngzhi.DataBean dataBean = dataBeanList.get(position);
         if(convertView == null) {
-            LayoutInflater userInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater userInflater = (LayoutInflater) context
+                    .getSystemService(context.LAYOUT_INFLATER_SERVICE);
             convertView = userInflater.inflate(R.layout.item_parent, null);
             convertView.setHorizontalScrollBarEnabled(true);
 

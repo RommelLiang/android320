@@ -3,10 +3,8 @@ package com.tiemuyu.chuanchuan.activity.new_activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.KeyEvent;
 import android.view.View;
 
-import com.tiemuyu.chuanchuan.activity.MainActivity;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.SettingActivity;
@@ -18,6 +16,7 @@ import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
 import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
+import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 
 import org.xutils.http.RequestParams;
@@ -30,18 +29,19 @@ public class BaseActivityG extends FragmentActivity implements
         View.OnClickListener, ThreadPoolTaskHttp.HttpCallBack {
 
 
-@Override
-protected void onCreate(Bundle savedInstanceState){
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        setContentView(R.layout.base_layout);
         // 添加Activity到堆栈
         AppManager.getAppManager().addActivity(this);
+        SPUtils.init(this);
 //        Constant.VERSION=Version.getAppVersionName(this);
 //        _global=GlobalVariable.getInstance();
 //        initProcess();
-        }
+    }
 //
 ///**
 // * 加载的流程
@@ -80,32 +80,25 @@ protected void onCreate(Bundle savedInstanceState){
 //protected void initListener() {
 //        }
 
-@Override
-public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
 
-        }
-
-
+    }
 
 
-
-
-
-
-
-@Override
-protected void onStop() {
+    @Override
+    protected void onStop() {
         // TODO Auto-generated method stub
         super.onStop();
-        }
+    }
 
-@Override
-protected void onDestroy() {
+    @Override
+    protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
         // 结束Activity&从堆栈中移除
         AppManager.getAppManager().finishActivity(this);
-        }
+    }
 
 
 //@Override
@@ -130,37 +123,35 @@ protected void onDestroy() {
 //
 //        }
 
-/**
- * 关闭当前activity
- * */
-public void closeActivity() {
+    /**
+     * 关闭当前activity
+     */
+    public void closeActivity() {
         AppManager.getAppManager().finishActivity(this);
         overridePendingTransition(R.anim.out_from_left, R.anim.out_from_right);
-        }
-
-
-
+    }
 
 
     /**
- * @Title: getPasskeyMethod
- * @Description: TODO 获取passkey
- * @param @param tag 设定文件
- * @return void 返回类型
- * @throws
- */
-protected void getPasskeyMeth(String tag) {
-        System.out.println("-----passkey请求的地址:"+UrlManager.GET_PASSKEY());
+     * @param @param tag 设定文件
+     * @return void 返回类型
+     * @throws
+     * @Title: getPasskeyMethod
+     * @Description: TODO 获取passkey
+     */
+    protected void getPasskeyMeth(String tag) {
+        System.out.println("-----passkey请求的地址:" + UrlManager.GET_PASSKEY());
         MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
-        tag, Constant.REQUEST_GET, new RequestParams(UrlManager
-        .GET_PASSKEY()), this, "获取passkey", false));
+                tag, Constant.REQUEST_GET, new RequestParams(UrlManager
+                .GET_PASSKEY()), this, "获取passkey", false));
 
-        }
+    }
 
 
-
-/** 数据返回成功，并且code=1时调用 */
-protected void successMethod(String msg, String resultTag) {
+    /**
+     * 数据返回成功，并且code=1时调用
+     */
+    protected void successMethod(String msg, String resultTag) {
 
 //        if (resultTag.equals(TAG_APPACCESS)) {
 //        DataContoler.sendAppaccSucc(BaseActivity.this);
@@ -175,9 +166,7 @@ protected void successMethod(String msg, String resultTag) {
 //        MyApplication.exs.clear();
 //        }
 
-        }
-
-
+    }
 
 
     protected void reLogin(String resultTag) {
@@ -213,10 +202,10 @@ protected void successMethod(String msg, String resultTag) {
             if (MineFragment.user == null) {
                 System.out.println("----baseact-onResume  重置user信息");
                 MineFragment.user = DBTools.getUser();
-                UrlManager.BASEURL=PreferenceUtils.getPrefString(this, Constant.BASE_URL_NAME,
+                UrlManager.BASEURL = PreferenceUtils.getPrefString(this, Constant.BASE_URL_NAME,
                         UrlManager.DEFAULT_BASEURL);
 
-                Intent intent=new Intent();
+                Intent intent = new Intent();
                 intent.setAction(Constant.RESETDATA);
                 sendBroadcast(intent);
             }
@@ -231,15 +220,12 @@ protected void successMethod(String msg, String resultTag) {
     }
 
 
-
-
-
     /*****************************activity母版 ********************************************/
 
 
-
-
-    /********************************** 新的请求回调 ********************************************/
+    /**********************************
+     * 新的请求回调
+     ********************************************/
 
     @Override
     public void failCallBack(Throwable arg0, String resultTag,
@@ -295,10 +281,6 @@ protected void successMethod(String msg, String resultTag) {
     }
 
     /***************************************************************************/
-
-
-
-
 
 
 }

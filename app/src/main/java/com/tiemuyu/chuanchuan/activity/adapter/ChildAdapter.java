@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,13 +26,21 @@ import java.util.List;
  */
 
 public class ChildAdapter extends BaseAdapter {
+    private final int width;
+    private final int height;
     private List<DIngzhi.DataBean.AppdingzhilistBean> listBean;
     private Context context;
     private ChildHolder childHolder;
     private ImageView imageView;
+
     public ChildAdapter(List<DIngzhi.DataBean.AppdingzhilistBean> listBean, Context context) {
         this.listBean = listBean;
         this.context = context;
+        WindowManager wm = (WindowManager) context
+                .getSystemService(Context.WINDOW_SERVICE);
+
+        width = wm.getDefaultDisplay().getWidth();
+        height = wm.getDefaultDisplay().getHeight();
     }
 
     @Override
@@ -63,7 +72,7 @@ public class ChildAdapter extends BaseAdapter {
         } else {
             childHolder = (ChildHolder) convertView.getTag();
         }
-        Log.e("ChildHolder", "getView: "+listBean.get(position).getFirstXiJieImg());
+        Log.e("ChildHolder", "getView: " + listBean.get(position).getFirstXiJieImg());
         Picasso.with(context)
                 .load(listBean.get(position).getPromianpic())
                 .transform(transformation)
@@ -75,24 +84,25 @@ public class ChildAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ChengpinDetailActivity.class);
-                intent.putExtra("productid",listBean.get(position).getId());
+                intent.putExtra("productid", listBean.get(position).getId());
                 context.startActivity(intent);
             }
         });
         return convertView;
     }
+
     private static class ChildHolder {
         ImageView imageView;
         TextView name;
         TextView price;
     }
+
     Transformation transformation = new Transformation() {
 
         @Override
         public Bitmap transform(Bitmap source) {
-
-            int mTargetWidth = imageView.getWidth();
-            int mTargetHeight = imageView.getHeight();
+            int mTargetWidth = width*3/4;
+            int mTargetHeight = height*3/4;
 
 
             if (source.getWidth() == 0) {
@@ -112,7 +122,7 @@ public class ChildAdapter extends BaseAdapter {
                     return source;
                 }
             } else {
-                double aspectRatio = (double) source.getWidth()/ (double) source.getHeight();
+                double aspectRatio = (double) source.getWidth() / (double) source.getHeight();
                 int targetWidth = (int) (mTargetHeight * aspectRatio);
                 if (targetWidth != 0 && targetWidth != 0) {
                     Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, mTargetHeight, false);

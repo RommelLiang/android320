@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,14 +13,16 @@ import com.fm.openinstall.OpenInstall;
 import com.fm.openinstall.listener.AppInstallListener;
 import com.fm.openinstall.model.AppData;
 import com.fm.openinstall.model.Error;
+import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
+import com.tiemuyu.chuanchuan.activity.util.SPUtils;
+import com.tiemuyu.chuanchuan.activity.util.VeData;
 
 
-
-public class SplashActivity extends AppCompatActivity implements AppInstallListener {
+public class SplashActivity extends BaseActivityG implements AppInstallListener {
 
     private String TAG = "SplashActivity";
     private int GUIDE_VERSION_CODE = 1;
-    private String GUIDE_VERSION_NAME = "is_first";
+    private String GUIDE_VERSION_NAME = "is_first_" + R.string.versionCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +45,9 @@ public class SplashActivity extends AppCompatActivity implements AppInstallListe
                     SharedPreferences.Editor edit = sp.edit();
                     edit.putInt(GUIDE_VERSION_NAME, GUIDE_VERSION_CODE);
                     edit.commit();
+                    String nowDateShort = VeData.getNowDateShort();
+                    SPUtils.saveAddTime(String.valueOf(nowDateShort));
+                    Log.e(TAG, "onInstallFinish" + nowDateShort);
                     startActivity(new Intent(SplashActivity.this, GuideActivity.class));
                     finish();
                 } else {
@@ -59,7 +63,7 @@ public class SplashActivity extends AppCompatActivity implements AppInstallListe
 
     @Override
     public void onInstallFinish(AppData appData, Error error) {
-        Log.d(TAG, "onInstallFinish");
+
         if (error == null) {
             Intent intent = getIntent();
             intent.putExtra("openInstall", appData);

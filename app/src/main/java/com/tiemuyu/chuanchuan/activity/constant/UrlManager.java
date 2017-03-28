@@ -795,4 +795,8 @@ public class UrlManager {
                 "&state=" + state + "&pageindex=" + index +
                 "&guanjianzi=" + key_word;
     }
+
+    public static final String getPush(String token,String time) {
+        return BASEURL + "api/apppi?umenghistory&usertoken="+token+"&timerequest="+time;
+    }
 }
