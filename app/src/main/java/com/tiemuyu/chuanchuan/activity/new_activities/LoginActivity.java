@@ -453,11 +453,11 @@ public class LoginActivity extends BaseActivityG implements
             return;
         }
         if (!JudgmentLegal.isPhoneOrEmail(name)) {
-//            ToastHelper.show(this, "账号格式不对,请输入手机号或者邮箱");
+            ToastHelper.show(this, "账号格式不对,请输入手机号或者邮箱");
             return;
         }
         if (StringUtil.isNull(pass)) {
-//            ToastHelper.show(this, "请输入密码");
+            ToastHelper.show(this, "请输入密码");
             return;
         }
 

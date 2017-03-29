@@ -775,7 +775,7 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
             taoZhuanglist = taozhuang.getData().getList();
             zhuanTiWaterAdapter7 = new ZhuanTiWaterAdapter(taoZhuanglist, getActivity());
             mPullRefreshListView7.setAdapter(zhuanTiWaterAdapter7);
-            mPullRefreshListView3.setOnRefreshListener(this);
+            mPullRefreshListView7.setOnRefreshListener(this);
             int headerViewsCount7 = refreshableView7.getHeaderViewsCount();
             if (headerViewsCount7 == 0) {
                 headerImage5 = View.inflate(getActivity(), R.layout.header_image, null);

@@ -1,6 +1,7 @@
 package com.tiemuyu.chuanchuan.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -8,7 +9,6 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -42,6 +42,7 @@ import com.umeng.socialize.UMShareAPI;
 import org.xutils.x;
 
 import java.io.File;
+import java.util.Map;
 
 import im.fir.sdk.FIR;
 
@@ -59,13 +60,16 @@ public class MyApplication extends MultiDexApplication {
     private static Context context;
     public static ThreadPoolManager poolManager;//线程池
     private String device_token = "device_token";
-
-
+    private String pushmessage = "pushmessage";
     @Override
     public void onCreate() {
         super.onCreate();
-        PushAgent mPushAgent = PushAgent.getInstance(this);
-
+        context = this;
+        final PushAgent mPushAgent = PushAgent.getInstance(this);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString(pushmessage, "");
+        edit.commit();
         //注册推送服务，每次调用register方法都会回调该接口
         mPushAgent.register(new IUmengRegisterCallback() {
 
@@ -85,13 +89,51 @@ public class MyApplication extends MultiDexApplication {
                 Log.e("onFailureumeng: ",s +":"+s1);
             }
         });
-        UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler(){
+        UmengNotificationClickHandler umengNotificationClickHandler = new UmengNotificationClickHandler(){
             @Override
-            public void dealWithCustomAction(Context context, UMessage msg) {
-                Toast.makeText(context, msg.custom, Toast.LENGTH_LONG).show();
+            public void dealWithCustomAction(Context nContext, UMessage nUMessage) {
+                super.dealWithCustomAction(nContext, nUMessage);
+                StringBuffer s = new StringBuffer("{");
+                for (Map.Entry<String, String> entry : nUMessage.extra.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+                    s .append("\"" + key +"\":\"" +value+"\",");
+                }
+                String json = s.substring(0, s.length() - 1) + "}";
+                Log.e("getNotification: ",json);
+            }
+
+            @Override
+            public void dismissNotification(Context nContext, UMessage nUMessage) {
+                super.dismissNotification(nContext, nUMessage);
+                StringBuffer s = new StringBuffer("{");
+                for (Map.Entry<String, String> entry : nUMessage.extra.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+                    s .append("\"" + key +"\":\"" +value+"\",");
+                }
+                String json = s.substring(0, s.length() - 1) + "}";
+                Log.e("dismissNotification: ",json);
+            }
+
+            @Override
+            public void launchApp(Context nContext, UMessage nUMessage) {
+                super.launchApp(nContext, nUMessage);
+                StringBuffer s = new StringBuffer("{");
+                for (Map.Entry<String, String> entry : nUMessage.extra.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+                    s .append("\"" + key +"\":\"" +value+"\",");
+                }
+                String json = s.substring(0, s.length() - 1) + "}";
+                Log.e("launchApp: ",json);
+                Intent intent = new Intent(nContext,PushHistoryActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                nContext.startActivity(intent);
             }
         };
-        mPushAgent.setNotificationClickHandler(notificationClickHandler);
+        mPushAgent.setNotificationClickHandler(umengNotificationClickHandler);
+
         mInstance = this;
         FIR.init(this);
         context = this;
@@ -115,6 +157,7 @@ public class MyApplication extends MultiDexApplication {
 
 
     private void init() {
+
         x.Ext.init(this);
 //        x.Ext.setDebug(true);
 //
@@ -191,7 +234,7 @@ public class MyApplication extends MultiDexApplication {
                 .cacheInMemory(true).cacheOnDisc(true)
                 .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
                 .bitmapConfig(Bitmap.Config.RGB_565)
-                .showImageForEmptyUri(R.mipmap.ic_launcher)
+                .showImageForEmptyUri(R.mipmap.icon)
                 .build();
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
@@ -304,4 +347,5 @@ public class MyApplication extends MultiDexApplication {
     private LoginInfo loginInfo() {
         return null;
     }
+
 }

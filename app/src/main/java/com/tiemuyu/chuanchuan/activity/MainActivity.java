@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcel;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -115,10 +116,17 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
     private int flag = 1;
     public static String OWN_HEADER_URL = "";//gao 在这里更改有效
     private DataSharedPress sharedPress;
+    private String pushmessage = "pushmessage";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences jsp = PreferenceManager.getDefaultSharedPreferences(this);
+        String json = jsp.getString(pushmessage, "");
+        if (!json.equals("")){
+            Intent intent = new Intent(this,PushHistoryActivity.class);
+            startActivity(intent);
+        }
         GuideHelper guideHelper = new GuideHelper(this);
         guideHelper.openGuide();
         //史力：设置键盘上抬
@@ -223,8 +231,8 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
                 }
             }
         });
-    }
 
+    }
     @Override
     protected void onStart() {
         super.onStart();

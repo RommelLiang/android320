@@ -49,13 +49,15 @@ public class SplashActivity extends BaseActivityG implements AppInstallListener 
                     SPUtils.saveAddTime(String.valueOf(nowDateShort));
                     Log.e(TAG, "onInstallFinish" + nowDateShort);
                     startActivity(new Intent(SplashActivity.this, GuideActivity.class));
-                    finish();
+
                 } else {
                     Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
                     mainIntent.putExtras(getIntent());
                     startActivity(mainIntent);
-                    finish();
+
                 }
+
+                finish();
             }
         }, 2000);
 

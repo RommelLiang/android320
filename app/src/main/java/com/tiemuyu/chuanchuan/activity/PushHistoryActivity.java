@@ -14,6 +14,7 @@ import com.tiemuyu.chuanchuan.activity.bean.PushBean;
 import com.tiemuyu.chuanchuan.activity.bean.PushBeanPlus;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
+import com.tiemuyu.chuanchuan.activity.inter.SelectInterFace;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
@@ -22,7 +23,10 @@ import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 
 import org.xutils.http.RequestParams;
 
-public class PushHistoryActivity extends BaseActivityG {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PushHistoryActivity extends BaseActivityG implements SelectInterFace{
 
     private final String TAG_GET_PUSHHISTORY = "TAG_GET_PUSHHISTORY";
     private String device_token = "device_token";
@@ -31,6 +35,8 @@ public class PushHistoryActivity extends BaseActivityG {
     private TextView tv_edit;
     private boolean is_show_select = false;
     private PushBeanPlus mPushBeanPlus;
+    List<Integer> mIntegers;
+    private PushMessageAdapter mPushMessageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +73,14 @@ public class PushHistoryActivity extends BaseActivityG {
 
     private void setView(String callBackMsg) {
         pushBean = GsonUtils.fromData(callBackMsg, PushBean.class);
-        mPushBeanPlus = new PushBeanPlus(pushBean, is_show_select);
-        final PushMessageAdapter pushMessageAdapter = new PushMessageAdapter(PushHistoryActivity.this,mPushBeanPlus);
-        mListView.setAdapter(pushMessageAdapter);
+        List<PushBean.DataBean.UmenghistoryBean> umenghistory = pushBean.getData().getUmenghistory();
+        mIntegers = new ArrayList<>();
+        for (PushBean.DataBean.UmenghistoryBean umenghistoryBean : umenghistory) {
+            mIntegers.add(0);
+        }
+        mPushBeanPlus = new PushBeanPlus(pushBean,is_show_select,mIntegers);
+        mPushMessageAdapter = new PushMessageAdapter(PushHistoryActivity.this, mPushBeanPlus,PushHistoryActivity.this);
+        mListView.setAdapter(mPushMessageAdapter);
         tv_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +93,7 @@ public class PushHistoryActivity extends BaseActivityG {
                     mPushBeanPlus.setShou(is_show_select);
                     tv_edit.setText("保存");
                 }
-                pushMessageAdapter.notifyDataSetChanged();
+                mPushMessageAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -92,5 +103,16 @@ public class PushHistoryActivity extends BaseActivityG {
         super.failCallBack(arg0, resultTag, isShowDiolog);
         Log.e("failCallBack: ",arg0.getLocalizedMessage() );
         ToastHelper.show(this,"没有历史消息");
+    }
+
+    @Override
+    public void onSelect(int postion) {
+        Integer integer = mPushBeanPlus.getIntegers().get(postion);
+        if (integer == 0) {
+            mPushBeanPlus.getIntegers().set(postion,1);
+        } else {
+            mPushBeanPlus.getIntegers().set(postion,0);
+        }
+        mPushMessageAdapter.notifyDataSetChanged();
     }
 }

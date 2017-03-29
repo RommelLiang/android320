@@ -12,6 +12,7 @@ import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.bean.PushBean;
 import com.tiemuyu.chuanchuan.activity.bean.PushBeanPlus;
+import com.tiemuyu.chuanchuan.activity.inter.SelectInterFace;
 
 /**
  * Created by 梁文硕 on 2017/3/28.
@@ -22,11 +23,12 @@ public class PushMessageAdapter extends BaseAdapter {
     private PushBeanPlus mPushBeanPlus;
     private PushBean.DataBean mDataBean;
     private Holder mHolder;
-
-    public PushMessageAdapter(Context nContext, PushBeanPlus nPushBeanPlus) {
+    private SelectInterFace mSelectInterFace;
+    public PushMessageAdapter(Context nContext, PushBeanPlus nPushBeanPlus, SelectInterFace mSelectInterFace) {
         mContext = nContext;
         mPushBeanPlus = nPushBeanPlus;
         mDataBean = mPushBeanPlus.getPushBean().getData();
+        this.mSelectInterFace = mSelectInterFace;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class PushMessageAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             mHolder = new Holder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.push_mesage_layout, parent, false);
@@ -58,14 +60,19 @@ public class PushMessageAdapter extends BaseAdapter {
         } else {
             mHolder = (Holder) convertView.getTag();
         }
-        if (mPushBeanPlus.isShou()){
+        if (mPushBeanPlus.isShou()) {
             mHolder.iv_select.setVisibility(View.VISIBLE);
             mHolder.iv_select.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    mSelectInterFace.onSelect(position);
                 }
             });
+            if (mPushBeanPlus.getIntegers().get(position) == 0) {
+                mHolder.iv_select.setBackground(mContext.getResources().getDrawable(R.drawable.noselect));
+            } else {
+                mHolder.iv_select.setBackground(mContext.getResources().getDrawable(R.drawable.select));
+            }
 
         } else {
             mHolder.iv_select.setVisibility(View.GONE);
@@ -81,6 +88,7 @@ public class PushMessageAdapter extends BaseAdapter {
 
         return convertView;
     }
+
     private static class Holder {
         ImageView imageView;
         ImageView iv_select;
