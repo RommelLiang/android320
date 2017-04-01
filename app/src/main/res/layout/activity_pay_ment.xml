@@ -77,7 +77,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toRightOf="@+id/consignee"
-                            android:text="黄颖颖"
+                            android:text=""
                             android:textColor="#666666"
                             android:textSize="16sp" />
 
@@ -88,7 +88,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="35dp"
                             android:layout_toRightOf="@+id/name"
-                            android:text="135844184843"
+                            android:text=""
                             android:textColor="#666666"
                             android:textSize="16sp" />
 
@@ -120,7 +120,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
                             android:layout_toEndOf="@+id/address"
-                            android:text="广东省深圳市福田区商报路10号12栋601"
+                            android:text=""
                             android:textColor="#666666"
                             android:textSize="15sp" />
                     </RelativeLayout>

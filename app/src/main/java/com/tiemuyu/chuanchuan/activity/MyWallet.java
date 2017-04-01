@@ -3,17 +3,14 @@ package com.tiemuyu.chuanchuan.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.bigkoo.alertview.AlertView;
-import com.bigkoo.alertview.OnItemClickListener;
-import com.tiemuyu.chuanchuan.activity.bean.StringListBean;
-import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
-import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
-
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
+import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
+import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 
 public class MyWallet extends BaseActivityG implements OnItemClickListener {
 
@@ -37,7 +34,7 @@ public class MyWallet extends BaseActivityG implements OnItemClickListener {
         ll_five.setOnClickListener(this);
         mw_lingqian = (TextView) findViewById(R.id.mw_lingqian);
         mw_chuanbi = (TextView) findViewById(R.id.mw_chuanbi);
-        mw_lingqian.setText(String.valueOf(mw_lingqian.getText()) +" "+ MineFragment.user.getAmounts());
+        mw_lingqian.setText(String.valueOf(mw_lingqian.getText()) +" "+ (MineFragment.user.getAmounts() - MineFragment.user.getFrzAmounts()));
         mw_chuanbi.setText(String.valueOf(mw_chuanbi.getText()) + " " +(MineFragment.user.getCcCoin()-MineFragment.user.getFrzCcCoin()));
 
         findViewById(R.id.MyWalletBack).setOnClickListener(new View.OnClickListener() {

@@ -56,6 +56,35 @@
             android:textSize="@dimen/message_content_textSize"
             />
         </LinearLayout>
+
+        <LinearLayout
+            android:background="@drawable/shapeselect_white"
+            android:orientation="vertical"
+            android:id="@+id/cc_message_left_rl"
+            android:layout_marginTop="@dimen/message_name_to_content"
+            android:layout_marginRight="@dimen/message_content_to_border"
+            android:gravity="center_horizontal"
+            android:layout_toRightOf="@+id/message_portrait_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:id="@+id/cc_message_left_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <ListView
+                android:layout_marginBottom="5dp"
+                android:scrollbars="none"
+                android:divider="@null"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:id="@+id/cc_message_left_lv"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"/>
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/ly_message_audio_left"
             android:layout_width="wrap_content"

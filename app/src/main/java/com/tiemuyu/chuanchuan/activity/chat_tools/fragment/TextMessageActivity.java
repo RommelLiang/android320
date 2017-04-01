@@ -1,8 +1,6 @@
 package com.tiemuyu.chuanchuan.activity.chat_tools.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,35 +23,36 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.netease.nimlib.sdk.InvocationFuture;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-
-
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
 import com.tiemuyu.chuanchuan.activity.R;
+import com.tiemuyu.chuanchuan.activity.bean.CustomerKey;
 import com.tiemuyu.chuanchuan.activity.chat_tools.adapter.MessageAdapter;
 import com.tiemuyu.chuanchuan.activity.chat_tools.bean.MessageData;
 import com.tiemuyu.chuanchuan.activity.chat_tools.bean.ModuleProxy;
 import com.tiemuyu.chuanchuan.activity.chat_tools.utils.HistoryMessage;
 import com.tiemuyu.chuanchuan.activity.chat_tools.video.VideoMessageHelper;
+import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.DataSharedPress;
+import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
+import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * describe :
@@ -63,7 +60,7 @@ import com.tiemuyu.chuanchuan.activity.util.DataSharedPress;
  * PackageName com.guanjia800.clientApp.chat_tools.fragment.
  * ProjectName HouseKeeper_android.
  */
-public class TextMessageActivity extends Activity implements View.OnClickListener, ModuleProxy {
+public class TextMessageActivity extends BaseActivityG implements View.OnClickListener, ModuleProxy {
 
     private LinearLayout ly_message_edit, ly_press_on_say;
     private EditText message_edit;
@@ -80,6 +77,7 @@ public class TextMessageActivity extends Activity implements View.OnClickListene
     public static VideoMessageHelper videoMessageHelper;
     ListView listViewShow;
     private String TAG;
+    private String TAG_GET_ALL_KEY = "TAG_GET_ALL_KEY";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,54 +88,37 @@ public class TextMessageActivity extends Activity implements View.OnClickListene
         //设置状态栏为透明
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         initView();
-        //this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        registerObservers(incomingMessageObserver, true);
-        sessionId = getIntent().getStringExtra("sessionId");
-        title = getIntent().getStringExtra("title");
-        sharedPress = DataSharedPress.getSharedPress(this);
-        tv_title.setText(title);
-        historyMessage = new HistoryMessage(this, listView,sessionId);
-        imMessage = MessageBuilder.createEmptyMessage(sessionId, SessionTypeEnum.None, 0);
-        Log.e("TextMessageActivity", "onCreate: "+imMessage.getContent());
-        historyMessage.pullMessageFromCloud(imMessage, 10, true);
+        //this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |       WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         TAG = new String("sssssssssssssss");
-        /*NIMClient.getService(MsgService.class)
-                .pullMessageHistory(imMessage, *//*System.currentTimeMillis() + 30 * 60 * 1000,*//*
-                        20*//*, QueryDirectionEnum.QUERY_NEW*//*, true).setCallback(new RequestCallback<List<IMMessage>>() {
+        StringRequest stringRequest = new StringRequest("http://imserver.myappcc.com/api/GetCustomer?key=CCDATA[QA_ALLKEY]", new Response.Listener<String>() {
             @Override
-            public void onSuccess(List<IMMessage> imMessages) {
-                for (int i = 0; i < imMessages.size(); i++) {
-                    Log.e(TAG, "onSuccess: " + imMessages.get(i).getContent());
-                }
+            public void onResponse(String mS) {
+                Log.e(TAG, "onResponse: "+mS);
+                String substring = mS.replace("\\","");
+                Log.e("onResponse: ",substring);
+                CustomerKey keFuBean = GsonUtils.fromData(substring, CustomerKey.class);
+                setMessage(keFuBean);
             }
-
+        }, new Response.ErrorListener() {
             @Override
-            public void onFailed(int i) {
-                Log.e(TAG, "onFailed: "+i);
+            public void onErrorResponse(VolleyError mVolleyError) {
+                Log.e(TAG, "onErrorResponse: "+mVolleyError.getLocalizedMessage() );
+                ToastHelper.show(TextMessageActivity.this,"拉取客服信息失败");
             }
-
-            @Override
-            public void onException(Throwable throwable) {
-                Log.e(TAG, "onException: "+throwable.getLocalizedMessage());
-            }
-        });*/
-        /*NIMClient.getService(MsgService.class)
-                .queryMessageList(sessionId,SessionTypeEnum.P2P,0,20)
-                .setCallback(new RequestCallbackWrapper<List<IMMessage>>() {
-                    @Override
-                    public void onResult(int i, List<IMMessage> imMessages, Throwable throwable) {
-                        for (int a = 0; a < imMessages.size(); a++) {
-                            Log.e("AAAAAAAAAAA", "onSuccess: " + imMessages.get(a).getContent());
-                        }
-                    }
-                });*/
-        /*NIMClient.getService(MsgService.class)
-                .queryMessageList()*/
+        });
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+        mQueue.add(stringRequest);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    private void setMessage(CustomerKey mKeFuBean) {
+        registerObservers(incomingMessageObserver, true);
+        sessionId = getIntent().getStringExtra("sessionId");
+        Log.e("setMessage: ", sessionId+"");
+        title = getIntent().getStringExtra("title");
+        sharedPress = DataSharedPress.getSharedPress(TextMessageActivity.this);
+        tv_title.setText(title);
+        historyMessage = new HistoryMessage(TextMessageActivity.this, listView,sessionId, mKeFuBean);
         historyMessage.setShowImage(new HistoryMessage.ShowImage() {
             @Override
             public void showImage(IMMessage message, ImageView view, MessageAdapter adapter) {
@@ -176,6 +157,17 @@ public class TextMessageActivity extends Activity implements View.OnClickListene
                         });
             }
         });
+        Log.e(TAG, "setMessage: "+sessionId);
+        imMessage = MessageBuilder.createEmptyMessage(sessionId, SessionTypeEnum.None, 0);
+
+        Log.e("TextMessageActivity", "onCreate: "+imMessage.getContent());
+        historyMessage.pullMessageFromCloud(imMessage, 10, true);
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
     }
 
@@ -511,4 +503,6 @@ public class TextMessageActivity extends Activity implements View.OnClickListene
         System.out.println("###登出了");
 //        registerObservers(incomingMessageObserver, false);
     }
+
+
 }

@@ -114,7 +114,6 @@ public class ChildAdapter extends BaseAdapter {
                 if (targetHeight != 0 && mTargetWidth != 0) {
                     Bitmap result = Bitmap.createScaledBitmap(source, mTargetWidth, targetHeight, false);
                     if (result != source) {
-                        // Same bitmap is returned if sizes are the same
                         source.recycle();
                     }
                     return result;

@@ -3,8 +3,6 @@ package com.tiemuyu.chuanchuan.activity.bean;
 import org.xutils.db.annotation.Column;
 import org.xutils.db.annotation.Table;
 
-import com.google.gson.annotations.SerializedName;
-
 
 /**
   * @ClassName: User
@@ -100,13 +98,13 @@ public class User extends DataPacket {
 	private String Wechat;//微信
 	
 	@Column(name ="Weibo")
-	private String Weibo;//新浪微博
+	private String Weibo;
 
 	@Column(name ="Accid")
-	private String Accid;//新浪微博
+	private String Accid;
 
 	@Column(name ="AccToken")
-	private String AccToken;//新浪微博
+	private String AccToken;
 	
 	
 	public int getId() {

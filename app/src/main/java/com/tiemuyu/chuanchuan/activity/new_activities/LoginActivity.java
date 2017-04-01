@@ -31,6 +31,7 @@ import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.ConnectionUtil;
 import com.tiemuyu.chuanchuan.activity.util.DataContoler;
 import com.tiemuyu.chuanchuan.activity.util.DownloadService.DownloadStateListener;
+import com.tiemuyu.chuanchuan.activity.util.GetCustomer;
 import com.tiemuyu.chuanchuan.activity.util.JsonTools;
 import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.util.LogHelper;
@@ -73,12 +74,10 @@ import java.util.ArrayList;
  * @version：
  */
 public class LoginActivity extends BaseActivityG implements
-         DownloadStateListener {
+        DownloadStateListener {
 
 
     //高伟豪 继承了HTTPcallback方法。任何的http请求都会调用类中的接口
-
-
 
 
     @ViewInject(R.id.login_name)
@@ -96,20 +95,17 @@ public class LoginActivity extends BaseActivityG implements
 
 
     @ViewInject(R.id.register_new)
-    private  TextView bt_zhuce;  //注册按钮
+    private TextView bt_zhuce;  //注册按钮
 
 
     @ViewInject(R.id.forget_password1)
-    private  TextView forget_password1;  //忘记密码按钮
+    private TextView forget_password1;  //忘记密码按钮
 
 
     public static HttpCallBack mainHttpCallBack;
 
 
-
     private ArrayList<String> path = new ArrayList<String>();// 图片缓存地址
-
-
 
 
     private String name;
@@ -128,14 +124,11 @@ public class LoginActivity extends BaseActivityG implements
      * 请求的TAG
      */
     private String TAG_LOGIN = "TAG_LOGIN";
-//    private String TAG_UOLOAD = "TAG_UOLOAD";
+    //    private String TAG_UOLOAD = "TAG_UOLOAD";
     private String TAG_GET_PASSKEY = "TAG_GET_PASSKEY";
     private String TAG_THIRD_LOGIN = "TAG_THIRD_LOGIN";
     private String TAG_GETUSERNAME = "TAG_GETUSERNAME";
     private String GET_AWARD_INFO = "GET_AWARD_INFO";
-
-
-
 
 
 //    protected LoadingDialog dialog;
@@ -150,8 +143,6 @@ public class LoginActivity extends BaseActivityG implements
     private String TAG_UOLOAD = "TAG_UOLOAD";
     private String TAG_APPEX = "TAG_APPEX";
     private String funFlag;// 类型
-
-
 
 
     private static final int MSG_USERID_FOUND = 1;
@@ -169,19 +160,19 @@ public class LoginActivity extends BaseActivityG implements
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.login_layout);
 
-         bt_login=(Button) findViewById(R.id.login1);
+        bt_login = (Button) findViewById(R.id.login1);
 
-        bt_back=(ImageView) findViewById(R.id.return_button);
+        bt_back = (ImageView) findViewById(R.id.return_button);
 
-        et_name=(ClearEditText) findViewById(R.id.login_name);// 账号输入框
-
-
-        et_pass=(ClearEditText) findViewById(R.id.login_password);// 账号输入框
+        et_name = (ClearEditText) findViewById(R.id.login_name);// 账号输入框
 
 
-        bt_zhuce=(TextView) findViewById(R.id.register_new) ;
+        et_pass = (ClearEditText) findViewById(R.id.login_password);// 账号输入框
 
-        forget_password1=(TextView) findViewById(R.id.forget_password1);
+
+        bt_zhuce = (TextView) findViewById(R.id.register_new);
+
+        forget_password1 = (TextView) findViewById(R.id.forget_password1);
 
         // 添加Activity到堆栈
         AppManager.getAppManager().addActivity(this);
@@ -211,6 +202,7 @@ public class LoginActivity extends BaseActivityG implements
     protected void initAppAccess() {
 
     }
+
     protected void initListener() {
         // TODO Auto-generated method stub
         bt_login.setOnClickListener(this);
@@ -219,8 +211,6 @@ public class LoginActivity extends BaseActivityG implements
 
         bt_zhuce.setOnClickListener(this);
         forget_password1.setOnClickListener(this);
-
-
 
 
 //        tv_forget.setOnClickListener(this);
@@ -281,7 +271,6 @@ public class LoginActivity extends BaseActivityG implements
         mainHttpCallBack = this;
 
 
-
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -290,7 +279,7 @@ public class LoginActivity extends BaseActivityG implements
                 switch (msg.what) {
                     case 0:
                         final User loginBean = (User) msg.obj;
-                      //  LogHelper.d("---登录的user：" + loginBean.toString());
+                        //  LogHelper.d("---登录的user：" + loginBean.toString());
 
                         MineFragment.user = loginBean;
                         System.out.println("#####Minefragment.user：" + MineFragment.user.toString());
@@ -318,14 +307,8 @@ public class LoginActivity extends BaseActivityG implements
             }
         };
 
+
     }
-
-
-
-
-
-
-
 
 
     public void onClick(View v) {
@@ -340,7 +323,7 @@ public class LoginActivity extends BaseActivityG implements
                     return;
 
                 //starttobackactivity 的方法是 自动终结当前activity 会退到第二个acitvity 传递一个data 可以设置为null当没有的时候
-                ClassJumpTool.startToBackActivity(this, MainActivity.class,null, 10);
+                ClassJumpTool.startToBackActivity(this, MainActivity.class, null, 10);
                 break;
             case R.id.register_new:
 
@@ -356,7 +339,6 @@ public class LoginActivity extends BaseActivityG implements
                 ClassJumpTool.startToNextActivityForResult(this,
                         ForgetPassword.class, 10);
                 break;
-
 
 
         }
@@ -402,20 +384,13 @@ public class LoginActivity extends BaseActivityG implements
     }
 
 
-
-
-
-
     /**
      * 关闭当前activity
-     * */
+     */
     public void closeActivity() {
         AppManager.getAppManager().finishActivity(this);
         overridePendingTransition(R.anim.out_from_left, R.anim.out_from_right);
     }
-
-
-
 
 
     @Override
@@ -427,8 +402,6 @@ public class LoginActivity extends BaseActivityG implements
         }
         isTh = false;
     }
-
-
 
 
     private ProgressDialog pd;
@@ -449,7 +422,7 @@ public class LoginActivity extends BaseActivityG implements
         pass = et_pass.getText().toString().trim();
 
         if (StringUtil.isNull(name)) {
-            Toast.makeText(this,"请输入账号",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "请输入账号", Toast.LENGTH_LONG).show();
             return;
         }
         if (!JudgmentLegal.isPhoneOrEmail(name)) {
@@ -502,9 +475,6 @@ public class LoginActivity extends BaseActivityG implements
     }
 
 
-
-
-
     @Override
     public void successCallBack(String resultTag, BaseBean baseBean,
                                 String callBackMsg, boolean isShowDiolog) {
@@ -520,18 +490,18 @@ public class LoginActivity extends BaseActivityG implements
         super.failCallBack(arg0, resultTag, isShowDiolog);
         if (resultTag.equals(TAG_GET_PASSKEY)) {
 
+        } else if (resultTag.equals(TAG_LOGIN)){
+            ToastHelper.show(LoginActivity.this,"登录失败"+arg0.getLocalizedMessage());
+            pd.dismiss();
         }
     }
 
     private void sucMethiod(String msg, String resultTag) {
 
         //叠加的方法做登录。
-        if (resultTag.equals(TAG_GET_PASSKEY))
-        {
+        if (resultTag.equals(TAG_GET_PASSKEY)) {
             GetPassKey key = JsonTools.fromJson(msg, GetPassKey.class);
             passkey = key.getData().getPassKey();
-
-
 
 
             if (JudgmentLegal.validatePhoneNumber(name))
@@ -540,9 +510,7 @@ public class LoginActivity extends BaseActivityG implements
                 loginMethod(name, pass, passkey, "");
 
 
-        }
-        else if (resultTag.equals(TAG_LOGIN))
-        {
+        } else if (resultTag.equals(TAG_LOGIN)) {
             pd.dismiss();
 //            LogHelper.d("----登录成功--" + msg);
             ToastHelper.show(this, "登录成功");
@@ -560,28 +528,23 @@ public class LoginActivity extends BaseActivityG implements
 
             System.out.println("####非常重要：" + msg);
 
-            User user = DataContoler.parseLoginMsgAndSetUser(msg, pass, "");
+            final User user = DataContoler.parseLoginMsgAndSetUser(msg, pass, "");
             setMsg(0, user);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    GetCustomer.httpConnPostString(user.getAccid(), user.getAccToken());
+                }
+            }).start();
 
-            //gao在这里做深耕
+        } else if (resultTag.equals(TAG_GETUSERNAME)) {
 
 
-        }
-        else if (resultTag.equals(TAG_GETUSERNAME))
-        {
-
-
-        }
-        else if (resultTag.equals(TAG_UOLOAD))
-        {
+        } else if (resultTag.equals(TAG_UOLOAD)) {
 
         }
 
     }
-
-
-
-
 
 
     /**
@@ -609,12 +572,6 @@ public class LoginActivity extends BaseActivityG implements
     }
 
 
-
-
-
-
-
-
     /**
      * 数据返回成功，并且code=1时调用
      */
@@ -624,8 +581,6 @@ public class LoginActivity extends BaseActivityG implements
 
 
     }
-
-
 
 
 //    @Override
@@ -644,7 +599,6 @@ public class LoginActivity extends BaseActivityG implements
 //    }
 
 
-
 //
 //    @Override
 //    public void reLoginCallBack(String resultTag, boolean isShowDiolog) {
@@ -656,107 +610,39 @@ public class LoginActivity extends BaseActivityG implements
 //
 
 
-
-
-
-
-
-
-    /*******callback接口********/
-
+    /*******
+     * callback接口
+     ********/
 
 
 //
-//    @Override
-//    public void failShowCallBack(String resultTag, BaseBean baseBean,
-//                                 String callBackMsg, boolean isShowDiolog) {
-//        // TODO Auto-generated method stub
-//        super.failShowCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
-//
-//        // dissMissDialog(isShowDiolog);
-////        if (resultTag.equals(TAG_UOLOAD)) {
-//////            upload_imag_fail(callBackMsg, resultTag);
-////        }
-//        if (resultTag.equals(TAG_LOGIN) || resultTag.equals(TAG_GET_PASSKEY)
-//                || resultTag.equals(TAG_GETUSERNAME)
-//                || resultTag.equals(TAG_THIRD_LOGIN)) {
-////            hideProdia();
-//            System.out.println("######failShowCallBack "+resultTag);
-//            ToastHelper.show(this, baseBean.getMsg());
-//        }
-//
-//
-//
-//
-//    }
-//
-//
-//    @Override
-//    public void failCallBack(Throwable arg0, String resultTag,
-//        boolean isShowDiolog) {
-//            // TODO Auto-generated method stub
-//        super.failCallBack(arg0, resultTag, isShowDiolog);
-//
-////            super.failCallBack(arg0, resultTag, isShowDiolog);
-////            if (resultTag.equals(TAG_LOGIN) || resultTag.equals(TAG_GET_PASSKEY)
-////                    || resultTag.equals(TAG_GETUSERNAME)
-////                    || resultTag.equals(TAG_THIRD_LOGIN)) {
-////                hideProdia();
-////                LogHelper.d("----登录失败:" + arg0.getMessage());
-////                //ToastHelper.show(this, "登录失败"+ arg0.getMessage()+",tag:"+resultTag);
-////                ToastHelper.show(this, "登录失败");
-////            } else if (resultTag.equals(TAG_UOLOAD)) {
-////                thirdLoginBean.setUserImg("");
-////                tLogin();
-////            }
-//            if (resultTag.equals(TAG_LOGIN) || resultTag.equals(TAG_GET_PASSKEY)
-//                    || resultTag.equals(TAG_GETUSERNAME)
-//                    || resultTag.equals(TAG_THIRD_LOGIN)) {
-//                hideProdia();
-//                System.out.println("#####登录失败:" + arg0.getMessage());
-//                //ToastHelper.show(this, "登录失败"+ arg0.getMessage()+",tag:"+resultTag);
-//                ToastHelper.show(this, "登录失败");
-//            }
-//
-//
-//        }
-//
-//
-//
-//
-//
-
-
-
-
-
-        private void hideProdia() {
+    private void hideProdia() {
 //            if (dialog != null && dialog.isShowing())
 //                dialog.dismiss();
 
-        }
+    }
 
-        private void setMsg(int msg_id, Object object) {
-            Message message = handler.obtainMessage();
-            message.what = msg_id;
-            message.obj = object;
-            handler.sendMessage(message);
-        }
+    private void setMsg(int msg_id, Object object) {
+        Message message = handler.obtainMessage();
+        message.what = msg_id;
+        message.obj = object;
+        handler.sendMessage(message);
+    }
 
-        @Override
-        protected void onStop() {
-            // TODO Auto-generated method stub
-            super.onStop();
+    @Override
+    protected void onStop() {
+        // TODO Auto-generated method stub
+        super.onStop();
 
-        }
+    }
 
-        @Override
-        protected void onDestroy() {
-            // TODO Auto-generated method stub
-            super.onDestroy();
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
 //            ShareSDK.stopSDK(this);
 //            unregisterReceiver(mBroadcastReceiver);
-        }
+    }
 
 //        private void authorize(Platform plat) {
 //            if (plat == null) {
@@ -784,26 +670,21 @@ public class LoginActivity extends BaseActivityG implements
 //        }
 
 
+    private void upImg(String img) {
+        MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
 
+                TAG_UOLOAD, Constant.REQUEST_POST, ParamsTools.upLodingImag(
+                UrlManager.UPIMG(UrlManager.USERIMG), img), this, "上传头像中..",
+                false));
+    }
 
-
-
-
-        private void upImg(String img) {
-            MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
-
-                    TAG_UOLOAD, Constant.REQUEST_POST, ParamsTools.upLodingImag(
-                    UrlManager.UPIMG(UrlManager.USERIMG), img), this, "上传头像中..",
-                    false));
-        }
-
-        @Override
-        protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-            // TODO Auto-generated method stub
-            super.onActivityResult(arg0, arg1, arg2);
-            if (arg2 != null) {
-                switch (arg1) {
-                    case 10:
+    @Override
+    protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(arg0, arg1, arg2);
+        if (arg2 != null) {
+            switch (arg1) {
+                case 10:
 //                        String phone = arg2
 //                                .getStringExtra(ClassJumpTool.DATA_PACKET_BACK);
 //                        if (phone != null) {
@@ -812,45 +693,45 @@ public class LoginActivity extends BaseActivityG implements
 //                        }
 //                        break;
 
-                    case 20:
-                        // 第三方返回
+                case 20:
+                    // 第三方返回
 
-                        break;
-                }
+                    break;
             }
-
         }
 
-        @Override
-        public void onFinish() {
-            // TODO Auto-generated method stub
+    }
 
-        }
+    @Override
+    public void onFinish() {
+        // TODO Auto-generated method stub
 
-        @Override
-        public void onFailed() {
-            // TODO Auto-generated method stub
-            LogHelper.d("-----下载失败");
-        }
+    }
 
-        @Override
-        public void onFinish(String img_url) {
-            // TODO Auto-generated method stub
-            LogHelper.d("-----下载成功:本地地址" + img_url);
+    @Override
+    public void onFailed() {
+        // TODO Auto-generated method stub
+        LogHelper.d("-----下载失败");
+    }
+
+    @Override
+    public void onFinish(String img_url) {
+        // TODO Auto-generated method stub
+        LogHelper.d("-----下载成功:本地地址" + img_url);
 //            // UserImg=img_url;
 //            url_ls.clear();
 //            thirdLoginBean.setUserImg(img_url);
-            handler.sendEmptyMessage(8);
+        handler.sendEmptyMessage(8);
 
-        }
+    }
 
 
-        private void showDialog(String msg) {
+    private void showDialog(String msg) {
 //            dialog = new LoadingDialog(this, msg);
 //            dialog.setCanceledOnTouchOutside(false);
 //            dialog.show();
 
-        }
+    }
 
 
     public HttpCallBack getMainHttpCallBack() {
@@ -860,10 +741,6 @@ public class LoginActivity extends BaseActivityG implements
     public void setMainHttpCallBack(HttpCallBack mainHttpCallBack) {
         this.mainHttpCallBack = mainHttpCallBack;
     }
-
-
-
-
 
 
 

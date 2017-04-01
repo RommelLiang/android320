@@ -30,6 +30,7 @@ import com.tiemuyu.chuanchuan.activity.bean.ClothesDetail;
 import com.tiemuyu.chuanchuan.activity.bean.User;
 import com.tiemuyu.chuanchuan.activity.chat_tools.activity.MessageActivity;
 import com.tiemuyu.chuanchuan.activity.chat_tools.bean.Contacts;
+import com.tiemuyu.chuanchuan.activity.chat_tools.fragment.TextMessageActivity;
 import com.tiemuyu.chuanchuan.activity.chat_tools.inter.NetResponses;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
@@ -40,6 +41,7 @@ import com.tiemuyu.chuanchuan.activity.util.GlideImageLoader;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
+import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -236,7 +238,14 @@ public class ClothesDetailsActivity extends BaseActivityG implements NetResponse
             ll_ke_fu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    kefu();
+                    Intent intent1 = new Intent(ClothesDetailsActivity.this, TextMessageActivity.class);
+                    intent1.putExtra("sessionId", SPUtils.getKefuCode());
+                    intent1.putExtra("title","定制助理（9:00-24:00）");
+                    startActivity(intent1);
+
+                    DataSharedPress sharedPress = DataSharedPress.getSharedPress(ClothesDetailsActivity.this);
+                    sharedPress.putInt(SPUtils.getKefuCode() + "unread", 0);
+                    //kefu();
                 }
             });
             ll_zhi_fu.setOnClickListener(new View.OnClickListener() {

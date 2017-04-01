@@ -2,7 +2,6 @@ package com.tiemuyu.chuanchuan.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,8 +9,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
@@ -21,33 +18,26 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
-import com.netease.nimlib.sdk.auth.AuthService;
-
-import java.io.File;
-
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.db.DBTools;
-import com.tiemuyu.chuanchuan.activity.fragment.HomeFragment;
 import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
 import com.tiemuyu.chuanchuan.activity.new_activities.LoginActivity;
 import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.ConnectionUtil;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
+import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
-import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp.HttpCallBack;
-import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
-import com.tiemuyu.chuanchuan.activity.view.PromptDialog;
-import com.tiemuyu.chuanchuan.activity.view.URL;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.http.RequestParams;
 import org.xutils.http.cookie.DbCookieStore;
+
+import java.io.File;
 
 /**
  * Created by Administrator on 2016/8/4.
@@ -220,6 +210,7 @@ public class SettingActivity extends Activity implements View.OnClickListener,Th
                                 "注销中...",
                                 false));
                         ClassJumpTool.startToNextActivity(SettingActivity.this,LoginActivity.class, "1");
+                        SPUtils.clear(SettingActivity.this);
                         finish();
                         break;
                     case 13:

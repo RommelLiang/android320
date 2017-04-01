@@ -581,6 +581,12 @@ public class UrlManager {
     public static final String GetChengPin() {
         return BASEURL + "api/apppi?dingzhiitem&id=";
     }
+    /**
+     * lws 在这里添加的获取标签
+     */
+    public static final String getCustomerKey() {
+        return "http://imserver.myappcc.com/api/GetCustomer?key=CCDATA[QA_ALLKEY]";
+    }
 
     /**
      * lws 在这里添加的接口获取个人信息
@@ -796,7 +802,7 @@ public class UrlManager {
                 "&guanjianzi=" + key_word;
     }
 
-    public static final String getPush(String token,String time) {
-        return BASEURL + "api/apppi?umenghistory&usertoken="+token+"&timerequest="+time;
+    public static final String getPush(String userid,String datetime,String startpos,String itemcount) {
+        return BASEURL + "http://imserver.myappcc.com/api/UMeng?datetime=%@&userid=%@&startpos=%@&itemcount=%@&rule=desc";
     }
 }

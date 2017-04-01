@@ -73,6 +73,9 @@ public class MessageActivity extends Activity implements AdapterView.OnItemClick
         if (dataList.size()==0) {
             ToastHelper.show(this,"网络较差，拉取客服信息失败");
         }
+        for (int i = 0; i < dataList.size(); i++) {
+            Log.e("onCreate: ", dataList.get(i).toString());
+        }
         sharedPress = DataSharedPress.getSharedPress(this);
         registerObservers(incomingMessageObserver, true);
         adapter = new ContactsAdapter(this, dataList);
@@ -167,6 +170,7 @@ public class MessageActivity extends Activity implements AdapterView.OnItemClick
             sharedPress.putLong(sessionId + "Time", sharedPress.getLong(sessionId + "Time"));
             Intent intent = new Intent(MessageActivity.this, TextMessageActivity.class);
             Log.e("onItemClick: ","" + sessionId );
+            Log.e("title: ","" + dataList.get(position).getName() );
             intent.putExtra("sessionId", sessionId);
             intent.putExtra("title", dataList.get(position).getName());
             HEADER_URL = dataList.get(position).getHeader();

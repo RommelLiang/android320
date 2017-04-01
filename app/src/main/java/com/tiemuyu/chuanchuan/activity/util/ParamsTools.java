@@ -2,17 +2,17 @@ package com.tiemuyu.chuanchuan.activity.util;
 
 import android.util.Log;
 
-import java.io.File;
-import java.util.List;
-
-import org.apache.http.entity.StringEntity;
-import org.xutils.http.RequestParams;
-
 import com.tiemuyu.chuanchuan.activity.bean.AppStartBean;
 import com.tiemuyu.chuanchuan.activity.bean.BodyDataBean;
 import com.tiemuyu.chuanchuan.activity.bean.PersonInfoBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
+
+import org.xutils.http.RequestParams;
+
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * @ClassName: ParamsTools
@@ -819,6 +819,24 @@ public class ParamsTools {
 		return params;
 	}
 
+	/**
+	 * 梁文硕
+	 * 添加拉取客服
+	 * @param json
+	 *  id
+	 * @return
+	 */
+	public static RequestParams getCustomer(String json) {
+		RequestParams params = new RequestParams("http://imserver.myappcc.com/api/GetCustomer");
+		params.setAsJsonContent(true);
+		try {
+			params.setBodyContent(String.valueOf(json.getBytes("UTF-8")));
+			Log.e("getCustomer: ", String.valueOf(json.getBytes("UTF-8")));
+		} catch (UnsupportedEncodingException nE) {
+			Log.e("getCustomer:",nE.getLocalizedMessage() );
+		}
+		return params;
+	}
 	/**
 	 * 梁文硕
 	 * 删除我的收藏

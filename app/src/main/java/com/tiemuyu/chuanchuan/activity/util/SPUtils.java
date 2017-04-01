@@ -18,6 +18,7 @@ public class SPUtils {
 
     public static final String FILE_NAME = "sys_data";
     public static final String ADD_TIME = "add_time_" + R.string.versionCode;
+    public static final String KEFU_CODE= "kefu_code";
 
     public static void init(Context context) {
         mContext = context;
@@ -30,6 +31,15 @@ public class SPUtils {
     public static String getAddTime(){
         return (String) get(ADD_TIME,"");
     }
+
+    public static String getKefuCode() {
+        return (String) get(KEFU_CODE,"");
+    }
+
+    public static void saveKefuCode(String code) {
+        put(KEFU_CODE,code);
+    }
+
     public static void put(String key, Object object) {
         SharedPreferences sp = mContext.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);

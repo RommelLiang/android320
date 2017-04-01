@@ -11,17 +11,24 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
-
+    <RelativeLayout
+        android:layout_marginLeft="8dp"
+        android:background="@color/hint_tishi_mid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <ImageView
-            android:paddingTop="1dp"
-            android:paddingLeft="1dp"
-            android:paddingBottom="1dp"
-            android:paddingRight="1dp"
-            android:background="@color/hint_tishi_mid"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="1dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="1dp"
+
             android:id="@+id/im_image"
             android:layout_width="250dp"
             android:layout_height="250dp"
-            android:layout_marginLeft="8dp" />
+            android:layout_marginLeft="1dp" />
+    </RelativeLayout>
+
+
 
         <TextView
             android:layout_marginTop="5dp"

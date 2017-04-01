@@ -87,7 +87,7 @@ public class ExecuteChargeActivity extends BaseActivityG implements OnItemClickL
                     money = Double.parseDouble(s);
                     MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(ExecuteChargeActivity.this,
                             TAG_EXCUTECharger, Constant.REQUEST_GET, new RequestParams(UrlManager
-                            .excuteCharger(money,PayType,"android")), ExecuteChargeActivity.this, "获取passkey", false));
+                            .excuteCharger(money,PayType,"android")), ExecuteChargeActivity.this, "充值", false));
                 }
             }
         });

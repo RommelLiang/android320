@@ -12,16 +12,11 @@ import com.tiemuyu.chuanchuan.activity.adapter.PushMessageAdapter;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.PushBean;
 import com.tiemuyu.chuanchuan.activity.bean.PushBeanPlus;
-import com.tiemuyu.chuanchuan.activity.constant.Constant;
-import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.inter.SelectInterFace;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
-import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
-
-import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +46,7 @@ public class PushHistoryActivity extends BaseActivityG implements SelectInterFac
         mListView = (ListView) findViewById(R.id.lv_message);
         tv_edit = (TextView) findViewById(R.id.tv_edit);
         Log.e("onCreate: ", guideVer+addTime);
-        MyApplication.poolManager.addAsyncTask(
+        /*MyApplication.poolManager.addAsyncTask(
                 new ThreadPoolTaskHttp(this,
                         TAG_GET_PUSHHISTORY,
                         Constant.REQUEST_GET,
@@ -59,7 +54,7 @@ public class PushHistoryActivity extends BaseActivityG implements SelectInterFac
                                 UrlManager.getPush(guideVer, addTime)),
                         this,
                         "拉取推送消息",
-                        false));
+                        false));*/
     }
 
     @Override

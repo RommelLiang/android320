@@ -8,13 +8,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
+import com.tiemuyu.chuanchuan.activity.MyApplication;
+import com.tiemuyu.chuanchuan.activity.chat_tools.inter.NetResponses;
 
 import org.json.JSONObject;
 
 import java.util.Map;
-
-import com.tiemuyu.chuanchuan.activity.MyApplication;
-import com.tiemuyu.chuanchuan.activity.chat_tools.inter.NetResponses;
 
 /**
  * Created by Administrator on 2016/5/20.

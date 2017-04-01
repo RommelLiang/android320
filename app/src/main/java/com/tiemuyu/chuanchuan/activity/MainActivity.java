@@ -44,6 +44,7 @@ import com.tiemuyu.chuanchuan.activity.bean.User;
 import com.tiemuyu.chuanchuan.activity.chat_tools.activity.MessageActivity;
 import com.tiemuyu.chuanchuan.activity.chat_tools.activity.NetworkActivity;
 import com.tiemuyu.chuanchuan.activity.chat_tools.bean.Contacts;
+import com.tiemuyu.chuanchuan.activity.chat_tools.fragment.TextMessageActivity;
 import com.tiemuyu.chuanchuan.activity.chat_tools.inter.NetResponses;
 import com.tiemuyu.chuanchuan.activity.chat_tools.inter.UnReadChange;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
@@ -59,6 +60,8 @@ import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.DataSharedPress;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
+import com.tiemuyu.chuanchuan.activity.util.SPUtils;
+import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 import com.tiemuyu.chuanchuan.activity.util.ViewTools;
 import com.tiemuyu.chuanchuan.activity.view.CustomButton;
 import com.tiemuyu.chuanchuan.activity.view.GuideView;
@@ -117,6 +120,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
     public static String OWN_HEADER_URL = "";//gao 在这里更改有效
     private DataSharedPress sharedPress;
     private String pushmessage = "pushmessage";
+    private boolean isJump =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -400,7 +404,13 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 
                 if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false) == false) {
                     Toast.makeText(this, "没登录", Toast.LENGTH_SHORT).show();
-                } else if (isIMLogin) {
+                } else if(isIMLogin){
+                    keFu();
+                } else{
+                    isJump = true;
+                    ToastHelper.show(MainActivity.this,"正在登录");
+                    login();
+                }/*else if (isIMLogin) {
                     //Toast.makeText(getApplicationContext(), "第一个！", Toast.LENGTH_SHORT).show();
                     System.out.println("accid after kefu is clicked: " + sp.getString("accid", ""));
                     System.out.println("acctoken after kefu is clicked: " + sp.getString("acctoken", ""));
@@ -411,7 +421,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
                     startActivity(intent1);
                 } else {
                     login();
-                }
+                }*/
 
 
                 break;
@@ -501,11 +511,12 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
     }
 
     private void keFu() {
-        Intent intent1 = new Intent(MainActivity.this, MessageActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("data", dataList);
-        intent1.putExtra("bundle", bundle);
+        Intent intent1 = new Intent(MainActivity.this, TextMessageActivity.class);
+        intent1.putExtra("sessionId", SPUtils.getKefuCode());
+        intent1.putExtra("title","定制助理（9:00-24:00）");
         startActivity(intent1);
+        DataSharedPress sharedPress = DataSharedPress.getSharedPress(this);
+        sharedPress.putInt(SPUtils.getKefuCode() + "unread", 0);
     }
 
     private void getIMLoginParameter(String id) {
@@ -522,8 +533,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
             Toast.makeText(this, "网络异常", Toast.LENGTH_SHORT).show();
         }
         LoginInfo loginInfo = new LoginInfo(now.getAccid(), now.getAccToken());
-//        System.out.println("accid after new LoginInfo: " + accid);
-//        System.out.println("acctoken after new LoginInfo: " + token);
+//
         String getinfo = now.getUserImg();
         ///sp.getString("userimag", "");
         //获取用户的im头像 gao
@@ -534,6 +544,10 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
             public void onSuccess(LoginInfo loginInfo) {
 
                 isIMLogin = true;
+                if (isJump) {
+                    keFu();
+                    isJump = false;
+                }
                 request(Request.Method.GET, "http://imserver.myappcc.com/api/Getuseracc", null, "", tag, 100);
             }
 

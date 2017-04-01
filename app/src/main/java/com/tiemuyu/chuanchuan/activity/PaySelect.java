@@ -310,10 +310,12 @@ public class PaySelect extends BaseActivityG{
                 }
                 case 2: {
                     Toast.makeText(getApplicationContext(), "支付错误请重试!", Toast.LENGTH_SHORT).show();
+                    pd.dismiss();
                     break;
                 }
                 case 3: {
                     Toast.makeText(getApplicationContext(), "支付退出请重试!", Toast.LENGTH_SHORT).show();
+                    pd.dismiss();
                     break;
                 }
                 default:

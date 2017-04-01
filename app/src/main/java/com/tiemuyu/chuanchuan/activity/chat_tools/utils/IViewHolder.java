@@ -2,6 +2,7 @@ package com.tiemuyu.chuanchuan.activity.chat_tools.utils;
 
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,11 +23,14 @@ public class IViewHolder {
     public LinearLayout ly_message_image_left;
     public LinearLayout ly_message_audio_right;
     public LinearLayout ly_message_image_right;
+    public LinearLayout cc_message_left_rl;
     public RelativeLayout ly_message_video_left;
     public RelativeLayout ly_message_video_right;
     public TextView message_audio_time_right;
     public TextView message_audio_time_left;
     public TextView message_content_right;
+    public TextView cc_message_left_tv;
+    public ListView cc_message_left_lv;
     public TextView message_content_left;
     public CircleImageView message_portrait_right;
     public CircleImageView message_portrait_left;
