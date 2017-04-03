@@ -6,4 +6,5 @@ package com.tiemuyu.chuanchuan.activity.inter;
 
 public interface SelectInterFace {
     void onSelect(int postion);
+    void onUnSelect(int postion);
 }

@@ -1,4 +1,4 @@
-package com.tiemuyu.chuanchuan.activity.adapter;
+package com.tiemuyu.chuanchuan.activity.bean;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

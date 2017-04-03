@@ -1,5 +1,13 @@
 package com.tiemuyu.chuanchuan.activity.bean;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,155 +16,212 @@ import java.util.List;
 
 public class PushBean {
 
+
     /**
-     * Code : 1
-     * Msg : OK
-     * Data : {"umenghistory":[{"id":62,"title":"百度","image":"http://a1.myappcc.com/images/ccdefault/user_img.jpg","url":"https://www.baidu.com/","type":0,"neirong":"你要加多一个字段","create_user":"gao","sendtime":"2017-03-15 11:54:39","status":1,"miaoshu":"描述"},{"id":63,"title":"测试","image":"","url":"","type":1,"neirong":"你要加多一个字段","create_user":"gao","sendtime":"2017-03-14 11:54:39","status":1,"miaoshu":"管理"},{"id":64,"title":"测试2","image":"","url":"","type":0,"neirong":"你要加多一个字段","create_user":"gao","sendtime":"2017-03-13 11:54:39","status":1,"miaoshu":"查找"},{"id":65,"title":"1","image":"2","url":"3","type":4,"neirong":"5","create_user":"thhhh","sendtime":"2017-03-17 18:06:41","status":1,"miaoshu":"6"}]}
+     * history : [{"p_id":"69","p_title":"热剧扒款-《云巅之上》","p_image":"http://f1.myappcc.com/zfs/7E1/1073/LGU/073113527963CABHMSYSCF.jpg","p_link":"/{appname}/Home/fuzhuang?id=28","p_type":"广告","p_content":"热剧扒款","p_sendtime":"2017/3/31 12:15:11","p_attachmsg":"","p_text":"热剧扒款！"},{"p_id":"68","p_title":"因为遇见你","p_image":"http://f1.myappcc.com/zfs/7E1/1086/SCJ/086184417848CABHEUDVHL.jpg","p_link":"/{appname}/Home/fuzhuang?id=30","p_type":"活动","p_content":"送穿币","p_sendtime":"2017/3/31 11:24:35","p_attachmsg":"","p_text":"送穿币！"},{"p_id":"67","p_title":"穿穿两周年 定制享8折","p_image":"http://f1.myappcc.com/zfs/7E1/1089/PQF/089153839618CABHGEQHZY.jpg","p_link":"http://a1.myappcc.com/cc/Find/RankingList?id=170329110036737","p_type":"活动","p_content":"2周年庆","p_sendtime":"2017/3/31 10:49:32","p_attachmsg":"","p_text":"周年庆！"},{"p_id":"1","p_title":"测试标题","p_image":"http://f1.myappcc.com/img/361113254460CABDIOVUZZ.jpg","p_link":"firstpage","p_type":"1","p_content":"产品思密达","p_sendtime":"2017/3/31 9:00:00","p_attachmsg":"","p_text":"窗口提示语句"}]
+     * nextstartpos : 1
      */
 
-    private int Code;
-    private String Msg;
-    private DataBean Data;
+    private int nextstartpos;
+    private List<HistoryBean> history;
 
-    public int getCode() {
-        return Code;
+    public static PushBean objectFromData(String str) {
+
+        return new Gson().fromJson(str, PushBean.class);
     }
 
-    public void setCode(int Code) {
-        this.Code = Code;
-    }
+    public static PushBean objectFromData(String str, String key) {
 
-    public String getMsg() {
-        return Msg;
-    }
+        try {
+            JSONObject jsonObject = new JSONObject(str);
 
-    public void setMsg(String Msg) {
-        this.Msg = Msg;
-    }
-
-    public DataBean getData() {
-        return Data;
-    }
-
-    public void setData(DataBean Data) {
-        this.Data = Data;
-    }
-
-    public static class DataBean {
-        private List<UmenghistoryBean> umenghistory;
-
-        public List<UmenghistoryBean> getUmenghistory() {
-            return umenghistory;
+            return new Gson().fromJson(jsonObject.getString(str), PushBean.class);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        public void setUmenghistory(List<UmenghistoryBean> umenghistory) {
-            this.umenghistory = umenghistory;
+        return null;
+    }
+
+    public static List<PushBean> arrayPushBeanFromData(String str) {
+
+        Type listType = new TypeToken<ArrayList<PushBean>>() {
+        }.getType();
+
+        return new Gson().fromJson(str, listType);
+    }
+
+    public static List<PushBean> arrayPushBeanFromData(String str, String key) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            Type listType = new TypeToken<ArrayList<PushBean>>() {
+            }.getType();
+
+            return new Gson().fromJson(jsonObject.getString(str), listType);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        public static class UmenghistoryBean {
-            /**
-             * id : 62
-             * title : 百度
-             * image : http://a1.myappcc.com/images/ccdefault/user_img.jpg
-             * url : https://www.baidu.com/
-             * type : 0
-             * neirong : 你要加多一个字段
-             * create_user : gao
-             * sendtime : 2017-03-15 11:54:39
-             * status : 1
-             * miaoshu : 描述
-             */
+        return new ArrayList();
 
-            private int id;
-            private String title;
-            private String image;
-            private String url;
-            private int type;
-            private String neirong;
-            private String create_user;
-            private String sendtime;
-            private int status;
-            private String miaoshu;
 
-            public int getId() {
-                return id;
+    }
+
+    public int getNextstartpos() {
+        return nextstartpos;
+    }
+
+    public void setNextstartpos(int nextstartpos) {
+        this.nextstartpos = nextstartpos;
+    }
+
+    public List<HistoryBean> getHistory() {
+        return history;
+    }
+
+    public void setHistory(List<HistoryBean> history) {
+        this.history = history;
+    }
+
+    public static class HistoryBean {
+        /**
+         * p_id : 69
+         * p_title : 热剧扒款-《云巅之上》
+         * p_image : http://f1.myappcc.com/zfs/7E1/1073/LGU/073113527963CABHMSYSCF.jpg
+         * p_link : /{appname}/Home/fuzhuang?id=28
+         * p_type : 广告
+         * p_content : 热剧扒款
+         * p_sendtime : 2017/3/31 12:15:11
+         * p_attachmsg :
+         * p_text : 热剧扒款！
+         */
+
+        private String p_id;
+        private String p_title;
+        private String p_image;
+        private String p_link;
+        private String p_type;
+        private String p_content;
+        private String p_sendtime;
+        private String p_attachmsg;
+        private String p_text;
+
+        public static HistoryBean objectFromData(String str) {
+
+            return new Gson().fromJson(str, HistoryBean.class);
+        }
+
+        public static HistoryBean objectFromData(String str, String key) {
+
+            try {
+                JSONObject jsonObject = new JSONObject(str);
+
+                return new Gson().fromJson(jsonObject.getString(str), HistoryBean.class);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
-            public void setId(int id) {
-                this.id = id;
+            return null;
+        }
+
+        public static List<HistoryBean> arrayHistoryBeanFromData(String str) {
+
+            Type listType = new TypeToken<ArrayList<HistoryBean>>() {
+            }.getType();
+
+            return new Gson().fromJson(str, listType);
+        }
+
+        public static List<HistoryBean> arrayHistoryBeanFromData(String str, String key) {
+
+            try {
+                JSONObject jsonObject = new JSONObject(str);
+                Type listType = new TypeToken<ArrayList<HistoryBean>>() {
+                }.getType();
+
+                return new Gson().fromJson(jsonObject.getString(str), listType);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
-            public String getTitle() {
-                return title;
-            }
+            return new ArrayList();
 
-            public void setTitle(String title) {
-                this.title = title;
-            }
 
-            public String getImage() {
-                return image;
-            }
+        }
 
-            public void setImage(String image) {
-                this.image = image;
-            }
+        public String getP_id() {
+            return p_id;
+        }
 
-            public String getUrl() {
-                return url;
-            }
+        public void setP_id(String p_id) {
+            this.p_id = p_id;
+        }
 
-            public void setUrl(String url) {
-                this.url = url;
-            }
+        public String getP_title() {
+            return p_title;
+        }
 
-            public int getType() {
-                return type;
-            }
+        public void setP_title(String p_title) {
+            this.p_title = p_title;
+        }
 
-            public void setType(int type) {
-                this.type = type;
-            }
+        public String getP_image() {
+            return p_image;
+        }
 
-            public String getNeirong() {
-                return neirong;
-            }
+        public void setP_image(String p_image) {
+            this.p_image = p_image;
+        }
 
-            public void setNeirong(String neirong) {
-                this.neirong = neirong;
-            }
+        public String getP_link() {
+            return p_link;
+        }
 
-            public String getCreate_user() {
-                return create_user;
-            }
+        public void setP_link(String p_link) {
+            this.p_link = p_link;
+        }
 
-            public void setCreate_user(String create_user) {
-                this.create_user = create_user;
-            }
+        public String getP_type() {
+            return p_type;
+        }
 
-            public String getSendtime() {
-                return sendtime;
-            }
+        public void setP_type(String p_type) {
+            this.p_type = p_type;
+        }
 
-            public void setSendtime(String sendtime) {
-                this.sendtime = sendtime;
-            }
+        public String getP_content() {
+            return p_content;
+        }
 
-            public int getStatus() {
-                return status;
-            }
+        public void setP_content(String p_content) {
+            this.p_content = p_content;
+        }
 
-            public void setStatus(int status) {
-                this.status = status;
-            }
+        public String getP_sendtime() {
+            return p_sendtime;
+        }
 
-            public String getMiaoshu() {
-                return miaoshu;
-            }
+        public void setP_sendtime(String p_sendtime) {
+            this.p_sendtime = p_sendtime;
+        }
 
-            public void setMiaoshu(String miaoshu) {
-                this.miaoshu = miaoshu;
-            }
+        public String getP_attachmsg() {
+            return p_attachmsg;
+        }
+
+        public void setP_attachmsg(String p_attachmsg) {
+            this.p_attachmsg = p_attachmsg;
+        }
+
+        public String getP_text() {
+            return p_text;
+        }
+
+        public void setP_text(String p_text) {
+            this.p_text = p_text;
         }
     }
 }

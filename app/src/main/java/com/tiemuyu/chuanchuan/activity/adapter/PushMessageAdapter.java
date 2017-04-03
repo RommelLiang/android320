@@ -14,31 +14,34 @@ import com.tiemuyu.chuanchuan.activity.bean.PushBean;
 import com.tiemuyu.chuanchuan.activity.bean.PushBeanPlus;
 import com.tiemuyu.chuanchuan.activity.inter.SelectInterFace;
 
+import java.util.List;
+
 /**
  * Created by 梁文硕 on 2017/3/28.
  */
 
 public class PushMessageAdapter extends BaseAdapter {
+    private final List<PushBean.HistoryBean> mHistory;
     private Context mContext;
     private PushBeanPlus mPushBeanPlus;
-    private PushBean.DataBean mDataBean;
     private Holder mHolder;
     private SelectInterFace mSelectInterFace;
+
     public PushMessageAdapter(Context nContext, PushBeanPlus nPushBeanPlus, SelectInterFace mSelectInterFace) {
         mContext = nContext;
         mPushBeanPlus = nPushBeanPlus;
-        mDataBean = mPushBeanPlus.getPushBean().getData();
+        mHistory = mPushBeanPlus.getPushBean().getHistory();
         this.mSelectInterFace = mSelectInterFace;
     }
 
     @Override
     public int getCount() {
-        return mDataBean.getUmenghistory().size();
+        return mHistory.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mDataBean.getUmenghistory().get(position);
+        return mHistory.get(position);
     }
 
     @Override
@@ -65,7 +68,11 @@ public class PushMessageAdapter extends BaseAdapter {
             mHolder.iv_select.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mSelectInterFace.onSelect(position);
+                    if (mPushBeanPlus.getIntegers().get(position) == 1) {
+                        mSelectInterFace.onUnSelect(position);
+                    } else {
+                        mSelectInterFace.onSelect(position);
+                    }
                 }
             });
             if (mPushBeanPlus.getIntegers().get(position) == 0) {
@@ -77,12 +84,12 @@ public class PushMessageAdapter extends BaseAdapter {
         } else {
             mHolder.iv_select.setVisibility(View.GONE);
         }
-        mHolder.title.setText(mDataBean.getUmenghistory().get(position).getTitle());
-        mHolder.detail.setText(mDataBean.getUmenghistory().get(position).getNeirong());
-        mHolder.time.setText(mDataBean.getUmenghistory().get(position).getSendtime());
-        if (!mDataBean.getUmenghistory().get(position).getImage().equals("")) {
+        mHolder.title.setText(mHistory.get(position).getP_text());
+        mHolder.detail.setText(mHistory.get(position).getP_content());
+        mHolder.time.setText(mHistory.get(position).getP_sendtime());
+        if (!mHistory.get(position).getP_image().equals("")) {
             Picasso.with(mContext)
-                    .load(mDataBean.getUmenghistory().get(position).getImage())
+                    .load(mHistory.get(position).getP_image())
                     .into(mHolder.imageView);
         }
 

@@ -21,7 +21,7 @@ import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
-import com.tiemuyu.chuanchuan.activity.adapter.AnswerBean;
+import com.tiemuyu.chuanchuan.activity.bean.AnswerBean;
 import com.tiemuyu.chuanchuan.activity.bean.CustomerKey;
 import com.tiemuyu.chuanchuan.activity.chat_tools.adapter.MessageAdapter;
 import com.tiemuyu.chuanchuan.activity.chat_tools.bean.MessageData;

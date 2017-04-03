@@ -916,6 +916,17 @@ public class ParamsTools {
 		params.addBodyParameter("district", district);
 		return params;
 	}
-
+	/**
+	 * Author：rommel
+	 * @param:
+	 * @return:
+	 * Desc:
+	 */
+	public static RequestParams deletePush(String userid, String umengids) {
+		RequestParams params = new RequestParams(UrlManager.deletePush());
+		params.addBodyParameter("userid", userid);
+		params.addBodyParameter("umengids", umengids);
+		return params;
+	}
 
 }
