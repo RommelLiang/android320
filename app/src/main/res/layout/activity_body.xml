@@ -216,8 +216,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"/>
 
-                <EditText
-                    android:inputType="number"
+                <com.tiemuyu.chuanchuan.activity.view.BodyEditText
                     android:text="0"
                     android:id="@+id/usr_weight"
                     android:layout_width="wrap_content"

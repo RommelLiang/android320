@@ -630,33 +630,33 @@ public class ParamsTools {
 		params.addBodyParameter(Constant.AGE,
 				String.valueOf(data.getAge()));
 		params.addBodyParameter(Constant.WEIGHT,
-				String.valueOf((int) data.getWeight()));
+				String.valueOf(data.getWeight()));
 		params.addBodyParameter(Constant.HEIGHT,
-				String.valueOf((int) data.getHeight()));
+				String.valueOf(data.getHeight()));
 		params.addBodyParameter(Constant.CLOTHSIZE,
 				String.valueOf(data.getClothSize()));
 		params.addBodyParameter(Constant.PHYSIQUE,
 				String.valueOf(data.getPhysique()));
 		params.addBodyParameter(Constant.SHOULDERBREADTH,
-				String.valueOf((int) data.getShoulderBreadth()));
+				String.valueOf(data.getShoulderBreadth()));
 		params.addBodyParameter(Constant.BUST,
-				String.valueOf((int) data.getBust()));
+				String.valueOf(data.getBust()));
 		params.addBodyParameter(Constant.WAIST,
-				String.valueOf((int) data.getWaist()));
+				String.valueOf( data.getWaist()));
 		params.addBodyParameter(Constant.HIP,
-				String.valueOf((int) data.getHip()));
+				String.valueOf(data.getHip()));
 		params.addBodyParameter(Constant.SLEEVE,
-				String.valueOf((int) data.getSleeve()));
+				String.valueOf(data.getSleeve()));
 		params.addBodyParameter(Constant.THIGHCIRC,
-				String.valueOf((int) data.getThighCirc()));
+				String.valueOf(data.getThighCirc()));
 		params.addBodyParameter(Constant.CALFCIRC,
-				String.valueOf((int) data.getCalfCirc()));
+				String.valueOf( data.getCalfCirc()));
 		params.addBodyParameter(Constant.KNEECIRC,
-				String.valueOf((int) data.getKneeCirc()));
+				String.valueOf( data.getKneeCirc()));
 		params.addBodyParameter(Constant.ARMCIRC,
-				String.valueOf((int) data.getArmCirc()));
+				String.valueOf(data.getArmCirc()));
 		params.addBodyParameter(Constant.PANTS,
-				String.valueOf((int) data.getPants()));
+				String.valueOf(data.getPants()));
 		params.addBodyParameter(Constant.TEBIESHUOMING,"1");
 		params.addBodyParameter(Constant.GEXINGNAME,"1");
 		params.addBodyParameter(Constant.CHUANYIXIGUAN,"1");
@@ -671,32 +671,6 @@ public class ParamsTools {
 	public static RequestParams orderBody(String json) {
 		RequestParams params = new RequestParams(UrlManager.SaveBodyData());
 		params.addBodyParameter("BodyData",json);
-		/*params.addBodyParameter("OrderId",orderId);//1`
-		params.addBodyParameter("SkinColor","");//2`
-		params.addBodyParameter("WaistPostion","");//3`
-		params.addBodyParameter("BodyPic","");//4`
-		params.addBodyParameter("CustomerLogo","");//5`
-		params.addBodyParameter("CustomerName","");//6`
-		params.addBodyParameter("BodySummary","");//7`
-		params.addBodyParameter("BodyOther","");//8`
-		params.addBodyParameter("DressEffect","");//9`
-		params.addBodyParameter("Bmi","");//10`
-		params.addBodyParameter("Gender","1");//11`
-		params.addBodyParameter("Age","1");//12`
-		params.addBodyParameter("Weight","1");//13`
-		params.addBodyParameter("Height","1");//14`
-		params.addBodyParameter("ClothSize","1");//15
-		params.addBodyParameter("Physique","1");//16
-		params.addBodyParameter("ShoulderBreadth","1");//17
-		params.addBodyParameter("Bust","1");//18
-		params.addBodyParameter("Waist","1");//19
-		params.addBodyParameter("Hip","1");//20
-		params.addBodyParameter("Sleeve","1");//21
-		params.addBodyParameter("ThighCirc","1");//22
-		params.addBodyParameter("CalfCirc","1");//23
-		params.addBodyParameter("KneeCirc","1");//24
-		params.addBodyParameter("ArmCirc","1");//25
-		params.addBodyParameter("Pants","1");//26*/
 		return params;
 	}
 

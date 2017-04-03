@@ -1,8 +1,6 @@
 package com.tiemuyu.chuanchuan.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +14,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.nostra13.universalimageloader.core.download.HttpClientImageDownloader;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.BodyDataBean;
 import com.tiemuyu.chuanchuan.activity.bean.PersonInfoBean;
@@ -29,7 +26,7 @@ import com.tiemuyu.chuanchuan.activity.util.AppManager;
 import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
-import com.tiemuyu.chuanchuan.activity.view.URL;
+import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 
 import org.xutils.http.RequestParams;
 
@@ -76,10 +73,6 @@ public class MyBody extends BaseActivityG {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_body);
-        pd = new ProgressDialog(this);//加载的ProgressDialog
-        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);//选择加载风格 这里是圆圈 STYLE_HORIZONTAL 是水平进度条
-        pd.setMessage("加载中....");
-        pd.show();
         findViewById(R.id.rl_jiaocheng).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,8 +128,8 @@ public class MyBody extends BaseActivityG {
                 BodyDataBean.DataBean dataBean = new BodyDataBean.DataBean();
                 dataBean.setAge(Integer.parseInt(String.valueOf(usr_age.getText())));
                 dataBean.setGender(gender);
-                dataBean.setWeight(Double.parseDouble(String.valueOf(usr_weight.getText())));
-                dataBean.setHeight(Double.parseDouble(String.valueOf(usr_height.getText())));
+                dataBean.setWeight(String.valueOf(usr_weight.getText()));
+                dataBean.setHeight(String.valueOf(usr_height.getText()));
                 if (shape == null) {
                     dataBean.setClothSize("L");
                 } else {
@@ -148,16 +141,16 @@ public class MyBody extends BaseActivityG {
                     dataBean.setPhysique(shape);
                 }
                 dataBean.setPhysique(shape);
-                dataBean.setShoulderBreadth(Double.parseDouble(String.valueOf(jiankuan.getText())));
-                dataBean.setBust(Double.parseDouble(String.valueOf(xiongwei.getText())));
-                dataBean.setWaist(Double.parseDouble(String.valueOf(yaowei.getText())));
-                dataBean.setHip(Double.parseDouble(String.valueOf(tunwei.getText())));
-                dataBean.setSleeve(Double.parseDouble(String.valueOf(xiuchang.getText())));
-                dataBean.setThighCirc(Double.parseDouble(String.valueOf(datuiwei.getText())));
-                dataBean.setCalfCirc(Double.parseDouble(String.valueOf(xiaotuiwei.getText())));
-                dataBean.setKneeCirc(Double.parseDouble(String.valueOf(xiwei.getText())));
-                dataBean.setArmCirc(Double.parseDouble(String.valueOf(jiaowei.getText())));
-                dataBean.setPants(Double.parseDouble(String.valueOf(kuchang.getText())));
+                dataBean.setShoulderBreadth(String.valueOf(jiankuan.getText()));
+                dataBean.setBust(String.valueOf(xiongwei.getText()));
+                dataBean.setWaist(String.valueOf(yaowei.getText()));
+                dataBean.setHip(String.valueOf(tunwei.getText()));
+                dataBean.setSleeve(String.valueOf(xiuchang.getText()));
+                dataBean.setThighCirc(String.valueOf(datuiwei.getText()));
+                dataBean.setCalfCirc(String.valueOf(xiaotuiwei.getText()));
+                dataBean.setKneeCirc(String.valueOf(xiwei.getText()));
+                dataBean.setArmCirc(String.valueOf(jiaowei.getText()));
+                dataBean.setPants(String.valueOf(kuchang.getText()));
                 dataBean.setTEBIESHUOMING("");
                 dataBean.setCHUANYIXIGUAN(xiguan);
                 dataBean.setISRADIO(0);
@@ -260,7 +253,11 @@ public class MyBody extends BaseActivityG {
     }
 
     private void editBodyData(BodyDataBean bean) {
-        MyApplication.poolManager.addAsyncTask(//此post请求出错！！！！！！！！！
+        pd = new ProgressDialog(this);//加载的ProgressDialog
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);//选择加载风格 这里是圆圈 STYLE_HORIZONTAL 是水平进度条
+        pd.setMessage("保存中....");
+        pd.show();
+        MyApplication.poolManager.addAsyncTask(
                 new ThreadPoolTaskHttp(this,
                         HttpTools.TAG_SET_BODY_DATA,
                         Constant.REQUEST_POST,
@@ -314,13 +311,13 @@ public class MyBody extends BaseActivityG {
         jiaowei.setText(bodyDataBean.getData().getArmCirc() + "");
         xiuchang.setText(bodyDataBean.getData().getSleeve() + "");
         kuchang.setText(bodyDataBean.getData().getPants() + "");
-        pd.dismiss();
     }
 
     @Override
     public void failCallBack(Throwable arg0, String resultTag, boolean isShowDiolog) {
         super.failCallBack(arg0, resultTag, isShowDiolog);
         if (resultTag.equals(HttpTools.TAG_SET_BODY_DATA)) {
+            pd.dismiss();
             Log.e("body", "set body data callback failed!");
             Log.e("body", arg0.getMessage());//post请求出错，打印错误信息
         }
@@ -354,6 +351,8 @@ public class MyBody extends BaseActivityG {
             BodyAction(bodyDataBean);
         }
         if (resultTag.equals(HttpTools.TAG_SET_BODY_DATA)) {
+            pd.dismiss();
+            ToastHelper.show(MyBody.this,"保存完成");
             Log.e("BODY", "modify body callback success!");
         }
     }
