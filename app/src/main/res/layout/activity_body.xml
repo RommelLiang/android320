@@ -318,11 +318,10 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true" />
 
-                <Spinner
+                <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/size_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:entries="@array/body_size"
                     android:layout_marginRight="15dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -359,7 +358,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true" />
 
-                <Spinner
+                <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/shape_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -95,7 +96,12 @@ public class MyBody extends BaseActivityG {
 		shape_spinner = (Spinner) findViewById(R.id.shape_spinner);
 		edit_body = (Button) findViewById(R.id.edit_body);
 		edit_tag = 0;
-
+		ArrayAdapter<CharSequence> adapter_size = ArrayAdapter.createFromResource(this,
+				R.array.body_size, android.R.layout.simple_spinner_item);
+		ArrayAdapter<CharSequence> adapter_shape = ArrayAdapter.createFromResource(this,
+				R.array.body_shape, android.R.layout.simple_spinner_item);
+		size_spinner.setAdapter(adapter_size);
+		shape_spinner.setAdapter(adapter_shape);
 		//sl: 给10个身体数据文本框赋控件
 		jiankuan = (BodyEditText) findViewById(R.id.jiankuan);
 		datuiwei = (BodyEditText) findViewById(R.id.datuiwei);

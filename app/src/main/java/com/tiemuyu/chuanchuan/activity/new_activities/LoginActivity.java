@@ -37,6 +37,7 @@ import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.util.LogHelper;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
+import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.StringUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp.HttpCallBack;
@@ -529,6 +530,9 @@ public class LoginActivity extends BaseActivityG implements
             System.out.println("####非常重要：" + msg);
 
             final User user = DataContoler.parseLoginMsgAndSetUser(msg, pass, "");
+            DBTools.loginDb(LoginActivity.this,user);
+            user.getAccid();
+            SPUtils.saveAccid(user.getAccid());
             setMsg(0, user);
             new Thread(new Runnable() {
                 @Override

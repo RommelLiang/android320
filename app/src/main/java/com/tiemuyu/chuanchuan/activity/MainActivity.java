@@ -530,7 +530,9 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false) == false) {
 			return;
 		}
+		String accid = SPUtils.getAccid();
 		User now = DBTools.getUser();
+		Log.e( "login: ", now+"!");
 		if (now.getAccid() == null) {
 			Toast.makeText(this, "网络异常", Toast.LENGTH_SHORT).show();
 		}
