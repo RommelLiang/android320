@@ -36,8 +36,8 @@ import com.tiemuyu.chuanchuan.activity.bean.Base;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.DingZhiItem;
 import com.tiemuyu.chuanchuan.activity.bean.User;
-import com.tiemuyu.chuanchuan.activity.chat_tools.activity.MessageActivity;
 import com.tiemuyu.chuanchuan.activity.chat_tools.bean.Contacts;
+import com.tiemuyu.chuanchuan.activity.chat_tools.fragment.TextMessageActivity;
 import com.tiemuyu.chuanchuan.activity.chat_tools.inter.NetResponses;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
@@ -48,6 +48,7 @@ import com.tiemuyu.chuanchuan.activity.util.GlideImageLoader;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
+import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -278,7 +279,15 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
             ll_ke_fu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    kefu();
+                    if (!PreferenceUtils.getPrefBoolean(ChengpinDetailActivity.this, Constant.CC_IFLOGIN, false)) {
+                        Toast.makeText(ChengpinDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (isLogIn) {
+                        kefu();
+                    } else {
+                        login();
+                    }
                 }
             });
             im_share.setOnClickListener(new View.OnClickListener() {
@@ -352,19 +361,12 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
     }
 
     private void kefu() {
-        if (!PreferenceUtils.getPrefBoolean(ChengpinDetailActivity.this, Constant.CC_IFLOGIN, false)) {
-            Toast.makeText(ChengpinDetailActivity.this, "请登录", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (isLogIn) {
-            Intent intent = new Intent(ChengpinDetailActivity.this, MessageActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("data", dataList);
-            intent.putExtra("bundle", bundle);
-            startActivity(intent);
-        } else {
-            login();
-        }
+        Intent intent1 = new Intent(ChengpinDetailActivity.this, TextMessageActivity.class);
+        intent1.putExtra("sessionId", SPUtils.getKefuCode());
+        intent1.putExtra("title","定制助理（9:00-24:00）");
+        startActivity(intent1);
+        DataSharedPress sharedPress = DataSharedPress.getSharedPress(ChengpinDetailActivity.this);
+        sharedPress.putInt(SPUtils.getKefuCode() + "unread", 0);
     }
 
     @Override
@@ -542,6 +544,9 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
             public void onSuccess(LoginInfo loginInfo) {
 
                 isLogIn = true;
+                if (isLogIn) {
+                    kefu();
+                }
                 request(Request.Method.GET, "http://imserver.myappcc.com/api/Getuseracc", null, "", tag, 100);
 
             }

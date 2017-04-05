@@ -129,19 +129,19 @@ public class BodyDataBean {
         private int CtType;
         private int Age;
         private int Gender;
-        private String Height;
-        private String Weight;
-        private String Bmi;
-        private String Bust;
-        private String Waist;
-        private String Hip;
-        private String Pants;
-        private String Sleeve;
-        private String ShoulderBreadth;
-        private String ArmCirc;
-        private String ThighCirc;
-        private String KneeCirc;
-        private String CalfCirc;
+        private double Height;
+        private double Weight;
+        private double Bmi;
+        private double Bust;
+        private double Waist;
+        private double Hip;
+        private double Pants;
+        private double Sleeve;
+        private double ShoulderBreadth;
+        private double ArmCirc;
+        private double ThighCirc;
+        private double KneeCirc;
+        private double CalfCirc;
         private String Physique;
         private String SkinColor;
         private int DressEffect;
@@ -193,107 +193,107 @@ public class BodyDataBean {
             this.Gender = Gender;
         }
 
-        public String getHeight() {
+        public double getHeight() {
             return Height;
         }
 
-        public void setHeight(String Height) {
+        public void setHeight(double Height) {
             this.Height = Height;
         }
 
-        public String getWeight() {
+        public double getWeight() {
             return Weight;
         }
 
-        public void setWeight(String Weight) {
+        public void setWeight(double Weight) {
             this.Weight = Weight;
         }
 
-        public String getBmi() {
+        public double getBmi() {
             return Bmi;
         }
 
-        public void setBmi(String Bmi) {
+        public void setBmi(double Bmi) {
             this.Bmi = Bmi;
         }
 
-        public String getBust() {
+        public double getBust() {
             return Bust;
         }
 
-        public void setBust(String Bust) {
+        public void setBust(double Bust) {
             this.Bust = Bust;
         }
 
-        public String getWaist() {
+        public double getWaist() {
             return Waist;
         }
 
-        public void setWaist(String Waist) {
+        public void setWaist(double Waist) {
             this.Waist = Waist;
         }
 
-        public String getHip() {
+        public double getHip() {
             return Hip;
         }
 
-        public void setHip(String Hip) {
+        public void setHip(double Hip) {
             this.Hip = Hip;
         }
 
-        public String getPants() {
+        public double getPants() {
             return Pants;
         }
 
-        public void setPants(String Pants) {
+        public void setPants(double Pants) {
             this.Pants = Pants;
         }
 
-        public String getSleeve() {
+        public double getSleeve() {
             return Sleeve;
         }
 
-        public void setSleeve(String Sleeve) {
+        public void setSleeve(double Sleeve) {
             this.Sleeve = Sleeve;
         }
 
-        public String getShoulderBreadth() {
+        public double getShoulderBreadth() {
             return ShoulderBreadth;
         }
 
-        public void setShoulderBreadth(String ShoulderBreadth) {
+        public void setShoulderBreadth(double ShoulderBreadth) {
             this.ShoulderBreadth = ShoulderBreadth;
         }
 
-        public String getArmCirc() {
+        public double getArmCirc() {
             return ArmCirc;
         }
 
-        public void setArmCirc(String ArmCirc) {
+        public void setArmCirc(double ArmCirc) {
             this.ArmCirc = ArmCirc;
         }
 
-        public String getThighCirc() {
+        public double getThighCirc() {
             return ThighCirc;
         }
 
-        public void setThighCirc(String ThighCirc) {
+        public void setThighCirc(double ThighCirc) {
             this.ThighCirc = ThighCirc;
         }
 
-        public String getKneeCirc() {
+        public double getKneeCirc() {
             return KneeCirc;
         }
 
-        public void setKneeCirc(String KneeCirc) {
+        public void setKneeCirc(double KneeCirc) {
             this.KneeCirc = KneeCirc;
         }
 
-        public String getCalfCirc() {
+        public double getCalfCirc() {
             return CalfCirc;
         }
 
-        public void setCalfCirc(String CalfCirc) {
+        public void setCalfCirc(double CalfCirc) {
             this.CalfCirc = CalfCirc;
         }
 

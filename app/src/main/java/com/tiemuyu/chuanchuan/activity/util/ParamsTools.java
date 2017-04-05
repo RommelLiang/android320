@@ -630,33 +630,33 @@ public class ParamsTools {
 		params.addBodyParameter(Constant.AGE,
 				String.valueOf(data.getAge()));
 		params.addBodyParameter(Constant.WEIGHT,
-				String.valueOf(data.getWeight()));
+				String.valueOf((int) data.getWeight()));
 		params.addBodyParameter(Constant.HEIGHT,
-				String.valueOf(data.getHeight()));
+				String.valueOf((int) data.getHeight()));
 		params.addBodyParameter(Constant.CLOTHSIZE,
 				String.valueOf(data.getClothSize()));
 		params.addBodyParameter(Constant.PHYSIQUE,
 				String.valueOf(data.getPhysique()));
 		params.addBodyParameter(Constant.SHOULDERBREADTH,
-				String.valueOf(data.getShoulderBreadth()));
+				String.valueOf((int) data.getShoulderBreadth()));
 		params.addBodyParameter(Constant.BUST,
-				String.valueOf(data.getBust()));
+				String.valueOf((int) data.getBust()));
 		params.addBodyParameter(Constant.WAIST,
-				String.valueOf( data.getWaist()));
+				String.valueOf((int) data.getWaist()));
 		params.addBodyParameter(Constant.HIP,
-				String.valueOf(data.getHip()));
+				String.valueOf((int) data.getHip()));
 		params.addBodyParameter(Constant.SLEEVE,
-				String.valueOf(data.getSleeve()));
+				String.valueOf((int) data.getSleeve()));
 		params.addBodyParameter(Constant.THIGHCIRC,
-				String.valueOf(data.getThighCirc()));
+				String.valueOf((int) data.getThighCirc()));
 		params.addBodyParameter(Constant.CALFCIRC,
-				String.valueOf( data.getCalfCirc()));
+				String.valueOf((int) data.getCalfCirc()));
 		params.addBodyParameter(Constant.KNEECIRC,
-				String.valueOf( data.getKneeCirc()));
+				String.valueOf((int) data.getKneeCirc()));
 		params.addBodyParameter(Constant.ARMCIRC,
-				String.valueOf(data.getArmCirc()));
+				String.valueOf((int) data.getArmCirc()));
 		params.addBodyParameter(Constant.PANTS,
-				String.valueOf(data.getPants()));
+				String.valueOf((int) data.getPants()));
 		params.addBodyParameter(Constant.TEBIESHUOMING,"1");
 		params.addBodyParameter(Constant.GEXINGNAME,"1");
 		params.addBodyParameter(Constant.CHUANYIXIGUAN,"1");

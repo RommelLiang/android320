@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -217,15 +217,18 @@
                     android:layout_centerVertical="true"/>
 
                 <com.tiemuyu.chuanchuan.activity.view.BodyEditText
-                    android:text="0"
+                    android:hint="体重"
+                    android:layout_alignParentBottom="true"
+                    android:background="@null"
+                    android:inputType="numberDecimal"
                     android:id="@+id/usr_weight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:layout_marginRight="8dp"
-                    android:layout_alignBaseline="@id/body_kg"
-                    android:layout_alignBottom="@id/body_kg"
-                    android:layout_toStartOf="@id/body_kg" />
+                    android:layout_alignBaseline="@+id/body_kg"
+                    android:layout_alignBottom="@+id/body_kg"
+                    android:layout_toStartOf="@+id/body_kg"/>
 
             </RelativeLayout>
             <LinearLayout
@@ -267,9 +270,11 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"/>
 
-                <EditText
-                    android:inputType="number"
-                    android:text="0"
+                <com.tiemuyu.chuanchuan.activity.view.BodyEditText
+                    android:hint="身高"
+                    android:layout_alignParentBottom="true"
+                    android:background="@null"
+                    android:inputType="numberDecimal"
                     android:id="@+id/usr_height"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -409,8 +414,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/relativeLayout">
-                    <EditText
-                        android:inputType="number"
+                    <com.tiemuyu.chuanchuan.activity.view.BodyEditText
+                        android:hint="肩宽"
+                        android:layout_alignParentBottom="true"
+                        android:background="@null"
+                        android:inputType="numberDecimal"
                         android:id="@+id/jiankuan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -439,12 +447,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
                     >
-                    <EditText
-                        android:inputType="number"
+                    <com.tiemuyu.chuanchuan.activity.view.BodyEditText
+                        android:hint="胸围"
+                        android:layout_alignParentBottom="true"
+                        android:background="@null"
+                        android:inputType="numberDecimal"
                         android:id="@+id/xiongwei"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
                         android:textColor="#571332"
                         android:textSize="16sp"
                         android:layout_marginLeft="5dp"
@@ -479,12 +489,14 @@
                         android:layout_marginTop="20dp"
                         android:layout_toLeftOf="@+id/xiaotuiwei" />
 
-                    <EditText
-                        android:inputType="number"
+                    <com.tiemuyu.chuanchuan.activity.view.BodyEditText
+                        android:hint="小腿围"
+                        android:layout_alignParentBottom="true"
+                        android:background="@null"
+                        android:inputType="numberDecimal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="0"
                         android:textColor="#571332"
                         android:id="@+id/xiaotuiwei"
                         android:textSize="17sp"
@@ -497,12 +509,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="100dp"
                     >
-                    <EditText
-                        android:inputType="number"
+                    <com.tiemuyu.chuanchuan.activity.view.BodyEditText
+                        android:hint="腰围"
+                        android:layout_alignParentBottom="true"
+                        android:background="@null"
+                        android:inputType="numberDecimal"
                         android:id="@+id/yaowei"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
                         android:textColor="#571332"
                         android:textSize="16sp"
                         android:layout_marginLeft="5dp"
@@ -537,12 +551,14 @@
                         android:layout_marginTop="20dp"
                         android:layout_toLeftOf="@+id/xiwei" />
 
-                    <EditText
-                        android:inputType="number"
+                    <com.tiemuyu.chuanchuan.activity.view.BodyEditText
+                        android:hint="膝围"
+                        android:layout_alignParentBottom="true"
+                        android:background="@null"
+                        android:inputType="numberDecimal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="0"
                         android:textColor="#571332"
                         android:id="@+id/xiwei"
                         android:textSize="17sp"
@@ -556,12 +572,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="150dp" >
 
-                    <EditText
-                        android:inputType="number"
+                    <com.tiemuyu.chuanchuan.activity.view.BodyEditText
+                        android:hint="臀围"
+                        android:layout_alignParentBottom="true"
+                        android:background="@null"
+                        android:inputType="numberDecimal"
                         android:id="@+id/tunwei"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
                         android:textColor="#571332"
                         android:textSize="16sp"
                         android:layout_marginLeft="5dp"
@@ -595,12 +613,14 @@
                         android:layout_marginTop="20dp"
                         android:layout_toLeftOf="@+id/jiaowei" />
 
-                    <EditText
-                        android:inputType="number"
+                    <com.tiemuyu.chuanchuan.activity.view.BodyEditText
+                        android:hint="脚围"
+                        android:layout_alignParentBottom="true"
+                        android:background="@null"
+                        android:inputType="numberDecimal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="0"
                         android:textColor="#571332"
                         android:id="@+id/jiaowei"
                         android:textSize="17sp"
@@ -613,12 +633,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="200dp"
                     >
-                    <EditText
-                        android:inputType="number"
+                    <com.tiemuyu.chuanchuan.activity.view.BodyEditText
+                        android:hint="袖长"
+                        android:layout_alignParentBottom="true"
+                        android:background="@null"
+                        android:inputType="numberDecimal"
                         android:id="@+id/xiuchang"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
                         android:textColor="#571332"
                         android:textSize="16sp"
                         android:layout_marginLeft="5dp"
@@ -654,12 +676,14 @@
                         android:layout_marginTop="20dp"
                         android:layout_toLeftOf="@+id/kuchang" />
 
-                    <EditText
-                        android:inputType="number"
+                    <com.tiemuyu.chuanchuan.activity.view.BodyEditText
+                        android:hint="裤长"
+                        android:layout_alignParentBottom="true"
+                        android:background="@null"
+                        android:inputType="numberDecimal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="0"
                         android:textColor="#571332"
                         android:id="@+id/kuchang"
                         android:textSize="17sp"
@@ -686,13 +710,15 @@
                         android:layout_marginTop="20dp"
                         android:layout_toLeftOf="@+id/datuiwei"
                         />
-                    <EditText
-                        android:inputType="number"
+                    <com.tiemuyu.chuanchuan.activity.view.BodyEditText
+                        android:hint="大腿围"
+                        android:layout_alignParentBottom="true"
+                        android:background="@null"
+                        android:inputType="numberDecimal"
                         android:id="@+id/datuiwei"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="0"
                         android:textColor="#571332"
                         android:textSize="17sp"
                         android:layout_marginRight="30dp"
@@ -764,5 +790,3 @@
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
-
-
