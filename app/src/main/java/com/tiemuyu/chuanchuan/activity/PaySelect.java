@@ -30,6 +30,7 @@ import com.tiemuyu.chuanchuan.activity.bean.User;
 import com.tiemuyu.chuanchuan.activity.bean.WeChatPay;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
+import com.tiemuyu.chuanchuan.activity.db.DBTools;
 import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
@@ -70,6 +71,7 @@ public class PaySelect extends BaseActivityG{
     private String id;
     private static IWXAPI iwxapi;
     private Receiver receiver;
+    public static final String TAG_MINEFRESH = "TAG_MINEFRESH";
 
 
     @Override
@@ -309,7 +311,7 @@ public class PaySelect extends BaseActivityG{
                     break;
                 }
                 case 2: {
-                    Toast.makeText(getApplicationContext(), "支付错误请重试!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "您的手机尚未安装支付宝!", Toast.LENGTH_SHORT).show();
                     pd.dismiss();
                     break;
                 }
@@ -351,6 +353,10 @@ public class PaySelect extends BaseActivityG{
                                 false));
                 return;
             }
+            MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
+                    TAG_MINEFRESH, Constant.REQUEST_GET, new RequestParams(UrlManager
+                    .GET_MYPAGEDATA()), this, "获取我的页面信息", false));
+
             paytheOrder(id);
         } else if (resultTag.equals(TAG_PAYACTION)) {
             Log.e("TAG_PAYACTION ", msg);
@@ -379,6 +385,11 @@ public class PaySelect extends BaseActivityG{
             intent1.putExtra("id", id);
             startActivity(intent1);
             finish();
+        } else if (resultTag.equals(TAG_MINEFRESH)){
+            User user = DataContoler.parseLoginMsgAndSetUser(msg, DBTools.getUser().getPass(), "");
+            if (user != null) {
+                DBTools.loginDb(PaySelect.this, user);
+            }
         }
     }
 

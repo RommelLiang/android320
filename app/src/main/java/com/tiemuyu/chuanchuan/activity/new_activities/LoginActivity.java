@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -582,7 +583,7 @@ public class LoginActivity extends BaseActivityG implements
     protected void successMethod(String msg, String resultTag) {
 
         //高伟豪。只有在个别tag的时候调用这个方法。目前几个tag都没有用。
-
+        Log.e( "successMethod: ", msg);
 
     }
 

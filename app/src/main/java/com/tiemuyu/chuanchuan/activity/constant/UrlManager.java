@@ -829,4 +829,14 @@ public class UrlManager {
 	public static final String deletePush() {
 		return "http://imserver.myappcc.com/api/UMeng";
 	}
+
+	/**
+	 * Author：rommel
+	 * @param: null
+	 * @return: string url
+	 * Desc:删除推送历史
+	 */
+	public static final String sendMessage(String id) {
+		return "http://imserver.myappcc.com/api/Sendmessage?id="+id;
+	}
 }

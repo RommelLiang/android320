@@ -27,7 +27,6 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.tiemuyu.chuanchuan.activity.adapter.FindSecondWaterAdapter;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
-import com.tiemuyu.chuanchuan.activity.bean.FindHeaderBean;
 import com.tiemuyu.chuanchuan.activity.bean.FindSecondWaterBean;
 import com.tiemuyu.chuanchuan.activity.bean.WaterBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
@@ -123,6 +122,7 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
         //从上一个activity得到数据
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
+        Log.e("onCreate: ", id+"");
         getHead();
         // headerDataBean = (FindHeaderBean.DataBean) intent.getSerializableExtra("img1_info");
 

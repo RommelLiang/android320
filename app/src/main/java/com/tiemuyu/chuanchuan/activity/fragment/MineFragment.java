@@ -143,7 +143,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
 
 
-
+    public static final String GET_WALLET = "GET_WALLET";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        sp = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
@@ -167,8 +167,18 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
         mf_saveitem=(LinearLayout) view.findViewById(R.id.mf_saveitem);
 
-
-
+        MyApplication.poolManager.addAsyncTask(
+                new ThreadPoolTaskHttp(getActivity(),
+                        GET_WALLET,
+                        Constant.REQUEST_GET,
+                        new RequestParams(
+                                UrlManager.GET_ADDRESS()),
+                        this,
+                        "获取收货地址",
+                        false));
+        if (user != null){
+            refreshMine();
+        }
         return view;
 
 
@@ -250,7 +260,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         // TODO Auto-generated method stub
         super.onResume();
         System.out.println("#####   回退到minefragment");
-
+        if (user != null){
+            refreshMine();
+        }
     }
 
 
@@ -411,6 +423,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             updateResult(msg);
 
 
+        }else if(resultTag.equals(GET_WALLET)){
+            Log.e(resultTag,msg);
         }
 //        else if (resultTag.equals(HttpTools.TAG_TRY)) {
 //
@@ -559,6 +573,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
         // LogHelper.e("-----侧滑栏请求成功回调"+resultTag);
         System.out.println("successCallBack");
+        Log.e(resultTag, "successCallBack: "+ callBackMsg);
         successParse(callBackMsg, resultTag);
     }
 
@@ -586,6 +601,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             ToastHelper.show(getActivity(), "自动登录成功");
             login();
         }
+        Log.e(resultTag, "failCallBack: "+arg0.getLocalizedMessage());
     }
 
 
@@ -621,7 +637,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         tv_nick.setText(user.getNickName());
 
         tv_ye.setText("零钱："+df.format(user.getAmounts() - user.getFrzAmounts()) + "");
-        tv_cb.setText("穿币："+String.valueOf(user.getCcCoin()));
+        tv_cb.setText("穿币："+String.valueOf(user.getCcCoin()-user.getFrzCcCoin()));
 
 
 //        mainActivity.setTopView(user);    高伟豪不知道有什么用。暂时关掉
@@ -662,7 +678,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
 
             System.out.println("######打开我的页面判断是否登录如果登陆了那么尝试重新获取我的数据");
-            refreshMine();
+            //refreshMine();
 
 
 
@@ -706,7 +722,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-
+                if (user==null) {
+                    Toast.makeText(mainActivity, "您还未登录", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 ClassJumpTool.startToNextActivity(getActivity(), MyWebview.class, URL.UrlOrder);
 
@@ -752,7 +771,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-
+                if (user==null) {
+                    Toast.makeText(mainActivity, "您还未登录", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 ClassJumpTool.startToNextActivityForResult(getActivity(),   MyBody.class, 10);
 
 
@@ -790,7 +812,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-
                 ClassJumpTool.startToNextActivityForResult(getActivity(),   AboutUs.class, 10);
 
 
@@ -808,7 +829,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-
+                if (user==null) {
+                    Toast.makeText(mainActivity, "您还未登录", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 ClassJumpTool.startToNextActivityForResult(getActivity(),   MyShaitu.class, 10);
 
 
@@ -824,7 +848,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-
+                if (user==null) {
+                    Toast.makeText(mainActivity, "您还未登录", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 ClassJumpTool.startToNextActivityForResult(getActivity(),   MySaveItem.class, 10);
 
 
@@ -1171,8 +1198,13 @@ public  void refreshMine()
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.order:
+                if (user==null) {
+                    Toast.makeText(mainActivity, "您还未登录", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 ClassJumpTool.startToNextActivityForResult(getActivity(), UserOrderActivity.class, 10);
             break;
         }
     }
+
 }

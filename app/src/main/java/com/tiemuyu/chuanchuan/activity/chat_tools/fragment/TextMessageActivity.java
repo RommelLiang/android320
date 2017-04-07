@@ -1,6 +1,7 @@
 package com.tiemuyu.chuanchuan.activity.chat_tools.fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,12 +15,14 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +65,7 @@ import java.util.List;
  */
 public class TextMessageActivity extends BaseActivityG implements View.OnClickListener, ModuleProxy {
 
+    private RelativeLayout messageActivityLayout;
     private LinearLayout ly_message_edit, ly_press_on_say;
     private EditText message_edit;
     private View convertView;
@@ -83,7 +87,7 @@ public class TextMessageActivity extends BaseActivityG implements View.OnClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //史力：下面这句设置键盘上抬，非常重要！
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.nim_message_fragment);
         //设置状态栏为透明
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -109,6 +113,22 @@ public class TextMessageActivity extends BaseActivityG implements View.OnClickLi
         });
         RequestQueue mQueue = Volley.newRequestQueue(this);
         mQueue.add(stringRequest);
+        listView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int heightDiff = listView.getRootView().getHeight() - listView.getHeight();
+                // 大于100像素，是打开的情况
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm.isActive()) {
+                    Log.e("onGlobalLayout: ","hahah" );
+                    if (heightDiff > 600) {
+                        listViewShow = listView.getRefreshableView();
+                        listViewShow.setSelection(listView.getBottom());
+                        return;
+                    }
+                }
+            }
+        });
     }
 
     private void setMessage(CustomerKey mKeFuBean) {
@@ -236,9 +256,20 @@ public class TextMessageActivity extends BaseActivityG implements View.OnClickLi
         message_edit.setOnClickListener(this);
         message_edit.addTextChangedListener(watcher);
         convertView.findViewById(R.id.message_image).setOnClickListener(this);
-//        convertView.findViewById(R.id.message_audio).setOnClickListener(this);
-//        convertView.findViewById(R.id.message_phone).setOnClickListener(this);
-//        convertView.findViewById(R.id.message_video).setOnClickListener(this);
+        messageActivityLayout = (RelativeLayout) findViewById(R.id.messageActivityLayout);
+
+       /* listView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int heightDiff = listView.getRootView().getHeight() - listView.getHeight();
+                // 大于100像素，是打开的情况
+                if (heightDiff > 400) {
+                    listViewShow = listView.getRefreshableView();
+                    listViewShow.setSelection(listView.getBottom());
+                    return;
+                }
+            }
+        });*/
     }
 
     private TextWatcher watcher = new TextWatcher() {
@@ -503,6 +534,4 @@ public class TextMessageActivity extends BaseActivityG implements View.OnClickLi
         System.out.println("###登出了");
 //        registerObservers(incomingMessageObserver, false);
     }
-
-
 }

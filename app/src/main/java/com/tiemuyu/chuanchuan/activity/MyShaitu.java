@@ -1,7 +1,7 @@
 package com.tiemuyu.chuanchuan.activity;
 
-import android.content.Intent;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,18 +29,14 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.NewShaituBean;
 import com.tiemuyu.chuanchuan.activity.bean.ShaituWaterBean;
-import com.tiemuyu.chuanchuan.activity.bean.ZhuantiWaterBean;
 import com.tiemuyu.chuanchuan.activity.bean.ZhuantiWaterExtBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
-import com.tiemuyu.chuanchuan.activity.util.DataContoler;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
-import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 
 import org.xutils.http.RequestParams;
-import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -454,6 +450,7 @@ public class MyShaitu extends BaseActivityG {
 //				String resultTag);/** 加载中 */
     public void failCallBack(Throwable arg0, String resultTag, boolean isShowDiolog) {
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!failed callback!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        Log.e("failCallBack: ",arg0.getLocalizedMessage() );
     }
 
     /**

@@ -395,8 +395,12 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 				break;
 			//客服
 			case R.id.message_top_right:
-				Intent intent = new Intent(MainActivity.this, PushHistoryActivity.class);
-				startActivity(intent);
+				if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false) == false) {
+					Toast.makeText(this, "没登录", Toast.LENGTH_SHORT).show();
+				} else {
+					Intent intent = new Intent(MainActivity.this, PushHistoryActivity.class);
+					startActivity(intent);
+				}
 				break;
 			case R.id.main_kfbtn:
 
@@ -412,7 +416,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 					ToastHelper.show(MainActivity.this, "正在登录");
 					login();
 				}/*else if (isIMLogin) {
-	                //Toast.makeText(getApplicationContext(), "第一个！", Toast.LENGTH_SHORT).show();
+		            //Toast.makeText(getApplicationContext(), "第一个！", Toast.LENGTH_SHORT).show();
                     System.out.println("accid after kefu is clicked: " + sp.getString("accid", ""));
                     System.out.println("acctoken after kefu is clicked: " + sp.getString("acctoken", ""));
                     Intent intent1 = new Intent(MainActivity.this, MessageActivity.class);
@@ -532,9 +536,9 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		}
 		String accid = SPUtils.getAccid();
 		User now = DBTools.getUser();
-		Log.e( "login: ", now+"!");
+		Log.e("login: ", now + "!");
 		if (now.getAccid() == null) {
-			Toast.makeText(this, "网络异常", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "身份信息异常", Toast.LENGTH_SHORT).show();
 		}
 		LoginInfo loginInfo = new LoginInfo(now.getAccid(), now.getAccToken());
 //
@@ -546,7 +550,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 
 			@Override
 			public void onSuccess(LoginInfo loginInfo) {
-
+				Log.e("onSuccess: ", loginInfo.getToken());
 				isIMLogin = true;
 				if (isJump) {
 					keFu();
@@ -558,10 +562,19 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 			@Override
 			public void onFailed(int i) {
 				System.out.println("login failed===" + i);
+				Log.e("onFailed: ", i + "!!!!!!!!!!!");
+				if (isJump) {
+					switch (i) {
+						case 408:
+							Toast.makeText(MainActivity.this, "请求超时", Toast.LENGTH_SHORT).show();
+							break;
+					}
+				}
 			}
 
 			@Override
 			public void onException(Throwable throwable) {
+				Log.e("onFailed: ", throwable.getLocalizedMessage());
 			}
 		};
 		NIMClient.getService(AuthService.class).login(loginInfo).setCallback(callback);

@@ -69,6 +69,7 @@ public class MyBody extends BaseActivityG {
 	private String size;
 	private String shape;
 	private int xiguan;
+	private ImageView im_body_gender;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,7 @@ public class MyBody extends BaseActivityG {
 		size_spinner = (Spinner) findViewById(R.id.size_spinner);
 		shape_spinner = (Spinner) findViewById(R.id.shape_spinner);
 		edit_body = (Button) findViewById(R.id.edit_body);
+		im_body_gender = (ImageView) findViewById(R.id.im_body_gender);
 		edit_tag = 0;
 		ArrayAdapter<CharSequence> adapter_size = ArrayAdapter.createFromResource(this,
 				R.array.body_size, android.R.layout.simple_spinner_item);
@@ -189,6 +191,7 @@ public class MyBody extends BaseActivityG {
 				gender = 1;
 				male_btn.setImageResource(R.drawable.male_on);
 				female_btn.setImageResource(R.drawable.female_off);
+				im_body_gender.setBackground(getResources().getDrawable(R.drawable.man_s));
 			}
 		});
 
@@ -198,6 +201,7 @@ public class MyBody extends BaseActivityG {
 				gender = 2;
 				male_btn.setImageResource(R.drawable.male_off);
 				female_btn.setImageResource(R.drawable.female_on);
+				im_body_gender.setBackground(getResources().getDrawable(R.drawable.meal));
 			}
 		});
 
@@ -324,10 +328,12 @@ public class MyBody extends BaseActivityG {
 			gender = 1;
 			male_btn.setImageResource(R.drawable.male_on);
 			female_btn.setImageResource(R.drawable.female_off);
+			im_body_gender.setBackground(getResources().getDrawable(R.drawable.man_s));
 		} else {
 			gender = 2;
 			male_btn.setImageResource(R.drawable.male_off);
 			female_btn.setImageResource(R.drawable.female_on);
+			im_body_gender.setBackground(getResources().getDrawable(R.drawable.meal));
 		}
 		//
 		usr_age.setText("" + bodyDataBean.getData().getAge());

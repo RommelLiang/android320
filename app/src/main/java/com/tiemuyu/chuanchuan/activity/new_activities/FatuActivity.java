@@ -1,29 +1,20 @@
 package com.tiemuyu.chuanchuan.activity.new_activities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,30 +28,22 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.lzy.imagepicker.view.CropImageView;
 import com.squareup.picasso.Picasso;
-import com.tiemuyu.chuanchuan.activity.GetPathFromUri4kitkat;
 import com.tiemuyu.chuanchuan.activity.MainActivity;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
 import com.tiemuyu.chuanchuan.activity.R;
-import com.tiemuyu.chuanchuan.activity.adapter.ChildAdapter;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.User;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.db.DBTools;
-import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
 import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
-import com.tiemuyu.chuanchuan.activity.util.DownloadService;
-import com.tiemuyu.chuanchuan.activity.util.LogHelper;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PicassoImageLoader;
-import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.ServerUtils;
-import com.tiemuyu.chuanchuan.activity.util.StringUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 import com.tiemuyu.chuanchuan.activity.util.Utility;
-import com.tiemuyu.chuanchuan.activity.view.ClearEditText;
 import com.tiemuyu.chuanchuan.activity.view.HorizontalListVIew;
 
 import org.json.JSONException;
@@ -69,15 +52,11 @@ import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ViewInject;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import it.sephiroth.android.library.util.ViewHelperFactory;
 
 /**
  * Created by CC2.0 on 2017/1/16.
@@ -647,7 +626,7 @@ public class FatuActivity extends BaseActivityG {
      * 继承的接口
      ****************************/
 
-
+    private String TAG_SENDMESSAGE = "TAG_SENDMESSAGE";
     @Override
     public void successCallBack(String resultTag, BaseBean baseBean,
                                 String callBackMsg, boolean isShowDiolog) {
@@ -655,10 +634,18 @@ public class FatuActivity extends BaseActivityG {
 //        dissMissDialog(isShowDiolog);
         super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
 
+        User user = DBTools.getUser();
         if (resultTag.equals(TAG_FABU_MOMENT)) {
             System.out.println("######成功了callback");
             ClassJumpTool.startToBackActivity(this, MainActivity.class, null, 10);
             ToastHelper.show(this, "发布成功");
+            MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
+                    TAG_SENDMESSAGE, Constant.REQUEST_GET,
+                    new RequestParams(UrlManager.sendMessage(user.getUserId()+"")), FatuActivity.this,
+                    "发图中...", false));
+            Log.e("successCallBack: ", UrlManager.sendMessage(user.getUserId()+""));
+        } else if(resultTag.equals(TAG_SENDMESSAGE)){
+            Log.e("successCallBack: ", callBackMsg);
             finish();
         }
 

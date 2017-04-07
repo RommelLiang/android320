@@ -207,11 +207,11 @@ public class HistoryMessage implements MessageClick {
 	}
 
 	private ShowImage showImage;
-
+	private String word ="";
 	@Override
-	public void getAnsewr(String s) {
+	public void getAnsewr(final String s) {
 		Log.e(TAG, "getAnsewr: " + s);
-		String word ="";
+
 		try {
 			word = URLEncoder.encode(s, "UTF-8");
 		} catch (UnsupportedEncodingException mE) {
@@ -223,7 +223,7 @@ public class HistoryMessage implements MessageClick {
 					AnswerBean answerBean = GsonUtils.fromData(mS, AnswerBean.class);
 					Log.e("onResponse: ", answerBean.getData().getAttachcontent());
 					Log.e("onResponse: ", mS);
-					IMMessage imMessage = MessageBuilder.createTextMessage("9000", SessionTypeEnum.P2P, answerBean.getData().getAttachcontent());
+					IMMessage imMessage = MessageBuilder.createTextMessage("9000", SessionTypeEnum.P2P, s+"\n"+answerBean.getData().getAttachcontent());
 					imMessage.setDirect(MsgDirectionEnum.In);
 					imMessageArrayList.add(imMessage);
 					adapter.notifyDataSetChanged();

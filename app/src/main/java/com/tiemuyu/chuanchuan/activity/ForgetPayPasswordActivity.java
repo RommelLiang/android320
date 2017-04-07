@@ -52,7 +52,7 @@ public class ForgetPayPasswordActivity extends BaseActivityG {
                 if (phone == null || phone.equals("")) {
                     Toast.makeText(ForgetPayPasswordActivity.this, "手机号不能为空", Toast.LENGTH_SHORT).show();
                     return;
-                } else if (JudgmentLegal.checkCellPhone(phone)) {
+                } else if (JudgmentLegal.validatePhoneNumber(phone)) {
                     Toast.makeText(ForgetPayPasswordActivity.this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
                     return;
                 }

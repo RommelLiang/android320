@@ -2,9 +2,7 @@ package com.tiemuyu.chuanchuan.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,6 +28,7 @@ import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
+import com.tiemuyu.chuanchuan.activity.util.VeData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,15 +51,15 @@ public class PushHistoryActivity extends BaseActivityG implements SelectInterFac
 	private boolean isall = false;
 	private String umengids;
 	public final String TAG_DELETE_PUSH = "TAG_DELETE_PUSH";
+	private String addTime;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_push_history);
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-		String addTime = SPUtils.getAddTime();
+		addTime = SPUtils.getAddTime();
 		if (addTime.equals("")) {
-			ToastHelper.show(this, "没有历史消息");
+			addTime = VeData.getNowDateShort();
 		}
 		mListView = (ListView) findViewById(R.id.lv_message);
 		tv_edit = (TextView) findViewById(R.id.tv_edit);
@@ -68,11 +67,18 @@ public class PushHistoryActivity extends BaseActivityG implements SelectInterFac
 		btn_delete = (Button) findViewById(R.id.btn_delete);
 		btn_select_all = (Button) findViewById(R.id.btn_select_all);
 		getHistory();
-		Log.e("onCreate: ", UrlManager.getPush(MineFragment.user.getUserId() + "", addTime, "max", 200));
+		Log.e("onCreate: ",  addTime);
+		findViewById(R.id.im_back).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
 
 	private void getHistory() {
-		StringRequest stringRequest = new StringRequest(UrlManager.getPush(MineFragment.user.getUserId() + "", "2017-03-01", "max", 200),
+		Log.e( "getHistory: ", UrlManager.getPush(MineFragment.user.getUserId() + "", "2017-12-08", "max", 200));
+		StringRequest stringRequest = new StringRequest(UrlManager.getPush(MineFragment.user.getUserId() + "", addTime, "max", 200),
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String mS) {
@@ -83,6 +89,7 @@ public class PushHistoryActivity extends BaseActivityG implements SelectInterFac
 			@Override
 			public void onErrorResponse(VolleyError mVolleyError) {
 				Log.e("onErrorResponse: ", mVolleyError.getLocalizedMessage());
+				ToastHelper.show(PushHistoryActivity.this,"你没有任何历史记录");
 			}
 		});
 		RequestQueue mQueue = Volley.newRequestQueue(this);
@@ -92,6 +99,11 @@ public class PushHistoryActivity extends BaseActivityG implements SelectInterFac
 	private void setView(String callBackMsg) {
 		pushBean = GsonUtils.fromData(callBackMsg, PushBean.class);
 		List<PushBean.HistoryBean> history = pushBean.getHistory();
+		int nextstartpos = pushBean.getNextstartpos();
+		if (nextstartpos == -1){
+			ToastHelper.show(PushHistoryActivity.this,"没有历史消息");
+			return;
+		}
 		mIntegers = new ArrayList<>();
 		for ( PushBean.HistoryBean historyBean : history ) {
 			mIntegers.add(0);
@@ -112,7 +124,7 @@ public class PushHistoryActivity extends BaseActivityG implements SelectInterFac
 					id = Integer.parseInt(sourceStrArray[1]);
 					Log.e("OnBannerClick: ", id + "");
 					intent = new Intent(nContext, FindWaterActivity.class);
-					intent.putExtra("id", id);
+					intent.putExtra("id", (int) id);
 					nContext.startActivity(intent);
 				} else if (type == 1) {
 					intent = new Intent(nContext, MyWebview.class);
@@ -125,7 +137,7 @@ public class PushHistoryActivity extends BaseActivityG implements SelectInterFac
 					String[] sourceStrArray = pushBean.getHistory().get(position).getP_link().split("id=");
 					id = Integer.parseInt(sourceStrArray[1]);
 					intent = new Intent(nContext, FindTopicActivity.class);
-					intent.putExtra("id", id);
+					intent.putExtra("id", (int) id);
 					nContext.startActivity(intent);
 				} else if (type == 10){
 					finish();

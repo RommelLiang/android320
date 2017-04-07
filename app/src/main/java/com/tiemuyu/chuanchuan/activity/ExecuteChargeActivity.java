@@ -174,7 +174,8 @@ public class ExecuteChargeActivity extends BaseActivityG implements OnItemClickL
                     break;
                 }
                 case 2: {
-                    Toast.makeText(getApplicationContext(), "支付错误请重试!", Toast.LENGTH_SHORT).show();
+                    pd.dismiss();
+                    Toast.makeText(getApplicationContext(), "您的手机尚未安装支付宝!", Toast.LENGTH_SHORT).show();
                     break;
                 }
                 case 3: {
