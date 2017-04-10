@@ -274,14 +274,16 @@ public class OrderAdapter extends BaseAdapter implements NetResponses, ThreadPoo
 		} else if (text.equals("付款")) {
 			ordInfo = new OrdInfo();
 			ordInfo.setTotalNum(rowsAll.get(po).getTotalNum() + "");
-			ordInfo.setTotalFee((rowsAll.get(po).getTotalFee() + ""));
-			ordInfo.setActualFee(rowsAll.get(po).getActualFee() + "");
-			String msg = String.valueOf("");
+			ordInfo.setTotalFee((subZeroAndDot(rowsAll.get(po).getTotalFee())));
+			ordInfo.setActualFee(subZeroAndDot(rowsAll.get(po).getActualFee()));
+			ordInfo.setCoin(subZeroAndDot(String.valueOf(rowsAll.get(po).getCoin())));
+			String msg = String.valueOf("0");
 			ordInfo.setDiscountedPrice(msg);
 			ordInfo.setRegApp("android");
+			ordInfo.setOrderId(rowsAll.get(po).getItems().get(0).getOrderId()+"");
 			Intent intent = new Intent(context, PaySelect.class);
 			intent.putExtra("ordInfo", ordInfo);
-			intent.putExtra("productid", rowsAll.get(po).getProductId() + "");
+			intent.putExtra("productid", rowsAll.get(po).getItems().get(0).getProductId());
 			intent.putExtra("AddressId", rowsAll.get(po).getOrderAddress().getPkValue());
 			context.startActivity(intent);
 		} else if (text.equals("取消订单")) {

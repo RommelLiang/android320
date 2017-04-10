@@ -25,6 +25,15 @@ public class OrdInfo implements Serializable {
     private String ActualFee;
     private String CustomerRmk;
     private String RegApp;
+    private String orderId;
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String mOrderId) {
+        orderId = mOrderId;
+    }
 
     public String getTotalNum() {
         return TotalNum;

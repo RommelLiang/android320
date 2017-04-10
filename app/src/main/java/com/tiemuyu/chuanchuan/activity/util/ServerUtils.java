@@ -3,6 +3,8 @@ package com.tiemuyu.chuanchuan.activity.util;
 /**
  * Created by CC2.0 on 2016/8/25.
  */
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -89,6 +91,7 @@ public class ServerUtils {
             }
             rsp = buffer.toString();
             reader.close();
+            Log.e("formUpload: ", rsp);
             reader = null;
         } catch (Exception e) {
             e.printStackTrace();

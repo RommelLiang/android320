@@ -902,5 +902,18 @@ public class ParamsTools {
 		params.addBodyParameter("umengids", umengids);
 		return params;
 	}
-
+	/**
+	 * Author：rommel
+	 * @param:
+	 * @return:
+	 * Desc:
+	 */
+	public static RequestParams commitImage(String url, String data, String name, String forKey,String type) {
+		RequestParams params = new RequestParams(url);
+		params.addBodyParameter("data", data);
+		params.addBodyParameter("name", name);
+		params.addBodyParameter("forKey", forKey);
+		params.addBodyParameter("type", type);
+		return params;
+	}
 }
