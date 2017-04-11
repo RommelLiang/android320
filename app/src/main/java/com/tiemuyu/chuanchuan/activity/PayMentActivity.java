@@ -159,7 +159,10 @@ public class PayMentActivity extends BaseActivityG {
 				}
 				break;
 			case (R.id.tv_check_agree):
-				startActivity(new Intent(PayMentActivity.this, ProtocolActivity.class));
+				Intent intent1 = new Intent(PayMentActivity.this, ProtocolActivity.class);
+				intent1.putExtra("url","http://ios.myappcc.com/h5/dingzhi.html");
+				intent1.putExtra("title","定制协议");
+				startActivity(intent1);
 				break;
 			case (R.id.ok):
 				if (!isAgree) {

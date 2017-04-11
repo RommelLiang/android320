@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/address_tishi"
-    android:orientation="vertical">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/address_tishi"
+             android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_marginBottom="11dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="11dp"
-            android:src="@drawable/home_back" />
+            android:src="@drawable/home_back"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,34 +26,35 @@
             android:layout_centerInParent="true"
             android:text="成品详情"
             android:textColor="@android:color/black"
-            android:textSize="20dp" />
+            android:textSize="20dp"/>
+
         <ImageView
             android:id="@+id/im_share"
-            android:background="@drawable/nav_share"
-            android:layout_marginRight="20dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
             android:layout_width="25dp"
-            android:layout_height="25dp" />
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/nav_share"/>
     </RelativeLayout>
-
 
 
     <ScrollView
         android:id="@+id/sss"
-        android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:layout_marginBottom="40dp"
         android:layout_marginTop="45dp"
         android:background="@android:color/white"
+        android:fillViewport="true"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/ll_hand"
                 android:layout_width="match_parent"
@@ -68,7 +69,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/circle_logo" />
+                    android:src="@drawable/circle_logo"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -82,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
                         android:textColor="#333333"
-                        android:textSize="17dp" />
+                        android:textSize="17dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -90,7 +91,7 @@
                         android:layout_marginLeft="2dp"
                         android:text="发图人"
                         android:textColor="#555555"
-                        android:textSize="15dp" />
+                        android:textSize="15dp"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -100,12 +101,12 @@
                 android:layout_height="wrap_content">
 
                 <com.youth.banner.Banner
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
                     android:id="@+id/im_banner"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     android:layout_below="@+id/ll_hand"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
                     android:layout_marginTop="10dp"></com.youth.banner.Banner>
             </LinearLayout>
 
@@ -118,7 +119,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@android:color/white"
                 android:textColor="@android:color/black"
-                android:textSize="18dp" />
+                android:textSize="18dp"/>
 
             <TextView
                 android:id="@+id/tv_jia_ge_detail"
@@ -128,12 +129,12 @@
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
                 android:textColor="@color/colorNewPrice"
-                android:textSize="18dp" />
+                android:textSize="18dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="@color/address_tishi" />
+                android:background="@color/address_tishi"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -147,11 +148,11 @@
                 android:weightSum="4">
 
                 <LinearLayout
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -159,22 +160,22 @@
                         android:layout_centerVertical="true"
                         android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/home_customhdpi" />
+                        android:background="@drawable/home_customhdpi"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:text="高端定制" />
+                        android:text="高端定制"/>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -182,22 +183,22 @@
                         android:layout_centerVertical="true"
                         android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/home_sf" />
+                        android:background="@drawable/home_sf"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:text="全国包邮" />
+                        android:text="全国包邮"/>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -205,22 +206,22 @@
                         android:layout_centerVertical="true"
                         android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/home_logistic" />
+                        android:background="@drawable/home_logistic"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:text="物流跟踪" />
+                        android:text="物流跟踪"/>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -228,21 +229,21 @@
                         android:layout_centerVertical="true"
                         android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/home_friend" />
+                        android:background="@drawable/home_friend"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:text="售后无忧" />
+                        android:text="售后无忧"/>
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="@color/address_tishi" />
+                android:background="@color/address_tishi"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -256,12 +257,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="看穿穿依图制造："
-                    android:textSize="18dp" />
+                    android:textSize="18dp"/>
 
                 <ImageView
                     android:id="@+id/im_main_image"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
             <LinearLayout
@@ -279,7 +280,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="款式详情"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -293,8 +294,9 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="定制保障"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"/>
             </LinearLayout>
+
             <RelativeLayout
                 android:id="@+id/find_ll"
                 android:layout_width="120dp"
@@ -307,8 +309,9 @@
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/strip_shape" />
+                    android:background="@drawable/strip_shape"/>
             </RelativeLayout>
+
             <android.support.v4.view.ViewPager
                 android:id="@+id/vp_find_home"
                 android:layout_width="match_parent"
@@ -316,150 +319,180 @@
                 />
 
             <LinearLayout
-                android:gravity="center_horizontal"
+                android:id="@+id/ll_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="5dp"
-                android:id="@+id/ll_image"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
             </LinearLayout>
+
             <LinearLayout
-                android:background="@color/address_tishi"
                 android:layout_width="match_parent"
-                android:layout_height="10dp"></LinearLayout>
+                android:layout_height="10dp"
+                android:background="@color/address_tishi"></LinearLayout>
+
             <TextView
-                android:textSize="20dp"
-                android:text="定制流程"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_height="wrap_content" />
+                android:text="定制流程"
+                android:textSize="20dp"/>
+
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp"
-                android:weightSum="5"
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:weightSum="5">
+
                 <LinearLayout
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content">
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/home_price"
                         />
+
                     <TextView
-                        android:textSize="13dp"
-                        android:layout_marginTop="10dp"
-                        android:text="发图询价"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:lines="1"
+                        android:text="发图询价"
+                        android:textSize="10dp"/>
                 </LinearLayout>
+
                 <ImageView
-                    android:layout_marginTop="7dp"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
+                    android:layout_marginTop="7dp"
                     android:background="@drawable/home_arrow"/>
+
                 <LinearLayout
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content">
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/home_friend_y"
                         />
+
                     <TextView
-                        android:textSize="13dp"
-                        android:layout_marginTop="10dp"
-                        android:text="客服沟通"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:lines="1"
+                        android:text="客服沟通"
+                        android:textSize="10dp"/>
                 </LinearLayout>
+
                 <ImageView
-                    android:layout_marginTop="7dp"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
+                    android:layout_marginTop="7dp"
                     android:background="@drawable/home_arrow"/>
+
                 <LinearLayout
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content">
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/home_fitting"
                         />
+
                     <TextView
-                        android:textSize="13dp"
-                        android:layout_marginTop="10dp"
-                        android:text="免费试样"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:lines="1"
+                        android:text="免费试样"
+                        android:textSize="10dp"/>
                 </LinearLayout>
+
                 <ImageView
-                    android:layout_marginTop="7dp"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
+                    android:layout_marginTop="7dp"
                     android:background="@drawable/home_arrow"/>
+
                 <LinearLayout
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content">
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/home_detail"
                         />
+
                     <TextView
-                        android:textSize="13dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="细节沟通"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:lines="1"
+                        android:textSize="10dp"
+                        />
                 </LinearLayout>
+
                 <ImageView
-                    android:layout_marginTop="7dp"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
+                    android:layout_marginTop="7dp"
                     android:background="@drawable/home_arrow"/>
+
                 <LinearLayout
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content">
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:background="@drawable/home_clothing"
                         />
+
                     <TextView
-                        android:textSize="13dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="成衣出品"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:lines="1"
+                        android:textSize="10dp"/>
                 </LinearLayout>
             </LinearLayout>
+
             <RelativeLayout
                 android:id="@+id/rl_dingzhi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -468,7 +501,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="5dp"
                     android:text="定制须知"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"/>
 
                 <ImageView
                     android:id="@+id/im_must_know"
@@ -479,7 +512,7 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/home_down" />
+                    android:background="@drawable/home_down"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -502,14 +535,14 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@drawable/home_d" />
+                        android:background="@drawable/home_d"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="数据填写"
-                        android:textSize="21dp" />
+                        android:textSize="21dp"/>
 
                 </LinearLayout>
 
@@ -520,7 +553,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -534,14 +567,14 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@drawable/home_a" />
+                        android:background="@drawable/home_a"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="定制服务"
-                        android:textSize="21dp" />
+                        android:textSize="21dp"/>
                 </LinearLayout>
 
                 <TextView
@@ -551,7 +584,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -565,14 +598,14 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@drawable/home_c" />
+                        android:background="@drawable/home_c"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="发货时间"
-                        android:textSize="21dp" />
+                        android:textSize="21dp"/>
                 </LinearLayout>
 
                 <TextView
@@ -582,7 +615,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -596,14 +629,14 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@drawable/home_b" />
+                        android:background="@drawable/home_b"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="售后服务"
-                        android:textSize="21dp" />
+                        android:textSize="21dp"/>
                 </LinearLayout>
 
                 <TextView
@@ -614,7 +647,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -624,7 +657,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="@color/address_tishi" />
+                android:background="@color/address_tishi"/>
         </LinearLayout>
     </ScrollView>
 
@@ -649,19 +682,19 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/tab_frend" />
+                android:background="@drawable/tab_frend"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="客服" />
+                android:text="客服"/>
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@android:color/black" />
+            android:background="@android:color/black"/>
 
         <LinearLayout
             android:id="@+id/ll_shou_cang"
@@ -676,13 +709,13 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/tab_collect" />
+                android:background="@drawable/tab_collect"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="收藏" />
+                android:text="收藏"/>
         </LinearLayout>
 
         <LinearLayout
@@ -695,12 +728,12 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text="马上定制"
                 android:textColor="@android:color/white"
-                android:textSize="18dp" />
+                android:textSize="18dp"/>
 
         </LinearLayout>
     </LinearLayout>

@@ -20,6 +20,9 @@ public class SPUtils {
     public static final String ADD_TIME = "add_time_" + R.string.versionCode;
     public static final String KEFU_CODE= "kefu_code";
     public static final String USER_ACCID = "user_accid";
+    public static final String IS_NEW_VERSION = "is_new_version";
+    public static final String IS_vibrate = "is_vibrate";
+    public static final String IS_ring = "is_ring";
 
     public static void init(Context context) {
         mContext = context;
@@ -31,6 +34,30 @@ public class SPUtils {
 
     public static String getAddTime(){
         return (String) get(ADD_TIME,"");
+    }
+
+    public static void saveVibrate(boolean isNew){
+        put(IS_vibrate,isNew);
+    }
+
+    public static boolean getVibrate(){
+        return (boolean) get(IS_ring,false);
+    }
+
+    public static void saveRing(boolean isNew){
+        put(IS_ring,isNew);
+    }
+
+    public static boolean getRing(){
+        return (boolean) get(IS_vibrate,false);
+    }
+
+    public static void saveIsVersion(boolean isNew){
+        put(IS_NEW_VERSION,isNew);
+    }
+
+    public static boolean getIsVersion(){
+        return (boolean) get(IS_NEW_VERSION,false);
     }
 
     public static void saveAccid(String accid) {

@@ -53,6 +53,7 @@ import com.tiemuyu.chuanchuan.activity.util.DataContoler;
 import com.tiemuyu.chuanchuan.activity.util.JsonTools;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
+import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.ServerUtils;
 import com.tiemuyu.chuanchuan.activity.util.StringUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
@@ -93,6 +94,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     private TextView tv_ye;// 余额
 
     private TextView tv_cb;// 穿币
+    private TextView is_new_version;
 
     private IntentFilter myIntentFilter;
 
@@ -144,6 +146,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
 
     public static final String GET_WALLET = "GET_WALLET";
+    private boolean mIsVersion;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        sp = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
@@ -166,7 +170,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         mf_shaitu=(LinearLayout) view.findViewById(R.id.mf_shaitu);
 
         mf_saveitem=(LinearLayout) view.findViewById(R.id.mf_saveitem);
-
+        is_new_version = (TextView) view.findViewById(R.id.is_new_version);
         MyApplication.poolManager.addAsyncTask(
                 new ThreadPoolTaskHttp(getActivity(),
                         GET_WALLET,
@@ -178,6 +182,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                         false));
         if (user != null){
             refreshMine();
+        }
+        mIsVersion = SPUtils.getIsVersion();
+        Log.e("onCreateView: ", mIsVersion+"");
+        if (mIsVersion) {
+            is_new_version.setVisibility(View.VISIBLE);
         }
         return view;
 

@@ -16,7 +16,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.tiemuyu.chuanchuan.activity.ClothesDetailsActivity;
-import com.tiemuyu.chuanchuan.activity.ProtocolActivity;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.ZhuantiWaterActivity;
 import com.tiemuyu.chuanchuan.activity.bean.FindSecondWaterBean;
@@ -83,7 +82,7 @@ public class FindSecondWaterAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         pos = position;
         View view = convertView;
         ViewHolder holder;
@@ -115,7 +114,7 @@ public class FindSecondWaterAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Log.e("tag", "left is clicked!");
                 Intent intent = new Intent(context, ClothesDetailsActivity.class);
-                intent.putExtra("productid", findSecondWaterBean.getData().getData().get((pos + 1) * 2 - 1).getProductid());
+                intent.putExtra("productid", findSecondWaterBean.getData().getData().get((position + 1) * 2 - 2).getProductid());
                 context.startActivity(intent);
             }
         });
@@ -124,7 +123,7 @@ public class FindSecondWaterAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Log.e("tag", "right is clicked!");
                 Intent intent = new Intent(context, ClothesDetailsActivity.class);
-                intent.putExtra("productid", findSecondWaterBean.getData().getData().get((pos + 1) * 2 - 2).getProductid());
+                intent.putExtra("productid", findSecondWaterBean.getData().getData().get((position + 1) * 2 - 1).getProductid());
                 context.startActivity(intent);
             }
         });

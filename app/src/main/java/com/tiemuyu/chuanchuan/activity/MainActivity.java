@@ -58,6 +58,7 @@ import com.tiemuyu.chuanchuan.activity.new_activities.FatuActivity;
 import com.tiemuyu.chuanchuan.activity.share_auth.ShareAdapter;
 import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.DataSharedPress;
+import com.tiemuyu.chuanchuan.activity.util.GetCustomer;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
@@ -235,9 +236,20 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 				}
 			}
 		});
+		String kefuCode = SPUtils.getKefuCode();
+		if (kefuCode == null || kefuCode.equals("")){
+			final User user = DBTools.getUser();
+			if (user != null){
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						GetCustomer.httpConnPostString(user.getAccid(), user.getAccToken());
+					}
+				}).start();
+			}
+		}
 
 	}
-
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -415,20 +427,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 					isJump = true;
 					ToastHelper.show(MainActivity.this, "正在登录");
 					login();
-				}/*else if (isIMLogin) {
-		            //Toast.makeText(getApplicationContext(), "第一个！", Toast.LENGTH_SHORT).show();
-                    System.out.println("accid after kefu is clicked: " + sp.getString("accid", ""));
-                    System.out.println("acctoken after kefu is clicked: " + sp.getString("acctoken", ""));
-                    Intent intent1 = new Intent(MainActivity.this, MessageActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList("data", dataList);
-                    intent1.putExtra("bundle", bundle);
-                    startActivity(intent1);
-                } else {
-                    login();
-                }*/
-
-
+				}
 				break;
 
 

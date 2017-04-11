@@ -839,4 +839,8 @@ public class UrlManager {
 	public static final String sendMessage(String id) {
 		return "http://imserver.myappcc.com/api/Sendmessage?id="+id;
 	}
+
+	public static final String getVersion() {
+		return BASEURL+"api/apppi?getBanBenHao&state=0";
+	}
 }
