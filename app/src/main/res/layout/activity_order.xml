@@ -258,7 +258,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
                         android:layout_toStartOf="@+id/tv_price"
-                        android:text="会撒娇考古发掘第三个卡德加鬼斧神工的风格环岛赛股份"
+                        android:text=""
                         android:textColor="@color/colorBlack"
                         android:textSize="15dp" />
 

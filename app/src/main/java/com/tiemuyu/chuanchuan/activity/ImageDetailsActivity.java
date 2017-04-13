@@ -2,33 +2,83 @@ package com.tiemuyu.chuanchuan.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.view.PinchImageView;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class ImageDetailsActivity extends AppCompatActivity {
 
-    private PinchImageView banner;
-    private ArrayList<String> images;
-    private int position;
-    private ImageView back,go;
+	private ViewPager viewpager;
+	private ArrayList<String> images;
+	private int position;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_details);
-        Intent intent = getIntent();
-        images = intent.getStringArrayListExtra("images");
-        position = intent.getIntExtra("position", 0);
-        Log.e( "onCreate: ", images.size()+":"+position);
-        banner = (PinchImageView) findViewById(R.id.banner_image);
-        back = (ImageView) findViewById(R.id.back);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_image_details);
+		Intent intent = getIntent();
+		images = intent.getStringArrayListExtra("images");
+		position = intent.getIntExtra("position", 0);
+		Log.e("onCreate: ", images.size() + ":" + position);
+		final LinkedList<PinchImageView> viewCache = new LinkedList<PinchImageView>();
+		viewpager = (ViewPager) findViewById(R.id.pager);
+		viewpager.setAdapter(new PagerAdapter() {
+			@Override
+			public int getCount() {
+				return images.size();
+			}
+
+			@Override
+			public boolean isViewFromObject(View view, Object object) {
+				return view == object;
+			}
+
+			@Override
+			public Object instantiateItem(ViewGroup container, int position) {
+				PinchImageView piv;
+				if (viewCache.size() > 0) {
+					piv = viewCache.remove();
+					piv.reset();
+				} else {
+					piv = new PinchImageView(ImageDetailsActivity.this);
+				}
+				Picasso.with(ImageDetailsActivity.this).load(images.get(position)).into(piv);
+				piv.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						finish();
+					}
+				});
+				container.addView(piv);
+				return piv;
+			}
+
+			@Override
+			public void destroyItem(ViewGroup container, int position, Object object) {
+				PinchImageView piv = (PinchImageView) object;
+				container.removeView(piv);
+				viewCache.add(piv);
+			}
+
+			@Override
+			public void setPrimaryItem(ViewGroup container, int position, Object object) {
+				PinchImageView piv = (PinchImageView) object;
+				Picasso.with(ImageDetailsActivity.this).load(images.get(position)).into(piv);
+			}
+		});
+		if (position != 0) {
+			viewpager.setCurrentItem(position);
+		}
+	    /*back = (ImageView) findViewById(R.id.back);
         go = (ImageView) findViewById(R.id.go);
         if (images.size()==1) {
             go.setVisibility(View.GONE);
@@ -54,47 +104,6 @@ public class ImageDetailsActivity extends AppCompatActivity {
                 }
                 Picasso.with(ImageDetailsActivity.this).load(images.get(position)).into(banner);
             }
-        });
-        /*banner.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-
-                    case MotionEvent.ACTION_DOWN:
-                        mPosX = event.getX();
-                        mPosY = event.getY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        mCurPosX = event.getX();
-                        mCurPosY = event.getY();
-
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        if (Math.abs(mCurPosY - mPosY)<4 ) {
-                            if (mCurPosX - mPosX > 0
-                                    && (Math.abs(mCurPosX - mPosX) > 25)) {
-                                //向右滑動
-                                Log.e("onTouch: ", "向右滑動");
-                                position += 1;
-                                if (position >= images.size()) {
-                                    position = 0;
-                                }
-                                Picasso.with(ImageDetailsActivity.this).load(images.get(position)).into(banner);
-                            } else if (mCurPosX - mPosX < 0
-                                    && (Math.abs(mCurPosX - mPosX) > 25)) {
-                                //向左滑动
-                                Log.e("onTouch: ", "向左滑动");
-                                position -= 1;
-                                if (position < 0) {
-                                    position = images.size() - 1;
-                                }
-                                Picasso.with(ImageDetailsActivity.this).load(images.get(position)).into(banner);
-                            }
-                        }
-                        break;
-                }
-                return true;
-            }
         });*/
-    }
+	}
 }

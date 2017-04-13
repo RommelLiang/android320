@@ -13,25 +13,20 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.tiemuyu.chuanchuan.activity.DingzhiDetailsActivity;
 import com.tiemuyu.chuanchuan.activity.R;
-import com.tiemuyu.chuanchuan.activity.ZhuantiWaterActivity;
-import com.tiemuyu.chuanchuan.activity.bean.LastPrice;
-
-import java.util.List;
+import com.tiemuyu.chuanchuan.activity.bean.SimilarProducts;
 
 /**
  * Created by 梁文硕 on 2017/2/17.
  */
 
-public class WaterAdapter extends BaseAdapter {
-    private final List<LastPrice.DataBean.RowsBean> rows;
+public class SimilarProductsAdapter extends BaseAdapter {
+    private  SimilarProducts mSimilarProducts;
     private Context context;
-    private ImageLoadingListener animateFirstListener = new ZhuantiWaterActivity.AnimateFirstDisplayListener();
     private LayoutInflater layoutInflater;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     DisplayImageOptions options;
@@ -47,9 +42,9 @@ public class WaterAdapter extends BaseAdapter {
         public LinearLayout right;
     }
 
-    public WaterAdapter(List<LastPrice.DataBean.RowsBean> rows,
-                        Context context) {
-        this.rows = rows;
+    public SimilarProductsAdapter(SimilarProducts mSimilarProducts,
+                                  Context context) {
+        this.mSimilarProducts = mSimilarProducts;
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
         options = new DisplayImageOptions.Builder()
@@ -64,7 +59,7 @@ public class WaterAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return rows.size() / 2;
+        return mSimilarProducts.getData().getSimilarProducts().size() / 2;
     }
 
     @Override
@@ -98,23 +93,23 @@ public class WaterAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        holder.text.setText(rows.get((position + 1) * 2 - 1).getProductName());
-        holder.price.setText("￥" + rows.get((position + 1) * 2 - 1).getPrice() + "");
+        holder.text.setText(mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 1).getProductName());
+        holder.price.setText("￥" + mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 1).getPrice() + "");
         Picasso.with(context)
-                .load(rows.get((position + 1) * 2 - 1).getMainImage())
+                .load(mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 1).getMianPic())
                 .transform(transformation)
                 .into(holder.image);
-        holder.text_one.setText(rows.get((position + 1) * 2 - 2).getProductName());
-        holder.price_one.setText("￥" + rows.get((position + 1) * 2 - 2).getPrice() + "");
+        holder.text_one.setText(mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 2).getProductName());
+        holder.price_one.setText("￥" + mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 2).getPrice() + "");
         Picasso.with(context)
-                .load(rows.get((position + 1) * 2 - 2).getMainImage())
+                .load(mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 2).getMianPic())
                 .transform(transformation)
                 .into(holder.image_one);
         holder.left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DingzhiDetailsActivity.class);
-                intent.putExtra("productid",rows.get((position + 1) * 2 - 2).getId());
+                intent.putExtra("productid",mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 2).getProductId());
                 context.startActivity(intent);
             }
         });
@@ -122,7 +117,7 @@ public class WaterAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DingzhiDetailsActivity.class);
-                intent.putExtra("productid",rows.get((position + 1) * 2 - 1).getId());
+                intent.putExtra("productid",mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 1).getProductId());
                 context.startActivity(intent);
             }
         });

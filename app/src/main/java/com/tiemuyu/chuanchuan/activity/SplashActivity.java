@@ -18,6 +18,7 @@ import com.tiemuyu.chuanchuan.activity.bean.VesionCodeBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
+import com.tiemuyu.chuanchuan.activity.util.CheckVersion;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
@@ -62,8 +63,10 @@ public class SplashActivity extends BaseActivityG implements AppInstallListener 
         super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
         Log.e(TAG, "successCallBack: "+callBackMsg );
         VesionCodeBean vesionCodeBean = GsonUtils.fromData(callBackMsg, VesionCodeBean.class);
-        if (!vesionCodeBean.getData().equals(BuildConfig.VERSION_CODE)) {
+        if (CheckVersion.check(vesionCodeBean.getData())) {
             SPUtils.saveIsVersion(true);
+        } else {
+            SPUtils.saveIsVersion(false);
         }
         jump();
     }

@@ -42,7 +42,7 @@ public class GuideActivity extends AppCompatActivity {
         imgsArr =
                 new int[]{R.drawable.one_mi, R.drawable.two_mi, R.drawable.three_mi,
                         R.drawable.four_mi, R.drawable.five_mi};
-       /* imgsArr =
+        /*imgsArr =
                 new int[]{R.drawable.one, R.drawable.two, R.drawable.three,
                         R.drawable.four, R.drawable.five};*/
         view_pager = (ViewPager) findViewById(R.id.view_pager);

@@ -13,26 +13,9 @@
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.tiemuyu.chuanchuan.activity.view.PinchImageView
-           app:image_scale_type="center_crop"
-            android:id="@+id/banner_image"
-            app:is_auto_play="false"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
     </LinearLayout>
-    <ImageView
-        android:id="@+id/back"
-        android:layout_marginLeft="5dp"
-        android:background="@drawable/home_back"
-        android:layout_centerVertical="true"
-        android:layout_width="30dp"
-        android:layout_height="30dp"/>
-    <ImageView
-        android:id="@+id/go"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/home_go"
-        android:layout_centerVertical="true"
-        android:layout_width="30dp"
-        android:layout_height="30dp"/>
 </RelativeLayout>

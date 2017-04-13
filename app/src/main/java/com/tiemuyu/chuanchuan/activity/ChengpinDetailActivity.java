@@ -100,6 +100,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 	private DataSharedPress sharedPress;
 	private boolean isLogIn = false;
 	private ImageView imageView;
+	private int mInt;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -225,17 +226,30 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 			dIngzhi = (new Gson()).fromJson(callBackMsg, DingZhiItem.class);
 			mianliao.setText(dIngzhi.getData().getDingzhiItem().getMianliao());
 			xijie = dIngzhi.getData().getDingzhiItem().getImgList();
-			for ( int i = 0; i < xijie.size(); i++ ) {
+			xijie.remove(0);
+			for (int i = 0; i < xijie.size(); i++ ) {
+				mInt = i;
 				ImageView im = new ImageView(this);
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
 						LinearLayout.LayoutParams.WRAP_CONTENT);
-				if (i==0){
+				/*if (i==0){
 					continue;
-				}
+				}*/
 				if (imageView == null) {
 					imageView = im;
 				}
 				Picasso.with(this).load(xijie.get(i)).transform(transformation).into(im);
+				im.setTag(i);
+				im.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						int tag = (int) v.getTag();
+						Intent intent = new Intent(ChengpinDetailActivity.this, ImageDetailsActivity.class);
+						intent.putStringArrayListExtra("images",(ArrayList<String>) xijie);
+						intent.putExtra("position", tag);
+						startActivity(intent);
+					}
+				});
 				ll_image.addView(im, lp);
 			}
 
@@ -263,6 +277,17 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 			Log.e("imageUrl: ", dIngzhi.getData().getDingzhiItem().getFirstXiJieImg());
 			Picasso.with(this).load(dIngzhi.getData().getDingzhiItem().getFirstXiJieImg())
 					.transform(transformation).into(im_main_image);
+			im_main_image.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					ArrayList<String> images = new ArrayList<>();
+					images.add(dIngzhi.getData().getDingzhiItem().getFirstXiJieImg());
+					Intent intent = new Intent(ChengpinDetailActivity.this, ImageDetailsActivity.class);
+					intent.putStringArrayListExtra("images",images);
+					intent.putExtra("position", 0);
+					startActivity(intent);
+				}
+			});
 	        /*webView.loadDataWithBaseURL(null, "<table>" + clothesDetail.getData().getCostHtml() +
                             "</table>",
                     "text/html", "UTF-8", null);*/

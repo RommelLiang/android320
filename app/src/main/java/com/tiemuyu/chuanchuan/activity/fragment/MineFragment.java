@@ -228,10 +228,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     private void initDbData() {
 
         user = DBTools.getUser();
-
-
-
-        if (PreferenceUtils.getPrefBoolean(getActivity(), Constant.CC_IFLOGIN, false))
+        if (PreferenceUtils.getPrefBoolean(getActivity(), Constant.CC_IFLOGIN, false) == true)
         {
             setView(user);
 
@@ -632,7 +629,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         if (!StringUtil.isNull(user.getUserImg()))
         {
 
-            System.out.println("#####getUserImg"+user.getUserImg());
+
             ImageLoader.getInstance().displayImage(user.getUserImg(), iv_head);
 
 

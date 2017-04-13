@@ -86,6 +86,8 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     //友盟推送
     compile project(':PushSDK')
+    //图片缩放
+    compile 'com.bm.photoview:library:1.4.1'
 }
 
 //Error:Execution failed for task ':app:transformClassesWithJarMergingForDebug'.

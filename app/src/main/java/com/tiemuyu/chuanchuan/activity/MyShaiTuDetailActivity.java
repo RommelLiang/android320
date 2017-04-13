@@ -1,25 +1,20 @@
 package com.tiemuyu.chuanchuan.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.lzy.imagepicker.bean.ImageItem;
-import com.lzy.imagepicker.ui.ImageGridActivity;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.bean.NewShaituBean;
-import com.tiemuyu.chuanchuan.activity.new_activities.FatuActivity;
-import com.tiemuyu.chuanchuan.activity.util.PicassoImageLoader;
 import com.tiemuyu.chuanchuan.activity.view.HorizontalListVIew;
 
 import java.util.ArrayList;
@@ -99,6 +94,15 @@ public class MyShaiTuDetailActivity extends AppCompatActivity {
         } else {
             chakandingzhi_btn.setVisibility(View.GONE);
         }
+        listview_horizon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MyShaiTuDetailActivity.this, ImageDetailsActivity.class);
+                intent.putStringArrayListExtra("images", (ArrayList<String>) mImage);
+                intent.putExtra("position", position);
+                startActivity(intent);
+            }
+        });
     }
 
     private class MyAdapter extends BaseAdapter {

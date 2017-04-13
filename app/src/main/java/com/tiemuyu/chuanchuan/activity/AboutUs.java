@@ -15,6 +15,7 @@ import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
+import com.tiemuyu.chuanchuan.activity.util.CheckVersion;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
@@ -63,7 +64,9 @@ public class AboutUs extends BaseActivityG implements OnItemClickListener {
         super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
         Log.e("successCallBack: ", callBackMsg);
         VesionCodeBean vesionCodeBean = GsonUtils.fromData(callBackMsg, VesionCodeBean.class);
-        if (!vesionCodeBean.getData().equals(BuildConfig.VERSION_CODE)) {
+        Log.e( "successCallBack: ",CheckVersion.check(vesionCodeBean.getData())+"" );
+        Log.e( "successCallBack: ",vesionCodeBean.getData()+"" );
+        if (CheckVersion.check(vesionCodeBean.getData())) {
             is_new_version.setText("有新版本:"+vesionCodeBean.getData());
             SPUtils.saveIsVersion(true);
             new AlertView.Builder().setContext(AboutUs.this)

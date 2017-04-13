@@ -147,7 +147,9 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		setNetResponses(this);
 		MessageActivity messageActivity = new MessageActivity();
 		sharedPress = DataSharedPress.getSharedPress(this);
-		login();
+		if (DBTools.getUser()!=null) {
+			login();
+		}
 		//以下三行代码：sp保存了用户名密码，每次启动app时toast出来用于检测
 		SharedPreferences sp = getSharedPreferences("UserInfo", Activity.MODE_PRIVATE);
 		//Toast.makeText(getBaseContext(), "saved logincache: " + sp.getString("logincache", ""), Toast.LENGTH_SHORT).show();//for test only
@@ -415,10 +417,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 				}
 				break;
 			case R.id.main_kfbtn:
-
-
 				flag = 2;
-
 				if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false) == false) {
 					Toast.makeText(this, "没登录", Toast.LENGTH_SHORT).show();
 				} else if (isIMLogin) {
@@ -536,8 +535,10 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		String accid = SPUtils.getAccid();
 		User now = DBTools.getUser();
 		Log.e("login: ", now + "!");
-		if (now.getAccid() == null) {
-			Toast.makeText(this, "身份信息异常", Toast.LENGTH_SHORT).show();
+		if (now!=null) {
+			if (now.getAccid() == null) {
+				Toast.makeText(this, "身份信息异常", Toast.LENGTH_SHORT).show();
+			}
 		}
 		LoginInfo loginInfo = new LoginInfo(now.getAccid(), now.getAccToken());
 //
