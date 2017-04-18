@@ -27,7 +27,7 @@ import com.tiemuyu.chuanchuan.activity.AboutUs;
 import com.tiemuyu.chuanchuan.activity.GetPathFromUri4kitkat;
 import com.tiemuyu.chuanchuan.activity.MainActivity;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
-import com.tiemuyu.chuanchuan.activity.MyBody;
+import com.tiemuyu.chuanchuan.activity.MyBodyManngerActivity;
 import com.tiemuyu.chuanchuan.activity.MyInfo;
 import com.tiemuyu.chuanchuan.activity.MyNick;
 import com.tiemuyu.chuanchuan.activity.MySaveItem;
@@ -732,13 +732,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     Toast.makeText(mainActivity, "您还未登录", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 ClassJumpTool.startToNextActivity(getActivity(), MyWebview.class, URL.UrlOrder);
-
-
-
-
-
             }};
         myOrder.setOnClickListener(this);
 
@@ -781,7 +775,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                     Toast.makeText(mainActivity, "您还未登录", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                ClassJumpTool.startToNextActivityForResult(getActivity(),   MyBody.class, 10);
+                ClassJumpTool.startToNextActivityForResult(getActivity(),   MyBodyManngerActivity.class, 10);
 
 
 

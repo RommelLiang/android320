@@ -41,7 +41,7 @@ public class ThreadPoolTaskHttp extends ThreadPoolTask {
     public void run() {
         // TODO Auto-generated method stub
         if (!ConnectionUtil.isConn(context)) {
-            ToastHelper.show(context, "亲，网络断了哦，请检查网络设置");
+            //ToastHelper.show(context, "亲，网络断了哦，请检查网络设置");
             return;
         }
         new HttpTools(context,callBack, tag, params, action,title,isShowDialog);
@@ -58,9 +58,6 @@ public class ThreadPoolTaskHttp extends ThreadPoolTask {
         public void startCallBack(String resultTag,boolean isShowDiolog,String showTitle); /** 开始*/
         public void cancelCallBack(String resultTag);/**取消*/
         public void failShowCallBack(String resultTag, BaseBean baseBean,String callBackMsg,boolean isShowDiolog);/** 请求成功，但code!=1 */
-
         public void reLoginCallBack(String resultTag,boolean isShowDiolog);/** 请求成功,但要重新登录 */
     }
-
-
 }

@@ -195,16 +195,17 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
 
         viewList = new ArrayList<>();//将要分页显示的View装入数组中
 
-        viewList.add(view1);
+
         viewList.add(view2);
+        viewList.add(view1);
         viewList.add(view3);
         viewList.add(view4);
         viewList.add(view5);
         viewList.add(view6);
         viewList.add(view7);
         titleList = new ArrayList<>();//每个页面的Title数据
-        titleList.add("最新报价");
         titleList.add("定制成品");
+        titleList.add("最新报价");
         titleList.add("裙装");
         titleList.add("外套");
         titleList.add("上衣");

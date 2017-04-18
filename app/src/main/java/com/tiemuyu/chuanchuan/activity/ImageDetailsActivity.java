@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.view.PinchImageView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -20,6 +21,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
 	private ViewPager viewpager;
 	private ArrayList<String> images;
 	private int position;
+	private int mType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class ImageDetailsActivity extends AppCompatActivity {
 		Intent intent = getIntent();
 		images = intent.getStringArrayListExtra("images");
 		position = intent.getIntExtra("position", 0);
+		mType = intent.getIntExtra("type", 0);
+		Log.e("onCreate: ",mType+"" );
 		Log.e("onCreate: ", images.size() + ":" + position);
 		final LinkedList<PinchImageView> viewCache = new LinkedList<PinchImageView>();
 		viewpager = (ViewPager) findViewById(R.id.pager);
@@ -51,7 +55,11 @@ public class ImageDetailsActivity extends AppCompatActivity {
 				} else {
 					piv = new PinchImageView(ImageDetailsActivity.this);
 				}
-				Picasso.with(ImageDetailsActivity.this).load(images.get(position)).into(piv);
+				if (mType == 0) {
+					Picasso.with(ImageDetailsActivity.this).load(images.get(position)).into(piv);
+				} else {
+					Picasso.with(ImageDetailsActivity.this).load(new File(images.get(position))).into(piv);
+				}
 				piv.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -72,7 +80,11 @@ public class ImageDetailsActivity extends AppCompatActivity {
 			@Override
 			public void setPrimaryItem(ViewGroup container, int position, Object object) {
 				PinchImageView piv = (PinchImageView) object;
-				Picasso.with(ImageDetailsActivity.this).load(images.get(position)).into(piv);
+				if (mType == 0) {
+					Picasso.with(ImageDetailsActivity.this).load(images.get(position)).into(piv);
+				} else {
+					Picasso.with(ImageDetailsActivity.this).load(new File(images.get(position))).into(piv);
+				}
 			}
 		});
 		if (position != 0) {

@@ -470,7 +470,7 @@ public class FatuActivity extends BaseActivityG {
 			if (position < items.size()) {
 				//Picasso.
 				(new PicassoImageLoader()).displayImage(FatuActivity.this, items.get(position).path, childHolder.imageView, width, width);
-
+				Log.e( "getView: ",  items.get(position).path);
 				childHolder.delect.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {

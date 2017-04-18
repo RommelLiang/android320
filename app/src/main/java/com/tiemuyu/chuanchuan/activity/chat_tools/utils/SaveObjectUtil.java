@@ -1,18 +1,21 @@
 package com.tiemuyu.chuanchuan.activity.chat_tools.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
+import android.util.Log;
+import android.view.View;
 
 import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
 import com.netease.nimlib.sdk.msg.attachment.VideoAttachment;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.tiemuyu.chuanchuan.activity.ImageDetailsActivity;
+import com.tiemuyu.chuanchuan.activity.util.ScreenUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
-
-import com.tiemuyu.chuanchuan.activity.util.ScreenUtils;
+import java.util.ArrayList;
 
 /**
  * describe :
@@ -23,6 +26,8 @@ import com.tiemuyu.chuanchuan.activity.util.ScreenUtils;
 public class SaveObjectUtil {
 
 
+    private static ArrayList<String> images;
+
     public static void loadImage(Context context, ImageAttachment attachment, String path){
         int heightY = attachment.getHeight();
         int widthY = attachment.getWidth();
@@ -32,16 +37,40 @@ public class SaveObjectUtil {
         attachment.setPath(path);
     }
 
-    public static void setImage(Context context, IViewHolder viewHolder, IMMessage imMessage, int a) {
+    public static void setImage(final Context context, IViewHolder viewHolder, IMMessage imMessage, int a) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         ImageAttachment imageAttachment = (ImageAttachment) imMessage.getAttachment();
+        images = new ArrayList<>();
+        Log.e("setImage: ", imageAttachment.getThumbPath()+"");
         if (a == 2) {
             String path = imageAttachment.getThumbPath();
             Bitmap bitmap = BitmapFactory.decodeFile(path, options);
             viewHolder.message_item_image_left.setImageBitmap(bitmap);
+            viewHolder.message_item_image_left.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ImageDetailsActivity.class);
+                    intent.putStringArrayListExtra("images", images);
+                    intent.putExtra("position", 0);
+                    intent.putExtra("type", 1);
+                    context.startActivity(intent);
+                }
+            });
         } else {
             String path = imageAttachment.getPathForSave();
+            Log.e("setImage: ", path+"");
+            images.add(path);
+            viewHolder.message_item_image_right.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ImageDetailsActivity.class);
+                    intent.putStringArrayListExtra("images", images);
+                    intent.putExtra("position", 0);
+                    intent.putExtra("type", 1);
+                    context.startActivity(intent);
+                }
+            });
             File file = new File(path);
             String thumbPath = imageAttachment.getThumbPath();
             if (thumbPath == null && path != null) {

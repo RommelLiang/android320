@@ -140,7 +140,7 @@ public class MessageShowUtil {
 
 				break;
 			case 21:
-				checkShow(views[4], views[2], views[0], views[6]);
+				checkShow(views[4], views[2], views[0], views[6],views[7]);
 				SaveObjectUtil.setImage(mContext, viewHolder, imMessage, 2);
 
 				break;

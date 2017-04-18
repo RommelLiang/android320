@@ -575,6 +575,13 @@ public class UrlManager {
 	}
 
 	/**
+	 * lws 在这里添加的接口产品详情
+	 */
+	public static final String getProCost(String id) {
+		return BASEURL + "api/apppi?getProCost&productId="+id;
+	}
+
+	/**
 	 * lws 在这里添加的接口定制详情
 	 */
 	public static final String GetChengPin() {
@@ -846,5 +853,20 @@ public class UrlManager {
 
 	public static final String getSimilar(String id,String name) {
 		return BASEURL+"api/apppi?similarProduct&productId="+id+"&productname="+name;
+	}
+
+	public static final String getBodys(String id) {
+		return BASEURL+"api/userapi?GetTwoUserCCInfo&userId="+id;
+	}
+	public static final String updOrAddCCInfo() {
+		return BASEURL+"api/userapi?UpdOrAddCCInfo";
+	}
+
+	public static final String deleteCCInfo() {
+		return BASEURL+"api/userapi?DelUserCCInfo";
+	}
+
+	public static final String getBodyById(String id) {
+		return BASEURL+"api/userapi?GetTwoUserCCInfoFirst&id="+id;
 	}
 }

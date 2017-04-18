@@ -202,7 +202,6 @@ public class NewSearchActivity extends BaseActivityG implements View.OnClickList
         tv_search_btn.setOnClickListener(this);
         pullToRefreshListView = (PullToRefreshListView) findViewById(R.id.search_resutl_list);
         initIndicator(pullToRefreshListView);
-        pullToRefreshListView.setOnRefreshListener(this);
         zonghepaixu = (RelativeLayout) findViewById(R.id.rl_zonghe);
         zonghepaixu.setOnClickListener(this);
         price_sort = (RelativeLayout) findViewById(R.id.rl_jiage);
@@ -286,6 +285,7 @@ public class NewSearchActivity extends BaseActivityG implements View.OnClickList
             // todo 将得到的数据放到adapter里面显示出来
             searchWaterAdapter = new SearchWaterAdapter(searchResultBean, this);
             pullToRefreshListView.setAdapter(searchWaterAdapter);
+            pullToRefreshListView.setOnRefreshListener(this);
         } else if (resultTag.equals(MORE_SEARCH_RESULT)) {
             SearchResultBean tmp_bean;//临时的bean用于储存新拉到的数据
             Gson gson = new Gson();

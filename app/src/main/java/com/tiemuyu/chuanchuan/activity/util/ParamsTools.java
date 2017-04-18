@@ -15,9 +15,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
+ * @author hw
  * @ClassName: ParamsTools
  * @Description: TODO(这里用一句话描述这个类的作用)
- * @author hw
  * @date 2015-6-16
  */
 public class ParamsTools {
@@ -26,9 +26,9 @@ public class ParamsTools {
 
 	/**
 	 * 获取passkey ---弃用
-	 * */
+	 */
 	public static RequestParams getPasskey(String url, String sid, String IP,
-			String LogonSys, String ClientType, String ClientVer) {
+	                                       String LogonSys, String ClientType, String ClientVer) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.APP_IP, IP);
 		params.addBodyParameter(Constant.LOGONSYS, LogonSys);
@@ -38,15 +38,15 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: login
-	 * @Description: TODO(登录传的参数)
-	 * @param @param v
+	 * @param @param  v
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: login
+	 * @Description: TODO(登录传的参数)
 	 */
 	public static RequestParams login(String url, String v, String oauthId) {
-		System.out.println("用手机登录调用最后一步,String url, String v, String oauthId："+url+"   "+ v+" "+oauthId);
+		System.out.println("用手机登录调用最后一步,String url, String v, String oauthId：" + url + "   " + v + " " + oauthId);
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.LOGIN_V, v);
 		params.addBodyParameter(Constant.OAUTHID, oauthId);
@@ -54,20 +54,20 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: third_login
-	 * @Description: TODO 第三方登录
-	 * @param @param OauthName
-	 * @param @param OauthOpenId
-	 * @param @param OauthToken
-	 * @param @param UserImg
-	 * @param @param NickName
+	 * @param @param  OauthName
+	 * @param @param  OauthOpenId
+	 * @param @param  OauthToken
+	 * @param @param  UserImg
+	 * @param @param  NickName
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: third_login
+	 * @Description: TODO 第三方登录
 	 */
 	public static RequestParams third_login(String url, String OauthName,
-			String OauthOpenId, String OauthToken, String UserImg,
-			String NickName) {
+	                                        String OauthOpenId, String OauthToken, String UserImg,
+	                                        String NickName) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.LOGIN_OAUTHNAME, OauthName);
 		params.addBodyParameter(Constant.LOGIN_OAUTHOPENID, OauthOpenId);
@@ -78,15 +78,15 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: getCode
-	 * @Description: TODO 获取注册验证码
-	 * @param @param mobile
+	 * @param @param  mobile
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: getCode
+	 * @Description: TODO 获取注册验证码
 	 */
 	public static RequestParams getCode(String url, String mobile,
-			String invitedCode) {
+	                                    String invitedCode) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.MOBILE, mobile);
 		if (!StringUtil.isNull(invitedCode)) {
@@ -97,15 +97,15 @@ public class ParamsTools {
 	
 	
 	/**
-	 * @Title: getCode
-	 * @Description: TODO 测试一个参数的post方法
-	 * @param @param mobile
+	 * @param @param  mobile
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: getCode
+	 * @Description: TODO 测试一个参数的post方法
 	 */
 	public static RequestParams trytry(String url, String addid
-			) {
+	) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.ADDRESS_ID, addid);
 //		if (!StringUtil.isNull(invitedCode)) {
@@ -116,26 +116,19 @@ public class ParamsTools {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-
 	/**
-	 * @Title: regist
-	 * @Description: TODO 注册
-	 * @param @param v
-	 * @param @param code
-	 * @param @param invitedCode
-	 * @param @param oauthId
+	 * @param @param  v
+	 * @param @param  code
+	 * @param @param  invitedCode
+	 * @param @param  oauthId
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: regist
+	 * @Description: TODO 注册
 	 */
 	public static RequestParams regist(String url, String v, String code,
-			String invitedCode, String oauthId, String token) {
+	                                   String invitedCode, String oauthId, String token) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.LOGIN_V, v);
 		params.addBodyParameter(Constant.CODE, code);
@@ -146,16 +139,9 @@ public class ParamsTools {
 	}
 
 
-
-
-
-
-
-
-
 	/**
 	 * 上传图片、头像-单张
-	 * */
+	 */
 	public static RequestParams upLodingImag(String url, String file_path) {
 		RequestParams params = new RequestParams(url);
 		// params.addBodyParameter("fileData", new File(file_path));
@@ -166,7 +152,7 @@ public class ParamsTools {
 
 	/**
 	 * 上传u3d头像
-	 * */
+	 */
 	public static RequestParams upLoadingU3dImag(String url, String file_path) {
 		RequestParams params = new RequestParams(url);
 		params.setMultipart(true);
@@ -176,7 +162,7 @@ public class ParamsTools {
 	
 	/**
 	 * 生成u3d头像
-	 * */
+	 */
 	public static RequestParams createheadmodel(String url, String points) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter("points", points);
@@ -186,28 +172,28 @@ public class ParamsTools {
 	
 	/**
 	 * 上传图片、头像-多张
-	 * */
+	 */
 	public static RequestParams upLodingImag(String url, List<String> path) {
 		RequestParams params = new RequestParams(url);
 		params.setMultipart(true);
-		for (int i = 0; i < path.size(); i++) {
+		for ( int i = 0; i < path.size(); i++ ) {
 			params.addBodyParameter("fileData" + i, new File(path.get(i)),
-					"image/jpeg","多文件"+i+".jpg");
+					"image/jpeg", "多文件" + i + ".jpg");
 		}
 		return params;
 	}
 
 	/**
-	 * @Title: modify
-	 * @Description: TODO 修改用户昵称和头像
-	 * @param @param usrImg
-	 * @param @param nickName
+	 * @param @param  usrImg
+	 * @param @param  nickName
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: modify
+	 * @Description: TODO 修改用户昵称和头像
 	 */
 	public static RequestParams modify(String url, String usrImg,
-			String nickName) {
+	                                   String nickName) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.USERIMG, usrImg);
 		params.addBodyParameter(Constant.NICKNAME, nickName);
@@ -215,16 +201,16 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: testCode
-	 * @Description: TODO 验证验证码
-	 * @param @param code
-	 * @param @param type
+	 * @param @param  code
+	 * @param @param  type
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: testCode
+	 * @Description: TODO 验证验证码
 	 */
 	public static RequestParams testCode(String url, String code, String type,
-			String token) {
+	                                     String token) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.CODE, code);
 		params.addBodyParameter(Constant.TYPE, type);
@@ -233,14 +219,14 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: reset_pass
-	 * @Description: TODO 重置密码
-	 * @param @param v
+	 * @param @param  v
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: reset_pass
+	 * @Description: TODO 重置密码
 	 */
-	public static RequestParams resetPass(String url,String mobile, String v) {
+	public static RequestParams resetPass(String url, String mobile, String v) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.MOBILE, mobile);
 		params.addBodyParameter(Constant.LOGIN_V, v);
@@ -248,12 +234,12 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: getUsername
-	 * @Description: TODO 获取用户名
-	 * @param @param email
+	 * @param @param  email
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: getUsername
+	 * @Description: TODO 获取用户名
 	 */
 	public static RequestParams getUsername(String url, String email) {
 		RequestParams params = new RequestParams(url);
@@ -262,12 +248,12 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: getCodeForEmail
-	 * @Description: TODO 根据邮箱获取验证码
-	 * @param @param email
+	 * @param @param  email
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: getCodeForEmail
+	 * @Description: TODO 根据邮箱获取验证码
 	 */
 	public static RequestParams getCodeForEmail(String url, String email) {
 		RequestParams params = new RequestParams(url);
@@ -276,12 +262,12 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: modifyPass
-	 * @Description: TODO 修改密码
-	 * @param @param v
+	 * @param @param  v
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: modifyPass
+	 * @Description: TODO 修改密码
 	 */
 	public static RequestParams modifyPass(String url, String v) {
 		RequestParams params = new RequestParams(url);
@@ -290,11 +276,11 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: getAccountContact
-	 * @Description: TODO 获取账号关联
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: getAccountContact
+	 * @Description: TODO 获取账号关联
 	 */
 	public static RequestParams getAccountContact(String url) {
 		RequestParams params = new RequestParams(url);
@@ -302,11 +288,11 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: getAddressList
-	 * @Description: TODO 获取收件人地址
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: getAddressList
+	 * @Description: TODO 获取收件人地址
 	 */
 	public static RequestParams getAddressList(String url) {
 		RequestParams params = new RequestParams(url);
@@ -314,26 +300,26 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: addPassword
-	 * @Description: TODO 添加支付密码
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: addPassword
+	 * @Description: TODO 添加支付密码
 	 */
-	public static RequestParams addPassword(String url,String payPasswordNew) {
+	public static RequestParams addPassword(String url, String payPasswordNew) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter("payPasswordNew", payPasswordNew);
 		return params;
 	}
 
 	/**
-	 * @Title: addPassword
-	 * @Description: TODO 校验支付密码
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: addPassword
+	 * @Description: TODO 校验支付密码
 	 */
-	public static RequestParams chexkPassword(String url,String depMoney,String passEncode,String type) {
+	public static RequestParams chexkPassword(String url, String depMoney, String passEncode, String type) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter("depMoney", depMoney);
 		params.addBodyParameter("passEncoded", passEncode);
@@ -342,22 +328,22 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: addAddress
-	 * @Description: TODO 添加地址
-	 * @param @param contact
-	 * @param @param mobile
-	 * @param @param province
-	 * @param @param city
-	 * @param @param district
-	 * @param @param address
-	 * @param @param postcode
+	 * @param @param  contact
+	 * @param @param  mobile
+	 * @param @param  province
+	 * @param @param  city
+	 * @param @param  district
+	 * @param @param  address
+	 * @param @param  postcode
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: addAddress
+	 * @Description: TODO 添加地址
 	 */
 	public static RequestParams addAddress(String url, String contact,
-			String mobile, String province, String city, String district,
-			String address,int isDefault, String postcode) {
+	                                       String mobile, String province, String city, String district,
+	                                       String address, int isDefault, String postcode) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.CONTACT, contact);
 		params.addBodyParameter(Constant.MOBILE_D, mobile);
@@ -371,23 +357,23 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: modifyAddress
-	 * @Description: TODO 修改地址
-	 * @param @param contact
-	 * @param @param mobile
-	 * @param @param province
-	 * @param @param city
-	 * @param @param district
-	 * @param @param address
-	 * @param @param postcode
-	 * @param @param id
+	 * @param @param  contact
+	 * @param @param  mobile
+	 * @param @param  province
+	 * @param @param  city
+	 * @param @param  district
+	 * @param @param  address
+	 * @param @param  postcode
+	 * @param @param  id
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: modifyAddress
+	 * @Description: TODO 修改地址
 	 */
 	public static RequestParams modifyAddress(String url, String contact,
-			String mobile, String province, String city, String district,
-			String address, String postcode, String id,int isDefault) {
+	                                          String mobile, String province, String city, String district,
+	                                          String address, String postcode, String id, int isDefault) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.MODIFY_ID, id);
 		params.addBodyParameter(Constant.CONTACT, contact);
@@ -403,56 +389,57 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: removeAddress
-	 * @Description: TODO 删除地址
-	 * @param @param id
+	 * @param @param  id
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: removeAddress
+	 * @Description: TODO 删除地址
 	 */
 	public static RequestParams removeAddress(String url, String id) {
 		RequestParams params = new RequestParams(url);
-		params.addBodyParameter(Constant.ADDRESS_ID,id);
+		params.addBodyParameter(Constant.ADDRESS_ID, id);
 		return params;
 	}
 
 	/**
+	 * @param @param  id
+	 * @param @return 设定文件
+	 * @return RequestParams 返回类型
+	 * @throws
 	 * @Title: updateAccount
 	 * @Description: TODO 完善账户信息
-	 * @param @param id
-	 * @param @return 设定文件
-	 * @return RequestParams 返回类型
-	 * @throws
 	 */
-	public static RequestParams updateAccount(String url, String tureName,String idCard,String cashAccount) {
+	public static RequestParams updateAccount(String url, String tureName, String idCard, String cashAccount) {
 		RequestParams params = new RequestParams(url);
-		params.addBodyParameter("tureName",tureName);
-		params.addBodyParameter("idCard",idCard);
-		params.addBodyParameter("cashAccount",cashAccount);
+		params.addBodyParameter("tureName", tureName);
+		params.addBodyParameter("idCard", idCard);
+		params.addBodyParameter("cashAccount", cashAccount);
 		return params;
 	}
 
 	/**
-	 * @Title: getCoin
-	 * @Description: TODO 获取穿币详情
-	 * @param @param id
+	 * @param @param  id
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: getCoin
+	 * @Description: TODO 获取穿币详情
 	 */
 	public static RequestParams getCoin(String url) {
-		RequestParams params = new RequestParams(url);;
+		RequestParams params = new RequestParams(url);
+		;
 		return params;
 	}
 	
 	
 	/**
-	 * @Title: removeAddress
-	 * @Description: TODO 删除地址
-	 * @param @param id
+	 * @param @param  id
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: removeAddress
+	 * @Description: TODO 删除地址
 	 */
 	public static RequestParams showOrder(String url, String status, int pageindex, int pagesize) {
 		RequestParams params = new RequestParams(url);
@@ -463,17 +450,13 @@ public class ParamsTools {
 	}
 	
 	
-	
-	
-	
-	
 	/**
-	 * @Title: setDefaultAddress
-	 * @Description: TODO 设置默认收货地址
-	 * @param @param id
+	 * @param @param  id
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: setDefaultAddress
+	 * @Description: TODO 设置默认收货地址
 	 */
 	public static RequestParams setDefaultAddress(String url, String id) {
 		RequestParams params = new RequestParams(url);
@@ -482,16 +465,16 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: getCashDetail
-	 * @Description: TODO 现金卷交易明细
-	 * @param @param pageIndex
-	 * @param @param pagesize
+	 * @param @param  pageIndex
+	 * @param @param  pagesize
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: getCashDetail
+	 * @Description: TODO 现金卷交易明细
 	 */
 	public static RequestParams getCashDetail(String url, String pageIndex,
-			String pagesize) {
+	                                          String pagesize) {
 		RequestParams params = new RequestParams(url);
 		params.addQueryStringParameter(Constant.PAGEINDEX, pageIndex);
 		params.addQueryStringParameter(Constant.PAGESIZE, pagesize);
@@ -499,7 +482,7 @@ public class ParamsTools {
 	}
 
 	public static RequestParams getTradeDetail(String url, String pageIndex,
-			String pagesize, String inExType, String tradeType) {
+	                                           String pagesize, String inExType, String tradeType) {
 		RequestParams params = new RequestParams(url);
 		params.addQueryStringParameter(Constant.INEXTYPE, inExType);
 		params.addQueryStringParameter(Constant.TRADETYPE, tradeType);
@@ -509,12 +492,12 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: getAward
-	 * @Description: TODO 获取奖励信息
-	 * @param @param code
+	 * @param @param  code
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: getAward
+	 * @Description: TODO 获取奖励信息
 	 */
 	public static RequestParams getAward(String url, String code) {
 		RequestParams params = new RequestParams(url);
@@ -523,7 +506,7 @@ public class ParamsTools {
 	}
 
 	public static RequestParams addFeedback(String url, String EquipmentType,
-			String FbContent, String imgNameArr) {
+	                                        String FbContent, String imgNameArr) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.SYSTYPE, "CC_ANDROID");
 		params.addBodyParameter(Constant.EQUIPMENTTYPE, EquipmentType);
@@ -558,12 +541,12 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: appAccess
-	 * @Description: TODO APP访问记录
-	 * @param @param string
+	 * @param @param  string
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: appAccess
+	 * @Description: TODO APP访问记录
 	 */
 	public static RequestParams appAccess(String url, String string) {
 		RequestParams params = new RequestParams(url);
@@ -572,8 +555,7 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @param string
-	 *            异常记录
+	 * @param string 异常记录
 	 * @return
 	 */
 	public static RequestParams appEx(String url, String string) {
@@ -583,12 +565,12 @@ public class ParamsTools {
 	}
 
 	/**
-	 * @Title: modifyCcinfo
-	 * @Description: TODO 修改穿衣数据
-	 * @param @param infoBean
+	 * @param @param  infoBean
 	 * @param @return 设定文件
 	 * @return RequestParams 返回类型
 	 * @throws
+	 * @Title: modifyCcinfo
+	 * @Description: TODO 修改穿衣数据
 	 */
 	public static RequestParams modifyCcinfo(String url, PersonInfoBean infoBean) {
 		RequestParams params = new RequestParams(url);
@@ -616,13 +598,12 @@ public class ParamsTools {
 	}
 
 	/**
-	 *
 	 * @param url
 	 * @param bean
-     * @return
-     */
+	 * @return
+	 */
 	public static RequestParams modifyCcinfo2(String url, BodyDataBean bean) {
-		Log.e("modifyCcinfo2: ",bean.getData().toString() );
+		Log.e("modifyCcinfo2: ", bean.getData().toString());
 		BodyDataBean.DataBean data = bean.getData();
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.GENDER,
@@ -657,24 +638,27 @@ public class ParamsTools {
 				String.valueOf((int) data.getArmCirc()));
 		params.addBodyParameter(Constant.PANTS,
 				String.valueOf((int) data.getPants()));
-		params.addBodyParameter(Constant.TEBIESHUOMING,"1");
-		params.addBodyParameter(Constant.GEXINGNAME,"1");
-		params.addBodyParameter(Constant.CHUANYIXIGUAN,"1");
-		params.addBodyParameter(Constant.ISRADIO,"1");
+		params.addBodyParameter(Constant.TEBIESHUOMING, "1");
+		params.addBodyParameter(Constant.GEXINGNAME, "1");
+		params.addBodyParameter(Constant.CHUANYIXIGUAN, "1");
+		params.addBodyParameter(Constant.ISRADIO, "1");
 		return params;
 	}
 
 	/**
-	 *支付回调
+	 * 支付回调
+	 *
 	 * @return
 	 */
 	public static RequestParams orderBody(String json) {
 		RequestParams params = new RequestParams(UrlManager.SaveBodyData());
-		params.addBodyParameter("BodyData",json);
+		params.addBodyParameter("BodyData", json);
 		return params;
 	}
 
-		/*** im */
+	/***
+	 * im
+	 */
 
 	public static RequestParams getImUserInfo(String url, String id) {
 		RequestParams params = new RequestParams(url);
@@ -684,14 +668,13 @@ public class ParamsTools {
 
 	/**
 	 * 发送长文本
-	 * 
-	 * @param url
-	 *  id
+	 *
+	 * @param url id
 	 * @return
 	 */
 	public static RequestParams sendLongText(String url, long sendTime,
-			long sendUserId, long receiverId, String receiverType,
-			String content) {
+	                                         long sendUserId, long receiverId, String receiverType,
+	                                         String content) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.ID, String.valueOf(sendTime));
 		params.addBodyParameter(Constant.RECVID, String.valueOf(receiverId));
@@ -703,13 +686,12 @@ public class ParamsTools {
 
 	/**
 	 * 拉取长文本消息
-	 * 
-	 * @param url
-	 *  id
+	 *
+	 * @param url id
 	 * @return
 	 */
 	public static RequestParams getLongText(String url, long sendTime,
-			long senUserId) {
+	                                        long senUserId) {
 		RequestParams params = new RequestParams(url);
 		params.addQueryStringParameter(Constant.RID, String.valueOf(sendTime));
 		params.addQueryStringParameter(Constant.RSENDUSERID,
@@ -719,9 +701,8 @@ public class ParamsTools {
 
 	/**
 	 * 拉取众筹群组列表
-	 * 
-	 * @param url
-	 *  id
+	 *
+	 * @param url id
 	 * @return
 	 */
 	public static RequestParams getGroupList(String url) {
@@ -730,24 +711,21 @@ public class ParamsTools {
 	}
 
 
-
-
 	/***************************************高伟豪新添加***************************************************************************/
 
 
 	/**
 	 * //    param.tag = self.tag;
-	 //    param.detail = self.text;
-	 //    param.imgs = self.imgs;  sendPay
-	 *
+	 * //    param.detail = self.text;
+	 * //    param.imgs = self.imgs;  sendPay
+	 * <p>
 	 * 发布图片 高伟豪
 	 *
-	 * @param url
-	 *  id
+	 * @param url id
 	 * @return
 	 */
 	public static RequestParams fabu(String url, String tag, String text, String imgs) {
-		System.out.println("#####发布图片"+tag+"   "+ text+" "+imgs);
+		System.out.println("#####发布图片" + tag + "   " + text + " " + imgs);
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.TAG, tag);
 		params.addBodyParameter(Constant.TEXT, text);
@@ -756,22 +734,18 @@ public class ParamsTools {
 	}
 
 
-
-
-
 	/**
 	 * //   param.tag = self.tag;
-	 //    param.detail = self.text;
-	 //    param.imgs = self.imgs;  sendPay
-	 *
+	 * //    param.detail = self.text;
+	 * //    param.imgs = self.imgs;  sendPay
+	 * <p>
 	 * 发布图片 高伟豪
 	 *
-	 * @param url
-	 *  id
+	 * @param url id
 	 * @return
 	 */
 	public static RequestParams sendPay(String url, String addressId, String proId, String ordInfo) {
-		System.out.println("#####添加订单"+addressId+"   "+ proId+" "+ordInfo);
+		System.out.println("#####添加订单" + addressId + "   " + proId + " " + ordInfo);
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter(Constant.PROID, proId);
 		params.addBodyParameter(Constant.ADDRESS_ID, addressId);
@@ -780,12 +754,11 @@ public class ParamsTools {
 	}
 
 
-
 	/**
 	 * 梁文硕
 	 * 添加加到我的收藏
-	 * @param url
-	 *  id
+	 *
+	 * @param url id
 	 * @return
 	 */
 	public static RequestParams AddFavorites(String url) {
@@ -796,8 +769,8 @@ public class ParamsTools {
 	/**
 	 * 梁文硕
 	 * 添加拉取客服
-	 * @param json
-	 *  id
+	 *
+	 * @param json id
 	 * @return
 	 */
 	public static RequestParams getCustomer(String json) {
@@ -807,18 +780,19 @@ public class ParamsTools {
 			params.setBodyContent(String.valueOf(json.getBytes("UTF-8")));
 			Log.e("getCustomer: ", String.valueOf(json.getBytes("UTF-8")));
 		} catch (UnsupportedEncodingException nE) {
-			Log.e("getCustomer:",nE.getLocalizedMessage() );
+			Log.e("getCustomer:", nE.getLocalizedMessage());
 		}
 		return params;
 	}
+
 	/**
 	 * 梁文硕
 	 * 删除我的收藏
-	 * @param url
-	 *  id
+	 *
+	 * @param url id
 	 * @return
 	 */
-	public static RequestParams delFavorites(String url,String favid) {
+	public static RequestParams delFavorites(String url, String favid) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter("favid", favid);
 		return params;
@@ -828,7 +802,8 @@ public class ParamsTools {
 	/**
 	 * 梁文硕
 	 * 删除订单
-	 *  id
+	 * id
+	 *
 	 * @return
 	 */
 	public static RequestParams deleteord(String orderId) {
@@ -841,7 +816,8 @@ public class ParamsTools {
 	/**
 	 * 梁文硕
 	 * 取消订单
-	 *  id
+	 * id
+	 *
 	 * @return
 	 */
 	public static RequestParams cancelOrder(String orderId) {
@@ -853,7 +829,8 @@ public class ParamsTools {
 	/**
 	 * 梁文硕
 	 * 确认收获
-	 *  id
+	 * id
+	 *
 	 * @return
 	 */
 	public static RequestParams confirmReceive(String orderId) {
@@ -865,7 +842,8 @@ public class ParamsTools {
 	/**
 	 * 梁文硕
 	 * 确认收获
-	 *  id
+	 * id
+	 *
 	 * @return
 	 */
 	public static RequestParams refund(String orderId) {
@@ -875,26 +853,26 @@ public class ParamsTools {
 	}
 
 
-
-
 	/**
 	 * 梁文硕
 	 * 更改地区
-	 *  id
+	 * id
+	 *
 	 * @return
 	 */
-	public static RequestParams changeArea(String province,String city,String district) {
+	public static RequestParams changeArea(String province, String city, String district) {
 		RequestParams params = new RequestParams(UrlManager.changeArea());
 		params.addBodyParameter("province", province);
 		params.addBodyParameter("city", city);
 		params.addBodyParameter("district", district);
 		return params;
 	}
+
 	/**
 	 * Author：rommel
+	 *
 	 * @param:
-	 * @return:
-	 * Desc:
+	 * @return: Desc:
 	 */
 	public static RequestParams deletePush(String userid, String umengids) {
 		RequestParams params = new RequestParams(UrlManager.deletePush());
@@ -902,18 +880,42 @@ public class ParamsTools {
 		params.addBodyParameter("umengids", umengids);
 		return params;
 	}
+
 	/**
 	 * Author：rommel
+	 *
 	 * @param:
-	 * @return:
-	 * Desc:
+	 * @return: Desc:
 	 */
-	public static RequestParams commitImage(String url, String data, String name, String forKey,String type) {
+	public static RequestParams commitImage(String url, String data, String name, String forKey, String type) {
 		RequestParams params = new RequestParams(url);
 		params.addBodyParameter("data", data);
 		params.addBodyParameter("name", name);
 		params.addBodyParameter("forKey", forKey);
 		params.addBodyParameter("type", type);
+		return params;
+	}
+
+	/**
+	 * Author：rommel
+	 * @param:json
+	 * @return: RequestParams
+	 * Desc:保存身体数据
+	 */
+	public static RequestParams setOrUpdataBody(String json) {
+		RequestParams params = new RequestParams(UrlManager.updOrAddCCInfo());
+		params.addBodyParameter("ccInfo", json);
+		return params;
+	}
+	/**
+	 * Author：rommel
+	 * @param:
+	 * @return:
+	 * Desc:删除身体数据
+	 */
+	public static RequestParams delectBody(String id) {
+		RequestParams params = new RequestParams(UrlManager.deleteCCInfo());
+		params.addBodyParameter("id", id);
 		return params;
 	}
 }

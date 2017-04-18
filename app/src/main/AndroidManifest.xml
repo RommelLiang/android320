@@ -372,6 +372,8 @@
         <activity android:name=".PushHistoryActivity"/>
         <activity android:name=".DingzhiDetailsActivity">
         </activity>
+        <activity android:name=".MyBodyManngerActivity">
+        </activity>
     </application>
 
 </manifest>

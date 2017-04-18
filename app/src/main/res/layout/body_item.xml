@@ -4,6 +4,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/address_tishi">
+
     <RelativeLayout
         android:layout_marginTop="15dp"
         android:background="@color/white"
@@ -16,56 +17,56 @@
             android:orientation="vertical">
 
 
-            <RelativeLayout
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp">
-
-
-
                 <TextView
+                    android:textSize="18dp"
+                    android:text="巴沙而"
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/consignee"
-                    android:text=""
-                    android:textColor="#666666"
-                    android:textSize="18dp" />
-
+                    android:layout_height="wrap_content"/>
                 <TextView
-                    android:id="@+id/tv_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="35dp"
-                    android:text=""
-                    android:textColor="#666666"
                     android:textSize="18dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/tv_name"
-                    android:layout_marginStart="34dp"/>
+                    android:layout_marginLeft="30dp"
+                    android:text="男"
+                    android:id="@+id/tv_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
 
 
-            </RelativeLayout>
-
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:orientation="horizontal"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
                 >
                 <TextView
-                    android:id="@+id/tv_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="#666666"
                     android:textSize="18dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_toEndOf="@+id/address" />
-            </RelativeLayout>
+                    android:text="15岁"
+                    android:id="@+id/tv_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textSize="18dp"
+                    android:layout_marginLeft="30dp"
+                    android:text="60kg"
+                    android:id="@+id/tv_weiht"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textSize="18dp"
+                    android:layout_marginLeft="30dp"
+                    android:text="60cm"
+                    android:id="@+id/tv_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
         </LinearLayout>
         <ImageView
             android:id="@+id/im_select"
@@ -76,15 +77,18 @@
             android:paddingTop="10dp"
             android:layout_marginRight="10dp"/>
     </RelativeLayout>
+
     <LinearLayout
         android:background="@color/colorGray"
         android:layout_width="match_parent"
         android:layout_height="1dp"></LinearLayout>
     <RelativeLayout
+
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+
             android:layout_marginBottom="10dp"
             android:textColor="@color/yellow_a"
             android:layout_marginTop="10dp"

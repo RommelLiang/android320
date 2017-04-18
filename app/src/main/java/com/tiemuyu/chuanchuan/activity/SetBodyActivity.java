@@ -313,7 +313,7 @@ public class SetBodyActivity extends BaseActivityG {
                 "\",\"Pants\":\"" + data.getPants() +
                 "\"}";
         Log.e("json", "editBodyData: "+json );
-        MyApplication.poolManager.addAsyncTask(//此post请求出错！！！！！！！！！
+        MyApplication.poolManager.addAsyncTask(
                 new ThreadPoolTaskHttp(this,
                         HttpTools.TAG_SET_BODY_DATA,
                         Constant.REQUEST_POST,

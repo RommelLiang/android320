@@ -67,7 +67,52 @@
                 android:layout_marginLeft="15dp"
                 android:paddingTop="15dp"
                 android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/colorLightWhite"
+                android:layout_marginLeft="15dp"
+                android:layout_height="1dp"
+                ></LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true" >
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="姓名"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/body_label_size"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/namenext"
+                    android:layout_centerVertical="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:textColor="#571332"
+                    android:id="@+id/namenext"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true" />
+
+                <EditText
+                    android:lines="1"
+                    android:layout_centerHorizontal="true"
+                    android:background="@null"
+                    android:layout_alignParentRight="true"
+                    android:hint="姓名"
+                    android:id="@+id/usr_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignBottom="@id/namenext"/>
+
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:background="@color/colorLightWhite"
@@ -672,13 +717,13 @@
                             android:id="@+id/jiaowei_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="脚围:"
+                            android:text="臂围:"
                             android:textColor="#571332"
                             android:textSize="16sp"/>
 
                         <com.tiemuyu.chuanchuan.activity.view.BodyEditText
                             android:layout_toRightOf="@id/jiaowei_txt"
-                            android:hint="脚围"
+                            android:hint="臂围"
                             android:layout_centerVertical="true"
                             android:background="@null"
                             android:inputType="numberDecimal"
@@ -742,6 +787,51 @@
                 android:layout_marginTop="30dp"
                 android:layout_height="17dp"
                 ></LinearLayout>
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="您的穿衣习惯"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+                        <Button
+                            android:id="@+id/btn_jinshen"
+                            android:background="@drawable/button_background_xiguan_no"
+                            android:text="紧身"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <Button
+                            android:id="@+id/btn_heti"
+                            android:background="@drawable/button_background_xiguan_no"
+                            android:layout_marginLeft="20dp"
+                            android:text="合体"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <Button
+                            android:id="@+id/btn_kuansong"
+                            android:background="@drawable/button_background_xiguan_no"
+                            android:layout_marginLeft="20dp"
+                            android:text="宽松"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
             <RelativeLayout
                 android:id="@+id/rl_jiaocheng"
                 android:layout_width="match_parent"

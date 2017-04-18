@@ -13,9 +13,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,10 +33,14 @@ import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+import com.tiemuyu.chuanchuan.activity.adapter.ClotherViewPager;
+import com.tiemuyu.chuanchuan.activity.adapter.SimilarProductsAdapter;
 import com.tiemuyu.chuanchuan.activity.adapter.ViewPagerAdapter;
 import com.tiemuyu.chuanchuan.activity.bean.Base;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
+import com.tiemuyu.chuanchuan.activity.bean.CostBean;
 import com.tiemuyu.chuanchuan.activity.bean.DingZhiItem;
+import com.tiemuyu.chuanchuan.activity.bean.SimilarProducts;
 import com.tiemuyu.chuanchuan.activity.bean.User;
 import com.tiemuyu.chuanchuan.activity.chat_tools.bean.Contacts;
 import com.tiemuyu.chuanchuan.activity.chat_tools.fragment.TextMessageActivity;
@@ -50,6 +56,8 @@ import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
+import com.tiemuyu.chuanchuan.activity.view.CCListView;
+import com.tiemuyu.chuanchuan.activity.view.WrapContentViewPager;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -74,15 +82,14 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 	/*private ClothesDetail clothesDetail;*/
 	private ImageView im_user_header, im_back, im_must_know, im_main_image, im_share;
 	private TextView tv_user_name, tv_price, tv_product_name,
-			tv_shu_ju, tv_fu_wu, tv_shi_jian, tv_shou_hou,
 			tv_kuanshi, tv_dingzhi;
 	//private WebView webView;
 	private Banner im_banner;
 	private List<String> images, xijie;
 	private boolean xuzhi_isExpend = false;
 	private RelativeLayout rl_dingzhi;
-	private LinearLayout ll_nei_rong, ll_banner, ll_ke_fu, ll_shou_cang, ll_zhi_fu, ll_image;
-	RelativeLayout findLl;
+	private LinearLayout ll_banner, ll_ke_fu, ll_shou_cang, ll_zhi_fu, ll_image;
+	RelativeLayout findLl, find_aa;
 	private int one;//单个水平动画位移
 	private int width;
 	private ViewPager vp_find_home;
@@ -101,6 +108,20 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 	private boolean isLogIn = false;
 	private ImageView imageView;
 	private int mInt;
+
+	private int mOne;
+	private int mDx;// 动画图片偏移量
+	private int mX = 0;
+	private int mCurrIndex = 0;// 当前页卡编号
+	private RelativeLayout mFindLl;
+	private WrapContentViewPager vp_detail;
+	private TextView tv_one, tv_two, tv_three, tv_shu_ju, tv_fu_wu, tv_shi_jian;
+	private ScrollView sv_view;
+	private ClotherViewPager mClotherViewPager;
+	private WebView mWebView;
+	private CCListView mCClistView;
+	private String TAG_GET_GETSIMILAR = "TAG_GET_GETSIMILAR";
+	private String TAG_GET_MeSSAGE = "TAG_GET_MeSSAGE";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +151,6 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 				finish();
 			}
 		});
-		ll_nei_rong.setVisibility(View.GONE);
 		setNetResponses(this);
 		findViewById(R.id.im_back).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -147,9 +167,15 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 	}
 
 	private void initView() {
+		vp_detail = (WrapContentViewPager) findViewById(R.id.vp_detail);
+		tv_one = (TextView) findViewById(R.id.tv_one);
+		tv_two = (TextView) findViewById(R.id.tv_two);
+		tv_three = (TextView) findViewById(R.id.tv_three);
+		sv_view = (ScrollView) findViewById(R.id.sv_view);
 		productid = mIntent.getIntExtra("productid", 0);
 		vp_find_home = (ViewPager) findViewById(R.id.vp_find_home);
 		findLl = (RelativeLayout) findViewById(R.id.find_ll);
+		find_aa = (RelativeLayout) findViewById(R.id.find_aa);
 		im_user_header = (ImageView) findViewById(R.id.im_user_image_detail);
 		tv_user_name = (TextView) findViewById(R.id.tv_name_detail);
 		tv_price = (TextView) findViewById(R.id.tv_jia_ge_detail);
@@ -160,11 +186,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 		im_main_image = (ImageView) findViewById(R.id.im_main_image);
 		im_must_know = (ImageView) findViewById(R.id.im_must_know);
 		rl_dingzhi = (RelativeLayout) findViewById(R.id.rl_dingzhi);
-		ll_nei_rong = (LinearLayout) findViewById(R.id.ll_nei_rong);
-		tv_shu_ju = (TextView) findViewById(R.id.tv_shu_ju);
-		tv_fu_wu = (TextView) findViewById(R.id.tv_fu_wu);
-		tv_shi_jian = (TextView) findViewById(R.id.tv_shi_jian);
-		tv_shou_hou = (TextView) findViewById(R.id.tv_shou_hou);
+
 		ll_banner = (LinearLayout) findViewById(R.id.ll_banner);
 		ll_ke_fu = (LinearLayout) findViewById(R.id.ll_ke_fu);
 		ll_shou_cang = (LinearLayout) findViewById(R.id.ll_shou_cang);
@@ -174,25 +196,6 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 		tv_dingzhi = (TextView) findViewById(R.id.tv_dingzhi);
 		im_collect = (ImageView) findViewById(R.id.im_collect);
 		im_share = (ImageView) findViewById(R.id.im_share);
-		tv_shu_ju.setText(
-				Html.fromHtml("可在" +
-						"<font color=\"#450525\"><b>“我的”-“身体数据”</b></font>" +
-						"中填写并保存\n可在下单后弹出的体型数据页面中填写")
-		);
-		tv_fu_wu.setText(
-				Html.fromHtml("下单后" +
-						"<font color=\"#450525\"><b>6小时内</b></font>" +
-						"，可与客服沟通定制要求（面料、款式等）逾期将直接进入面料采购及制版流程下单后" +
-						"<font color=\"#450525\"><b>5日内</b></font>，如遇面料问题造成无法制衣，穿穿将全额退款并赔偿20元穿币")
-		);
-		tv_shi_jian.setText(
-				Html.fromHtml("根据面料采购难度和制作工艺复杂度，自下单之日起" +
-						"<font color=\"#450525\"><b>7-20</b></font>" +
-						"内发货，以第三方物流记录的发货时间为准" +
-						"\n因用户信息确认等所造成的时间延误会直接在原发货时长基础上延长")
-		);
-		tv_shou_hou.setText("收货后7天内，因穿穿所造成的制衣及尺码问题均可申请免费修改甚至重做。" +
-				"\n显示器色差、与主观感觉不符等原因不在免费修改之列");
 		ArrayList<View> views = new ArrayList();
 		View kuanshi_xiangqing = View.inflate(this, R.layout.kuanshi_xiangqing, null);
 		View dingzhi_baozhang = View.inflate(this, R.layout.dingzhi_baozhang, null);
@@ -202,6 +205,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 		pageAdapter = new ViewPagerAdapter(views);
 		vp_find_home.setAdapter(pageAdapter);
 		setStripMove();
+		setMStripMove();
 		vp_find_home.setOnPageChangeListener(listener);
 		tv_kuanshi.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -215,7 +219,134 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 				vp_find_home.setCurrentItem(1);
 			}
 		});
+		setViewAdapter();
 	}
+
+	private void setViewAdapter() {
+		ArrayList<View> views = new ArrayList();
+		View one = View.inflate(this, R.layout.xiangsi_tongkuan, null);
+		View two = View.inflate(this, R.layout.feiyong_layout, null);
+		View three = View.inflate(this, R.layout.dingzhi_notice_layout, null);
+		addViewpager(views, one, two, three);
+	}
+
+	private void addViewpager(ArrayList<View> mViews, View mOne, View mTwo, View mThree) {
+
+		mCClistView = (CCListView) mOne.findViewById(R.id.cc_list_view);
+		mWebView = (WebView) mTwo.findViewById(R.id.web_view_price);
+		tv_shu_ju = (TextView) mThree.findViewById(R.id.tv_shu_ju);
+		tv_fu_wu = (TextView) mThree.findViewById(R.id.tv_fu_wu);
+		tv_shi_jian = (TextView) mThree.findViewById(R.id.tv_shi_jian);
+		tv_shu_ju.setText(
+				Html.fromHtml("可在" +
+						"<font color=\"#450525\"><b>“我的”-“身体数据”</b></font>" +
+						"中填写并保存\n<br/>可在下单后弹出的体型数据页面中填写")
+		);
+		tv_fu_wu.setText(
+				Html.fromHtml("下单后" +
+						"<font color=\"#450525\"><b>6小时内</b></font>" +
+						"，可与客服沟通定制要求（面料、款式等）逾期将直接进入面料采购及制版流程<br/><br/>下单后" +
+						"<font color=\"#450525\"><b>5日内</b></font>，如遇面料问题造成无法制衣，穿穿将全额退款并赔偿20元穿币<br/><br/>" +
+						"收货后七天内，因穿穿所造成的制衣与尺码问题均可申请免费修改甚至重做。（显示器色差、与主观感觉不符等原因不再免费修改之列）")
+		);
+		tv_shi_jian.setText(
+				Html.fromHtml("根据面料采购难度和制作工艺复杂度，自下单之日起" +
+						"<font color=\"#450525\"><b>7-20</b></font>" +
+						"内发货，以第三方物流记录的发货时间为准<br/><br/>" +
+						"\n因用户信息确认等所造成的时间延误会直接在原发货时长基础上延长")
+		);
+		mViews.add(mOne);
+		mViews.add(mTwo);
+		mViews.add(mThree);
+		mClotherViewPager = new ClotherViewPager(mViews);
+		vp_detail.setAdapter(mClotherViewPager);
+		//vp_detail.setOffscreenPageLimit(3);
+		Log.e("setViewAdapter: ", vp_detail.getChildCount() + "count");
+		setStripMove();
+		vp_detail.setOnPageChangeListener(mListener);
+		tv_one.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				vp_detail.setCurrentItem(0);
+			}
+		});
+		tv_two.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				vp_detail.setCurrentItem(1);
+
+			}
+		});
+		tv_three.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				vp_detail.setCurrentItem(2);
+			}
+		});
+	}
+
+	private ViewPager.OnPageChangeListener mListener = new ViewPager.OnPageChangeListener() {
+		@Override
+		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+		}
+
+		@Override
+		public void onPageSelected(int position) {
+			Log.e("onPageSelected: ", position + "");
+			vp_detail.reMeasureCurrentPage(position);
+			Animation animation = null;
+			if (position - mCurrIndex == 1) {
+				mDx = mX + mOne;
+			} else if (position - mCurrIndex == 2) {
+				mDx = mX + mOne * 2;
+			} else if (position - mCurrIndex == 3) {
+				mDx = mX + mOne * 3;
+			} else if (position - mCurrIndex == -1) {
+				mDx = mX - mOne;
+			} else if (position - mCurrIndex == -2) {
+				mDx = mX - mOne * 2;
+			} else if (position - mCurrIndex == -3) {
+				mDx = mX - mOne * 3;
+			}
+			switch (position) {
+				case 0:
+					animation = new TranslateAnimation(mX, mDx, 0, 0);
+					break;
+				case 1:
+					animation = new TranslateAnimation(mX, mDx, 0, 0);
+					break;
+				case 2:
+					animation = new TranslateAnimation(mX, mDx, 0, 0);
+					break;
+				case 3:
+					animation = new TranslateAnimation(mX, mDx, 0, 0);
+					break;
+			}
+			if (position - mCurrIndex == 1) {
+				mX += mOne;
+			} else if (position - mCurrIndex == 2) {
+				mX = mX + mOne * 2;
+			} else if (position - mCurrIndex == 3) {
+				mX = mX + mOne * 3;
+			} else if (position - mCurrIndex == -1) {
+				mX = mX - mOne;
+			} else if (position - mCurrIndex == -2) {
+				mX = mX - mOne * 2;
+			} else if (position - mCurrIndex == -3) {
+				mX = mX - mOne * 3;
+			}
+			mCurrIndex = position;
+			animation.setDuration(100);
+			animation.setFillAfter(true);//
+			find_aa.startAnimation(animation);
+		}
+
+		@Override
+		public void onPageScrollStateChanged(int state) {
+
+		}
+	};
 
 	@Override
 	public void successCallBack(String resultTag, BaseBean baseBean, String callBackMsg, boolean isShowDiolog) {
@@ -227,7 +358,25 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 			mianliao.setText(dIngzhi.getData().getDingzhiItem().getMianliao());
 			xijie = dIngzhi.getData().getDingzhiItem().getImgList();
 			xijie.remove(0);
-			for (int i = 0; i < xijie.size(); i++ ) {
+			MyApplication.poolManager.addAsyncTask(
+					new ThreadPoolTaskHttp(this,
+							TAG_GET_GETSIMILAR,
+							Constant.REQUEST_GET,
+							new RequestParams(
+									UrlManager.getSimilar(dIngzhi.getData().getDingzhiItem().getProid() + "", dIngzhi.getData().getDingzhiItem().getProname())),
+							this,
+							"获取相似信息",
+							false));
+			MyApplication.poolManager.addAsyncTask(
+					new ThreadPoolTaskHttp(this,
+							TAG_GET_MeSSAGE,
+							Constant.REQUEST_GET,
+							new RequestParams(
+									UrlManager.getProCost(dIngzhi.getData().getDingzhiItem().getProid()+"")),
+							this,
+							"获取费用明细",
+							false));
+			for ( int i = 0; i < xijie.size(); i++ ) {
 				mInt = i;
 				ImageView im = new ImageView(this);
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -245,7 +394,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 					public void onClick(View v) {
 						int tag = (int) v.getTag();
 						Intent intent = new Intent(ChengpinDetailActivity.this, ImageDetailsActivity.class);
-						intent.putStringArrayListExtra("images",(ArrayList<String>) xijie);
+						intent.putStringArrayListExtra("images", (ArrayList<String>) xijie);
 						intent.putExtra("position", tag);
 						startActivity(intent);
 					}
@@ -260,20 +409,6 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 			tv_user_name.setText(dIngzhi.getData().getDingzhiItem().getUsername());
 			tv_product_name.setText(dIngzhi.getData().getDingzhiItem().getProname());
 			tv_price.setText("￥ " + dIngzhi.getData().getDingzhiItem().getPrice());
-			rl_dingzhi.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (!xuzhi_isExpend) {
-						ll_nei_rong.setVisibility(View.VISIBLE);
-						xuzhi_isExpend = true;
-						im_must_know.setBackground(getResources().getDrawable(R.drawable.home_up));
-					} else {
-						ll_nei_rong.setVisibility(View.GONE);
-						xuzhi_isExpend = false;
-						im_must_know.setBackground(getResources().getDrawable(R.drawable.home_down));
-					}
-				}
-			});
 			Log.e("imageUrl: ", dIngzhi.getData().getDingzhiItem().getFirstXiJieImg());
 			Picasso.with(this).load(dIngzhi.getData().getDingzhiItem().getFirstXiJieImg())
 					.transform(transformation).into(im_main_image);
@@ -283,12 +418,12 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 					ArrayList<String> images = new ArrayList<>();
 					images.add(dIngzhi.getData().getDingzhiItem().getFirstXiJieImg());
 					Intent intent = new Intent(ChengpinDetailActivity.this, ImageDetailsActivity.class);
-					intent.putStringArrayListExtra("images",images);
+					intent.putStringArrayListExtra("images", images);
 					intent.putExtra("position", 0);
 					startActivity(intent);
 				}
 			});
-	        /*webView.loadDataWithBaseURL(null, "<table>" + clothesDetail.getData().getCostHtml() +
+		    /*webView.loadDataWithBaseURL(null, "<table>" + clothesDetail.getData().getCostHtml() +
                             "</table>",
                     "text/html", "UTF-8", null);*/
 			im_banner.setImageLoader(new GlideImageLoader())
@@ -385,6 +520,16 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 				im_collect.setBackground(getResources().getDrawable(R.drawable.tab_collect));
 				isFav = false;
 			}
+		} else if (resultTag.equals(TAG_GET_GETSIMILAR)) {
+			Log.e("TAG_GET_GETSIMILAR: ", callBackMsg);
+			SimilarProducts similarProducts = GsonUtils.fromData(callBackMsg, SimilarProducts.class);
+			SimilarProductsAdapter waterAdapter = new SimilarProductsAdapter(similarProducts, ChengpinDetailActivity.this);
+			mCClistView.setAdapter(waterAdapter);
+		} else if (resultTag.equals(TAG_GET_MeSSAGE)) {
+			CostBean costBean = GsonUtils.fromData(callBackMsg, CostBean.class);
+			mWebView.loadDataWithBaseURL(null, "<table>" + costBean.getData().getCostHtml() +
+							"</table>",
+					"text/html", "UTF-8", null);
 		}
 	}
 
@@ -646,4 +791,15 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 			return "transformation" + " desiredWidth";
 		}
 	};
+
+	private void setMStripMove() {
+		WindowManager wm = (WindowManager) this
+				.getSystemService(Context.WINDOW_SERVICE);
+		int width = wm.getDefaultDisplay().getWidth();
+		LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) find_aa.getLayoutParams();
+		linearParams.width = width / 3;
+		Display currDisplay = this.getWindowManager().getDefaultDisplay();//获取屏幕当前分辨率
+		int displayWidth = currDisplay.getWidth();
+		mOne = displayWidth / 3; //设置水平动画平移大小
+	}
 }

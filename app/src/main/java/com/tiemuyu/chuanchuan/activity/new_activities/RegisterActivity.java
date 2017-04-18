@@ -387,9 +387,7 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
         } else if (resultTag.equals(TAG_REGIST)
                 || resultTag.equals(TAG_REGIST_MODIFY)) {
             System.out.println("######-muji:" + callBackMsg);
-
-
-            ToastHelper.show(this, baseBean.getMsg() + "，您的账号可能已经注册。");
+            ToastHelper.show(this, baseBean.getMsg() + "，您的账号已经注册。");
         }
 
     }

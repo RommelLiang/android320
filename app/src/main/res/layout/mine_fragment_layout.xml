@@ -13,8 +13,6 @@
         android:layout_width="fill_parent"
         android:layout_height="203dp"
         android:background="@drawable/beijing">
-
-
         <com.tiemuyu.chuanchuan.activity.chat_tools.view.CircleImageView
             android:layout_centerHorizontal="true"
             android:layout_width="60dp"

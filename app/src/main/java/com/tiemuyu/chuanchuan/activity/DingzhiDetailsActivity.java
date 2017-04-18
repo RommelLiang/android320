@@ -182,18 +182,19 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 		tv_shu_ju.setText(
 				Html.fromHtml("可在" +
 						"<font color=\"#450525\"><b>“我的”-“身体数据”</b></font>" +
-						"中填写并保存\n可在下单后弹出的体型数据页面中填写")
+						"中填写并保存\n<br/>可在下单后弹出的体型数据页面中填写")
 		);
 		tv_fu_wu.setText(
 				Html.fromHtml("下单后" +
 						"<font color=\"#450525\"><b>6小时内</b></font>" +
-						"，可与客服沟通定制要求（面料、款式等）逾期将直接进入面料采购及制版流程下单后" +
-						"<font color=\"#450525\"><b>5日内</b></font>，如遇面料问题造成无法制衣，穿穿将全额退款并赔偿20元穿币")
+						"，可与客服沟通定制要求（面料、款式等）逾期将直接进入面料采购及制版流程<br/><br/>下单后" +
+						"<font color=\"#450525\"><b>5日内</b></font>，如遇面料问题造成无法制衣，穿穿将全额退款并赔偿20元穿币<br/><br/>" +
+						"收货后七天内，因穿穿所造成的制衣与尺码问题均可申请免费修改甚至重做。（显示器色差、与主观感觉不符等原因不再免费修改之列）")
 		);
 		tv_shi_jian.setText(
 				Html.fromHtml("根据面料采购难度和制作工艺复杂度，自下单之日起" +
 						"<font color=\"#450525\"><b>7-20</b></font>" +
-						"内发货，以第三方物流记录的发货时间为准" +
+						"内发货，以第三方物流记录的发货时间为准<br/><br/>" +
 						"\n因用户信息确认等所造成的时间延误会直接在原发货时长基础上延长")
 		);
 		mViews.add(mOne);

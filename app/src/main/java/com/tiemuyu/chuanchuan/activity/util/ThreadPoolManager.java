@@ -126,6 +126,5 @@ public class ThreadPoolManager {
             LogHelper.d("--结束轮询");
             //Log.i(TAG, "结束轮询");
         }
-
     }
 }
