@@ -119,15 +119,32 @@
                 android:textColor="@android:color/black"
                 android:textSize="18dp"/>
 
-            <TextView
-                android:id="@+id/tv_jia_ge_detail"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="8dp"
-                android:background="@android:color/white"
-                android:textColor="@color/colorNewPrice"
-                android:textSize="18dp"/>
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_jia_ge_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/white"
+                    android:textColor="@color/colorNewPrice"
+                    android:textSize="18dp"/>
+                <TextView
+                    android:visibility="gone"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/price_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:maxLines="1"
+                    android:text="￥438"
+                    android:textColor="@color/colorGray"
+                    android:textSize="18dp"/>
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

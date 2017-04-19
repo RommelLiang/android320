@@ -321,7 +321,7 @@ public class MySaveItem extends BaseActivityG {
             holder.rl_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent2 = new Intent(MySaveItem.this, ClothesDetailsActivity.class);
+                    Intent intent2 = new Intent(MySaveItem.this, DingzhiDetailsActivity.class);
                     intent2.putExtra("productid",favBean.getData().get(position).getProductId());
                     startActivity(intent2);
                 }
@@ -413,7 +413,7 @@ public class MySaveItem extends BaseActivityG {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MySaveItem.this, "哈哈", Toast.LENGTH_SHORT).show();
-                Intent intent2 = new Intent(MySaveItem.this, ClothesDetailsActivity.class);
+                Intent intent2 = new Intent(MySaveItem.this, DingzhiDetailsActivity.class);
                 Log.e("商品", "onItemClick: " + waterfall_listwhole.get(position/10).get(position%10).getProductId());
                 intent2.putExtra("productid",Integer.parseInt(waterfall_listwhole.get(position/10).get(position%10).getProductId()));
                 startActivity(intent2);

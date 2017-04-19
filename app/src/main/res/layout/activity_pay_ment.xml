@@ -126,6 +126,7 @@
                     </RelativeLayout>
                 </LinearLayout>
 
+
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -134,8 +135,92 @@
                     android:paddingTop="10dp"
                     android:src="@drawable/jiantou" />
             </RelativeLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/address_tishi">
+
+                <RelativeLayout
+                    android:id="@+id/rl_user_body"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
 
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp">
+                            <TextView
+                                android:textSize="16sp"
+                                android:text="定制对象:"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:textSize="16sp"
+                                android:text=""
+                                android:id="@+id/tv_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:textSize="16sp"
+                                android:layout_marginLeft="30dp"
+                                android:text=""
+                                android:id="@+id/tv_gender"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="8dp"
+                            >
+                            <TextView
+                                android:textSize="16sp"
+                                android:text=""
+                                android:id="@+id/tv_age"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:textSize="16sp"
+                                android:layout_marginLeft="30dp"
+                                android:text=""
+                                android:id="@+id/tv_weiht"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:textSize="16sp"
+                                android:layout_marginLeft="30dp"
+                                android:text=""
+                                android:id="@+id/tv_height"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <ImageView
+                        android:id="@+id/im_select"
+                        android:layout_centerVertical="true"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:paddingTop="10dp"
+                        android:layout_marginRight="10dp"/>
+                </RelativeLayout>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
@@ -167,17 +252,32 @@
                     android:text="梭织棉单层短袖短款连衣裙棉单层"
                     android:textSize="17sp" />
 
-
-                <TextView
-                    android:id="@+id/product_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginBottom="20dp"
                     android:layout_marginRight="12dp"
-                    android:textColor="#990a4a"
-                    android:textSize="17sp" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="200"
+                        android:id="@+id/product_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#990a4a"
+                        android:textSize="17sp" />
+                    <TextView
+                        android:visibility="gone"
+                        android:layout_marginLeft="5dp"
+                        android:text="200"
+                        android:id="@+id/product_price_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorGray"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
 
             </RelativeLayout>
 

@@ -18,7 +18,7 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
-import com.tiemuyu.chuanchuan.activity.ClothesDetailsActivity;
+import com.tiemuyu.chuanchuan.activity.DingzhiDetailsActivity;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.ZhuantiWaterActivity;
 import com.tiemuyu.chuanchuan.activity.bean.ZhuanTiMessage;
@@ -116,7 +116,7 @@ public class ZhuanTiWaterAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Log.e("left", "onClick: " + messageList.get((position + 1) * 2 - 2).getProductmainpic());
-                Intent intent = new Intent(context, ClothesDetailsActivity.class);
+                Intent intent = new Intent(context, DingzhiDetailsActivity.class);
                 intent.putExtra("productid", messageList.get((position + 1) * 2 - 2).getProductid());
                 context.startActivity(intent);
             }
@@ -125,7 +125,7 @@ public class ZhuanTiWaterAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Log.e("left", "onClick: " + messageList.get((position + 1) * 2 - 1).getProductmainpic());
-                Intent intent = new Intent(context, ClothesDetailsActivity.class);
+                Intent intent = new Intent(context, DingzhiDetailsActivity.class);
                 intent.putExtra("productid", messageList.get((position + 1) * 2 - 1).getProductid());
                 context.startActivity(intent);
             }

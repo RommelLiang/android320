@@ -90,6 +90,7 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
     DisplayImageOptions options;//sl：显示图片所需变量
     private int id;
     private WaterBean.DataBeanX.TopicssBean topicss;
+    private int mType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +123,8 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
         //从上一个activity得到数据
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
-        Log.e("onCreate: ", id+"");
+        mType = intent.getIntExtra("type",0);
+        Log.e("onCreate: ", id+"" + mType+"!!!!!!!!");
         getHead();
         // headerDataBean = (FindHeaderBean.DataBean) intent.getSerializableExtra("img1_info");
 
@@ -232,11 +234,12 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
     }
 
     private void FindSecondWaterAction(String resulttag, String callbackmsg) {
+        Log.e( "FindSecondWaterAction: ", resulttag);
         if (resulttag.equals(FIND_WATER_LIST)) {
             Gson gson = new Gson();
             findSecondWaterBean = gson.fromJson(callbackmsg, FindSecondWaterBean.class);
             Log.e("tag", "test of second water bean: " + findSecondWaterBean.getData().getData().get(0).getProductname());//test passed
-            findSecondWaterAdapter = new FindSecondWaterAdapter(findSecondWaterBean, this);
+            findSecondWaterAdapter = new FindSecondWaterAdapter(findSecondWaterBean, this,mType);
             pullToRefreshListView.setAdapter(findSecondWaterAdapter);
         } else if (resulttag.equals(FIND_MORE_WATER_LIST)) {
             Gson gson = new Gson();

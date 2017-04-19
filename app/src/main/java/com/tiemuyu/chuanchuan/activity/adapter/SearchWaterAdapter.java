@@ -15,7 +15,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.tiemuyu.chuanchuan.activity.ClothesDetailsActivity;
+import com.tiemuyu.chuanchuan.activity.DingzhiDetailsActivity;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.ZhuantiWaterActivity;
 import com.tiemuyu.chuanchuan.activity.bean.SearchResultBean;
@@ -114,7 +114,7 @@ public class SearchWaterAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Log.e("tag", "left is clicked!");
-                Intent intent = new Intent(context, ClothesDetailsActivity.class);
+                Intent intent = new Intent(context, DingzhiDetailsActivity.class);
                 intent.putExtra("productid", searchResultBean.getData().getPageData().getRows().get((pos + 1) * 2 - 1).getId());
                 context.startActivity(intent);
             }
@@ -123,7 +123,7 @@ public class SearchWaterAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Log.e("tag", "right is clicked!");
-                Intent intent = new Intent(context, ClothesDetailsActivity.class);
+                Intent intent = new Intent(context, DingzhiDetailsActivity.class);
                 intent.putExtra("productid", searchResultBean.getData().getPageData().getRows().get((pos + 1) * 2 - 1).getId());
                 context.startActivity(intent);
             }

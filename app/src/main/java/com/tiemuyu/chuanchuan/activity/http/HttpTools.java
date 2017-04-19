@@ -6,17 +6,6 @@ import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
 
-
-import org.xutils.x;
-import org.xutils.common.Callback;
-import org.xutils.http.HttpMethod;
-import org.xutils.http.RequestParams;
-import org.xutils.http.cookie.DbCookieStore;
-
-
-
-//import com.lidroid.xutils.http.RequestParams;
-//import com.lidroid.xutils.http.client.HttpRequest;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.util.JsonTools;
@@ -25,13 +14,21 @@ import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.StringUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 
+import org.xutils.common.Callback;
+import org.xutils.http.HttpMethod;
+import org.xutils.http.RequestParams;
+import org.xutils.http.cookie.DbCookieStore;
+import org.xutils.x;
+
+import java.net.HttpCookie;
+import java.util.List;
+
+//import com.lidroid.xutils.http.RequestParams;
+//import com.lidroid.xutils.http.client.HttpRequest;
 //import org.xutils.common.Callback;
 //import org.xutils.http.HttpMethod;
 //import org.xutils.http.RequestParams;
 //import org.xutils.http.request.HttpRequest;
-
-import java.net.HttpCookie;
-import java.util.List;
 
 /**
  * Created by CC2.0 on 2017/1/6.
@@ -120,7 +117,6 @@ public class HttpTools {
             method = HttpMethod.GET;
         else
             method = HttpMethod.POST;
-
         callBack.startCallBack(resultTag, isShowDialog, title);
     }
 

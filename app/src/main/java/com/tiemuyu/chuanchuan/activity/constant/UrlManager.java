@@ -499,15 +499,18 @@ public class UrlManager {
 
 
 	public static final String Send_Pay() {
-		return BASEURL + "api/ccorderapi?AddNewOrder";//+1&id=7";//获取专题
+		return BASEURL + "api/ccorderapi?AddNewOrder";
 	}
 
+	public static final String Send_PayDiscounted() {
+		return BASEURL + "api/ccorderapi?AddNewOrdernew";
+	}
 
 	// http://test.myappcc.com/api/userapi?mypic&page=1&stype=mine  获取晒图
 
 
 	public static final String Get_Shaitu() {
-		return BASEURL + "api/userapi?mypic&page=1&stype=mine";//+1&id=7";//获取晒图
+		return BASEURL + "api/userapi?mypic&page=1&stype=mine";
 	}
 
 

@@ -11,7 +11,7 @@ import android.widget.ListView;
 
 import com.netease.nimlib.sdk.msg.attachment.AudioAttachment;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.tiemuyu.chuanchuan.activity.ClothesDetailsActivity;
+import com.tiemuyu.chuanchuan.activity.DingzhiDetailsActivity;
 import com.tiemuyu.chuanchuan.activity.adapter.MessageAdapter;
 import com.tiemuyu.chuanchuan.activity.bean.CustomerKey;
 import com.tiemuyu.chuanchuan.activity.inter.MessageClick;
@@ -110,7 +110,7 @@ public class MessageShowUtil {
 								viewHolder.cc_message_left_tv.setOnClickListener(new View.OnClickListener() {
 									@Override
 									public void onClick(View v) {
-										Intent intent2 = new Intent(mContext, ClothesDetailsActivity.class);
+										Intent intent2 = new Intent(mContext, DingzhiDetailsActivity.class);
 										intent2.putExtra("productid", Integer.parseInt(proid));
 										mContext.startActivity(intent2);
 									}

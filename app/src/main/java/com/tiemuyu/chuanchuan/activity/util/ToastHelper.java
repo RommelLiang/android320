@@ -50,6 +50,5 @@ public class ToastHelper {
     public static void toastSetText(Context context, String msg) {
         if (toast != null)
             tv.setText(msg);
-
     }
 }

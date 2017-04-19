@@ -225,11 +225,13 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
                     Log.e("tag", "list: " + findHeaderBean.getData().get(5).getStatusname().toString());
                     Log.e("tag", "water: " + findHeaderBean.getData().get(5).getStatusname().toString());
                     intent = new Intent(this.getActivity(), FindTopicActivity.class);
+
                     intent.putExtra("id",findHeaderBean.getData().get(5).getId());
                     startActivity(intent);
                 } else {
                     Log.e("tag", "water: " + findHeaderBean.getData().get(5).getStatusname().toString());
                     intent = new Intent(getActivity(), FindWaterActivity.class);
+                    intent.putExtra("type",1);
                     intent.putExtra("id",findHeaderBean.getData().get(5).getId());
                     startActivity(intent);
                 }

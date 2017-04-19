@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * Created by 梁文硕 on 2017/4/14.
  */
 
-public class BodysBean {
+public class BodysBean implements Serializable {
 
 	/**
 	 * Code : 1
@@ -94,7 +95,7 @@ public class BodysBean {
 		this.Data = Data;
 	}
 
-	public static class DataBean {
+	public static class DataBean implements Serializable{
 		private List<UserCCInfoListBean> userCCInfoList;
 
 		public static DataBean objectFromData(String str) {
@@ -149,7 +150,7 @@ public class BodysBean {
 			this.userCCInfoList = userCCInfoList;
 		}
 
-		public static class UserCCInfoListBean {
+		public static class UserCCInfoListBean implements Serializable {
 			/**
 			 * SHOULDER_BREADTH : 12.0
 			 * LOGO :

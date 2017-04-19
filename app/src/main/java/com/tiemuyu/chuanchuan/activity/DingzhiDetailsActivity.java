@@ -2,6 +2,7 @@ package com.tiemuyu.chuanchuan.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.support.v4.view.ViewPager;
@@ -90,7 +91,7 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 	private final String TAG_POST_Delfav = "TAG_POST_Delfav";
 	private ClothesDetail clothesDetail;
 	private ImageView im_user_header, im_back, im_suggest, im_share;
-	private TextView tv_user_name, tv_price, tv_product_name, tv_suggest, tv_shu_ju, tv_fu_wu, tv_shi_jian;
+	private TextView tv_user_name, tv_price, tv_product_name, tv_suggest, tv_shu_ju, tv_fu_wu, tv_shi_jian,price_total;
 	private Banner banner;
 	private List<String> images;
 	private boolean suggest_isExpend = false;
@@ -104,6 +105,7 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 	public static String OWN_HEADER_URL = "";//gao 在这里更改有效
 	private DataSharedPress sharedPress;
 	private boolean isLogIn = false;
+	private int mType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -144,11 +146,13 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 		tv_three = (TextView) findViewById(R.id.tv_three);
 		sv_view = (ScrollView) findViewById(R.id.sv_view);
 		productid = mIntent.getIntExtra("productid", 0);
+		mType = mIntent.getIntExtra("type", 0);
 		Log.e("productid", "initView: " + productid);
 		im_user_header = (ImageView) findViewById(R.id.im_user_image_detail);
 		tv_user_name = (TextView) findViewById(R.id.tv_name_detail);
 		tv_price = (TextView) findViewById(R.id.tv_jia_ge_detail);
 		tv_product_name = (TextView) findViewById(R.id.tv_product_name);
+		price_total = (TextView) findViewById(R.id.price_total);
 		tv_suggest = (TextView) findViewById(R.id.tv_suggest);
 		banner = (Banner) findViewById(R.id.clothes_banner);
 		im_back = (ImageView) findViewById(R.id.im_back);
@@ -162,6 +166,9 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 		ll_zhi_fu = (LinearLayout) findViewById(R.id.ll_zhi_fu);
 		im_collect = (ImageView) findViewById(R.id.im_collect);
 		im_share = (ImageView) findViewById(R.id.im_share);
+		if (mType == 0) {
+			price_total.setVisibility(View.GONE);
+		}
 		setViewAdapter();
 	}
 
@@ -325,7 +332,14 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 			Picasso.with(this).load(clothesDetail.getData().getUser().getUserImg()).placeholder(R.drawable.circle_logo).into(im_user_header);
 			tv_user_name.setText(clothesDetail.getData().getUser().getNickName());
 			tv_product_name.setText(clothesDetail.getData().getProduct().getProductName());
-			tv_price.setText("￥ " + clothesDetail.getData().getProduct().getPrice());
+			if (mType == 0) {
+				tv_price.setText("￥ " + (int) clothesDetail.getData().getProduct().getPrice());
+			} else {
+				tv_price.setText("￥ " + (int) Math.ceil(clothesDetail.getData().getProduct().getPrice()*0.9));
+				price_total.setVisibility(View.VISIBLE);
+				price_total.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG |Paint.ANTI_ALIAS_FLAG);
+				price_total.setText("￥ " + (int) clothesDetail.getData().getProduct().getPrice());
+			}
 			final String textStr1 = "<font color=\"#450525\"><b>报价师留言:</b></font>";
 			String textStr2 = "<font color=\"#5A5959\">"
 					+ clothesDetail.getData().getProduct().getDescription() +
@@ -402,6 +416,7 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 					intent.putExtra("image", clothesDetail.getData().getProduct().getMainImage());
 					intent.putExtra("detial", clothesDetail.getData().getProduct().getProductName());
 					intent.putExtra("price", clothesDetail.getData().getProduct().getPrice() + "");
+					intent.putExtra("type", mType);
 					startActivity(intent);
 				}
 			});

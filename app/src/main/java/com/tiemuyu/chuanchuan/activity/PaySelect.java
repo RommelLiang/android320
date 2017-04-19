@@ -17,11 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
-import com.google.gson.Gson;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
+import com.tiemuyu.chuanchuan.activity.bean.BodysBean;
 import com.tiemuyu.chuanchuan.activity.bean.CheckPassword;
 import com.tiemuyu.chuanchuan.activity.bean.OrdInfo;
 import com.tiemuyu.chuanchuan.activity.bean.PayInfoBean;
@@ -32,8 +32,10 @@ import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.db.DBTools;
 import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
+import com.tiemuyu.chuanchuan.activity.http.HttpTools;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
+import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.DataContoler;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
@@ -52,6 +54,7 @@ public class PaySelect extends BaseActivityG {
 	private Button ps_ok;  //专题头部image
 	private TextView tv_total_price, tv_lingqian;
 	private String TAG_CHECKPASSWORD = "TAG_CHECKPASSWORD";
+	private String TAG_SENDPAY_Discounted = "TAG_SENDPAY_Discounted";
 	private String productid;
 	PayInfoBean payinfo = new PayInfoBean();
 	private ImageView iv_ling, iv_zhifubao, iv_wechat;
@@ -73,7 +76,8 @@ public class PaySelect extends BaseActivityG {
 	private static IWXAPI iwxapi;
 	private Receiver receiver;
 	public static final String TAG_MINEFRESH = "TAG_MINEFRESH";
-
+	private BodysBean.DataBean.UserCCInfoListBean mUserCCInfoListBean;
+	private int mType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +92,9 @@ public class PaySelect extends BaseActivityG {
 		ordInfo = (OrdInfo) getIntent().getSerializableExtra("ordInfo");
 		productid = String.valueOf(getIntent().getIntExtra("productid", 0));
 		addressId = String.valueOf(getIntent().getIntExtra("AddressId", 0));
+		mType = getIntent().getIntExtra("type", 0);
+		mUserCCInfoListBean = (BodysBean.DataBean.UserCCInfoListBean) getIntent().getSerializableExtra("body");
+		Log.e("onCreate: ",mUserCCInfoListBean.getName() );
 		tv_total_price.setText(ordInfo.getActualFee() + "");
 		user = MineFragment.user;
 		lingqian = user.getAmounts() - user.getFrzAmounts();
@@ -187,6 +194,7 @@ public class PaySelect extends BaseActivityG {
 				Log.e("onClick: ", orderId + "HHHH");
 				initPd();
 				if (orderId != null && !orderId.equals("")) {
+					//从我的订单跳转支付
 					pd.show();
 					if (payType != 5) {
 						paytheOrder(orderId);
@@ -205,7 +213,11 @@ public class PaySelect extends BaseActivityG {
 					}
 				}
 				pd.show();
-				sendpayment();
+				if (mType == 0) {
+					sendpayment();
+				} else if (mType == 1) {
+					sendpaymentDiscounted();
+				}
 				break;
 		}
 
@@ -221,9 +233,7 @@ public class PaySelect extends BaseActivityG {
 	 * 设定文件
 	 */
 	private void sendpayment() {
-		Gson gson = new Gson();
 		ordInfo.setCustomerRmk("good");
-		String toJson = gson.toJson(ordInfo, OrdInfo.class);
 		Log.e("sendpayment: ", addressId + ":" + productid);
 		String json = "{\"TotalNum\":\"" + ordInfo.getTotalNum() +
 				"\",\"TotalFee\":\"" + ((int) Double.parseDouble(ordInfo.getTotalFee())) +
@@ -237,6 +247,22 @@ public class PaySelect extends BaseActivityG {
 				UrlManager.Send_Pay(), addressId, productid, json), this, "发送新订单", true));
 	}
 
+	private void sendpaymentDiscounted() {
+		ordInfo.setCustomerRmk("good");
+		Log.e("sendpayment: ", addressId + ":" + productid);
+		double totalFee = Double.parseDouble(ordInfo.getTotalFee());
+		ordInfo.setDiscountedPrice(String.valueOf(totalFee - (int) Math.ceil(totalFee*0.9)));
+		String json = "{\"TotalNum\":\"" + ordInfo.getTotalNum() +
+				"\",\"TotalFee\":\"" + ((int) Double.parseDouble(ordInfo.getTotalFee())) +
+				"\",\"Coin\":\"" + ordInfo.getCoin() +
+				"\"," + "\"DiscountedPrice\":\"" + ordInfo.getDiscountedPrice() +
+				"\",\"ActualFee\":\"" + ordInfo.getActualFee()+
+				"\",\"CustomerRmk\":\"good\",\"RegApp\":\"00\"}";
+		Log.e("json", "sendpaymentDiscounted: " + json);
+		MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
+				TAG_SENDPAY_Discounted, Constant.REQUEST_POST, ParamsTools.sendPayDiscounted(
+				addressId, productid, json), this, "发送新订单", true));
+	}
 	/**
 	 * @return void 返回类型
 	 * http://test.myappcc.com/api/ccorderapi?Pay&orderid=xxx&payType
@@ -326,14 +352,7 @@ public class PaySelect extends BaseActivityG {
 			switch (msg.what) {
 				case 1: {
 					Log.e("handleMessage: ","支付陈功" );
-					Toast.makeText(getApplicationContext(), "支付成功!", Toast.LENGTH_SHORT).show();
-					Intent intent = new Intent(PaySelect.this, SetBodyActivity.class);
-					if (orderId!=null&&!orderId.equals("")){
-						id = orderId;
-					}
-					intent.putExtra("id", id);
-					startActivity(intent);
-					finish();
+					editBodyData();
 					break;
 				}
 				case 2: {
@@ -415,19 +434,41 @@ public class PaySelect extends BaseActivityG {
 			}
 			Log.e("lingqian", "PaySelectAction: " + msg);
 		} else if (resultTag.equals(we_chat_ok)) {
+			//微信支付完成
 			Log.e("PaySelectAction: ", msg);
-			Intent intent1 = new Intent(PaySelect.this, SetBodyActivity.class);
-			if (orderId!=null&&!orderId.equals("")){
-				id = orderId;
-			}
-			intent1.putExtra("id", id);
-			startActivity(intent1);
+			editBodyData();
 			finish();
 		} else if (resultTag.equals(TAG_MINEFRESH)) {
 			User user = DataContoler.parseLoginMsgAndSetUser(msg, DBTools.getUser().getPass(), "");
 			if (user != null) {
 				DBTools.loginDb(PaySelect.this, user);
 			}
+		} else if (resultTag.equals(HttpTools.TAG_SET_BODY_DATA)){
+			Log.e("BODY", "modify body callback success!");
+			Toast.makeText(this, "下单成功", Toast.LENGTH_SHORT).show();
+			ClassJumpTool.startToNextActivityForResult(this, UserOrderActivity.class, 10);
+			finish();
+		} else if (resultTag.equals(TAG_SENDPAY_Discounted)) {
+			id = DataContoler.parseOrderId(msg);
+			Log.e("PaySelectAction: ", msg);
+			System.out.println("###" + id);
+			//得到了订单id之后走支付流程
+			if (payType == 5) {
+				MyApplication.poolManager.addAsyncTask(
+						new ThreadPoolTaskHttp(this,
+								TAG_CHECKPASSWORD,
+								Constant.REQUEST_GET,
+								new RequestParams(
+										UrlManager.checkpaypwd()),
+								this,
+								"获取产品信息",
+								false));
+				return;
+			}
+			MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
+					TAG_MINEFRESH, Constant.REQUEST_GET, new RequestParams(UrlManager
+					.GET_MYPAGEDATA()), this, "获取我的页面信息", false));
+			paytheOrder(id);
 		}
 	}
 
@@ -455,8 +496,12 @@ public class PaySelect extends BaseActivityG {
 			ToastHelper.show(PaySelect.this, "获取支付信息失败");
 		} else if (resultTag.equals("TAG_CHECKPASSWORD")) {
 			ToastHelper.show(PaySelect.this, "校验失败");
+		} else if (resultTag.equals(HttpTools.TAG_SET_BODY_DATA)){
+			Toast.makeText(this, "提交身体数据失败，请联系客服", Toast.LENGTH_LONG).show();
 		}
-		pd.dismiss();
+		if (pd.isShowing()) {
+			pd.dismiss();
+		}
 	}
 
 	/**
@@ -482,13 +527,7 @@ public class PaySelect extends BaseActivityG {
 	protected void onActivityResult(int mrequestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == mrequestCode && resultCode == requestCode) {
-			Intent intent = new Intent(this, SetBodyActivity.class);
-			if (orderId!=null&&!orderId.equals("")){
-				id = orderId;
-			}
-			intent.putExtra("id", id);
-			startActivity(intent);
-			finish();
+			editBodyData();
 		}
 	}
 
@@ -539,5 +578,43 @@ public class PaySelect extends BaseActivityG {
 			}
 		}
 	}
-
+	private void editBodyData() {
+		String json = "{\"OrderId\":\"" + id +
+				"\",\"SkinColor\":\"" + mUserCCInfoListBean.getSKIN_COLOR() +
+				"\",\"WaistPostion\":\"" + mUserCCInfoListBean.getWAIST_POSTION() +
+				"\",\"BodyPic\":\"" + mUserCCInfoListBean.getBODY_PIC() +
+				"\",\"CustomerLogo\":\"" + mUserCCInfoListBean.getLOGO() +
+				"\",\"CustomerName\":\"" + mUserCCInfoListBean.getName() +
+				"\",\"BodySummary\":\"" + "0" +
+				"\",\"BodyOther\":\"" + "0" +
+				"\",\"DressEffect\":\"" + mUserCCInfoListBean.getCHUANYIXUG() +
+				"\",\"Bmi\":\"" +mUserCCInfoListBean.getBMI() +
+				"\",\"Gender\":\"" + mUserCCInfoListBean.getGENDER() +
+				"\",\"Age\":\"" + mUserCCInfoListBean.getAGE() +
+				"\",\"Weight\":\"" + mUserCCInfoListBean.getWEIGHT() +
+				"\",\"Height\":\"" + mUserCCInfoListBean.getHEIGHT() +
+				"\",\"ClothSize\":\"" + mUserCCInfoListBean.getCLOTH_SIZE() +
+				"\",\"Physique\":\"" + mUserCCInfoListBean.getPHYSIQUE() +
+				"\",\"ShoulderBreadth\":\"" + mUserCCInfoListBean.getSHOULDER_BREADTH() +
+				"\",\"Bust\":\"" +mUserCCInfoListBean.getBUST() +
+				"\",\"Waist\":\"" + mUserCCInfoListBean.getWAIST() +
+				"\",\"Hip\":\"" + mUserCCInfoListBean.getHIP() +
+				"\",\"Sleeve\":\"" + mUserCCInfoListBean.getSLEEVE() +
+				"\",\"ThighCirc\":\"" + mUserCCInfoListBean.getTHIGH_CIRC() +
+				"\",\"CalfCirc\":\"" + mUserCCInfoListBean.getCALF_CIRC() +
+				"\",\"KneeCirc\":\"" + mUserCCInfoListBean.getKNEE_CIRC() +
+				"\",\"ArmCirc\":\"" + mUserCCInfoListBean.getARM_CIRC() +
+				"\",\"Pants\":\"" +mUserCCInfoListBean.getPANTS() +
+				"\"}";
+		Log.e("json", "editBodyData: "+json );
+		MyApplication.poolManager.addAsyncTask(
+				new ThreadPoolTaskHttp(this,
+						HttpTools.TAG_SET_BODY_DATA,
+						Constant.REQUEST_POST,
+						ParamsTools.orderBody(json),
+						this,
+						"设置身体数据",
+						false));
+		Log.e("body", "post sent.");//打印提示信息
+	}
 }

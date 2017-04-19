@@ -332,7 +332,7 @@ public class MyShaitu extends BaseActivityG {
                 holder.price.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent2 = new Intent(MyShaitu.this, ClothesDetailsActivity.class);
+                        Intent intent2 = new Intent(MyShaitu.this, DingzhiDetailsActivity.class);
                         intent2.putExtra("productid",newShaituBean.getData().getPagedata().getRows().get(position).getProductId());
                         startActivity(intent2);
                     }
@@ -428,7 +428,7 @@ public class MyShaitu extends BaseActivityG {
         mPullRefreshListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent2 = new Intent(MyShaitu.this, ClothesDetailsActivity.class);
+                Intent intent2 = new Intent(MyShaitu.this, DingzhiDetailsActivity.class);
                 Log.e("商品", "onItemClick: " + waterfall_listwhole.get(position / 10).get(position % 10).getProductId());
                 intent2.putExtra("productid", Integer.parseInt(waterfall_listwhole.get(position / 10).get(position % 10).getProductId()));
                 startActivity(intent2);

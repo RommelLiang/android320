@@ -753,6 +753,15 @@ public class ParamsTools {
 		return params;
 	}
 
+	public static RequestParams sendPayDiscounted(String addressId, String proId, String ordInfo) {
+		System.out.println("#####添加订单" + addressId + "   " + proId + " " + ordInfo);
+		RequestParams params = new RequestParams(UrlManager.Send_PayDiscounted());
+		params.addBodyParameter(Constant.PROID, proId);
+		params.addBodyParameter(Constant.ADDRESS_ID, addressId);
+		params.addBodyParameter(Constant.ORDINFO, ordInfo);
+		return params;
+	}
+
 
 	/**
 	 * 梁文硕

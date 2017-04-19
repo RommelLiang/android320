@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -37,11 +38,15 @@ public class MyBodyManngerActivity extends BaseActivityG implements PullToRefres
 	private BodysBean mBodysBean;
 	private BodyAdapter mBodyAdapter;
 	private BodysBean.DataBean.UserCCInfoListBean mUserCCInfoListBean;
+	private Intent mIntent;
+	private int mType;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_body_mannger);
+		mIntent = getIntent();
+		mType = mIntent.getIntExtra("type", 0);
 		add_body_message = (RelativeLayout) findViewById(R.id.add_body_message);
 		pull_refresh_grid = (PullToRefreshListView) findViewById(R.id.pull_refresh_grid);
 		mRefreshableView = pull_refresh_grid.getRefreshableView();
@@ -118,6 +123,17 @@ public class MyBodyManngerActivity extends BaseActivityG implements PullToRefres
 			pull_refresh_grid.setOnRefreshListener(MyBodyManngerActivity.this);
 			mBodyAdapter = new BodyAdapter(MyBodyManngerActivity.this, this,mBodysBean.getData().getUserCCInfoList());
 			mRefreshableView.setAdapter(mBodyAdapter);
+			if (mType != 0){
+				mRefreshableView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+						Intent intent = new Intent();
+						intent.putExtra("body",mBodysBean.getData().getUserCCInfoList().get(position));
+						setResult(123,intent);
+						finish();
+					}
+				});
+			}
 		} else if (resultTag.equals(TAG_DELETE_BODY_DATA)){
 			Log.e("TAG_DELETE_BODY_DATA: ", callBackMsg);
 			Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();

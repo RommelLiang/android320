@@ -86,7 +86,7 @@ public class MyShaiTuDetailActivity extends AppCompatActivity {
             chakandingzhi_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(MyShaiTuDetailActivity.this, ClothesDetailsActivity.class);
+                    Intent intent = new Intent(MyShaiTuDetailActivity.this, DingzhiDetailsActivity.class);
                     intent.putExtra("data",rowsBean);
                     startActivity(intent);
                 }

@@ -243,7 +243,7 @@ public class MyWebview extends BaseActivityG {
                 //ToastHelper.show(getApplicationContext(),"产品"+id);
                 Log.e("tag", "#####这里保持现在的webview activity然后打开一个产品activity");
                 // todo 打开产品详情activity
-                Intent intent = new Intent(MyWebview.this, ClothesDetailsActivity.class);
+                Intent intent = new Intent(MyWebview.this, DingzhiDetailsActivity.class);
                 intent.putExtra("productid", id_int);
                 startActivity(intent);
             }

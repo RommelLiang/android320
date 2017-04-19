@@ -49,6 +49,7 @@
     <color name="color_message_edit_bg">#bfbfbf</color>
     <color name="color_message_default_bg">#e9ecf0</color>
     <color name="colorGray">#BFBFBF</color>
+    <color name="colorGrayBlack">#e6000000</color>
     <color name="colorBackground">#eeeeee</color>
     <color name="colorPCABackground">#d1edfd</color>
     <color name="colorgray">#7d7d7d</color>
