@@ -42,7 +42,13 @@ public class AppManager {
         }
         activityStack.add(activity);
     }
-
+    //遍历所有Activity并finish
+    public void exit(){
+        for(Activity activity:activityStack) {
+            activity.finish();
+        }
+        System.exit(0);
+    }
     /**
      * 获取当前Activity（堆栈中最后一个压入的）
      */

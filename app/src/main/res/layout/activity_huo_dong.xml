@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:pv="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <ImageView
+        android:background="@drawable/splish"
+        android:scaleType="centerCrop"
+        android:id="@+id/im_huodong"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.tiemuyu.chuanchuan.activity.view.RoundProgressBar
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/roundProgressBar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        pv:centreColor="#ffffff"
+        pv:progress="15"
+        pv:ringColor="#D1D1D1"
+        pv:ringProgressColor="@color/ColorLaunchBackground"
+        pv:ringWidth="5dp"
+        pv:startAngle="-90"
+        pv:textColor="@color/ColorLaunchBackground"
+        pv:textSize="12dp" />
+</RelativeLayout>

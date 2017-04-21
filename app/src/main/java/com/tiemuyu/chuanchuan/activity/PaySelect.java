@@ -78,6 +78,7 @@ public class PaySelect extends BaseActivityG {
 	public static final String TAG_MINEFRESH = "TAG_MINEFRESH";
 	private BodysBean.DataBean.UserCCInfoListBean mUserCCInfoListBean;
 	private int mType;
+	private int mOrder;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +93,9 @@ public class PaySelect extends BaseActivityG {
 		ordInfo = (OrdInfo) getIntent().getSerializableExtra("ordInfo");
 		productid = String.valueOf(getIntent().getIntExtra("productid", 0));
 		addressId = String.valueOf(getIntent().getIntExtra("AddressId", 0));
+		mOrder = getIntent().getIntExtra("order", 0);
 		mType = getIntent().getIntExtra("type", 0);
 		mUserCCInfoListBean = (BodysBean.DataBean.UserCCInfoListBean) getIntent().getSerializableExtra("body");
-		Log.e("onCreate: ",mUserCCInfoListBean.getName() );
 		tv_total_price.setText(ordInfo.getActualFee() + "");
 		user = MineFragment.user;
 		lingqian = user.getAmounts() - user.getFrzAmounts();
@@ -251,18 +252,19 @@ public class PaySelect extends BaseActivityG {
 		ordInfo.setCustomerRmk("good");
 		Log.e("sendpayment: ", addressId + ":" + productid);
 		double totalFee = Double.parseDouble(ordInfo.getTotalFee());
-		ordInfo.setDiscountedPrice(String.valueOf(totalFee - (int) Math.ceil(totalFee*0.9)));
+		ordInfo.setDiscountedPrice(String.valueOf(totalFee - (int) Math.ceil(totalFee * 0.9)));
 		String json = "{\"TotalNum\":\"" + ordInfo.getTotalNum() +
 				"\",\"TotalFee\":\"" + ((int) Double.parseDouble(ordInfo.getTotalFee())) +
 				"\",\"Coin\":\"" + ordInfo.getCoin() +
 				"\"," + "\"DiscountedPrice\":\"" + ordInfo.getDiscountedPrice() +
-				"\",\"ActualFee\":\"" + ordInfo.getActualFee()+
+				"\",\"ActualFee\":\"" + ordInfo.getActualFee() +
 				"\",\"CustomerRmk\":\"good\",\"RegApp\":\"00\"}";
 		Log.e("json", "sendpaymentDiscounted: " + json);
 		MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
 				TAG_SENDPAY_Discounted, Constant.REQUEST_POST, ParamsTools.sendPayDiscounted(
 				addressId, productid, json), this, "发送新订单", true));
 	}
+
 	/**
 	 * @return void 返回类型
 	 * http://test.myappcc.com/api/ccorderapi?Pay&orderid=xxx&payType
@@ -348,18 +350,20 @@ public class PaySelect extends BaseActivityG {
 	private Handler mHandler = new Handler() {
 		@SuppressWarnings("unused")
 		public void handleMessage(Message msg) {
-			Log.e("handleMessage: ", msg+"!!!!!code"+msg.what);
+			Log.e("handleMessage: ", msg + "!!!!!code" + msg.what);
 			switch (msg.what) {
 				case 1: {
-					Log.e("handleMessage: ","支付陈功" );
-					editBodyData();
+					Log.e("handleMessage: ", "支付陈功");
+						Toast.makeText(PaySelect.this, "下单成功", Toast.LENGTH_SHORT).show();
+						ClassJumpTool.startToNextActivityForResult(PaySelect.this, UserOrderActivity.class, 10);
+						finish();
 					break;
 				}
 				case 2: {
-					Log.e("handleMessage: ","您的手机尚未安装支付宝" );
+					Log.e("handleMessage: ", "您的手机尚未安装支付宝");
 					Toast.makeText(getApplicationContext(), "您的手机尚未安装支付宝!", Toast.LENGTH_SHORT).show();
 					boolean showing = pd.isShowing();
-					if (showing){
+					if (showing) {
 						pd.dismiss();
 					}
 					break;
@@ -367,7 +371,7 @@ public class PaySelect extends BaseActivityG {
 				case 3: {
 					Toast.makeText(getApplicationContext(), "支付退出请重试!", Toast.LENGTH_SHORT).show();
 					boolean showing = pd.isShowing();
-					if (showing){
+					if (showing) {
 						pd.dismiss();
 					}
 					break;
@@ -407,12 +411,16 @@ public class PaySelect extends BaseActivityG {
 			MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
 					TAG_MINEFRESH, Constant.REQUEST_GET, new RequestParams(UrlManager
 					.GET_MYPAGEDATA()), this, "获取我的页面信息", false));
-			paytheOrder(id);
+			if (mUserCCInfoListBean == null) {
+				paytheOrder(id);
+			} else {
+				editBodyData();
+			}
 		} else if (resultTag.equals(TAG_PAYACTION)) {
 			Log.e("TAG_PAYACTION ", msg);
 			if (payType == 2) {
 				payinfo = DataContoler.parseIdandSignStr(msg);
-				Log.e( "PaySelectAction: ", payinfo.getSignStr()+":|||:" +payinfo.getOrderId());
+				Log.e("PaySelectAction: ", payinfo.getSignStr() + ":|||:" + payinfo.getOrderId());
 				payfunction(payinfo.getSignStr());
 			} else if (payType == 1) {
 				WeChatPay weChatPay = GsonUtils.fromData(msg, WeChatPay.class);
@@ -424,7 +432,7 @@ public class PaySelect extends BaseActivityG {
 			CheckPassword checkPassword = GsonUtils.fromData(msg, CheckPassword.class);
 			if (checkPassword.isData()) {
 				Intent intent = new Intent(PaySelect.this, LingQianPayActivity.class);
-				if (orderId!=null&&!orderId.equals("")){
+				if (orderId != null && !orderId.equals("")) {
 					id = orderId;
 				}
 				intent.putExtra("orderid", id);
@@ -436,18 +444,17 @@ public class PaySelect extends BaseActivityG {
 		} else if (resultTag.equals(we_chat_ok)) {
 			//微信支付完成
 			Log.e("PaySelectAction: ", msg);
-			editBodyData();
+			Toast.makeText(PaySelect.this, "下单成功", Toast.LENGTH_SHORT).show();
+			ClassJumpTool.startToNextActivityForResult(PaySelect.this, UserOrderActivity.class, 10);
 			finish();
 		} else if (resultTag.equals(TAG_MINEFRESH)) {
 			User user = DataContoler.parseLoginMsgAndSetUser(msg, DBTools.getUser().getPass(), "");
 			if (user != null) {
 				DBTools.loginDb(PaySelect.this, user);
 			}
-		} else if (resultTag.equals(HttpTools.TAG_SET_BODY_DATA)){
-			Log.e("BODY", "modify body callback success!");
-			Toast.makeText(this, "下单成功", Toast.LENGTH_SHORT).show();
-			ClassJumpTool.startToNextActivityForResult(this, UserOrderActivity.class, 10);
-			finish();
+		} else if (resultTag.equals(HttpTools.TAG_SET_BODY_DATA)) {
+			Log.e("setBody: ",msg );
+			paytheOrder(id);
 		} else if (resultTag.equals(TAG_SENDPAY_Discounted)) {
 			id = DataContoler.parseOrderId(msg);
 			Log.e("PaySelectAction: ", msg);
@@ -468,7 +475,11 @@ public class PaySelect extends BaseActivityG {
 			MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
 					TAG_MINEFRESH, Constant.REQUEST_GET, new RequestParams(UrlManager
 					.GET_MYPAGEDATA()), this, "获取我的页面信息", false));
-			paytheOrder(id);
+			if (mUserCCInfoListBean == null) {
+				paytheOrder(id);
+			} else {
+				editBodyData();
+			}
 		}
 	}
 
@@ -496,7 +507,7 @@ public class PaySelect extends BaseActivityG {
 			ToastHelper.show(PaySelect.this, "获取支付信息失败");
 		} else if (resultTag.equals("TAG_CHECKPASSWORD")) {
 			ToastHelper.show(PaySelect.this, "校验失败");
-		} else if (resultTag.equals(HttpTools.TAG_SET_BODY_DATA)){
+		} else if (resultTag.equals(HttpTools.TAG_SET_BODY_DATA)) {
 			Toast.makeText(this, "提交身体数据失败，请联系客服", Toast.LENGTH_LONG).show();
 		}
 		if (pd.isShowing()) {
@@ -527,7 +538,9 @@ public class PaySelect extends BaseActivityG {
 	protected void onActivityResult(int mrequestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == mrequestCode && resultCode == requestCode) {
-			editBodyData();
+			Toast.makeText(PaySelect.this, "下单成功", Toast.LENGTH_SHORT).show();
+			ClassJumpTool.startToNextActivityForResult(PaySelect.this, UserOrderActivity.class, 10);
+			finish();
 		}
 	}
 
@@ -537,7 +550,7 @@ public class PaySelect extends BaseActivityG {
 		if (pd != null) {
 			pd.dismiss();
 		}
-		Log.e("onPause: ","activity onPause" );
+		Log.e("onPause: ", "activity onPause");
 	}
 
 	@Override
@@ -561,7 +574,7 @@ public class PaySelect extends BaseActivityG {
 	public class Receiver extends BroadcastReceiver {
 		public void onReceive(Context context, Intent intent) {
 			int code = intent.getIntExtra("code", 1);
-			if (orderId!=null&&!orderId.equals("")){
+			if (orderId != null && !orderId.equals("")) {
 				id = orderId;
 			}
 			Log.e("onReceive: ", code + "");
@@ -578,6 +591,7 @@ public class PaySelect extends BaseActivityG {
 			}
 		}
 	}
+
 	private void editBodyData() {
 		String json = "{\"OrderId\":\"" + id +
 				"\",\"SkinColor\":\"" + mUserCCInfoListBean.getSKIN_COLOR() +
@@ -588,7 +602,7 @@ public class PaySelect extends BaseActivityG {
 				"\",\"BodySummary\":\"" + "0" +
 				"\",\"BodyOther\":\"" + "0" +
 				"\",\"DressEffect\":\"" + mUserCCInfoListBean.getCHUANYIXUG() +
-				"\",\"Bmi\":\"" +mUserCCInfoListBean.getBMI() +
+				"\",\"Bmi\":\"" + mUserCCInfoListBean.getBMI() +
 				"\",\"Gender\":\"" + mUserCCInfoListBean.getGENDER() +
 				"\",\"Age\":\"" + mUserCCInfoListBean.getAGE() +
 				"\",\"Weight\":\"" + mUserCCInfoListBean.getWEIGHT() +
@@ -596,7 +610,7 @@ public class PaySelect extends BaseActivityG {
 				"\",\"ClothSize\":\"" + mUserCCInfoListBean.getCLOTH_SIZE() +
 				"\",\"Physique\":\"" + mUserCCInfoListBean.getPHYSIQUE() +
 				"\",\"ShoulderBreadth\":\"" + mUserCCInfoListBean.getSHOULDER_BREADTH() +
-				"\",\"Bust\":\"" +mUserCCInfoListBean.getBUST() +
+				"\",\"Bust\":\"" + mUserCCInfoListBean.getBUST() +
 				"\",\"Waist\":\"" + mUserCCInfoListBean.getWAIST() +
 				"\",\"Hip\":\"" + mUserCCInfoListBean.getHIP() +
 				"\",\"Sleeve\":\"" + mUserCCInfoListBean.getSLEEVE() +
@@ -604,9 +618,9 @@ public class PaySelect extends BaseActivityG {
 				"\",\"CalfCirc\":\"" + mUserCCInfoListBean.getCALF_CIRC() +
 				"\",\"KneeCirc\":\"" + mUserCCInfoListBean.getKNEE_CIRC() +
 				"\",\"ArmCirc\":\"" + mUserCCInfoListBean.getARM_CIRC() +
-				"\",\"Pants\":\"" +mUserCCInfoListBean.getPANTS() +
+				"\",\"Pants\":\"" + mUserCCInfoListBean.getPANTS() +
 				"\"}";
-		Log.e("json", "editBodyData: "+json );
+		Log.e("json", "editBodyData: " + json);
 		MyApplication.poolManager.addAsyncTask(
 				new ThreadPoolTaskHttp(this,
 						HttpTools.TAG_SET_BODY_DATA,

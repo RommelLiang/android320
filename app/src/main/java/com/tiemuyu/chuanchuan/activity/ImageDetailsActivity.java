@@ -90,32 +90,5 @@ public class ImageDetailsActivity extends AppCompatActivity {
 		if (position != 0) {
 			viewpager.setCurrentItem(position);
 		}
-	    /*back = (ImageView) findViewById(R.id.back);
-        go = (ImageView) findViewById(R.id.go);
-        if (images.size()==1) {
-            go.setVisibility(View.GONE);
-            back.setVisibility(View.INVISIBLE);
-        }
-        Picasso.with(this).load(images.get(position)).into(banner);
-        go.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                position += 1;
-                if (position >= images.size()) {
-                    position = 0;
-                }
-                Picasso.with(ImageDetailsActivity.this).load(images.get(position)).into(banner);
-            }
-        });
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                position -= 1;
-                if (position < 0) {
-                    position = images.size() - 1;
-                }
-                Picasso.with(ImageDetailsActivity.this).load(images.get(position)).into(banner);
-            }
-        });*/
 	}
 }

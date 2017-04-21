@@ -285,6 +285,7 @@ public class OrderAdapter extends BaseAdapter implements NetResponses, ThreadPoo
 			intent.putExtra("ordInfo", ordInfo);
 			intent.putExtra("productid", rowsAll.get(po).getItems().get(0).getProductId());
 			intent.putExtra("AddressId", rowsAll.get(po).getOrderAddress().getPkValue());
+			intent.putExtra("order", 1);
 			context.startActivity(intent);
 		} else if (text.equals("取消订单")) {
 			cancelOrder(rowsAll.get(po).getId());

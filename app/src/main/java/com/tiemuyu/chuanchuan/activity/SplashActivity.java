@@ -34,11 +34,11 @@ public class SplashActivity extends BaseActivityG implements AppInstallListener 
 	private String TAG = "SplashActivity";
 	private int GUIDE_VERSION_CODE = 1;
 	private String GUIDE_VERSION_NAME = "is_first_" + R.string.versionCode;
-	private String TAG_SENDPAY = "TAG_SENDPAY";
+
 
 	public static final String TAG_VERSION = "TAG_VERSION";
-	private long startTime;
-	private long endTime;
+	private boolean isGetVesion = false;
+	private boolean isJump = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,6 @@ public class SplashActivity extends BaseActivityG implements AppInstallListener 
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_splash);
-		startTime = System.currentTimeMillis();
 		if (!ConnectionUtil.isConn(this)) {
 			ToastHelper.show(this, "亲，网络断了哦，请检查网络设置");
 			jump();
@@ -62,6 +61,7 @@ public class SplashActivity extends BaseActivityG implements AppInstallListener 
 							this,
 							"获取版本信息",
 							false));
+			jump();
 		}
 	}
 
@@ -75,15 +75,9 @@ public class SplashActivity extends BaseActivityG implements AppInstallListener 
 		} else {
 			SPUtils.saveIsVersion(false);
 		}
-		jump();
 	}
 
 	private void jump() {
-		endTime = System.currentTimeMillis();
-		int time = 2000;
-		if (endTime - startTime > 2000) {
-			time = (int) (endTime - startTime);
-		}
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
@@ -97,17 +91,15 @@ public class SplashActivity extends BaseActivityG implements AppInstallListener 
 					SPUtils.saveAddTime(String.valueOf(nowDateShort));
 					Log.e(TAG, "onInstallFinish" + nowDateShort);
 					startActivity(new Intent(SplashActivity.this, GuideActivity.class));
-
+					finish();
 				} else {
-					Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
+					Intent mainIntent = new Intent(SplashActivity.this, HuoDongActivity.class);
 					mainIntent.putExtras(getIntent());
 					startActivity(mainIntent);
-
+					finish();
 				}
-
-				finish();
 			}
-		}, time);
+		}, 2000);
 	}
 
 	@Override
@@ -115,7 +107,6 @@ public class SplashActivity extends BaseActivityG implements AppInstallListener 
 		super.failCallBack(arg0, resultTag, isShowDiolog);
 		Log.e(TAG, "failCallBack: " + resultTag + ":" + arg0.getMessage());
 		arg0.printStackTrace();
-		jump();
 	}
 
 	@Override
@@ -152,6 +143,4 @@ public class SplashActivity extends BaseActivityG implements AppInstallListener 
 			return false;
 		}
 	}
-
-
 }

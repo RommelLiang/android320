@@ -23,6 +23,12 @@ public class SPUtils {
     public static final String IS_NEW_VERSION = "is_new_version";
     public static final String IS_vibrate = "is_vibrate";
     public static final String IS_ring = "is_ring";
+    public static final String IS_HUODONG = "is_huodong";
+    public static final String START_TIME_HUODONG = "START_TIME_HUODONG";
+    public static final String END_TIME_HUODONG = "END_TIME_HUODONG";
+    public static final String HUO_DONG_URL = "HUO_DONG_URL";
+    public static final String HUO_DONG_IMAGE = "HUO_DONG_IMAGE";
+    public static final String HUO_DONG_MIASHU = "HUO_DONG_MIASHU";
 
     public static void init(Context context) {
         mContext = context;
@@ -74,6 +80,53 @@ public class SPUtils {
 
     public static void saveKefuCode(String code) {
         put(KEFU_CODE,code);
+    }
+
+    public static int getHuoDongID() {
+        return (int) get(IS_HUODONG,0);
+    }
+
+    public static void saveHuoDongID(int id) {
+        put(IS_HUODONG,id);
+    }
+
+    public static String getStartTimeHuodong() {
+        return (String) get(START_TIME_HUODONG,"");
+    }
+
+    public static void setStartTimeHuodong(String code) {
+        put(START_TIME_HUODONG,code);
+    }
+    public static String getEndHuodong() {
+        return (String) get(END_TIME_HUODONG,"");
+    }
+
+    public static void setEndHuodong(String code) {
+        put(END_TIME_HUODONG,code);
+    }
+
+    public static String getHuoDongUrl() {
+        return (String) get(HUO_DONG_URL,"");
+    }
+
+    public static void setHuoDongUrl(String url) {
+        put(HUO_DONG_URL,url);
+    }
+
+    public static String getHuoDongMiashu() {
+        return (String) get(HUO_DONG_MIASHU,"");
+    }
+
+    public static void setHuoDongMiashu(String miaoshu) {
+        put(HUO_DONG_MIASHU,miaoshu);
+    }
+
+    public static String getHuoDongImage() {
+        return (String) get(HUO_DONG_IMAGE,"");
+    }
+
+    public static void setHuoDongImage(String url) {
+        put(HUO_DONG_IMAGE,url);
     }
 
     public static void put(String key, Object object) {

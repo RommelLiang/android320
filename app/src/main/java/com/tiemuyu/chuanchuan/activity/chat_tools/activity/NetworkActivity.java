@@ -10,6 +10,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
 import com.tiemuyu.chuanchuan.activity.chat_tools.inter.NetResponses;
+import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 
 import org.json.JSONObject;
 
@@ -27,7 +28,7 @@ public class NetworkActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         requestQueue = ((MyApplication) getApplication()).getRequestQueue();
         System.out.println("~~~~~~"+requestQueue);
-
+        SPUtils.init(this);
         tag = "MESSAGE";
 
     }

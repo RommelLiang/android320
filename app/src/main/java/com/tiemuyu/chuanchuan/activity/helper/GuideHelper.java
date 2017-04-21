@@ -15,6 +15,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.R;
 
 
@@ -27,8 +28,7 @@ public class GuideHelper {
     private ViewGroup rootLayout;
     private static final String GUIDE_VERSION_NAME = "GUIDEVERSION";
     private static final int  GUIDE_VERSION_CODE = 1;
-    private int count = 1;
-    private ImageView im_one,im_two,im_three,im_four,im_five;
+    private ImageView im_two,im_five;
     private RelativeLayout rl_all;
     public GuideHelper(Context context){
         this.context = (Activity)context;
@@ -47,11 +47,10 @@ public class GuideHelper {
         LayoutInflater lf = context.getLayoutInflater();
         rootLayout = (ViewGroup) lf.inflate(R.layout.guide_helper, null);
         rl_all = (RelativeLayout) rootLayout.findViewById(R.id.rl_all);
-        im_one = (ImageView) rootLayout.findViewById(R.id.im_one);
         im_two = (ImageView) rootLayout.findViewById(R.id.im_two);
-        im_three = (ImageView) rootLayout.findViewById(R.id.im_three);
-        im_four = (ImageView) rootLayout.findViewById(R.id.im_four);
         im_five = (ImageView) rootLayout.findViewById(R.id.im_five);
+        Picasso.with(context).load(R.drawable.dingzhi_guide).into(im_five);
+        Picasso.with(context).load(R.drawable.fatuxunjiahdpi).into(im_two);
         rootView.addView(rootLayout);
     }
 
@@ -65,16 +64,8 @@ public class GuideHelper {
         rl_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (count == 1) {
-                    count++;
-                    im_one.setVisibility(View.GONE);
-                    im_two.setVisibility(View.GONE);
-                    im_three.setVisibility(View.VISIBLE);
-                    im_four.setVisibility(View.VISIBLE);
-                    im_five.setVisibility(View.VISIBLE);
-                } else {
+
                     closeGuide();
-                }
             }
         });
     }

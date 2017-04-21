@@ -1,6 +1,7 @@
 package com.tiemuyu.chuanchuan.activity;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -65,7 +66,6 @@ import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 import com.tiemuyu.chuanchuan.activity.util.ViewTools;
 import com.tiemuyu.chuanchuan.activity.view.CustomButton;
-import com.tiemuyu.chuanchuan.activity.view.GuideView;
 import com.tiemuyu.chuanchuan.activity.web.ExampleWebViewClient;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareAPI;
@@ -107,7 +107,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 	private ExampleWebViewClient client;
 	private TextView textView2;
 	public static CacheBean cacheBean = new CacheBean();// cashe数据
-	private GuideView guideView;
+
 
 	//以下变量为FY所加
 	private TreeSet<Contacts> data1 = new TreeSet<>();
@@ -132,7 +132,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 			Intent intent = new Intent(this, PushHistoryActivity.class);
 			startActivity(intent);
 		}
-		GuideHelper guideHelper = new GuideHelper(this);
+ 		GuideHelper guideHelper = new GuideHelper(this);
 		guideHelper.openGuide();
 		//史力：设置键盘上抬
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -147,7 +147,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		setNetResponses(this);
 		MessageActivity messageActivity = new MessageActivity();
 		sharedPress = DataSharedPress.getSharedPress(this);
-		if (DBTools.getUser()!=null) {
+		if (DBTools.getUser() != null) {
 			login();
 		}
 		//以下三行代码：sp保存了用户名密码，每次启动app时toast出来用于检测
@@ -239,9 +239,9 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 			}
 		});
 		String kefuCode = SPUtils.getKefuCode();
-		if (kefuCode == null || kefuCode.equals("")){
+		if (kefuCode == null || kefuCode.equals("")) {
 			final User user = DBTools.getUser();
-			if (user != null){
+			if (user != null) {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -250,8 +250,15 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 				}).start();
 			}
 		}
+		ActivityManager mAm = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningTaskInfo> taskList = mAm.getRunningTasks(100);
+		for ( ActivityManager.RunningTaskInfo rti : taskList )
+		{
 
+			Log.e("showRunningTasks", rti.baseActivity.getClassName() + "-----" + rti.topActivity.getClassName());
+		}
 	}
+
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -362,6 +369,11 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		} else {
 			long currentTime = System.currentTimeMillis();
 			if (currentTime - agoTime < 2000) {
+				finish();
+				/*Intent home = new Intent(Intent.ACTION_MAIN);
+				home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				home.addCategory(Intent.CATEGORY_HOME);
+				startActivity(home);*/
 				System.exit(0);
 			} else {
 				agoTime = currentTime;
@@ -532,10 +544,9 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false) == false) {
 			return;
 		}
-		String accid = SPUtils.getAccid();
 		User now = DBTools.getUser();
 		Log.e("login: ", now + "!");
-		if (now!=null) {
+		if (now != null) {
 			if (now.getAccid() == null) {
 				Toast.makeText(this, "身份信息异常", Toast.LENGTH_SHORT).show();
 			}
@@ -660,11 +671,6 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		mineFragment.sessionweb(x, x1);
 	}
 
-	private void refresh() {
-		finish();
-		Intent intent = new Intent(MainActivity.this, MainActivity.class);
-		startActivity(intent);
-	}
 
 	//关闭回退的方法
 	public void hideback() {
@@ -726,7 +732,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 					break;
 				case 2:
 					// 产品详情
-					Intent intent2 = new Intent(MainActivity.this, DingzhiDetailsActivity.class);
+					Intent intent2 = new Intent(MainActivity.this, ClothesDetailsActivity.class);
 					intent2.putExtra("productid", jump.getUid());
 					startActivity(intent2);
 					break;

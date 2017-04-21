@@ -853,6 +853,9 @@ public class UrlManager {
 	public static final String getVersion() {
 		return BASEURL+"api/apppi?getBanBenHao&state=0";
 	}
+	public static final String getstartpage() {
+		return BASEURL+"api/apppi?getstartpage";
+	}
 
 	public static final String getSimilar(String id,String name) {
 		return BASEURL+"api/apppi?similarProduct&productId="+id+"&productname="+name;
