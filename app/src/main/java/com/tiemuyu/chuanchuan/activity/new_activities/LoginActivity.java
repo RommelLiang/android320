@@ -515,7 +515,7 @@ public class LoginActivity extends BaseActivityG implements
         } else if (resultTag.equals(TAG_LOGIN)) {
             pd.dismiss();
 //            LogHelper.d("----登录成功--" + msg);
-            ToastHelper.show(this, "登录成功");
+
 
             //设置数据
             String data = DataContoler.getJsonData(msg);
@@ -541,6 +541,7 @@ public class LoginActivity extends BaseActivityG implements
                     GetCustomer.httpConnPostString(user.getAccid(), user.getAccToken());
                 }
             }).start();
+            ToastHelper.show(this, "登录成功");
 
         } else if (resultTag.equals(TAG_GETUSERNAME)) {
 

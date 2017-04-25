@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
@@ -21,6 +22,7 @@ import org.xutils.http.cookie.DbCookieStore;
 import org.xutils.x;
 
 import java.net.HttpCookie;
+import java.util.HashMap;
 import java.util.List;
 
 //import com.lidroid.xutils.http.RequestParams;
@@ -91,6 +93,7 @@ public class HttpTools {
 
     private void setHttpUtils() {
 
+        Log.e("setHttpUtils: "+resultTag,!StringUtil.isNull(PreferenceUtils.getPrefString(context, Constant.CC_COOKIE, "")) +"" );
         // 设置cookie
         if (!StringUtil.isNull(PreferenceUtils.getPrefString(context, Constant.CC_COOKIE, ""))) {
             LogHelper.e("----线程池请求的cookie:"
@@ -98,7 +101,7 @@ public class HttpTools {
 
             System.out.println("----线程池请求的cookie:"
                     + PreferenceUtils.getPrefString(context, Constant.CC_COOKIE, ""));
-
+            Log.e( "Constant.CC_COOKIE", PreferenceUtils.getPrefString(context, Constant.CC_COOKIE, ""));
             params.addHeader(COOKIE,
                     PreferenceUtils.getPrefString(context, Constant.CC_COOKIE, ""));
 
@@ -109,7 +112,7 @@ public class HttpTools {
                     PreferenceUtils.getPrefString(context, Constant.CC_UA, ""));
             System.out.println("---线程池请求的UA:" +
                     PreferenceUtils.getPrefString(context, Constant.CC_UA, ""));
-
+            Log.e( "Constant.CC_UA ", PreferenceUtils.getPrefString(context,  Constant.CC_UA, ""));
             params.addHeader(UA, PreferenceUtils.getPrefString(context, Constant.CC_UA, ""));
         }
 
@@ -122,6 +125,14 @@ public class HttpTools {
 
     private void httpSend() {
      //   LogHelper.d("-----请求的地址:"+params.getUri());
+        Log.e("测试发图:","发布完成"+resultTag );
+        HashMap<String, String> headers = params.getHeaders();
+        if (headers != null) {
+            for ( HashMap.Entry<String, String> entry : headers.entrySet() ) {
+                Log.e(resultTag, "Key = " + entry.getKey() + ", Value = " + entry.getValue());
+
+            }
+        }
         x.http().request(method, params, new Callback.CommonCallback<String>() {
 
             @Override
@@ -145,9 +156,11 @@ public class HttpTools {
             @Override
             public void onSuccess(String re) {
                 // TODO Auto-generated method stub
+                Log.e("测试发图onSuccess:","发布完成"+resultTag );
                 String cookie = getCookie();
                 // LogHelper.d("-------请求成功，tag>"+resultTag+",getCookie():"+cookie);
                 BaseBean baseBean = JsonTools.fromJson(re, BaseBean.class);
+                Log.e("测试发图onSuccess: ",resultTag+"::"+ re);
                 int code = baseBean.getCode();
                 System.out.println("#####resultTag,"+resultTag+",code"+code);
 
@@ -164,6 +177,7 @@ public class HttpTools {
                 {
                     System.out.println("#####http请求维护code==-2-"+resultTag);
                     callBack.reLoginCallBack(resultTag, isShowDialog);
+
                 }
                 else
                     callBack.failShowCallBack(resultTag, baseBean, re,isShowDialog );

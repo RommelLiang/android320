@@ -3,6 +3,7 @@ package com.tiemuyu.chuanchuan.activity.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,13 +139,22 @@ public class WaterAdapter extends BaseAdapter {
 		holder.ll_left.setVisibility(View.VISIBLE);
 		holder.ll_right.setVisibility(View.VISIBLE);
 		holder.tv_user_name_left.setText(rows.get((position + 1) * 2 - 2).getPublishUser().getNickName());
+		String userImg_let = rows.get((position + 1) * 2 - 2).getPublishUser().getUserImg();
+		if (userImg_let==null || userImg_let.equals("")) {
+			userImg_let = "http://a1.myappcc.com/images/ccdefault/user_img.jpg";
+		}
 		Picasso.with(context)
-				.load(rows.get((position + 1) * 2 - 2).getPublishUser().getUserImg())
+				.load(userImg_let)
 				.transform(transformation)
 				.into(holder.im_user_left);
 		holder.tv_user_name_right.setText(rows.get((position + 1) * 2 - 1).getPublishUser().getNickName());
+		Log.e("用户头像", rows.get((position + 1) * 2 - 1).getPublishUser().getUserImg()+":"+position);
+		String userImg = rows.get((position + 1) * 2 - 1).getPublishUser().getUserImg();
+		if (userImg==null || userImg.equals("")) {
+			userImg = "http://a1.myappcc.com/images/ccdefault/user_img.jpg";
+		}
 		Picasso.with(context)
-				.load(rows.get((position + 1) * 2 - 1).getPublishUser().getUserImg())
+				.load(userImg)
 				.transform(transformation)
 				.into(holder.im_user_right);
 

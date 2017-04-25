@@ -83,7 +83,7 @@ public class SearchWaterAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         pos = position;
         View view = convertView;
         ViewHolder holder;
@@ -105,8 +105,10 @@ public class SearchWaterAdapter extends BaseAdapter {
         holder.text.setText(searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 1).getProductName());
         holder.price.setText("￥" + searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 1).getPrice() + "");
         imageLoader.displayImage(searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 1).getMainImage(), holder.image, options, animateFirstListener);
+
+
         holder.text_one.setText(searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 2).getProductName());
-        holder.price_one.setText("￥" + searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 1).getPrice() + "");
+        holder.price_one.setText("￥" + searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 2).getPrice() + "");
         imageLoader.displayImage(searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 2).getMainImage(), holder.image_one, options, animateFirstListener);
 
         // todo 点击跳转到产品详情页面
@@ -115,7 +117,7 @@ public class SearchWaterAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Log.e("tag", "left is clicked!");
                 Intent intent = new Intent(context, DingzhiDetailsActivity.class);
-                intent.putExtra("productid", searchResultBean.getData().getPageData().getRows().get((pos + 1) * 2 - 1).getId());
+                intent.putExtra("productid", searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 2).getId());
                 context.startActivity(intent);
             }
         });
@@ -124,7 +126,7 @@ public class SearchWaterAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Log.e("tag", "right is clicked!");
                 Intent intent = new Intent(context, DingzhiDetailsActivity.class);
-                intent.putExtra("productid", searchResultBean.getData().getPageData().getRows().get((pos + 1) * 2 - 1).getId());
+                intent.putExtra("productid", searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 1).getId());
                 context.startActivity(intent);
             }
         });

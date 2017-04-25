@@ -137,8 +137,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class drawable {
         public static final int default_indicator_arrow=0x7f020000;
         public static final int default_indicator_rotate=0x7f020001;
-        public static final int indicator_bg_bottom=0x7f020002;
-        public static final int indicator_bg_top=0x7f020003;
+        public static final int home_clothing=0x7f020002;
+        public static final int indicator_bg_bottom=0x7f020003;
+        public static final int indicator_bg_top=0x7f020004;
     }
     public static final class id {
         public static final int both=0x7f070003;

@@ -29,8 +29,9 @@ int dimen indicator_internal_padding 0x7f060004
 int dimen indicator_right_padding 0x7f060005
 int drawable default_indicator_arrow 0x7f020000
 int drawable default_indicator_rotate 0x7f020001
-int drawable indicator_bg_bottom 0x7f020002
-int drawable indicator_bg_top 0x7f020003
+int drawable home_clothing 0x7f020002
+int drawable indicator_bg_bottom 0x7f020003
+int drawable indicator_bg_top 0x7f020004
 int id both 0x7f070003
 int id disabled 0x7f070004
 int id fl_inner 0x7f070010

@@ -387,7 +387,8 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 				if (imageView == null) {
 					imageView = im;
 				}
-				Picasso.with(this).load(xijie.get(i)).transform(transformation).into(im);
+				Picasso.with(this).load(xijie.get(i))
+						.placeholder(R.drawable.icon_morentupian2).transform(transformation).into(im);
 				im.setTag(i);
 				im.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -411,6 +412,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 			tv_price.setText("￥ " + dIngzhi.getData().getDingzhiItem().getPrice());
 			Log.e("imageUrl: ", dIngzhi.getData().getDingzhiItem().getFirstXiJieImg());
 			Picasso.with(this).load(dIngzhi.getData().getDingzhiItem().getFirstXiJieImg())
+					.placeholder(R.drawable.icon_morentupian2)
 					.transform(transformation).into(im_main_image);
 			im_main_image.setOnClickListener(new View.OnClickListener() {
 				@Override

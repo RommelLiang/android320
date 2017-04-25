@@ -26,6 +26,7 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.NewShaituBean;
 import com.tiemuyu.chuanchuan.activity.bean.ShaituWaterBean;
@@ -350,7 +351,12 @@ public class MyShaitu extends BaseActivityG {
                 }
             });
             imageLoader.displayImage(newShaituBean.getData().getUsers().get(0).getUserImg(), holder.shaitu_usr_image, options, animateFirstListener);
-            imageLoader.displayImage(newShaituBean.getData().getPagedata().getRows().get(position).getImage1(), holder.main_pic, options, animateFirstListener);
+            Picasso.with(MyShaitu.this)
+                    .load(newShaituBean.getData().getPagedata().getRows().get(position).getImage1())
+                    .fit()
+                    .into(holder.main_pic);
+
+            //imageLoader.displayImage(newShaituBean.getData().getPagedata().getRows().get(position).getImage1(), holder.main_pic, options, animateFirstListener);
             return view;
         }
     }

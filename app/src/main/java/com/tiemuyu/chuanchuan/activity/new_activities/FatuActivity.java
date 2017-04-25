@@ -93,6 +93,7 @@ public class FatuActivity extends BaseActivityG {
 	private ImageView add_img1;
 	private MyAdapter adapter;
 	private String mPost;
+	private String tag = "上装";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -316,13 +317,13 @@ public class FatuActivity extends BaseActivityG {
 			if (code == 0) {
 				pd.dismiss();
 				ToastHelper.show(FatuActivity.this,"上传图片失败，请重试");
+				pd.dismiss();
 				return;
 			}
 			String[] split = imageUrlBean.getData().getImageUrl().split(",");
 			for ( String s : split ) {
 				imagelist.add(s);
 			}
-			String tag = "上装";
 			String text = "";
 			String imgs = "";
 			String s = String.valueOf(tv_message.getText());
@@ -334,6 +335,7 @@ public class FatuActivity extends BaseActivityG {
 					imgs += imagelist.get(i) + ",";
 				imgs += imagelist.get(imagelist.size() - 1);
 			}
+			Log.e("测试发图: ", imgs);
 			MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
 					TAG_FABU_MOMENT, Constant.REQUEST_POST, ParamsTools.fabu(
 					UrlManager.Fabu_Moment(), tag, text, imgs), FatuActivity.this,
@@ -357,6 +359,7 @@ public class FatuActivity extends BaseActivityG {
 
 		User user = DBTools.getUser();
 		if (resultTag.equals(TAG_FABU_MOMENT)) {
+			Log.e("测试发图:","发布完成" );
 			System.out.println("######成功了callback");
 			ClassJumpTool.startToBackActivity(this, MainActivity.class, null, 10);
 			pd.dismiss();
@@ -382,6 +385,7 @@ public class FatuActivity extends BaseActivityG {
 		if (resultTag.equals(TAG_FABU_MOMENT)) {
 			System.out.println("######failShowCallBack ");
 			ToastHelper.show(this, "图片发布失败");
+			Log.e("测试发图:","发布完成" );
 		}
 	}
 
@@ -477,7 +481,7 @@ public class FatuActivity extends BaseActivityG {
 						Log.e("delect", "getView: " + mImages.size());
 						if (mImages.size() == 1) {
 							mImages.clear();
-							add_img1.setVisibility(View.VISIBLE);
+							//add_img1.setVisibility(View.VISIBLE);
 							adapter.notifyDataSetChanged();
 						} else if (mImages.size() > 1 && mImages.size() <= 9){
 							mImages.remove(position);

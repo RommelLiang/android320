@@ -1,12 +1,17 @@
 package com.tiemuyu.chuanchuan.activity.util;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -18,6 +23,10 @@ import java.util.List;
  */
 
 public class SocketHttpRequester {
+
+	private static long start;
+	private static long end;
+
 	public static String post(String urlStr, List<String> filePaths) throws Exception {
 		String rsp = "";
 		HttpURLConnection conn = null;
@@ -62,9 +71,15 @@ public class SocketHttpRequester {
 			fileExplain.append("Content-Disposition: form-data;name=\"" + "image" + i + "jpg"
 					+ "\";filename=\"" + filename + "\"\r\n");
 			fileExplain.append("Content-Type: " + contentType + "\r\n\r\n");
-
+			start = System.currentTimeMillis();
 			out.write(fileExplain.toString().getBytes());
-			DataInputStream in = new DataInputStream(new FileInputStream(file));
+			Bitmap bitmap = decodeFile(file);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			//得到输出流
+			bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+			//转输入流
+			InputStream isBm = new ByteArrayInputStream(baos .toByteArray());
+			DataInputStream in = new DataInputStream(isBm);
 			int bytes = 0;
 			byte[] bufferOut = new byte[1024];
 			while ((bytes = in.read(bufferOut)) != -1) {
@@ -85,8 +100,10 @@ public class SocketHttpRequester {
 			buffer.append(line).append("\n");
 		}
 		rsp = buffer.toString();
-		Log.e("post: ", rsp);
-		int responseCode = conn.getResponseCode();;
+		end = System.currentTimeMillis();
+		Log.e("post: " + String.valueOf(end - start), rsp);
+		int responseCode = conn.getResponseCode();
+
 		if(responseCode != 200){//读取web服务器返回的数据，判断请求码是否为200，如果不是200，代表请求失败
 			rsp = "{\"Code\":0,\"Msg\":\"OK\"," +
 					"\"Data\":{\"ImageUrl\":\"\"}}";
@@ -94,4 +111,31 @@ public class SocketHttpRequester {
 		reader.close();
 		return rsp;
 	}
+	private static Bitmap decodeFile(File f){
+		Bitmap b = null;
+		Bitmap bitmap = null;
+		try {
+			//Decode image size
+			BitmapFactory.Options o = new BitmapFactory.Options();
+			o.inJustDecodeBounds = true;
+
+			FileInputStream fis = new FileInputStream(f);
+			BitmapFactory.decodeStream(fis, null, o);
+			fis.close();
+			int scale = 1;
+			if (o.outHeight > 1024 || o.outWidth > 1024) {
+				//scale = (int) Math.pow(2, Math.round(Math.log(200 / (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
+				scale = Math.max(o.outHeight, o.outWidth)/1024;
+				Log.e("decodeFile: ", scale+"");
+			}
+			BitmapFactory.Options o2 = new BitmapFactory.Options();
+			o2.inSampleSize = scale;
+			fis = new FileInputStream(f);
+			b = BitmapFactory.decodeStream(fis, null, o2);
+			fis.close();
+		} catch (Exception e) {
+		}
+		return b;
+	}
+
 }

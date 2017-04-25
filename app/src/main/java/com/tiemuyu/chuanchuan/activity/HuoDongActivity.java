@@ -189,17 +189,14 @@ public class HuoDongActivity extends BaseActivityG {
 		}
 
 		public void onFinish() {
-
+			jump();
 		}
 
 		public void onTick(long millisUntilFinished) {
 			count++;
 			roundProgressBar.setProgress((int) (4000 - millisUntilFinished));
 			if (count % 42 == 0) {
-				roundProgressBar.setTime(4 - count / 42);
-			}
-			if (4 - count / 42 == 0) {
-				jump();
+				roundProgressBar.setTime(5 - count / 42);
 			}
 		}
 

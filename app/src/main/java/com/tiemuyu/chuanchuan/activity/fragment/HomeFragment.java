@@ -461,6 +461,7 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
         endLabels.setPullLabel("下拉刷新...");// 刚下拉时，显示的提示
         endLabels.setRefreshingLabel("正在刷新...");// 刷新时
         endLabels.setReleaseLabel("松开即可刷新...");// 下来达到一定距离时，显示的提示
+
     }
 
 
