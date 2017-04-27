@@ -5,25 +5,24 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
     <RelativeLayout
-        android:layout_marginLeft="8dp"
+        android:padding="0.4dip"
+        android:background="@color/colorgray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageView
             android:scaleType="centerCrop"
-            android:layout_marginBottom="1dp"
-            android:layout_marginRight="1dp"
-            android:layout_marginTop="1dp"
             android:id="@+id/im_image"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginLeft="1dp" />
+            android:layout_width="180sp"
+            android:layout_height="180sp" />
     </RelativeLayout>
 
 

@@ -253,6 +253,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:focusable="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -260,6 +261,7 @@
                     android:textSize="18dp"/>
 
                 <ImageView
+                    android:focusable="false"
                     android:id="@+id/im_main_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -278,22 +280,27 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:focusable="false"
                     android:gravity="center"
                     android:text="款式详情"
+                    android:textColor="@color/ColorLaunchBackground"
                     android:textSize="18sp"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="10dp"
-                    android:background="@color/colorBlack"></LinearLayout>
+                    android:background="@color/colorBlack"
+                    android:focusable="false"></LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_dingzhi"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:focusable="false"
                     android:gravity="center"
                     android:text="定制保障"
+                    android:textColor="@color/ColorLaunchBackground"
                     android:textSize="18sp"/>
             </LinearLayout>
 
@@ -316,6 +323,7 @@
                 android:id="@+id/vp_find_home"
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
+                android:focusable="false"
                 />
 
             <LinearLayout
@@ -325,9 +333,11 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="5dp"
+                android:focusable="false"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
@@ -345,6 +355,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:focusable="false"
                     android:gravity="center"
                     android:lines="1"
                     android:text="相似同款"
@@ -356,6 +367,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:focusable="false"
                     android:gravity="center"
                     android:lines="1"
                     android:text="定制费用明细"
@@ -367,6 +379,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:focusable="false"
                     android:gravity="center"
                     android:lines="1"
                     android:text="定制须知"
@@ -392,6 +405,7 @@
             </RelativeLayout>
 
             <com.tiemuyu.chuanchuan.activity.view.WrapContentViewPager
+
                 android:id="@+id/vp_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

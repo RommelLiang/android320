@@ -53,6 +53,7 @@ import com.tiemuyu.chuanchuan.activity.util.DataSharedPress;
 import com.tiemuyu.chuanchuan.activity.util.GlideImageLoader;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
+import com.tiemuyu.chuanchuan.activity.util.PicassoWithImage;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
@@ -123,6 +124,8 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 	private String TAG_GET_GETSIMILAR = "TAG_GET_GETSIMILAR";
 	private String TAG_GET_MeSSAGE = "TAG_GET_MeSSAGE";
 
+	private PicassoWithImage mPicassoWithImage;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -168,6 +171,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 
 	private void initView() {
 		vp_detail = (WrapContentViewPager) findViewById(R.id.vp_detail);
+		vp_detail.setFocusable(false);
 		tv_one = (TextView) findViewById(R.id.tv_one);
 		tv_two = (TextView) findViewById(R.id.tv_two);
 		tv_three = (TextView) findViewById(R.id.tv_three);
@@ -177,6 +181,9 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 		findLl = (RelativeLayout) findViewById(R.id.find_ll);
 		find_aa = (RelativeLayout) findViewById(R.id.find_aa);
 		im_user_header = (ImageView) findViewById(R.id.im_user_image_detail);
+		im_user_header.setFocusable(true);
+		im_user_header.setFocusableInTouchMode(true);
+		im_user_header.requestFocus();
 		tv_user_name = (TextView) findViewById(R.id.tv_name_detail);
 		tv_price = (TextView) findViewById(R.id.tv_jia_ge_detail);
 		tv_product_name = (TextView) findViewById(R.id.tv_product_name);
@@ -381,14 +388,18 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 				ImageView im = new ImageView(this);
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
 						LinearLayout.LayoutParams.WRAP_CONTENT);
+
 				/*if (i==0){
 					continue;
 				}*/
 				if (imageView == null) {
 					imageView = im;
+					mPicassoWithImage = new PicassoWithImage(ChengpinDetailActivity.this);
 				}
+				//mPicassoWithImage.setImage(im,xijie.get(i));
 				Picasso.with(this).load(xijie.get(i))
-						.placeholder(R.drawable.icon_morentupian2).transform(transformation).into(im);
+						.placeholder(R.drawable.icon_morentupian2)
+						.transform(transformation).into(im);
 				im.setTag(i);
 				im.setOnClickListener(new View.OnClickListener() {
 					@Override

@@ -4,6 +4,10 @@
         "source": "E:\\project\\android320\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable\\indicator_bg_top.xml"
     },
     {
+        "merged": "E:\\project\\android320\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\home_clothing.png",
+        "source": "E:\\project\\android320\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable\\home_clothing.png"
+    },
+    {
         "merged": "E:\\project\\android320\\library_pullToRefresh\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\indicator_bg_bottom.xml",
         "source": "E:\\project\\android320\\library_pullToRefresh\\build\\intermediates\\bundles\\debug\\res\\drawable\\indicator_bg_bottom.xml"
     }

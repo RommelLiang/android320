@@ -732,7 +732,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 					break;
 				case 2:
 					// 产品详情
-					Intent intent2 = new Intent(MainActivity.this, ClothesDetailsActivity.class);
+					Intent intent2 = new Intent(MainActivity.this, DingzhiDetailsActivity.class);
 					intent2.putExtra("productid", jump.getUid());
 					startActivity(intent2);
 					break;

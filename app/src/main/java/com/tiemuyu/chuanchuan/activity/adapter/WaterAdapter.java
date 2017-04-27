@@ -20,6 +20,7 @@ import com.squareup.picasso.Transformation;
 import com.tiemuyu.chuanchuan.activity.DingzhiDetailsActivity;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.bean.LastPrice;
+import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.view.CircleImageView;
 
 import java.util.List;
@@ -108,13 +109,13 @@ public class WaterAdapter extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		holder.text.setText(rows.get((position + 1) * 2 - 1).getProductName());
+		holder.text.setText(JudgmentLegal.removeYear(rows.get((position + 1) * 2 - 1).getProductName()));
 		holder.price.setText("￥" + rows.get((position + 1) * 2 - 1).getPrice() + "");
 		Picasso.with(context)
 				.load(rows.get((position + 1) * 2 - 1).getMainImage())
 				.transform(transformation)
 				.into(holder.image);
-		holder.text_one.setText(rows.get((position + 1) * 2 - 2).getProductName());
+		holder.text_one.setText(JudgmentLegal.removeYear(rows.get((position + 1) * 2 - 2).getProductName()));
 		holder.price_one.setText("￥" + rows.get((position + 1) * 2 - 2).getPrice() + "");
 		Picasso.with(context)
 				.load(rows.get((position + 1) * 2 - 2).getMainImage())

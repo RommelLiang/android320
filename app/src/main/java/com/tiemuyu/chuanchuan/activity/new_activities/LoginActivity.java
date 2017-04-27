@@ -28,6 +28,7 @@ import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.db.DBTools;
 import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
+import com.tiemuyu.chuanchuan.activity.util.CheckPhoneLength;
 import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.ConnectionUtil;
 import com.tiemuyu.chuanchuan.activity.util.DataContoler;
@@ -427,6 +428,14 @@ public class LoginActivity extends BaseActivityG implements
             Toast.makeText(this, "请输入账号", Toast.LENGTH_LONG).show();
             return;
         }
+        int cheeck = CheckPhoneLength.cheeck(name);
+        if (cheeck == 0) {
+            ToastHelper.show(this, "手机号码过短");
+            return;
+        } else if(cheeck == 2) {
+            ToastHelper.show(this, "手机号码过长");
+            return;
+        }
         if (!JudgmentLegal.isPhoneOrEmail(name)) {
             ToastHelper.show(this, "账号格式不对,请输入手机号或者邮箱");
             return;
@@ -435,6 +444,7 @@ public class LoginActivity extends BaseActivityG implements
             ToastHelper.show(this, "请输入密码");
             return;
         }
+
 
         if (!ConnectionUtil.isConn(this)) {
 //            ToastHelper.show(this, "请检查网络");

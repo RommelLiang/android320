@@ -39,7 +39,7 @@ public class GuideActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_guide);
         //小米
-        /*imgsArr =
+       /* imgsArr =
                 new int[]{R.drawable.one_mi, R.drawable.two_mi, R.drawable.three_mi,
                         R.drawable.four_mi, R.drawable.five_mi};*/
         imgsArr =

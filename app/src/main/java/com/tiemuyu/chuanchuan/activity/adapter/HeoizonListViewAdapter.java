@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -15,7 +14,6 @@ import com.tiemuyu.chuanchuan.activity.util.PicassoWithImage;
 
 import java.util.List;
 
-import it.sephiroth.android.library.widget.AbsHListView;
 import it.sephiroth.android.library.widget.HListView;
 
 /**
@@ -67,33 +65,9 @@ public class HeoizonListViewAdapter extends BaseAdapter {
 			parentHolder = (ParentHolder) convertView.getTag();
 		}
 		Log.e("brandName", "getGroupView: " + dataBean.getName());
-		childAdapter = new ChildAdapter(dataBean.getAppdingzhilist(), context);
+		childAdapter = new ChildAdapter(dataBean, context);
 		parentHolder.horizontalListVIew.setAdapter(childAdapter);
 		parentHolder.brandName.setText(dataBean.getName());
-
-		parentHolder.horizontalListVIew.setOnScrollListener(new AbsHListView.OnScrollListener() {
-			@Override
-			public void onScrollStateChanged(AbsHListView view, int scrollState) {
-				switch (scrollState) {
-					case AbsListView.OnScrollListener.SCROLL_STATE_IDLE://停止滚动
-						//设置为停止滚动
-						childAdapter.setScrollState(false);
-					case AbsListView.OnScrollListener.SCROLL_STATE_FLING://滚动做出了抛的动作
-						//设置为正在滚动
-						childAdapter.setScrollState(true);
-						break;
-					case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL://正在滚动
-						//设置为正在滚动
-						childAdapter.setScrollState(true);
-						break;
-				}
-			}
-
-			@Override
-			public void onScroll(AbsHListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-			}
-		});
 		return convertView;
 	}
 

@@ -1,5 +1,7 @@
 package com.tiemuyu.chuanchuan.activity.constant;
 
+import android.util.Log;
+
 /**
  * Created by CC2.0 on 2017/1/6.
  */
@@ -852,6 +854,11 @@ public class UrlManager {
 
 	public static final String getVersion() {
 		return BASEURL+"api/apppi?getBanBenHao&state=0";
+	}
+
+	public static final String getMore(int id,int page) {
+		Log.e("getMore: ",  BASEURL+"getonedaydingzhi&id="+id+"&pageIndex="+page);
+		return BASEURL+"api/apppi?getonedaydingzhi&id="+id+"&pageIndex="+page;
 	}
 	public static final String getstartpage() {
 		return BASEURL+"api/apppi?getstartpage";

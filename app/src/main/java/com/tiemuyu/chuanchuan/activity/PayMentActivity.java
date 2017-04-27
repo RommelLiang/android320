@@ -413,6 +413,7 @@ public class PayMentActivity extends BaseActivityG {
 			tv_age.setText(0 + "岁");
 			tv_weiht.setText(0 + "kg");
 			tv_height.setText(0 + "cm");
+			userCCInfoListBean = new BodysBean.DataBean.UserCCInfoListBean();
 			userCCInfoListBean.setName(DBTools.getUser().getNickName());
 			userCCInfoListBean.setHEIGHT(0);
 			userCCInfoListBean.setWEIGHT(0);

@@ -28,7 +28,6 @@ import org.xutils.http.RequestParams;
 public class BaseActivityG extends FragmentActivity implements
         View.OnClickListener, ThreadPoolTaskHttp.HttpCallBack {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub

@@ -2,7 +2,6 @@ package com.tiemuyu.chuanchuan.activity.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,13 +12,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.ChengpinDetailActivity;
+import com.tiemuyu.chuanchuan.activity.MoreDingzhiActivity;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.bean.DIngzhi;
 import com.tiemuyu.chuanchuan.activity.util.PicassoWithImage;
-
-import java.util.List;
 
 /**
  * Created by 梁文硕 on 2017/2/24.
@@ -28,18 +26,13 @@ import java.util.List;
 public class ChildAdapter extends BaseAdapter {
 	private final int width;
 	private final int height;
-	private List<DIngzhi.DataBean.AppdingzhilistBean> listBean;
+	private DIngzhi.DataBean listBean;
 	private Context context;
 	private ChildHolder childHolder;
 	private ImageView imageView;
 	private PicassoWithImage mPicassoWithImage;
-	private boolean scrollState = false;
 
-	public void setScrollState(boolean scrollState) {
-		this.scrollState = scrollState;
-	}
-
-	public ChildAdapter(List<DIngzhi.DataBean.AppdingzhilistBean> listBean, Context context) {
+	public ChildAdapter(DIngzhi.DataBean listBean, Context context) {
 		this.listBean = listBean;
 		this.context = context;
 		WindowManager wm = (WindowManager) context
@@ -52,7 +45,11 @@ public class ChildAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return listBean.size();
+		if (listBean.getAppdingzhilist().size() < 6) {
+			return listBean.getAppdingzhilist().size();
+		} else {
+			return 6;
+		}
 	}
 
 	@Override
@@ -79,18 +76,38 @@ public class ChildAdapter extends BaseAdapter {
 		} else {
 			childHolder = (ChildHolder) convertView.getTag();
 		}
-		Log.e("ChildHolder", "getView: " + listBean.get(position).getFirstXiJieImg());
-		String promianpic = listBean.get(position).getPromianpic();
-		mPicassoWithImage.setImage(childHolder.imageView, promianpic);
-		childHolder.name.setText(listBean.get(position).getProname());
-		childHolder.price.setText(Html.fromHtml("定制价" +
-				"<font color=\"#450525\"><b>￥ " + listBean.get(position).getPrice() + "</b></font>"));
+		Log.e("ChildHolder", "getView: " + position);
+		childHolder.imageView.setPadding(1,1,1,1);
+		if (position == 5) {
+			childHolder.imageView.setBackgroundColor(context.getResources().getColor(R.color.white));
+			childHolder.imageView.setPadding(60,60,60,60);
+			Picasso.with(context)
+					.load(R.drawable.more)
+					.placeholder(R.drawable.more)
+					.into(childHolder.imageView);
+			childHolder.name.setText("");
+			childHolder.price.setText("");
+		}
+		if (position<5) {
+			childHolder.imageView.setBackgroundColor(context.getResources().getColor(R.color.colorgray));
+			String promianpic = listBean.getAppdingzhilist().get(position).getPromianpic();
+			mPicassoWithImage.setImage(childHolder.imageView, promianpic);
+			childHolder.name.setText(listBean.getAppdingzhilist().get(position).getProname());
+			childHolder.price.setText(Html.fromHtml("定制价" +
+					"<font color=\"#450525\"><b>￥ " + listBean.getAppdingzhilist().get(position).getPrice() + "</b></font>"));
+		}
 		childHolder.imageView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(context, ChengpinDetailActivity.class);
-				intent.putExtra("productid", listBean.get(position).getId());
-				context.startActivity(intent);
+				if (position < 5) {
+					Intent intent = new Intent(context, ChengpinDetailActivity.class);
+					intent.putExtra("productid", listBean.getAppdingzhilist().get(position).getId());
+					context.startActivity(intent);
+				} else {
+					Intent intent = new Intent(context, MoreDingzhiActivity.class);
+					intent.putExtra("id", listBean.getId());
+					context.startActivity(intent);
+				}
 			}
 		});
 		return convertView;
@@ -102,49 +119,4 @@ public class ChildAdapter extends BaseAdapter {
 		TextView name;
 		TextView price;
 	}
-
-	Transformation transformation = new Transformation() {
-
-		@Override
-		public Bitmap transform(Bitmap source) {
-			int mTargetWidth = width * 3 / 4;
-			int mTargetHeight = height * 3 / 4;
-
-
-			if (source.getWidth() == 0) {
-				return source;
-			}
-			if (source.getWidth() < source.getHeight()) {
-				double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
-				int targetHeight = (int) (mTargetWidth * aspectRatio);
-				if (targetHeight != 0 && mTargetWidth != 0) {
-					Bitmap result = Bitmap.createScaledBitmap(source, mTargetWidth, targetHeight, false);
-					if (result != source) {
-						source.recycle();
-					}
-					return result;
-				} else {
-					return source;
-				}
-			} else {
-				double aspectRatio = (double) source.getWidth() / (double) source.getHeight();
-				int targetWidth = (int) (mTargetHeight * aspectRatio);
-				if (targetWidth != 0 && targetWidth != 0) {
-					Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, mTargetHeight, false);
-					if (result != source) {
-						// Same bitmap is returned if sizes are the same
-						source.recycle();
-					}
-					return result;
-				} else {
-					return source;
-				}
-			}
-		}
-
-		@Override
-		public String key() {
-			return "transformation" + " desiredWidth";
-		}
-	};
 }

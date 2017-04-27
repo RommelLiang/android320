@@ -38,7 +38,7 @@ public class PicassoWithImage {
 		final String uso = split[0] + ".jpg";
 		getIns().with(mContext)
 				.load(uso)
-				.fit()
+				.transform(transformation)
 				.placeholder(R.drawable.icon_morentupian2)
 				.into(mImage, new Callback() {
 					@Override

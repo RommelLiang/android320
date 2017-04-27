@@ -125,8 +125,6 @@ public class FatuActivity extends BaseActivityG {
 		AppManager.getAppManager().addActivity(this);
 		tv_message = (EditText) findViewById(R.id.message);
 		initProcess();
-
-
 	}
 
 
@@ -151,7 +149,8 @@ public class FatuActivity extends BaseActivityG {
 		// TODO Auto-generated method stub
 		fabu_bt.setOnClickListener(this);
 		bt_back.setOnClickListener(this);
-
+		Intent intent = new Intent(this, ImageGridActivity.class);
+		startActivityForResult(intent, IMAGE_PICKER);
 
 		//todo   上下装套装选择。
 
@@ -249,7 +248,6 @@ public class FatuActivity extends BaseActivityG {
 
 
 
-	//史力：接收相机或相册返回图片uri
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
