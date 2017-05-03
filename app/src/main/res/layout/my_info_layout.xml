@@ -5,40 +5,34 @@
     android:orientation="vertical"
     android:background="@color/colorWhite"
     android:weightSum="1">
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/colorLightWhite"
-        android:orientation="horizontal"
-        android:visibility="visible"
-        android:id="@+id/header">
-        <LinearLayout
-            android:id="@+id/MyInfoGoBack"
-            android:layout_width="60dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="22dp">
+        android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="23dp"
-                android:layout_marginLeft="20dp"
-                android:background="@mipmap/back" />
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/im_back"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_marginBottom="11dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="11dp"
+            android:src="@drawable/home_back" />
 
         <TextView
-            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/colorBlack"
-            android:text="@string/TextBasicInfo"
-            android:layout_alignTop="@+id/goBack"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerInParent="true"
+            android:text="基本资料"
+            android:textColor="@color/black"
+            android:textSize="19dp" />
     </RelativeLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorLightWhite"
+        android:layout_height="1dp"
+        ></LinearLayout>
     <RelativeLayout
+        android:layout_marginTop="1dp"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/change_tx">

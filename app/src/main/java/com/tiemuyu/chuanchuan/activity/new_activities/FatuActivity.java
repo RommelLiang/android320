@@ -1,7 +1,6 @@
 package com.tiemuyu.chuanchuan.activity.new_activities;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +33,7 @@ import com.tiemuyu.chuanchuan.activity.bean.User;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.db.DBTools;
+import com.tiemuyu.chuanchuan.activity.proxy.LoadingProxy;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
 import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
@@ -94,6 +94,7 @@ public class FatuActivity extends BaseActivityG {
 	private MyAdapter adapter;
 	private String mPost;
 	private String tag = "上装";
+	private LoadingProxy mInstance;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +126,7 @@ public class FatuActivity extends BaseActivityG {
 		AppManager.getAppManager().addActivity(this);
 		tv_message = (EditText) findViewById(R.id.message);
 		initProcess();
+		mInstance = LoadingProxy.getInstance(this);
 	}
 
 
@@ -149,9 +151,9 @@ public class FatuActivity extends BaseActivityG {
 		// TODO Auto-generated method stub
 		fabu_bt.setOnClickListener(this);
 		bt_back.setOnClickListener(this);
-		Intent intent = new Intent(this, ImageGridActivity.class);
+		/*Intent intent = new Intent(this, ImageGridActivity.class);
 		startActivityForResult(intent, IMAGE_PICKER);
-
+*/
 		//todo   上下装套装选择。
 
 	}
@@ -221,8 +223,11 @@ public class FatuActivity extends BaseActivityG {
 	}
 
 	private void sendImage() {
-		initPd();
-		pd.show();
+		String lable = "图片上传中";
+		if (mImages.size() > 4) {
+			lable = "请耐心等待...";
+		}
+		mInstance.setLable(lable).show();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -313,9 +318,8 @@ public class FatuActivity extends BaseActivityG {
 			ImageUrlBean imageUrlBean = GsonUtils.fromData(mPost, ImageUrlBean.class);
 			int code = imageUrlBean.getCode();
 			if (code == 0) {
-				pd.dismiss();
+				mInstance.dismiss();
 				ToastHelper.show(FatuActivity.this,"上传图片失败，请重试");
-				pd.dismiss();
 				return;
 			}
 			String[] split = imageUrlBean.getData().getImageUrl().split(",");
@@ -360,7 +364,7 @@ public class FatuActivity extends BaseActivityG {
 			Log.e("测试发图:","发布完成" );
 			System.out.println("######成功了callback");
 			ClassJumpTool.startToBackActivity(this, MainActivity.class, null, 10);
-			pd.dismiss();
+			mInstance.dismiss();
 			ToastHelper.show(this, "发布成功");
 			MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
 					TAG_SENDMESSAGE, Constant.REQUEST_GET,
@@ -471,7 +475,7 @@ public class FatuActivity extends BaseActivityG {
 			}
 			if (position < items.size()) {
 				//Picasso.
-				(new PicassoImageLoader()).displayImage(FatuActivity.this, items.get(position).path, childHolder.imageView, width, width);
+				(new PicassoImageLoader()).displayImage(FatuActivity.this, items.get(position).path, childHolder.imageView, width);
 				Log.e( "getView: ",  items.get(position).path);
 				childHolder.delect.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -498,11 +502,5 @@ public class FatuActivity extends BaseActivityG {
 	private static class ChildHolder {
 		ImageView imageView, delect;
 	}
-	private ProgressDialog pd;
 
-	private void initPd() {
-		pd = new ProgressDialog(this);//加载的ProgressDialog
-		pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);//选择加载风格 这里是圆圈 STYLE_HORIZONTAL 是水平进度条
-		pd.setMessage("图片上传中....");
-	}
 }

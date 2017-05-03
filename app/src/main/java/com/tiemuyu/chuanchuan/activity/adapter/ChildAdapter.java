@@ -2,6 +2,7 @@ package com.tiemuyu.chuanchuan.activity.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -70,6 +72,7 @@ public class ChildAdapter extends BaseAdapter {
 			childHolder.imageView = (ImageView) convertView.findViewById(R.id.im_image);
 			childHolder.name = (TextView) convertView.findViewById(R.id.tv_name);
 			childHolder.price = (TextView) convertView.findViewById(R.id.tv_price);
+			childHolder.rl_item = (RelativeLayout) convertView.findViewById(R.id.rl_item);
 			imageView = childHolder.imageView;
 			convertView.setTag(childHolder);
 
@@ -79,7 +82,8 @@ public class ChildAdapter extends BaseAdapter {
 		Log.e("ChildHolder", "getView: " + position);
 		childHolder.imageView.setPadding(1,1,1,1);
 		if (position == 5) {
-			childHolder.imageView.setBackgroundColor(context.getResources().getColor(R.color.white));
+			Drawable adddrawable=context.getResources().getDrawable(R.drawable.image_null);
+			childHolder.rl_item.setBackground(adddrawable);
 			childHolder.imageView.setPadding(60,60,60,60);
 			Picasso.with(context)
 					.load(R.drawable.more)
@@ -89,7 +93,8 @@ public class ChildAdapter extends BaseAdapter {
 			childHolder.price.setText("");
 		}
 		if (position<5) {
-			childHolder.imageView.setBackgroundColor(context.getResources().getColor(R.color.colorgray));
+			Drawable adddrawable=context.getResources().getDrawable(R.drawable.image);
+			childHolder.rl_item.setBackground(adddrawable);
 			String promianpic = listBean.getAppdingzhilist().get(position).getPromianpic();
 			mPicassoWithImage.setImage(childHolder.imageView, promianpic);
 			childHolder.name.setText(listBean.getAppdingzhilist().get(position).getProname());
@@ -118,5 +123,6 @@ public class ChildAdapter extends BaseAdapter {
 		ImageView imageView;
 		TextView name;
 		TextView price;
+		RelativeLayout rl_item;
 	}
 }

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">穿穿</string>
-    <string name="versionCode">67</string>
+    <string name="versionCode">68</string>
     <string name="versionName">4.0.7</string>
     <!-- 界面文字配置 -->
     <string name="TextAppName">穿穿</string>

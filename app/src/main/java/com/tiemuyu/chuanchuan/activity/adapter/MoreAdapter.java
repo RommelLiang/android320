@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tiemuyu.chuanchuan.activity.ChengpinDetailActivity;
@@ -55,6 +56,7 @@ public class MoreAdapter extends BaseAdapter {
 			childHolder.imageView = (ImageView) convertView.findViewById(R.id.im_image);
 			childHolder.name = (TextView) convertView.findViewById(R.id.tv_name);
 			childHolder.price = (TextView) convertView.findViewById(R.id.tv_price);
+			childHolder.rl_item_more = (RelativeLayout) convertView.findViewById(R.id.rl_item_more);
 			imageView = childHolder.imageView;
 			convertView.setTag(childHolder);
 
@@ -81,5 +83,6 @@ public class MoreAdapter extends BaseAdapter {
 		ImageView imageView;
 		TextView name;
 		TextView price;
+		RelativeLayout rl_item_more;
 	}
 }

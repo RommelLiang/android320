@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
 
         <include
             android:id="@+id/hh"
-            layout="@layout/head" />
+            layout="@layout/head"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,17 +21,22 @@
             android:orientation="vertical">
 
             <!--<WebView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:id="@+id/webView"/>-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:id="@+id/webView"/>-->
 
             <FrameLayout
                 android:id="@+id/fra_webView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@color/colorLightWhite"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@color/colorLightWhite"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.4dp"
+                android:background="@color/black"/>
 
             <LinearLayout
                 android:id="@+id/bottom"
@@ -40,13 +45,16 @@
                 android:background="#FFFFFF"
                 android:orientation="horizontal"
                 android:weightSum="5">
+
                 <com.tiemuyu.chuanchuan.activity.view.CustomButton
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
                     android:id="@+id/main_ccbtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical" />
+                    android:orientation="vertical"/>
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -55,10 +63,12 @@
                     android:gravity="center">
 
                     <com.tiemuyu.chuanchuan.activity.view.CustomButton
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
                         android:id="@+id/main_kfbtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical" />
+                        android:orientation="vertical"/>
 
                     <TextView
                         android:id="@+id/message_total"
@@ -77,60 +87,85 @@
                         android:visibility="gone"/>
                 </RelativeLayout>
 
-                <LinearLayout
+                <FrameLayout
+
                     android:id="@+id/main_ccftxj"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginTop="-30dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_weight="1">
+                    <FrameLayout
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/rectanger"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_gravity="bottom"
+                            android:background="@color/white"
+                            android:padding="-1dp">
+                        </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/imageView_camera"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:src="@mipmap/camera" />
+                        <ImageView
+                            android:layout_marginBottom="20dp"
+                            android:id="@+id/imageView_camera"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
+                            android:src="@mipmap/camera"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="发图询价"
-                        android:textAlignment="center"
-                        android:layout_marginTop="1dp"
-                        android:textSize="10dp"
-                        android:gravity="center"
-                        android:id="@+id/textView_camera" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/textView_camera"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginTop="1dp"
+                            android:gravity="center"
+                            android:text="发图询价"
+                            android:textAlignment="center"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textSize="10dp"/>
+                    </FrameLayout>
+
+                </FrameLayout>
 
                 <com.tiemuyu.chuanchuan.activity.view.CustomButton
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:id="@+id/main_ccfx"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical"
                     android:gravity="center"
-                    android:id="@+id/main_ccfx" />
+                    android:orientation="vertical"/>
 
 
                 <com.tiemuyu.chuanchuan.activity.view.CustomButton
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:id="@+id/main_ccwd"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical"
                     android:gravity="center"
-                    android:id="@+id/main_ccwd" />
+                    android:orientation="vertical"/>
 
             </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
+
     <ImageView
         android:id="@+id/im_setting"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="50dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="50dp"
         android:background="@mipmap/setting"
         android:visibility="gone"/>
 

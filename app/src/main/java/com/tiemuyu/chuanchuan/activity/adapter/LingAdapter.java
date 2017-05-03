@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.tiemuyu.chuanchuan.activity.R;
-import com.tiemuyu.chuanchuan.activity.bean.CoinBean;
 import com.tiemuyu.chuanchuan.activity.bean.LingBean;
 
 import java.util.List;
@@ -58,7 +57,12 @@ public class LingAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         holder.tv_detail.setText(rowsBeen.get(position).getSummary());
-        holder.tv_change.setText(rowsBeen.get(position).getTradeAmounts() + "");
+        if (rowsBeen.get(position).getTradeAmounts() < 0) {
+            holder.tv_change.setText(rowsBeen.get(position).getTradeAmounts() + "");
+        } else {
+            holder.tv_change.setText("+" + rowsBeen.get(position).getTradeAmounts() + "");
+        }
+
         holder.tv_time.setText(rowsBeen.get(position).getTradeTime());
         return view;
     }

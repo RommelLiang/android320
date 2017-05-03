@@ -32,6 +32,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.tiemuyu.chuanchuan.activity.bean.GetPushBean;
 import com.tiemuyu.chuanchuan.activity.chat_tools.utils.StorageUtil;
+import com.tiemuyu.chuanchuan.activity.helper.CrashHandler;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolManager;
@@ -74,6 +75,8 @@ public class MyApplication extends MultiDexApplication {
 		SharedPreferences.Editor edit = sp.edit();
 		edit.putString(pushmessage, "");
 		edit.commit();
+		CrashHandler crashHandler = CrashHandler.getInstance();
+		crashHandler.init(this);
 		//注册推送服务，每次调用register方法都会回调该接口
 		mPushAgent.register(new IUmengRegisterCallback() {
 

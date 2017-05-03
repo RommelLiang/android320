@@ -51,6 +51,7 @@ public class MyBodyManngerActivity extends BaseActivityG implements PullToRefres
 		pull_refresh_grid = (PullToRefreshListView) findViewById(R.id.pull_refresh_grid);
 		mRefreshableView = pull_refresh_grid.getRefreshableView();
 		initIndicator(pull_refresh_grid);
+		mInstance.show();
 		MyApplication.poolManager.addAsyncTask(
 				new ThreadPoolTaskHttp(this,
 						TAG_GET_BODY,
@@ -85,7 +86,6 @@ public class MyBodyManngerActivity extends BaseActivityG implements PullToRefres
 							"获取旧版身体数据",
 							false
 					));
-
 			mBodysBean = GsonUtils.fromData(callBackMsg, BodysBean.class);
 		} else if (resultTag.equals(TAG_UPDATA_BODY)) {
 			pull_refresh_grid.onRefreshComplete();
@@ -139,6 +139,7 @@ public class MyBodyManngerActivity extends BaseActivityG implements PullToRefres
 			Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
 			refreshBody();
 		}
+		mInstance.dismiss();
 	}
 
 	@Override

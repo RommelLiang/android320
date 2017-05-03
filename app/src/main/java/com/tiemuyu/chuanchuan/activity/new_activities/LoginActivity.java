@@ -40,6 +40,7 @@ import com.tiemuyu.chuanchuan.activity.util.LogHelper;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
+import com.tiemuyu.chuanchuan.activity.util.SetNotificationBarColer;
 import com.tiemuyu.chuanchuan.activity.util.StringUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp.HttpCallBack;
@@ -161,8 +162,9 @@ public class LoginActivity extends BaseActivityG implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.login_layout);
-
+        setContentView(R.layout.login_layout);
+        SetNotificationBarColer.init(this);
+        SetNotificationBarColer.setTranslucent();
         bt_login = (Button) findViewById(R.id.login1);
 
         bt_back = (ImageView) findViewById(R.id.return_button);

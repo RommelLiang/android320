@@ -35,6 +35,7 @@ import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.util.MyCountTimer;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
+import com.tiemuyu.chuanchuan.activity.util.SetNotificationBarColer;
 import com.tiemuyu.chuanchuan.activity.util.StringUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
@@ -145,8 +146,9 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 		super.onCreate(savedInstanceState);
 //        this.setContentView(R.layout.register_layout);
 
-		this.setContentView(R.layout.register_layout);
-
+		setContentView(R.layout.register_layout);
+		SetNotificationBarColer.init(this);
+		SetNotificationBarColer.setTranslucent();
 
 		bt_next_one = (Button) findViewById(R.id.login1);
 		et_account = (EditText) findViewById(R.id.login_name);

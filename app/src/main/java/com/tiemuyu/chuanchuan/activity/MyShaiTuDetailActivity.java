@@ -152,7 +152,7 @@ public class MyShaiTuDetailActivity extends AppCompatActivity {
             Picasso
                     .with(MyShaiTuDetailActivity.this)
                     .load(items.get(position))
-                    .resize(width, width)
+                    .fit()
                     .centerInside()////
                     .into(childHolder.imageView);//
             return convertView;

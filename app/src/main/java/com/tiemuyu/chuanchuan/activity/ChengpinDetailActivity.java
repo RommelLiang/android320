@@ -74,6 +74,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ChengpinDetailActivity extends BaseActivityG implements NetResponses {
+	//成品详情
 	public String tag = "MESSAGE";
 	private Intent mIntent;
 	private int productid;
@@ -644,7 +645,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 				SHARE_MEDIA.SMS,
 				SHARE_MEDIA.MORE)
 				.withTitle(title)
-				.withText("穿穿，一座由你做主的时装定制工厂")
+				.withText("有人在穿穿定制出了这件衣服，来看看对比图和用户的话吧！")
 				.withTargetUrl(url)
 				.withMedia(new UMImage(getApplicationContext(), img_url))
 				.setCallback(umShareListener)

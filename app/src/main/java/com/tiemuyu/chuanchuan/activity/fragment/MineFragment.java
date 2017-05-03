@@ -147,6 +147,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     public static final String GET_WALLET = "GET_WALLET";
     private boolean mIsVersion;
+    private ImageView im_background;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -212,6 +213,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         tv_ye = (TextView) v.findViewById(R.id.textView3);// 零钱
         tv_cb = (TextView) v.findViewById(R.id.textView4);// 穿币
 
+        im_background = (ImageView) v.findViewById(R.id.im_background);
 
         mainActivity = (MainActivity) getActivity();
 
@@ -628,11 +630,25 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
         if (!StringUtil.isNull(user.getUserImg()))
         {
-
-
             ImageLoader.getInstance().displayImage(user.getUserImg(), iv_head);
+            /*Log.e("setView: ", user.getUserImg());
+            Target target = new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    im_background.setImageBitmap(bitmap);
+                }
 
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+                    im_background.setImageDrawable(errorDrawable);
+                }
 
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            };
+            Picasso.with(getActivity()).load(user.getUserImg()).into(target);*/
         }
         else
             iv_head.setImageResource(R.drawable.circle_logo);

@@ -30,7 +30,7 @@
 
                 <!--android:background="@color/white"-->
                 <FrameLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="200dp">
 
                     <ImageView
@@ -133,7 +133,7 @@
 
                 <!--android:background="@color/white"-->
                 <FrameLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="200dp">
 
                     <ImageView

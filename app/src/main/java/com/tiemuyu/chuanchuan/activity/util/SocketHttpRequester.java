@@ -68,7 +68,7 @@ public class SocketHttpRequester {
 			fileExplain.append("\r\n");
 			fileExplain.append("--");
 			fileExplain.append(BOUNDARY).append("\r\n");
-			fileExplain.append("Content-Disposition: form-data;name=\"" + "image" + i + "jpg"
+			fileExplain.append("Content-Disposition: form-data;name=\"" + "android_image" + i + "jpg"
 					+ "\";filename=\"" + filename + "\"\r\n");
 			fileExplain.append("Content-Type: " + contentType + "\r\n\r\n");
 			start = System.currentTimeMillis();
@@ -123,9 +123,9 @@ public class SocketHttpRequester {
 			BitmapFactory.decodeStream(fis, null, o);
 			fis.close();
 			int scale = 1;
-			if (o.outHeight > 1024 || o.outWidth > 1024) {
+			if (o.outHeight > 800 || o.outWidth > 800) {
 				//scale = (int) Math.pow(2, Math.round(Math.log(200 / (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
-				scale = Math.max(o.outHeight, o.outWidth)/1024;
+				scale = Math.max(o.outHeight, o.outWidth)/800;
 				Log.e("decodeFile: ", scale+"");
 			}
 			BitmapFactory.Options o2 = new BitmapFactory.Options();

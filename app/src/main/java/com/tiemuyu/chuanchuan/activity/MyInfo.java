@@ -119,7 +119,7 @@ public class MyInfo extends BaseActivityG {
         if (user.getProvince() != null && !user.getProvince().equals("")) {
             countryid.setText(user.getProvince() + " " + user.getCity() + "" + user.getDistrict());
         }
-        findViewById(R.id.MyInfoGoBack).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.im_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

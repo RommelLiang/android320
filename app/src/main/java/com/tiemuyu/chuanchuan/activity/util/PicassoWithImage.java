@@ -48,7 +48,6 @@ public class PicassoWithImage {
 								.noPlaceholder()
 								.into(mImage);
 					}
-
 					@Override
 					public void onError() {
 

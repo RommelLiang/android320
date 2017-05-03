@@ -49,6 +49,7 @@ import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.DataSharedPress;
 import com.tiemuyu.chuanchuan.activity.util.GlideImageLoader;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
+import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
@@ -71,6 +72,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DingzhiDetailsActivity extends BaseActivityG implements NetResponses {
+	//定制详情
 	private int one;
 	private int dx;// 动画图片偏移量
 	private int x = 0;
@@ -424,7 +426,8 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 				@Override
 				public void onClick(View v) {
 					title = clothesDetail.getData().getProduct().getProductName();
-					img_url = clothesDetail.getData().getProduct().getMainImage();
+					Log.e( "onClick: ",images.get(0) );
+					img_url = images.get(0);
 					url = "http://ios.myappcc.com/cc/Customize/BuyCustomize?id=" + clothesDetail.getData().getProduct().getId() + "&type=2";
 					share();
 				}
@@ -521,8 +524,8 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 				SHARE_MEDIA.WEIXIN_FAVORITE,
 				SHARE_MEDIA.SMS,
 				SHARE_MEDIA.MORE)
-				.withTitle(title)
-				.withText("穿穿，一座由你做主的时装定制工厂")
+				.withTitle(JudgmentLegal.removeYear(title))
+				.withText("有人在穿穿发布了这张图，想为自己定制一件。来看看报价明细吧！")
 				.withTargetUrl(url)
 				.withMedia(new UMImage(getApplicationContext(), img_url))
 				.setCallback(umShareListener)

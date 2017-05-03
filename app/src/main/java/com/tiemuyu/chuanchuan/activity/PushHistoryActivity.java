@@ -66,6 +66,7 @@ public class PushHistoryActivity extends BaseActivityG implements SelectInterFac
 		ll_change = (LinearLayout) findViewById(R.id.ll_change);
 		btn_delete = (Button) findViewById(R.id.btn_delete);
 		btn_select_all = (Button) findViewById(R.id.btn_select_all);
+		mInstance.show();
 		getHistory();
 		Log.e("onCreate: ",  addTime);
 		findViewById(R.id.im_back).setOnClickListener(new View.OnClickListener() {
@@ -83,6 +84,7 @@ public class PushHistoryActivity extends BaseActivityG implements SelectInterFac
 					@Override
 					public void onResponse(String mS) {
 						Log.e("onResponse", "onResponse: " + mS);
+						mInstance.dismiss();
 						setView(mS);
 					}
 				}, new Response.ErrorListener() {
@@ -90,6 +92,7 @@ public class PushHistoryActivity extends BaseActivityG implements SelectInterFac
 			public void onErrorResponse(VolleyError mVolleyError) {
 				Log.e("onErrorResponse: ", mVolleyError.getLocalizedMessage());
 				ToastHelper.show(PushHistoryActivity.this,"你没有任何历史记录");
+				mInstance.dismiss();
 			}
 		});
 		RequestQueue mQueue = Volley.newRequestQueue(this);

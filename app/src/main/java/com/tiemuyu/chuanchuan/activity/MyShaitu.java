@@ -27,6 +27,7 @@ import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.NewShaituBean;
 import com.tiemuyu.chuanchuan.activity.bean.ShaituWaterBean;
@@ -73,6 +74,7 @@ public class MyShaitu extends BaseActivityG {
     //sl: 新的晒图bean
     NewShaituBean newShaituBean;
     ProgressDialog pd;
+    private ImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -350,10 +352,11 @@ public class MyShaitu extends BaseActivityG {
 
                 }
             });
+            mImageView = holder.main_pic;
             imageLoader.displayImage(newShaituBean.getData().getUsers().get(0).getUserImg(), holder.shaitu_usr_image, options, animateFirstListener);
             Picasso.with(MyShaitu.this)
                     .load(newShaituBean.getData().getPagedata().getRows().get(position).getImage1())
-                    .fit()
+                    .transform(transformation)
                     .into(holder.main_pic);
 
             //imageLoader.displayImage(newShaituBean.getData().getPagedata().getRows().get(position).getImage1(), holder.main_pic, options, animateFirstListener);
@@ -477,4 +480,48 @@ public class MyShaitu extends BaseActivityG {
         System.out.println("!!!!!!!!!!!!!!request succeed! but need relogin!!!!!!!!!!!!!!!!!");
     }/** 请求成功,但要重新登录 */
     /***************************************************************/
+    Transformation transformation = new Transformation() {
+
+        @Override
+        public Bitmap transform(Bitmap source) {
+
+            int mTargetWidth = mImageView.getWidth();
+            int mTargetHeight = mImageView.getHeight();
+            if (source.getWidth() == 0) {
+                return source;
+            }
+            if (source.getWidth() < source.getHeight()) {
+                double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
+                int targetHeight = (int) (mTargetWidth * aspectRatio);
+                if (targetHeight != 0 && mTargetWidth != 0) {
+                    Bitmap result = Bitmap.createScaledBitmap(source, mTargetWidth, targetHeight, false);
+                    if (result != source) {
+                        // Same bitmap is returned if sizes are the same
+                        source.recycle();
+                    }
+                    return result;
+                } else {
+                    return source;
+                }
+            } else {
+                double aspectRatio = (double) source.getWidth() / (double) source.getHeight();
+                int targetWidth = (int) (mTargetHeight * aspectRatio);
+                if (targetWidth != 0 && targetWidth != 0) {
+                    Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, mTargetHeight, false);
+                    if (result != source) {
+                        // Same bitmap is returned if sizes are the same
+                        source.recycle();
+                    }
+                    return result;
+                } else {
+                    return source;
+                }
+            }
+        }
+
+        @Override
+        public String key() {
+            return "transformation" + " desiredWidth";
+        }
+    };
 }

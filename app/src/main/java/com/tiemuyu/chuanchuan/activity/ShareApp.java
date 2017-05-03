@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,15 +31,15 @@ public class ShareApp extends BaseActivityG {
 
     @ViewInject(R.id.shareapp_share)
     private Button shareapp_share;// 登录
-    private LinearLayout goback;
+    private ImageView goback;
     private User user;
     private TextView cc_coin_txt,cc_coin_val;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.activity_shareapp);
-        goback = (LinearLayout) findViewById(R.id.goBack);
+        setContentView(R.layout.activity_shareapp);
+        goback = (ImageView) findViewById(R.id.im_back);
         goback.setOnClickListener(this);
 
         // 添加Activity到堆栈
@@ -118,7 +118,7 @@ public class ShareApp extends BaseActivityG {
                 System.out.println("#####调用分享按钮");
                 share();
                 break;
-            case R.id.goBack:
+            case R.id.im_back:
                 finish();
                 break;
         }

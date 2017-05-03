@@ -41,16 +41,20 @@
             android:layout_marginRight="20dp"
             android:background="@drawable/nav_share"/>
     </RelativeLayout>
-    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
-        android:id="@+id/layout_swipe_refresh"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
+    <com.handmark.pulltorefresh.library.PullToRefreshGridView
+        android:id                             = "@+id/pull_refresh_grid"
+        android:layout_width                   = "match_parent"
+        android:layout_height                  = "match_parent"
+        android:gravity                        = "center_horizontal"
+        android:horizontalSpacing              = "10dp"
+        android:stretchMode                    = "columnWidth"
+        android:verticalSpacing                = "1dp"
+        ptr:ptrAnimationStyle                  = "flip"
+        ptr:ptrHeaderBackground                = "@color/white"
+        ptr:ptrHeaderSubTextColor              = "@color/ColorNavBackground"
+        ptr:ptrHeaderTextColor                 = "@color/ColorNavBackground"
+        ptr:ptrListViewExtrasEnabled           = "false"
+        ptr:ptrMode                            = "both"
+        ptr:ptrRefreshableViewBackground       = "@color/white"
+        ptr:ptrScrollingWhileRefreshingEnabled = "true" />
 </LinearLayout>

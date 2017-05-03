@@ -13,10 +13,12 @@ import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.db.DBTools;
 import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
+import com.tiemuyu.chuanchuan.activity.proxy.LoadingProxy;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
 import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
+import com.tiemuyu.chuanchuan.activity.util.SetNotificationBarColer;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 
 import org.xutils.http.RequestParams;
@@ -26,21 +28,21 @@ import org.xutils.http.RequestParams;
  */
 
 public class BaseActivityG extends FragmentActivity implements
-        View.OnClickListener, ThreadPoolTaskHttp.HttpCallBack {
+		View.OnClickListener, ThreadPoolTaskHttp.HttpCallBack {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-        super.onCreate(savedInstanceState);
+	public LoadingProxy mInstance;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        setContentView(R.layout.base_layout);
-        // 添加Activity到堆栈
-        AppManager.getAppManager().addActivity(this);
-        SPUtils.init(this);
-//        Constant.VERSION=Version.getAppVersionName(this);
-//        _global=GlobalVariable.getInstance();
-//        initProcess();
-    }
+		// 添加Activity到堆栈
+		AppManager.getAppManager().addActivity(this);
+		SPUtils.init(this);
+		mInstance = LoadingProxy.getInstance(this);
+	}
 //
 ///**
 // * 加载的流程
@@ -79,25 +81,25 @@ public class BaseActivityG extends FragmentActivity implements
 //protected void initListener() {
 //        }
 
-    @Override
-    public void onClick(View v) {
+	@Override
+	public void onClick(View v) {
 
-    }
+	}
 
 
-    @Override
-    protected void onStop() {
-        // TODO Auto-generated method stub
-        super.onStop();
-    }
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+	}
 
-    @Override
-    protected void onDestroy() {
-        // TODO Auto-generated method stub
-        super.onDestroy();
-        // 结束Activity&从堆栈中移除
-        AppManager.getAppManager().finishActivity(this);
-    }
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		// 结束Activity&从堆栈中移除
+		AppManager.getAppManager().finishActivity(this);
+	}
 
 
 //@Override
@@ -122,35 +124,36 @@ public class BaseActivityG extends FragmentActivity implements
 //
 //        }
 
-    /**
-     * 关闭当前activity
-     */
-    public void closeActivity() {
-        AppManager.getAppManager().finishActivity(this);
-        overridePendingTransition(R.anim.out_from_left, R.anim.out_from_right);
-    }
+	/**
+	 * 关闭当前activity
+	 */
+
+	public void closeActivity() {
+		AppManager.getAppManager().finishActivity(this);
+		overridePendingTransition(R.anim.out_from_left, R.anim.out_from_right);
+	}
 
 
-    /**
-     * @param @param tag 设定文件
-     * @return void 返回类型
-     * @throws
-     * @Title: getPasskeyMethod
-     * @Description: TODO 获取passkey
-     */
-    protected void getPasskeyMeth(String tag) {
-        System.out.println("-----passkey请求的地址:" + UrlManager.GET_PASSKEY());
-        MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
-                tag, Constant.REQUEST_GET, new RequestParams(UrlManager
-                .GET_PASSKEY()), this, "获取passkey", false));
+	/**
+	 * @param @param tag 设定文件
+	 * @return void 返回类型
+	 * @throws
+	 * @Title: getPasskeyMethod
+	 * @Description: TODO 获取passkey
+	 */
+	protected void getPasskeyMeth(String tag) {
+		System.out.println("-----passkey请求的地址:" + UrlManager.GET_PASSKEY());
+		MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
+				tag, Constant.REQUEST_GET, new RequestParams(UrlManager
+				.GET_PASSKEY()), this, "获取passkey", false));
 
-    }
+	}
 
 
-    /**
-     * 数据返回成功，并且code=1时调用
-     */
-    protected void successMethod(String msg, String resultTag) {
+	/**
+	 * 数据返回成功，并且code=1时调用
+	 */
+	protected void successMethod(String msg, String resultTag) {
 
 //        if (resultTag.equals(TAG_APPACCESS)) {
 //        DataContoler.sendAppaccSucc(BaseActivity.this);
@@ -165,121 +168,128 @@ public class BaseActivityG extends FragmentActivity implements
 //        MyApplication.exs.clear();
 //        }
 
-    }
+	}
 
 
-    protected void reLogin(String resultTag) {
-        //LogHelper.d("-----重新登录");
-        System.out.println("baseactivity里面-----重新登录");
-        if (DBTools.getUser() != null) {
-            System.out.println("#####DBTools.getUser() != null");
+	protected void reLogin(String resultTag) {
+		//LogHelper.d("-----重新登录");
+		System.out.println("baseactivity里面-----重新登录");
+		if (DBTools.getUser() != null) {
+			System.out.println("#####DBTools.getUser() != null");
 
-            Intent intent = new Intent();
+			Intent intent = new Intent();
 //            intent.setAction(Constant.LOGINMSG);
-            intent.setAction(Constant.AULOGIN_ACTION);
-            sendBroadcast(intent);
-        } else {
-            SettingActivity.removeCookie(BaseActivityG.this);
-            DBTools.removeDb(BaseActivityG.this);
-            MineFragment.user = null;
-            PreferenceUtils.setPrefBoolean(this, Constant.CC_IFLOGIN, false);
+			intent.setAction(Constant.AULOGIN_ACTION);
+			sendBroadcast(intent);
+		} else {
+			SettingActivity.removeCookie(BaseActivityG.this);
+			DBTools.removeDb(BaseActivityG.this);
+			MineFragment.user = null;
+			PreferenceUtils.setPrefBoolean(this, Constant.CC_IFLOGIN, false);
 
-            Intent intent = new Intent();
-            intent.setAction(Constant.GBNAMERESP);
-            sendBroadcast(intent);
-            ClassJumpTool.startToNextActivity(this, LoginActivity.class);
-        }
+			Intent intent = new Intent();
+			intent.setAction(Constant.GBNAMERESP);
+			sendBroadcast(intent);
+			ClassJumpTool.startToNextActivity(this, LoginActivity.class);
+		}
 
-    }
+	}
 
-    @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // addSession();
-        if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false)) {
-            if (MineFragment.user == null) {
-                System.out.println("----baseact-onResume  重置user信息");
-                MineFragment.user = DBTools.getUser();
-                UrlManager.BASEURL = PreferenceUtils.getPrefString(this, Constant.BASE_URL_NAME,
-                        UrlManager.DEFAULT_BASEURL);
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		// addSession();
+		String localClassName = getLocalClassName();
+		if (!localClassName.equals("SplashActivity") && !localClassName.equals("GuideActivity") && !localClassName.equals("HuoDongActivity")) {
+			SetNotificationBarColer.init(this, getResources().getColor(R.color.ColorLaunchBackground));
+			SetNotificationBarColer.setColor();
+		}
+		if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false)) {
+			if (MineFragment.user == null) {
+				System.out.println("----baseact-onResume  重置user信息");
+				MineFragment.user = DBTools.getUser();
+				UrlManager.BASEURL = PreferenceUtils.getPrefString(this, Constant.BASE_URL_NAME,
+						UrlManager.DEFAULT_BASEURL);
 
-                Intent intent = new Intent();
-                intent.setAction(Constant.RESETDATA);
-                sendBroadcast(intent);
-            }
-        }
-    }
+				Intent intent = new Intent();
+				intent.setAction(Constant.RESETDATA);
+				sendBroadcast(intent);
+			}
+		}
+	}
 
-    @Override
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
 
-    }
-
-
-    /*****************************activity母版 ********************************************/
+	}
 
 
-    /**********************************
-     * 新的请求回调
-     ********************************************/
+	/*****************************activity母版 ********************************************/
 
-    @Override
-    public void failCallBack(Throwable arg0, String resultTag,
-                             boolean isShowDiolog) {
-        // TODO Auto-generated method stub
+
+	/**********************************
+	 * 新的请求回调
+	 ********************************************/
+
+	@Override
+	public void failCallBack(Throwable arg0, String resultTag,
+	                         boolean isShowDiolog) {
+		// TODO Auto-generated method stub
 //        dissMissDialog(isShowDiolog);
 //        if (resultTag.equals(TAG_UOLOAD)) {
 //            ToastHelper.show(this, "上传失败");
 //            dissMissDialog(true);
 //        }
-    }
+		mInstance.dismiss();
+	}
 
-    @Override
-    public void startCallBack(String resultTag, final boolean isShowDiolog,
-                              final String showTitle) {
-        // TODO Auto-generated method stub
-        this.runOnUiThread(new Runnable() {
+	@Override
+	public void startCallBack(String resultTag, final boolean isShowDiolog,
+	                          final String showTitle) {
+		// TODO Auto-generated method stub
+		this.runOnUiThread(new Runnable() {
 
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
 //                startDialog(isShowDiolog, showTitle);
-            }
-        });
+			}
+		});
 
-    }
+	}
 
-    @Override
-    public void cancelCallBack(String resultTag) {
-        // TODO Auto-generated method stub
-    }
+	@Override
+	public void cancelCallBack(String resultTag) {
+		// TODO Auto-generated method stub
+	}
 
-    @Override
-    public void reLoginCallBack(String resultTag, boolean isShowDiolog) {
-        // TODO Auto-generated method stub
-        System.out.println("baseactivity里面---reLoginCallBack-");
-        reLogin(resultTag);
-    }
+	@Override
+	public void reLoginCallBack(String resultTag, boolean isShowDiolog) {
+		// TODO Auto-generated method stub
+		System.out.println("baseactivity里面---reLoginCallBack-");
+		reLogin(resultTag);
+	}
 
-    @Override
-    public void successCallBack(String resultTag, BaseBean baseBean,
-                                String callBackMsg, boolean isShowDiolog) {
-        // TODO Auto-generated method stub
-        successMethod(callBackMsg, resultTag);
-    }
+	@Override
+	public void successCallBack(String resultTag, BaseBean baseBean,
+	                            String callBackMsg, boolean isShowDiolog) {
+		// TODO Auto-generated method stub
+		successMethod(callBackMsg, resultTag);
+	}
 
-    @Override
-    public void failShowCallBack(String resultTag, BaseBean baseBean,
-                                 String callBackMsg, boolean isShowDiolog) {
-        // TODO Auto-generated method stub
-        // dissMissDialog(isShowDiolog);
+	@Override
+	public void failShowCallBack(String resultTag, BaseBean baseBean,
+	                             String callBackMsg, boolean isShowDiolog) {
+		// TODO Auto-generated method stub
+		// dissMissDialog(isShowDiolog);
+		mInstance.dismiss();
 
-    }
+	}
 
-    /***************************************************************************/
+	/***************************************************************************/
 
 
 }

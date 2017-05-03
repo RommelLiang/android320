@@ -1,31 +1,25 @@
 package com.tiemuyu.chuanchuan.activity;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.tiemuyu.chuanchuan.activity.adapter.IDataChanger;
 import com.tiemuyu.chuanchuan.activity.adapter.OrderAdapter;
 import com.tiemuyu.chuanchuan.activity.adapter.ViewPagerAdapter;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.OrderBean;
-import com.tiemuyu.chuanchuan.activity.bean.User;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
@@ -69,6 +63,7 @@ public class UserOrderActivity extends BaseActivityG implements IDataChanger{
         setContentView(R.layout.activity_user_order);
         intiView();
         getOrder(0);
+        mInstance.show();
         findViewById(R.id.im_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -227,6 +222,7 @@ public class UserOrderActivity extends BaseActivityG implements IDataChanger{
     public void successCallBack(String resultTag, BaseBean baseBean, String callBackMsg, boolean isShowDiolog) {
         super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
         LogUtil.LogRommel(callBackMsg);
+        mInstance.dismiss();
         if (resultTag.equals(TAG_GET_ORDER)) {
             orderBeanAll = GsonUtils.fromData(callBackMsg, OrderBean.class);
             rowsAll = orderBeanAll.getData().getRows();

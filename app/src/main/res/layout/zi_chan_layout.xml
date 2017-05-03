@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:ptr="http://schemas.android.com/apk/res-auto">
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id                             = "@+id/pull_refresh_grid"
         android:layout_width                   = "match_parent"
         android:layout_height                  = "match_parent"
         android:gravity                        = "center_horizontal"
         android:horizontalSpacing              = "10dp"
         android:stretchMode                    = "columnWidth"
-        android:verticalSpacing                = "1dp"/>
+        android:verticalSpacing                = "1dp"
+        ptr:ptrAnimationStyle                  = "flip"
+        ptr:ptrHeaderBackground                = "@color/white"
+        ptr:ptrHeaderSubTextColor              = "@color/ColorNavBackground"
+        ptr:ptrHeaderTextColor                 = "@color/ColorNavBackground"
+        ptr:ptrListViewExtrasEnabled           = "false"
+        ptr:ptrMode                            = "both"
+        ptr:ptrRefreshableViewBackground       = "@color/white"
+        ptr:ptrScrollingWhileRefreshingEnabled = "true" />
 
 </RelativeLayout>

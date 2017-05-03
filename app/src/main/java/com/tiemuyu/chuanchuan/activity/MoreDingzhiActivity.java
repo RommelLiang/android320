@@ -2,15 +2,17 @@ package com.tiemuyu.chuanchuan.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tiemuyu.chuanchuan.activity.adapter.MoreRecyclerViewAdapter;
+import com.handmark.pulltorefresh.library.ILoadingLayout;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshGridView;
+import com.tiemuyu.chuanchuan.activity.adapter.MoreAdapter;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.MoreBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
@@ -26,7 +28,7 @@ import com.umeng.socialize.media.UMImage;
 
 import org.xutils.http.RequestParams;
 
-import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+
 
 
 public class MoreDingzhiActivity extends BaseActivityG {
@@ -41,18 +43,16 @@ public class MoreDingzhiActivity extends BaseActivityG {
 	private ImageView im_share;
 	private String title, url, img_url;
 	private LoadingProxy mInstance;
-	private RecyclerView recycler_view;
-	private MoreRecyclerViewAdapter mMoreRecyclerViewAdapter;
-	private BGARefreshLayout mSwipeRefreshLayout;
-
+	private MoreAdapter mMoreAdapter;
+	private PullToRefreshGridView pull_refresh_grid;
+	private GridView mRefreshableView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_more_dingzhi);
 		mIntent = getIntent();
 		mId = mIntent.getIntExtra("id", 0);
-		recycler_view = (RecyclerView) findViewById(R.id.recycler_view);
-		mSwipeRefreshLayout = (BGARefreshLayout)findViewById(R.id.layout_swipe_refresh);
+		pull_refresh_grid = (PullToRefreshGridView) findViewById(R.id.pull_refresh_grid);
 		tv_title = (TextView) findViewById(R.id.tv_title);
 		im_share = (ImageView) findViewById(R.id.im_share);
 		mInstance = LoadingProxy.getInstance(MoreDingzhiActivity.this);
@@ -66,7 +66,6 @@ public class MoreDingzhiActivity extends BaseActivityG {
 				finish();
 			}
 		});
-
 	}
 
 	private void getMore() {
@@ -102,22 +101,38 @@ public class MoreDingzhiActivity extends BaseActivityG {
 						share();
 					}
 				});
+				pull_refresh_grid.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<GridView>() {
+					@Override
+					public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
+						page =1;
+						getMore();
+					}
+
+					@Override
+					public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView) {
+						page++;
+						getMore();
+					}
+				});
 			} else {
+				pull_refresh_grid.onRefreshComplete();
 				if (page == 1) {
 					mMoreBean = GsonUtils.fromData(callBackMsg, MoreBean.class);
+
 				} else {
 					mMoreBean.getData().get(0).getAppdingzhilist().addAll(
 							GsonUtils.fromData(callBackMsg, MoreBean.class).getData().get(0).getAppdingzhilist()
 					);
 				}
-				mMoreRecyclerViewAdapter.notifyDataSetChanged();
+				mMoreAdapter.notifyDataSetChanged();
 			}
-			mMoreRecyclerViewAdapter = new MoreRecyclerViewAdapter(MoreDingzhiActivity.this, mMoreBean);
-			recycler_view.setLayoutManager(new GridLayoutManager(MoreDingzhiActivity.this,2));
-			recycler_view.setAdapter(mMoreRecyclerViewAdapter);
+			mMoreAdapter = new MoreAdapter(MoreDingzhiActivity.this, mMoreBean);
+			mRefreshableView = pull_refresh_grid.getRefreshableView();
+			mRefreshableView.setNumColumns(2);
+			//mMoreAdapter.setLayoutManager(new GridLayoutManager(MoreDingzhiActivity.this,2));
+			mRefreshableView.setAdapter(mMoreAdapter);
 			mInstance.dismiss();
-			ImageView imageView = new ImageView(MoreDingzhiActivity.this);
-			imageView.setBackground(getResources().getDrawable(R.drawable.home_friend));
+			initIndicator(pull_refresh_grid);
 
 		}
 	}
@@ -175,5 +190,17 @@ public class MoreDingzhiActivity extends BaseActivityG {
 		}
 
 	};
+	//为瀑布流下拉定义外观
+	private void initIndicator(PullToRefreshGridView mp) {
+		ILoadingLayout startLabels = mp.getLoadingLayoutProxy(true, false);
+		startLabels.setPullLabel("下拉刷新...");// 刚下拉时，显示的提示
+		startLabels.setRefreshingLabel("刷新中...");// 刷新时
+		startLabels.setReleaseLabel("松开即可刷新...");// 下来达到一定距离时，显示的提示
 
+		ILoadingLayout endLabels = mp.getLoadingLayoutProxy(false, true);
+		endLabels.setPullLabel("下拉刷新...");// 刚下拉时，显示的提示
+		endLabels.setRefreshingLabel("正在刷新...");// 刷新时
+		endLabels.setReleaseLabel("松开即可刷新...");// 下来达到一定距离时，显示的提示
+
+	}
 }

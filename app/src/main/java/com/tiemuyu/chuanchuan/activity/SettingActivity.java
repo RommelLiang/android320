@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.CompoundButton;
@@ -31,6 +30,7 @@ import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.ConnectionUtil;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
+import com.tiemuyu.chuanchuan.activity.util.SetNotificationBarColer;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.umeng.analytics.MobclickAgent;
 
@@ -57,9 +57,9 @@ public class SettingActivity extends Activity implements View.OnClickListener, T
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//设置状态栏为透明
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 		setContentView(R.layout.activity_setting);
-
+		SetNotificationBarColer.init(this, getResources().getColor(R.color.ColorLaunchBackground));
+		SetNotificationBarColer.setColor();
 
 //        SharedPreferences sp = getSharedPreferences("UserInfo", Activity.MODE_PRIVATE);
 //        String userName = sp.getString("logincache", "");

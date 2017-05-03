@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -100,7 +101,8 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 	private MineFragment mineFragment;
 	private FragmentManager manager = getFragmentManager();
 	private FragmentTransaction transaction;
-	private LinearLayout search, bottom, button_fatuxunjia;
+	private LinearLayout search, bottom;
+	private FrameLayout button_fatuxunjia;
 	private CustomButton button_chuanchuan, button_kefu, button_faxian, button_wode;
 	private CustomButton[] buttons = new CustomButton[4];
 	private EditText search_btn;
@@ -322,7 +324,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		top_right_linearlayout = (LinearLayout) findViewById(R.id.message_top_right);
 		button_chuanchuan = (CustomButton) findViewById(R.id.main_ccbtn);
 		button_kefu = (CustomButton) findViewById(R.id.main_kfbtn);
-		button_fatuxunjia = (LinearLayout) findViewById(R.id.main_ccftxj);
+		button_fatuxunjia = (FrameLayout) findViewById(R.id.main_ccftxj);
 		button_faxian = (CustomButton) findViewById(R.id.main_ccfx);
 		button_wode = (CustomButton) findViewById(R.id.main_ccwd);
 		im_setting = (ImageView) findViewById(R.id.im_setting);

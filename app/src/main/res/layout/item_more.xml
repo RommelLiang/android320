@@ -14,11 +14,15 @@
         android:background="@color/white"
         android:orientation="vertical">
     <RelativeLayout
-        android:padding="0.4dip"
-        android:background="@color/colorgray"
+        android:padding="1dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"
+        android:background="@drawable/image"
+        android:id="@+id/rl_item_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageView
+
             android:scaleType="centerCrop"
             android:id="@+id/im_image"
             android:layout_width="180sp"

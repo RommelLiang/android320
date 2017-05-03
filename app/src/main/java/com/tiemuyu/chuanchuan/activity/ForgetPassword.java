@@ -11,29 +11,24 @@ import android.widget.Toast;
 
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.GetPassKey;
-import com.tiemuyu.chuanchuan.activity.bean.PureBean;
-import com.tiemuyu.chuanchuan.activity.bean.TokenResultBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.db.DBTools;
-import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.new_activities.LoginActivity;
-import com.tiemuyu.chuanchuan.activity.new_activities.RegisterActivity;
 import com.tiemuyu.chuanchuan.activity.util.AESHelper;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
-import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.DataContoler;
 import com.tiemuyu.chuanchuan.activity.util.JsonTools;
 import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.util.MyCountTimer;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
+import com.tiemuyu.chuanchuan.activity.util.SetNotificationBarColer;
 import com.tiemuyu.chuanchuan.activity.util.StringUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 import com.tiemuyu.chuanchuan.activity.util.Utility;
-import com.tiemuyu.chuanchuan.activity.view.ClearEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,7 +124,8 @@ public class ForgetPassword extends BaseActivityG {
 //        this.setContentView(R.layout.register_layout);
 
         this.setContentView(R.layout.forgetpassword_layout);
-
+        SetNotificationBarColer.init(this);
+        SetNotificationBarColer.setTranslucent();
 
         // 添加Activity到堆栈
         AppManager.getAppManager().addActivity(this);

@@ -2,49 +2,49 @@
 
 package com.tiemuyu.chuanchuan.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-//import net.tsz.afinal.FinalBitmap;
-import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.MediaStore;
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.text.TextUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.alipay.sdk.app.PayTask;
 import com.tiemuyu.chuanchuan.activity.InterfacePac.JsInterface;
 import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
 import com.tiemuyu.chuanchuan.activity.util.DataContoler;
 import com.tiemuyu.chuanchuan.activity.util.NetworkUtil;
+import com.tiemuyu.chuanchuan.activity.util.ServerUtils;
 import com.tiemuyu.chuanchuan.activity.view.ImagePreviewActivity;
 import com.tiemuyu.chuanchuan.activity.view.URL;
-import com.tiemuyu.chuanchuan.activity.util.ServerUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+//import net.tsz.afinal.FinalBitmap;
 
 
 /**
@@ -76,7 +76,6 @@ public class MyOrder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //设置状态栏为透明
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         setContentView(R.layout.activity_present);
         goBack = (LinearLayout) findViewById(R.id.goBack);
         im_webView = (WebView) findViewById(R.id.im_webView);

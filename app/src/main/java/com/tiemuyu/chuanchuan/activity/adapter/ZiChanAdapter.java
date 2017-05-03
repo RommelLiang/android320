@@ -5,8 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tiemuyu.chuanchuan.activity.R;
@@ -59,7 +57,11 @@ public class ZiChanAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         holder.tv_detail.setText(rowsBeen.get(position).getSummary());
-        holder.tv_change.setText(rowsBeen.get(position).getTradeCoin() + "");
+        if (rowsBeen.get(position).getTradeCoin() < 0) {
+            holder.tv_change.setText(rowsBeen.get(position).getTradeCoin() + "");
+        } else {
+            holder.tv_change.setText("+" + rowsBeen.get(position).getTradeCoin() + "");
+        }
         holder.tv_time.setText(rowsBeen.get(position).getTradeTime());
         return view;
     }
