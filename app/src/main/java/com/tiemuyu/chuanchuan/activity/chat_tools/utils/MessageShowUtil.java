@@ -10,8 +10,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.netease.nimlib.sdk.msg.attachment.AudioAttachment;
+import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.tiemuyu.chuanchuan.activity.DingzhiDetailsActivity;
+import com.tiemuyu.chuanchuan.activity.ImageDetailsActivity;
 import com.tiemuyu.chuanchuan.activity.adapter.MessageAdapter;
 import com.tiemuyu.chuanchuan.activity.bean.CustomerKey;
 import com.tiemuyu.chuanchuan.activity.inter.MessageClick;
@@ -24,15 +26,16 @@ public class MessageShowUtil {
 	private Context mContext;
 	private MessageClick mMessageClick;
 	private String proid;
+	private ArrayList<String> images;
 
 	public MessageShowUtil(Context context, MessageClick mMessageClick) {
 		this.mContext = context;
 		this.mMessageClick = mMessageClick;
 	}
 
-	public void setCheckMessageShowType(IViewHolder viewHolder, int type, IMMessage imMessage, View[] views, CustomerKey mKeFuBean) {
+	public void setCheckMessageShowType(IViewHolder viewHolder, int type, final IMMessage imMessage, View[] views, CustomerKey mKeFuBean) {
 		this.viewHolder = viewHolder;
-		Log.e("type:" + type, "setCheckMessageShowType: ");
+		Log.e("type:" + type, "setCheckMessageShowType: " + imMessage.getMsgType());
 		switch (type / 10) {
 			case 1:
 				viewHolder.ly_left.setVisibility(View.GONE);
@@ -52,6 +55,27 @@ public class MessageShowUtil {
 			case 11:
 				checkShow(views[5], views[1], views[3], views[7]);
 				SaveObjectUtil.setImage(mContext, viewHolder, imMessage, 1);
+				viewHolder.message_item_image_right.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						ImageAttachment imageAttachment = (ImageAttachment) imMessage.getAttachment();
+						images = new ArrayList<>();
+						images.clear();
+						String path = imageAttachment.getPathForSave();
+						String thumbPath = imageAttachment.getThumbPath();
+						if (thumbPath == null && path != null) {
+							images.add(path);
+						} else {
+							images.add(thumbPath);
+						}
+						images.add(imageAttachment.getPathForSave());
+						Intent intent = new Intent(mContext, ImageDetailsActivity.class);
+						intent.putStringArrayListExtra("images", images);
+						intent.putExtra("position", 0);
+						intent.putExtra("type", 1);
+						mContext.startActivity(intent);
+					}
+				});
 				break;
 			case 12:
 				checkShow(views[3], views[1], views[5], views[7]);
@@ -140,9 +164,24 @@ public class MessageShowUtil {
 
 				break;
 			case 21:
-				checkShow(views[4], views[2], views[0], views[6],views[7]);
+				checkShow(views[4], views[2], views[0], views[6], views[7], views[8]);
 				SaveObjectUtil.setImage(mContext, viewHolder, imMessage, 2);
 
+				viewHolder.message_item_image_left.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						ImageAttachment imageAttachment = (ImageAttachment) imMessage.getAttachment();
+						images = new ArrayList<>();
+						images.clear();
+						images.add(imageAttachment.getThumbPath());
+						Log.e("onClick: ", images.get(0) + "");
+						Intent intent = new Intent(mContext, ImageDetailsActivity.class);
+						intent.putStringArrayListExtra("images", images);
+						intent.putExtra("position", 0);
+						intent.putExtra("type", 1);
+						mContext.startActivity(intent);
+					}
+				});
 				break;
 			case 22:
 				checkShow(views[2], views[0], views[4], views[6]);

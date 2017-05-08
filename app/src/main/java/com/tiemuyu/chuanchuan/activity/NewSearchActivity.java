@@ -1,5 +1,6 @@
 package com.tiemuyu.chuanchuan.activity;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.SearchResultBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
+import com.tiemuyu.chuanchuan.activity.helper.RecordSQLiteOpenHelper;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 
@@ -60,6 +62,8 @@ public class NewSearchActivity extends BaseActivityG implements View.OnClickList
     private String key_wd;
 
     private SearchResultBean searchResultBean; //储存搜索结果的bean
+    private String mKey;
+    private RecordSQLiteOpenHelper mRecordSQLiteOpenHelper;
 
     @Override
     public void onClick(View v) {
@@ -196,6 +200,9 @@ public class NewSearchActivity extends BaseActivityG implements View.OnClickList
         setContentView(R.layout.new_search_layout);
         btn_state = 0;
         pageNum = 1;
+        mKey = getIntent().getStringExtra("key");
+        mRecordSQLiteOpenHelper = new RecordSQLiteOpenHelper(this);
+
         btn_bk = (LinearLayout) findViewById(R.id.iv_search_bk);
         btn_bk.setOnClickListener(this);
         tv_search_btn = (TextView) findViewById(R.id.tv_search_btn);
@@ -211,6 +218,18 @@ public class NewSearchActivity extends BaseActivityG implements View.OnClickList
         renqi_sort.setOnClickListener(this);
         renqi_ord_arrow = (ImageView) findViewById(R.id.iv_renqijiantou);
         et_search = (EditText) findViewById(R.id.cet_search);
+        if (!mKey.equals("")){
+            et_search.setText(mKey);
+            try {
+                mKey = URLEncoder.encode(mKey, "utf-8");//先把get请求中的汉字转码
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            btn_state = 0;
+            key_wd = mKey;
+            ord_by = "price";
+            initData(mKey, pageNum, ord_by);
+        }
         et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -227,6 +246,11 @@ public class NewSearchActivity extends BaseActivityG implements View.OnClickList
                     key_wd = key;
                     ord_by = "price";
                     initData(key, pageNum, ord_by);
+                    if (!et_search.getText().toString().equals("")){
+                        SQLiteDatabase db = mRecordSQLiteOpenHelper.getWritableDatabase();
+                        db.execSQL("insert into records(name) values('" + et_search.getText().toString() + "')");
+                        db.close();
+                    }
                     return true;
                 }
                 return false;
@@ -253,6 +277,7 @@ public class NewSearchActivity extends BaseActivityG implements View.OnClickList
     }
 
     void initData(String key_word, int page, String order_by) {
+        mInstance.show();
         String url = UrlManager.keyWordSearch(key_word, page, order_by);
         Log.e("tag", "request url: " + url);
         MyApplication.poolManager.addAsyncTask(//史力：发现页面头部的图文请求
@@ -313,6 +338,7 @@ public class NewSearchActivity extends BaseActivityG implements View.OnClickList
         Log.e("tag", "search result callback fail!");
         Log.e("tag", arg0.toString());
         Log.e("tag", "result tag: " + resultTag);
+        mInstance.dismiss();
     }
 
     @Override
@@ -336,11 +362,12 @@ public class NewSearchActivity extends BaseActivityG implements View.OnClickList
         Log.e("tag", "search result callback succeed!");
         Log.e("tag", "callback msg: " + callBackMsg);
         SearchAction(callBackMsg, resultTag);
+        mInstance.dismiss();
     }
-
     @Override
     public void failShowCallBack(String resultTag, BaseBean baseBean, String callBackMsg, boolean isShowDiolog) {
         super.failShowCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
+        mInstance.dismiss();
     }
 
     //瀑布流所需

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.tiemuyu.chuanchuan.activity"
-          android:versionCode="68"
-          android:versionName="4.0.7">
+          android:versionCode="69"
+          android:versionName="4.0.8">
 
     <!-- 权限声明 -->
     <uses-permission android:name="android.permission.RESTART_PACKAGES\"/>
@@ -250,6 +250,14 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="chuanchuan"/>
+            </intent-filter>
         </activity>
         <activity
             android:name="share_auth.ShareActivity"
@@ -362,6 +370,8 @@
         <activity android:name=".HuoDongActivity">
         </activity>
         <activity android:name=".MoreDingzhiActivity">
+        </activity>
+        <activity android:name=".SerachActivity">
         </activity>
     </application>
 

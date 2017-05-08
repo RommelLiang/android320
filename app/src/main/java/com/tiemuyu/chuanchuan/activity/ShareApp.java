@@ -135,8 +135,8 @@ public class ShareApp extends BaseActivityG {
                         SHARE_MEDIA.WEIXIN_FAVORITE,
                         SHARE_MEDIA.SMS,
                         SHARE_MEDIA.MORE)
-                .withTitle("给你推荐一个神奇的APP")
-                .withText("可以把你爱的衣服都做给你穿")
+                .withTitle("买不到的衣服，做一件")
+                .withText("60万时尚达人的小秘密！按图片做出任何衣服，更高性价比，更合意。")
                 .withTargetUrl("http://android.myappcc.com/cc/user/FriendShare?id="+accid)
                 .withMedia(new UMImage(getApplicationContext(), "http://www.myappcc.com/main/img/index-log.png"))
                 .setCallback(umShareListener)

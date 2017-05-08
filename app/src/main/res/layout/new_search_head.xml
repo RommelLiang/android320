@@ -58,70 +58,69 @@
         android:background       = "@color/colorLightWhite"
         android:orientation      = "horizontal">
 
-        <LinearLayout
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:background="@color/colorLightWhite"
             android:gravity="center_vertical"
-            android:layout_width       = "match_parent"
-            android:layout_height      = "45dp"
-            android:layout_marginLeft  = "2dp"
-            android:orientation        = "horizontal">
-
-
-
-            <RelativeLayout
-                android:id                    = "@+id/ly_search"
-                android:layout_width          = "0dp"
-                android:layout_weight="11"
-                android:layout_height         = "33dp"
-                android:layout_marginLeft     = "15dp"
-                android:layout_marginRight    = "5dp"
-                android:background            = "@drawable/edit"
-                android:orientation           = "horizontal"
-                android:visibility            = "visible"
-                android:focusable             = "true"
-                android:focusableInTouchMode  ="true">
-
-                <ImageView
-                    android:id                      = "@+id/imageButton"
-                    android:background              = "@mipmap/search"
-                    android:layout_height           = "22dp"
-                    android:layout_width            = "22dp"
-                    android:layout_gravity          = "center_vertical"
-                    android:layout_marginLeft       = "10dp"
-                    android:layout_centerVertical   = "true"
-                    android:layout_alignParentStart = "true" />
-
-                <com.tiemuyu.chuanchuan.activity.view.ClearEditText
-                    android:paddingRight="10dp"
-                    android:id                      = "@+id/cet_search"
-                    android:layout_width            = "300dp"
-                    android:layout_height           = "match_parent"
-                    android:background              = "@null"
-                    android:imeOptions              = "actionSearch"
-                    android:inputType               = "text"
-                    android:hint                    = "搜索"
-                    android:maxLines                = "1"
-                    android:paddingLeft             = "30dp"/>
-
-            </RelativeLayout>
+            android:orientation="horizontal"
+            android:paddingRight="5dp">
             <LinearLayout
-                android:layout_width          = "0dp"
-                android:layout_weight="3"
-                android:id                      = "@+id/iv_search_bk"
-                android:layout_height           = "25dp"
-                android:layout_alignParentRight = "true"
-                android:layout_centerVertical   = "true"
-                android:gravity                 = "center" >
-
+                android:id="@+id/iv_search_bk"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center">
                 <TextView
+                    android:id="@+id/tv_search_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:id            = "@+id/tv_search_btn"
-                    android:layout_width  = "wrap_content"
-                    android:layout_height = "wrap_content"
-                    android:textSize      = "16sp"
-                    android:text          = "取消" />
+                    android:text="取消"
+                    android:textSize="16sp"/>
 
             </LinearLayout>
-        </LinearLayout>
+            <RelativeLayout
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/iv_search_bk"
+                android:id="@+id/ly_search"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/edit"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageButton"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:background="@mipmap/search"/>
+
+                <com.tiemuyu.chuanchuan.activity.view.ClearEditText
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/cet_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:hint="搜索"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="10dp"/>
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
 
     </LinearLayout>
 

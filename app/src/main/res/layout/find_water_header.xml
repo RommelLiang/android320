@@ -16,7 +16,6 @@
                 android:id="@+id/header_big_img"
                 android:scaleType="fitXY"
                 android:layout_width="match_parent"
-                android:background="@drawable/e"
                 android:layout_height="210dp" />
 
             <TextView

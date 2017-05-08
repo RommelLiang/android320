@@ -17,12 +17,12 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.tiemuyu.chuanchuan.activity.DingzhiDetailsActivity;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.ZhuantiWaterActivity;
 import com.tiemuyu.chuanchuan.activity.bean.FindSecondWaterBean;
+import com.tiemuyu.chuanchuan.activity.util.PicassoWithImage;
 
 /**
  * @项目名： 227androidpay-master
@@ -47,6 +47,7 @@ public class FindSecondWaterAdapter extends BaseAdapter {
 
     private int pos;
 
+    private PicassoWithImage mPicassoWithImage;
     private class ViewHolder {
         public TextView text_one;
         public ImageView image_one;
@@ -87,6 +88,7 @@ public class FindSecondWaterAdapter extends BaseAdapter {
                 .displayer(new RoundedBitmapDisplayer(20))
                 .build();
         this.mType = mType;
+        mPicassoWithImage = new PicassoWithImage(context);
     }
     @Override
     public int getCount() {
@@ -127,15 +129,19 @@ public class FindSecondWaterAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         holder.text.setText(findSecondWaterBean.getData().getData().get((position + 1) * 2 - 1).getProductname());
-        Picasso.with(context)
+        /*Picasso.with(context)
                 .load(findSecondWaterBean.getData().getData().get((position + 1) * 2 - 1).getProductmainpic())
                 .transform(transformation)
-                .into(holder.image);
+                .into(holder.image);*/
+        mPicassoWithImage.setImage(holder.image,
+                findSecondWaterBean.getData().getData().get((position + 1) * 2 - 1 ).getProductmainpic());
         holder.text_one.setText(findSecondWaterBean.getData().getData().get((position + 1) * 2 - 2).getProductname());
-        Picasso.with(context)
+        mPicassoWithImage.setImage(holder.image_one,
+                findSecondWaterBean.getData().getData().get((position + 1) * 2 - 2).getProductmainpic());
+        /*Picasso.with(context)
                 .load(findSecondWaterBean.getData().getData().get((position + 1) * 2 - 2).getProductmainpic())
                 .transform(transformation)
-                .into(holder.image_one);
+                .into(holder.image_one);*/
         Log.e("getView: ",mType+"");
         if (mType == 1) {
             holder.price.setText("￥" +(int) Math.ceil(findSecondWaterBean.getData().getData().get((position + 1) * 2 - 1).getPrice()*0.9) + "");

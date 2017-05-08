@@ -79,7 +79,7 @@ public class PushHistoryActivity extends BaseActivityG implements SelectInterFac
 
 	private void getHistory() {
 		Log.e( "getHistory: ", UrlManager.getPush(MineFragment.user.getUserId() + "", "2017-12-08", "max", 200));
-		StringRequest stringRequest = new StringRequest(UrlManager.getPush(MineFragment.user.getUserId() + "", addTime, "max", 200),
+		StringRequest stringRequest = new StringRequest(UrlManager.getPush(MineFragment.user.getUserId() + "",addTime, "max", 200),
 				new Response.Listener<String>() {
 					@Override
 					public void onResponse(String mS) {
@@ -100,6 +100,7 @@ public class PushHistoryActivity extends BaseActivityG implements SelectInterFac
 	}
 
 	private void setView(String callBackMsg) {
+		Log.e("setView: ", callBackMsg);
 		pushBean = GsonUtils.fromData(callBackMsg, PushBean.class);
 		List<PushBean.HistoryBean> history = pushBean.getHistory();
 		int nextstartpos = pushBean.getNextstartpos();

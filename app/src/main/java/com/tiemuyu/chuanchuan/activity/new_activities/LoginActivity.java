@@ -34,6 +34,7 @@ import com.tiemuyu.chuanchuan.activity.util.ConnectionUtil;
 import com.tiemuyu.chuanchuan.activity.util.DataContoler;
 import com.tiemuyu.chuanchuan.activity.util.DownloadService.DownloadStateListener;
 import com.tiemuyu.chuanchuan.activity.util.GetCustomer;
+import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.JsonTools;
 import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.util.LogHelper;
@@ -525,6 +526,7 @@ public class LoginActivity extends BaseActivityG implements
 
 
         } else if (resultTag.equals(TAG_LOGIN)) {
+            Log.e("sucMethiod: ",msg );
             pd.dismiss();
 //            LogHelper.d("----登录成功--" + msg);
 
@@ -589,6 +591,15 @@ public class LoginActivity extends BaseActivityG implements
 
     }
 
+    @Override
+    public void failShowCallBack(String resultTag, BaseBean baseBean, String callBackMsg, boolean isShowDiolog) {
+        super.failShowCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
+        if (resultTag.equals(TAG_LOGIN)){
+            BaseBean baseBean1 = GsonUtils.fromData(callBackMsg, BaseBean.class);
+            pd.dismiss();
+            ToastHelper.show(LoginActivity.this,baseBean1.getMsg());
+        }
+    }
 
     /**
      * 数据返回成功，并且code=1时调用

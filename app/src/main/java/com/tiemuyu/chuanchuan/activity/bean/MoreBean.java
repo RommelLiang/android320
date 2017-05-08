@@ -224,7 +224,7 @@ public class MoreBean {
 			private String promianpic;
 			private String createtime;
 			private String firstXiJieImg;
-			private int price;
+			private double price;
 			private Object username;
 			private Object userimg;
 			private Object imgList;
@@ -356,11 +356,11 @@ public class MoreBean {
 				this.firstXiJieImg = firstXiJieImg;
 			}
 
-			public int getPrice() {
+			public double getPrice() {
 				return price;
 			}
 
-			public void setPrice(int price) {
+			public void setPrice(double price) {
 				this.price = price;
 			}
 

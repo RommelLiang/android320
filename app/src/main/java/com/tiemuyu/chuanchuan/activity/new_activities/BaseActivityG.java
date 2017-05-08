@@ -3,6 +3,7 @@ package com.tiemuyu.chuanchuan.activity.new_activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.tiemuyu.chuanchuan.activity.MyApplication;
@@ -201,9 +202,12 @@ public class BaseActivityG extends FragmentActivity implements
 		super.onResume();
 		// addSession();
 		String localClassName = getLocalClassName();
-		if (!localClassName.equals("SplashActivity") && !localClassName.equals("GuideActivity") && !localClassName.equals("HuoDongActivity")) {
-			SetNotificationBarColer.init(this, getResources().getColor(R.color.ColorLaunchBackground));
+		if (!localClassName.equals("SplashActivity") && !localClassName.equals("GuideActivity")
+				&& !localClassName.equals("HuoDongActivity") && !localClassName.equals("new_activities.RegisterActivity")
+				&& !localClassName.equals("new_activities.LoginActivity") && !localClassName.equals("ForgetPassword")) {
+			SetNotificationBarColer.init(this, getResources().getColor(R.color.BarBackground));
 			SetNotificationBarColer.setColor();
+			Log.e("onResume: ", localClassName);
 		}
 		if (PreferenceUtils.getPrefBoolean(this, Constant.CC_IFLOGIN, false)) {
 			if (MineFragment.user == null) {

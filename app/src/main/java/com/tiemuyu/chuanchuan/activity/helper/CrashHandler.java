@@ -9,6 +9,12 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.tiemuyu.chuanchuan.activity.bean.User;
+import com.tiemuyu.chuanchuan.activity.db.DBTools;
+import com.tiemuyu.chuanchuan.activity.util.MD5Util;
+import com.tiemuyu.chuanchuan.activity.util.SPUtils;
+import com.tiemuyu.chuanchuan.activity.util.VeData;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -181,11 +187,11 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 		 * 打印上传错误信息
 		 */
 		Log.e("saveCrashInfo2File: ", String.valueOf(sb));
-		upLoadCrashInfos(sb.toString());
+
 		try {
 			long timestamp = System.currentTimeMillis();
 			String time = formatter.format(new Date());
-			String fileName = infos.get("BRAND")+"-"+infos.get("BOARD")+"-"+"crash-" + time + ".log";
+			String fileName = infos.get("BRAND")+"-"+infos.get("BOARD")+"-"+"crash-" + time + ".txt";
 			//String fileName = "crash_cc"+".log";
 			if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 				String path = Environment.getExternalStorageDirectory().getPath() + "/crash/cc/";
@@ -195,8 +201,22 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 					dir.mkdirs();
 				}
 				FileOutputStream fos = new FileOutputStream(path + fileName);
+				SPUtils.setCrashLocalUrl(path + fileName);
 				fos.write(sb.toString().getBytes());
 				fos.close();
+				User user = DBTools.getUser();
+				String phone = "chuanchuan";
+				String userId = "chuanchuan";
+				if (user != null) {
+					userId = String.valueOf(user.getUserId());
+					phone = user.getUsername();
+				}
+				String url = "http://120.24.185.77:8081/cgi-bin/test/upload?val1=1.0&val2="
+						+ infos.get("MODEL") +"&val3=android"+ Build.VERSION.SDK_INT
+						+ "&val4=" + phone + "&val5=" + VeData.getStringDate()
+						+ "&val6=" + infos.get("versionName") + "&val7=" + MD5Util.MD5(userId+ VeData.getStringDate());
+				Log.e("saveCrashInfo2File: ",url );
+				SPUtils.setCrashUrl(url.replaceAll(" ","%20"));
 			}
 			return fileName;
 		} catch (Exception e) {
@@ -211,7 +231,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 	 *
 	 * @author lixingtao
 	 */
-	private void upLoadCrashInfos(String str) {
+	private void upLoadCrashInfos(final String path, final String url) {
 
 	}
 }

@@ -299,6 +299,9 @@ public class TextMessageActivity extends BaseActivityG implements View.OnClickLi
                 Intent intent = getIntent();
                 intent.putExtra("sessionId",sessionId);
                 setResult(100,intent);
+                DataSharedPress sharedPress = DataSharedPress.getSharedPress(this);
+                int total = sharedPress.getInt("unreadTotal");
+                sharedPress.putInt("unreadTotal", 0);
                 finish();
                 break;
             case R.id.message_send:

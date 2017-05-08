@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.preference.PreferenceManager;
@@ -29,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.fm.openinstall.OpenInstall;
 import com.fm.openinstall.listener.AppWakeUpListener;
 import com.fm.openinstall.model.AppData;
@@ -64,6 +67,7 @@ import com.tiemuyu.chuanchuan.activity.util.GetCustomer;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
+import com.tiemuyu.chuanchuan.activity.util.SendCrashLog;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 import com.tiemuyu.chuanchuan.activity.util.ViewTools;
 import com.tiemuyu.chuanchuan.activity.view.CustomButton;
@@ -92,7 +96,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 	private ListView listView;
 	private ShareAdapter shareAdapter;
 	public ArrayList<SnsPlatform> platforms = new ArrayList<SnsPlatform>();
-	private RelativeLayout header, LinearLayout_search;
+	private RelativeLayout header;
 	private LinearLayout goBackButton, top_right_linearlayout;
 	private ImageView im_setting;
 	private HomeFragment homeFragment;
@@ -134,7 +138,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 			Intent intent = new Intent(this, PushHistoryActivity.class);
 			startActivity(intent);
 		}
- 		GuideHelper guideHelper = new GuideHelper(this);
+		GuideHelper guideHelper = new GuideHelper(this);
 		guideHelper.openGuide();
 		//史力：设置键盘上抬
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -175,7 +179,6 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		button_fatuxunjia.setOnClickListener(this);
 		button_faxian.setOnClickListener(this);
 		button_wode.setOnClickListener(this);
-		LinearLayout_search.setOnClickListener(this);
 		top_right_linearlayout.setOnClickListener(this);
 		search_btn.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
@@ -183,7 +186,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
 					Log.e("tag", "search get foucus!");
-					Intent intent = new Intent(MainActivity.this, NewSearchActivity.class);
+					Intent intent = new Intent(MainActivity.this, SerachActivity.class);
 					startActivity(intent);
 				} else {
 					Log.e("tag", "search lose focus!");
@@ -193,7 +196,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		search_btn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this, NewSearchActivity.class);
+				Intent intent = new Intent(MainActivity.this, SerachActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -254,10 +257,74 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		}
 		ActivityManager mAm = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
 		List<ActivityManager.RunningTaskInfo> taskList = mAm.getRunningTasks(100);
-		for ( ActivityManager.RunningTaskInfo rti : taskList )
-		{
+		for ( ActivityManager.RunningTaskInfo rti : taskList ) {
 
 			Log.e("showRunningTasks", rti.baseActivity.getClassName() + "-----" + rti.topActivity.getClassName());
+		}
+		if (!SPUtils.getCrashLocalUrl().equals("")) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Log.e("SendCrashLog.post", SPUtils.getCrashUrl());
+						Log.e("SendCrashLog.post", SPUtils.getCrashLocalUrl());
+						String post = SendCrashLog.post(SPUtils.getCrashUrl(), SPUtils.getCrashLocalUrl());
+						Log.e("Crashrun: ", post);
+						SPUtils.setCrashLocalUrl("");
+						SPUtils.setCrashUrl("");
+					} catch (Exception mE) {
+						Log.e("Crashrun: ", mE.getLocalizedMessage() + "");
+					}
+				}
+			}).start();
+		}
+		checkUpdata();
+	}
+
+	private void checkUpdata() {
+		if (SPUtils.getIsVersion()) {
+			if (SPUtils.getIsForceUp()) {
+				new AlertView.Builder().setContext(this)
+						.setStyle(AlertView.Style.Alert)
+						.setTitle("发现新版本")
+						.setMessage("您当前使用的不是最新版本")
+						.setDestructive("马上更新")
+						.setOthers(null)
+						.setOnItemClickListener(new OnItemClickListener() {
+							@Override
+							public void onItemClick(Object o, int position) {
+								Log.e("onItemClick: ", position + "");
+								Intent intent = new Intent(Intent.ACTION_VIEW);
+								intent.setData(Uri.parse("market://details?id=" + getPackageName()));
+								startActivity(intent);
+							}
+						})
+						.build().show();
+			}
+			new AlertView.Builder().setContext(this)
+					.setStyle(AlertView.Style.Alert)
+					.setTitle("发现新版本")
+					.setMessage("您当前使用的不是最新版本")
+					.setDestructive("马上更新")
+					.setCancelText("忽略")
+					.setOthers(null)
+					.setOnItemClickListener(new OnItemClickListener() {
+						@Override
+						public void onItemClick(Object o, int position) {
+							Log.e("onItemClick: ", position + "");
+							switch (position) {
+								case 0:
+									Intent intent = new Intent(Intent.ACTION_VIEW);
+									intent.setData(Uri.parse("market://details?id=" + getPackageName()));
+									startActivity(intent);
+									break;
+								case -1:
+
+									break;
+							}
+						}
+					})
+					.build().show();
 		}
 	}
 
@@ -320,7 +387,6 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 	};
 
 	void initView() {
-		LinearLayout_search = (RelativeLayout) findViewById(R.id.ly_search);
 		top_right_linearlayout = (LinearLayout) findViewById(R.id.message_top_right);
 		button_chuanchuan = (CustomButton) findViewById(R.id.main_ccbtn);
 		button_kefu = (CustomButton) findViewById(R.id.main_kfbtn);
@@ -399,10 +465,6 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		String usernameFromSP = sp.getString("logincache", "");
 		System.out.println("logincache after onclick: " + usernameFromSP);
 		switch (v.getId()) {
-			case R.id.ly_search://点击上面的文字输入框进入搜索activity
-				Intent intent3 = new Intent(MainActivity.this, SearchActivity.class);
-				startActivity(intent3);
-				break;
 			//穿穿
 			case R.id.main_ccbtn:
 				flag = 1;

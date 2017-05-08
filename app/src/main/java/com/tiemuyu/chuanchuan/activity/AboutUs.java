@@ -64,9 +64,9 @@ public class AboutUs extends BaseActivityG implements OnItemClickListener {
         super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
         Log.e("successCallBack: ", callBackMsg);
         VesionCodeBean vesionCodeBean = GsonUtils.fromData(callBackMsg, VesionCodeBean.class);
-        Log.e( "successCallBack: ",CheckVersion.check(vesionCodeBean.getData())+"" );
+        Log.e( "successCallBack: ",CheckVersion.check(vesionCodeBean.getData().getNumber())+"" );
         Log.e( "successCallBack: ",vesionCodeBean.getData()+"" );
-        if (CheckVersion.check(vesionCodeBean.getData())) {
+        if (CheckVersion.check(vesionCodeBean.getData().getNumber())) {
             is_new_version.setText("有新版本:"+vesionCodeBean.getData());
             SPUtils.saveIsVersion(true);
             new AlertView.Builder().setContext(AboutUs.this)

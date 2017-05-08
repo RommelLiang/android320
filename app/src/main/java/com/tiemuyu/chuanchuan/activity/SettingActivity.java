@@ -58,7 +58,7 @@ public class SettingActivity extends Activity implements View.OnClickListener, T
 		super.onCreate(savedInstanceState);
 		//设置状态栏为透明
 		setContentView(R.layout.activity_setting);
-		SetNotificationBarColer.init(this, getResources().getColor(R.color.ColorLaunchBackground));
+		SetNotificationBarColer.init(this, getResources().getColor(R.color.BarBackground));
 		SetNotificationBarColer.setColor();
 
 //        SharedPreferences sp = getSharedPreferences("UserInfo", Activity.MODE_PRIVATE);

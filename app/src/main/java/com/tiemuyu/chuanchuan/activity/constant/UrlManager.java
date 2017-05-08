@@ -853,7 +853,7 @@ public class UrlManager {
 	}
 
 	public static final String getVersion() {
-		return BASEURL+"api/apppi?getBanBenHao&state=0";
+		return BASEURL+"api/apppi?GetIsForceandVersion&state=1";
 	}
 
 	public static final String getMore(int id,int page) {

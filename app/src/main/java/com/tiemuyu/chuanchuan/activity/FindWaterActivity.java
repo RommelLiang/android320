@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
@@ -34,6 +35,10 @@ import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import org.xutils.http.RequestParams;
 
@@ -70,6 +75,8 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
     private RelativeLayout rl_didaogao;
     private HorizontalScrollView hsv_keys;
     LinearLayout ll_water_search_btn;
+    private ImageView im_share;
+    private String title, url, img_url;
     TextView sch_keys[];
     int i;
 
@@ -103,6 +110,7 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
         header_img_txt = (TextView) headerview.findViewById(R.id.header_img_txt);
         main_header_goback = (LinearLayout) findViewById(R.id.main_header_goback);
         main_header_goback.setOnClickListener(this);
+        im_share = (ImageView) findViewById(R.id.im_share);
         tv_main_header_title = (TextView) findViewById(R.id.tv_main_header_title);
         rl_paixufangshi = (RelativeLayout) headerview.findViewById(R.id.rl_paixufangshi);
         rl_paixufangshi.setOnClickListener(this);
@@ -241,6 +249,18 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
             Log.e("tag", "test of second water bean: " + findSecondWaterBean.getData().getData().get(0).getProductname());//test passed
             findSecondWaterAdapter = new FindSecondWaterAdapter(findSecondWaterBean, this,mType);
             pullToRefreshListView.setAdapter(findSecondWaterAdapter);
+            im_share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    title = findSecondWaterBean.getData().getTopicss().getName();
+                    img_url = findSecondWaterBean.getData().getTopicss().getImg();
+                    url = "http://testios.myappcc.com/product/Water_Fall?proid="
+                            + findSecondWaterBean.getData().getTopicss().getId() +
+                            "&type=1";
+                    Log.e("url", "onClick: " + url);
+                    share();
+                }
+            });
         } else if (resulttag.equals(FIND_MORE_WATER_LIST)) {
             Gson gson = new Gson();
             FindSecondWaterBean findSecondWaterBean1 = gson.fromJson(callbackmsg, FindSecondWaterBean.class);
@@ -443,4 +463,47 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
                         "获取Hander",
                         false));
     }
+    public void share() {
+        new ShareAction(this).setDisplayList(
+                SHARE_MEDIA.SINA,
+                SHARE_MEDIA.WEIXIN,
+                SHARE_MEDIA.WEIXIN_CIRCLE,
+                SHARE_MEDIA.WEIXIN_FAVORITE,
+                SHARE_MEDIA.SMS,
+                SHARE_MEDIA.MORE)
+                .withTitle(title)
+                .withText(findSecondWaterBean.getData().getTopicss().getMiaoshu())
+                .withTargetUrl(url)
+                .withMedia(new UMImage(getApplicationContext(), img_url))
+                .setCallback(umShareListener)
+                .open();
+        System.out.println("ShareAction opened in mainactivity..  saveload..........");
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
+            if (platform.name().equals("WEIXIN_FAVORITE")) {
+                Toast.makeText(getApplicationContext(), "收藏成功啦", Toast.LENGTH_SHORT).show();
+            } else {
+                //Toast.makeText(getApplicationContext(), "分享成功啦", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(getApplicationContext(), "分享失败啦", Toast.LENGTH_SHORT).show();
+            if (t != null) {
+                Log.d("throw", "throw:" + t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(getApplicationContext(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+        }
+
+    };
 }

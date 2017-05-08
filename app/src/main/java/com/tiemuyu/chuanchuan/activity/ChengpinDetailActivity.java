@@ -472,8 +472,8 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 				public void onClick(View v) {
 					title = dIngzhi.getData().getDingzhiItem().getProname();
 					img_url = dIngzhi.getData().getDingzhiItem().getPromianpic();
-					url = "http://ios.myappcc.com/cc/Find/DingZhiXiangQingAction?id="
-							+ dIngzhi.getData().getDingzhiItem().getId() + "&type=3";
+					url = "http://testios.myappcc.com/product/End_product?id="
+							+ dIngzhi.getData().getDingzhiItem().getId() + "&type=1";
 					Log.e("url", "onClick: " + url);
 					share();
 				}

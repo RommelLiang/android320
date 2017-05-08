@@ -29,6 +29,11 @@ public class SPUtils {
     public static final String HUO_DONG_URL = "HUO_DONG_URL";
     public static final String HUO_DONG_IMAGE = "HUO_DONG_IMAGE";
     public static final String HUO_DONG_MIASHU = "HUO_DONG_MIASHU";
+    public static final String CRASH_URL = "CRASH_URL";
+    public static final String CRASH_LOCAL_URL = "CRASH_LOCAL_URL";
+    public static final String OPEN_SHAITU_TIME = "OPEN_SHAITU_TIME";
+    public static final String IS_Force_UPDATE = "IS_Force_UPDATE";
+    public static final String IS_NEW_SHATIU= "IS_NEW_SHATIU";
 
     public static void init(Context context) {
         mContext = context;
@@ -46,6 +51,22 @@ public class SPUtils {
         put(IS_vibrate,isNew);
     }
 
+    public static String getCrashUrl(){
+        return (String) get(CRASH_URL,"");
+    }
+
+    public static void setCrashUrl(String url){
+        put(CRASH_URL,url);
+    }
+
+    public static String getCrashLocalUrl(){
+        return (String) get(CRASH_LOCAL_URL,"");
+    }
+
+    public static void setCrashLocalUrl(String url){
+        put(CRASH_LOCAL_URL,url);
+    }
+
     public static boolean getVibrate(){
         return (boolean) get(IS_ring,false);
     }
@@ -58,12 +79,28 @@ public class SPUtils {
         return (boolean) get(IS_vibrate,false);
     }
 
+    public static void setIsNewShatiu(boolean isNew){
+        put(IS_NEW_SHATIU,isNew);
+    }
+
+    public static boolean getIsNewShatiu(){
+        return (boolean) get(IS_NEW_SHATIU,false);
+    }
+
     public static void saveIsVersion(boolean isNew){
         put(IS_NEW_VERSION,isNew);
     }
 
     public static boolean getIsVersion(){
         return (boolean) get(IS_NEW_VERSION,false);
+    }
+
+    public static void saveIsForceUp(boolean isNew){
+        put(IS_Force_UPDATE,isNew);
+    }
+
+    public static boolean getIsForceUp(){
+        return (boolean) get(IS_Force_UPDATE,false);
     }
 
     public static void saveAccid(String accid) {
@@ -127,6 +164,14 @@ public class SPUtils {
 
     public static void setHuoDongImage(String url) {
         put(HUO_DONG_IMAGE,url);
+    }
+
+    public static String getOpenShaituTime() {
+        return (String) get(OPEN_SHAITU_TIME,"");
+    }
+
+    public static void setOpenShaituTime(String time) {
+        put(OPEN_SHAITU_TIME,time);
     }
 
     public static void put(String key, Object object) {

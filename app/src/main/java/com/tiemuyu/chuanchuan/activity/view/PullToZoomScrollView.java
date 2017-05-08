@@ -120,7 +120,7 @@ public class PullToZoomScrollView extends ScrollView {
 		if (oa != null && oa.isRunning()) {
 			return;
 		}
-		oa = ObjectAnimator.ofInt(this, "t", (int)-distance / 3, 0);
+		oa = ObjectAnimator.ofInt(this, "t", (int)-distance / 5, 0);
 		oa.setDuration(150);
 		oa.start();
 	}

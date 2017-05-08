@@ -103,7 +103,7 @@ public class SocketHttpRequester {
 		end = System.currentTimeMillis();
 		Log.e("post: " + String.valueOf(end - start), rsp);
 		int responseCode = conn.getResponseCode();
-
+		conn.disconnect();
 		if(responseCode != 200){//读取web服务器返回的数据，判断请求码是否为200，如果不是200，代表请求失败
 			rsp = "{\"Code\":0,\"Msg\":\"OK\"," +
 					"\"Data\":{\"ImageUrl\":\"\"}}";

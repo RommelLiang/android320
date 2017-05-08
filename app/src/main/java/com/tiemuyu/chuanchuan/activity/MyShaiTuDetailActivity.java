@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.bean.NewShaituBean;
+import com.tiemuyu.chuanchuan.activity.util.SetNotificationBarColer;
 import com.tiemuyu.chuanchuan.activity.view.HorizontalListVIew;
 
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ public class MyShaiTuDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SetNotificationBarColer.init(this, getResources().getColor(R.color.BarBackground));
+        SetNotificationBarColer.setColor();
         rowsBean = (NewShaituBean.DataBean.PagedataBean.RowsBean) getIntent().getSerializableExtra("data");
         Log.e("onCreate: ",rowsBean.toString() );
         setContentView(R.layout.activity_my_shai_tu_detail);

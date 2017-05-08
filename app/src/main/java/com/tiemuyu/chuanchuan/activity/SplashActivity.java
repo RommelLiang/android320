@@ -14,6 +14,7 @@ import com.fm.openinstall.listener.AppInstallListener;
 import com.fm.openinstall.model.AppData;
 import com.fm.openinstall.model.Error;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
+import com.tiemuyu.chuanchuan.activity.bean.NewShaituBean;
 import com.tiemuyu.chuanchuan.activity.bean.VesionCodeBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
@@ -27,6 +28,8 @@ import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 import com.tiemuyu.chuanchuan.activity.util.VeData;
 
 import org.xutils.http.RequestParams;
+
+import java.util.Date;
 
 
 public class SplashActivity extends BaseActivityG implements AppInstallListener {
@@ -52,6 +55,7 @@ public class SplashActivity extends BaseActivityG implements AppInstallListener 
 			ToastHelper.show(this, "亲，网络断了哦，请检查网络设置");
 			jump();
 		} else {
+			getShaiTu();
 			MyApplication.poolManager.addAsyncTask(
 					new ThreadPoolTaskHttp(this,
 							TAG_VERSION,
@@ -69,12 +73,49 @@ public class SplashActivity extends BaseActivityG implements AppInstallListener 
 	public void successCallBack(String resultTag, BaseBean baseBean, String callBackMsg, boolean isShowDiolog) {
 		super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
 		Log.e(TAG, "successCallBack: " + callBackMsg);
-		VesionCodeBean vesionCodeBean = GsonUtils.fromData(callBackMsg, VesionCodeBean.class);
-		if (CheckVersion.check(vesionCodeBean.getData())) {
-			SPUtils.saveIsVersion(true);
-		} else {
-			SPUtils.saveIsVersion(false);
+		if (resultTag.equals(TAG_VERSION)) {
+			VesionCodeBean vesionCodeBean = GsonUtils.fromData(callBackMsg, VesionCodeBean.class);
+			if (CheckVersion.check(vesionCodeBean.getData().getNumber())) {
+				SPUtils.saveIsVersion(true);
+				if (vesionCodeBean.getData().getIsForce() == 1) {
+					SPUtils.saveIsForceUp(true);
+				}
+			} else {
+				SPUtils.saveIsVersion(false);
+			}
+		}  else if (resultTag.equals(TAG_GetShaitu)) {
+			NewShaituBean newShaituBean = GsonUtils.fromData(callBackMsg, NewShaituBean.class);
+			Log.e("successParse: ", newShaituBean.toString());
+			if (newShaituBean != null) {
+				String sharedTime = newShaituBean.getData().getPagedata().getRows().get(0).getSharedTime();
+				Date shareData = VeData.strToDateLong(sharedTime);
+				String openShaituTime = SPUtils.getOpenShaituTime();
+				if (openShaituTime.equals("")) {
+					openShaituTime = VeData.getStringDate();
+				}
+				Date openData = VeData.strToDateLong(openShaituTime);
+				Log.e("success Time: ", sharedTime);
+				Log.e("success Time: ", openShaituTime);
+				if (shareData.after(openData)) {
+					SPUtils.setIsNewShatiu(true);
+				} else {
+					SPUtils.setIsNewShatiu(false);
+				}
+			}
 		}
+	}
+
+	private static String TAG_GetShaitu = "TAG_GetShaitu";
+	private void getShaiTu() {
+		MyApplication.poolManager.addAsyncTask(
+				new ThreadPoolTaskHttp(this,
+						TAG_GetShaitu,
+						Constant.REQUEST_GET,
+						new RequestParams(
+								UrlManager.Get_Shaitu()),
+						this,
+						"获取晒图信息",
+						false));
 	}
 
 	private void jump() {

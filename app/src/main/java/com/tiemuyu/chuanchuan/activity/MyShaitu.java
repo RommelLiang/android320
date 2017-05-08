@@ -1,6 +1,5 @@
 package com.tiemuyu.chuanchuan.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -36,7 +35,9 @@ import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
+import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
+import com.tiemuyu.chuanchuan.activity.util.VeData;
 
 import org.xutils.http.RequestParams;
 
@@ -73,17 +74,12 @@ public class MyShaitu extends BaseActivityG {
 
     //sl: 新的晒图bean
     NewShaituBean newShaituBean;
-    ProgressDialog pd;
     private ImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_shaitu);
-        pd = new ProgressDialog(this);//加载的ProgressDialog
-        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);//选择加载风格 这里是圆圈 STYLE_HORIZONTAL 是水平进度条
-        pd.setMessage("加载中....");
-        pd.show();
         findViewById(R.id.MyShaituGoBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,11 +105,11 @@ public class MyShaitu extends BaseActivityG {
         //        final String  information = getIntent().getStringExtra("Intent_Data_Packet");//.getStringExtra("et1");
         //        ZhuantiId=information;
         mPullRefreshListView = (PullToRefreshGridView) findViewById(R.id.pull_refresh_grid);
+        mInstance.show();
         initZuixinbaojiaDatas();//给瀑布流初始化数据
         initIndicator();//初始化indicator
-
         initProcess();
-        pd.dismiss();
+        SPUtils.setOpenShaituTime(VeData.getStringDate());
     }
 
     public void onClick(View v) {
@@ -369,19 +365,9 @@ public class MyShaitu extends BaseActivityG {
      ********************************/
     public void ShaituAction(String msg, String resultTag) {
         if (resultTag.equals(TAG_GetShaitu)) {
+
             Log.e("TAG", msg);
-            //text_json.setText(msg);
-            //TODO  数据解析
 
-            //gwh的旧方法：
-//            List<ShaituWaterBean> temp_shaitu_list;
-//            temp_shaitu_list =  DataContoler.parseShaituWaterDetail(msg) ;// DataController.parseZhuantiWaterfallDetail(msg);
-//            waterfall_listwhole.add(temp_shaitu_list);
-//            initNewOfferDatas(temp_shaitu_list);
-////            zhuantiinfo=DataContoler.parseZhuantiWaterDetail(msg);//DataController.parseZhuantiWaterDetail(msg);
-//            watercount=2;
-
-            //sl:新修改
             Gson gson = new Gson();
             NewShaituBean newShaituBean = gson.fromJson(msg, NewShaituBean.class);
             Log.e("TEST", "ContentBrief: " + newShaituBean.getData().getPagedata().getRows().get(0).getContentBrief());
@@ -453,6 +439,7 @@ public class MyShaitu extends BaseActivityG {
         super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
         System.out.println("http succeed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         ShaituAction(callBackMsg, resultTag);
+        mInstance.dismiss();
     }
 
     //		public void loadingCallBack(long total, long current, boolean isUploading,
@@ -460,6 +447,7 @@ public class MyShaitu extends BaseActivityG {
     public void failCallBack(Throwable arg0, String resultTag, boolean isShowDiolog) {
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!failed callback!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         Log.e("failCallBack: ",arg0.getLocalizedMessage() );
+        mInstance.dismiss();
     }
 
     /**
@@ -470,6 +458,7 @@ public class MyShaitu extends BaseActivityG {
 //    public void cancelCallBack(String resultTag){}/**取消*/
     public void failShowCallBack(String resultTag, BaseBean baseBean, String callBackMsg, boolean isShowDiolog) {
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!succeed but code != 1 !!!!!!!!!!!!!!!!!!!!!!!!!");
+        mInstance.dismiss();
     }
 
     /**

@@ -8,6 +8,7 @@
     <!-- 颜色 -->
     <color name="ColorPageBackground">#EEEDED</color>
     <color name="ColorLaunchBackground">#571233</color>
+    <color name="BarBackground">#f0f0f0</color>
     <color name="ColorLaunchSkip">#00000000</color>
     <color name="ColorLaunchSkipText">#D4B45C</color>
     <color name="ColorSeparateLine">#C9C9CA</color>

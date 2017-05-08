@@ -428,7 +428,9 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 					title = clothesDetail.getData().getProduct().getProductName();
 					Log.e( "onClick: ",images.get(0) );
 					img_url = images.get(0);
-					url = "http://ios.myappcc.com/cc/Customize/BuyCustomize?id=" + clothesDetail.getData().getProduct().getId() + "&type=2";
+					url = "http://testios.myappcc.com/product/Product?proId="
+							+ clothesDetail.getData().getProduct().getId()
+							+ "&type=1";
 					share();
 				}
 			});
