@@ -32,6 +32,7 @@ import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.SetNotificationBarColer;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
+import com.tiemuyu.chuanchuan.activity.util.UTagAndAlias;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.http.RequestParams;
@@ -301,13 +302,15 @@ public class SettingActivity extends Activity implements View.OnClickListener, T
 		intent1.setAction(Constant.DATA_UPDATA_HOME);
 		sendBroadcast(intent1);
 
+		UTagAndAlias.delAlia(DBTools.getUser().getUserId()+"");
+		UTagAndAlias.addAlia("0");
 		/** 清空数据 */
 		DBTools.removeDb(this);
 		removeCookie(this);
 //        cleanThirdData();  清空第三方数据
-
 		//发送用户退出广播
 //        setImbrocast(SettingActivity.this);
+		UTagAndAlias.delALlTag();
 	}
 
 	/**

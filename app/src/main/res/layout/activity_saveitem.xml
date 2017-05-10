@@ -3,7 +3,6 @@
 <LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
     android:layout_width    = "match_parent"
     android:layout_height   = "match_parent"
-    android:background      = "@color/colorLightGray"
     android:orientation     = "vertical" >
 
     <RelativeLayout
@@ -43,7 +42,7 @@
     </RelativeLayout>
 
     <!-- The PullToRefreshGridView replaces a standard GridView widget. -->
-    <com.handmark.pulltorefresh.library.PullToRefreshGridView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         xmlns:ptr                              = "http://schemas.android.com/apk/res-auto"
         android:id                             = "@+id/fav_listview"
         android:layout_width                   = "match_parent"
@@ -61,6 +60,5 @@
         ptr:ptrMode                            = "both"
         ptr:ptrRefreshableViewBackground       = "@color/colorLightGray"
         ptr:ptrScrollingWhileRefreshingEnabled = "true"/>
-    <!--android:columnWidth                    = "200dp"-->
 
 </LinearLayout>

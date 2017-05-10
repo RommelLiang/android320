@@ -1,0 +1,77 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_main_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            >
+
+            <LinearLayout
+                android:id="@+id/main_header_goback"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="7dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="23dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@mipmap/back"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_main_header_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="载入中……"
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp"/>
+
+            <ImageView
+                android:id="@+id/im_share"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/nav_share"/>
+        </RelativeLayout>
+
+        <com.handmark.pulltorefresh.library.PullToRefreshListView
+            android:id="@+id/pull_refresh_grid"
+            ptr:ptrAnimationStyle="flip"
+            ptr:ptrHeaderBackground="@color/white"
+            ptr:ptrHeaderSubTextColor="@color/ColorNavBackground"
+            ptr:ptrHeaderTextColor="@color/ColorNavBackground"
+            ptr:ptrListViewExtrasEnabled="false"
+            ptr:ptrMode="both"
+            ptr:ptrRefreshableViewBackground="@color/white"
+            ptr:ptrScrollingWhileRefreshingEnabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:horizontalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="1dp"/>
+    </LinearLayout>
+</RelativeLayout>

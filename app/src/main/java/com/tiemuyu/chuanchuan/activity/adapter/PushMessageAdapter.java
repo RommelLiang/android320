@@ -84,7 +84,7 @@ public class PushMessageAdapter extends BaseAdapter {
         } else {
             mHolder.iv_select.setVisibility(View.GONE);
         }
-        mHolder.title.setText(mHistory.get(position).getP_text());
+        mHolder.title.setText(mHistory.get(position).getP_title());
         mHolder.detail.setText(mHistory.get(position).getP_content());
         mHolder.time.setText(mHistory.get(position).getP_sendtime());
         if (!mHistory.get(position).getP_image().equals("")) {

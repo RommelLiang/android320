@@ -46,6 +46,7 @@ import com.tiemuyu.chuanchuan.activity.util.StringUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp.HttpCallBack;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
+import com.tiemuyu.chuanchuan.activity.util.UTagAndAlias;
 import com.tiemuyu.chuanchuan.activity.util.Utility;
 import com.tiemuyu.chuanchuan.activity.view.ClearEditText;
 import com.umeng.analytics.MobclickAgent;
@@ -556,7 +557,11 @@ public class LoginActivity extends BaseActivityG implements
                 }
             }).start();
             ToastHelper.show(this, "登录成功");
-
+            SPUtils.setHasLogin(true);
+            UTagAndAlias.delTag("-1");
+            UTagAndAlias.addTag(user.getUserId()+"");
+            UTagAndAlias.delAlia("0");
+            UTagAndAlias.addAlia(user.getUserId()+"");
         } else if (resultTag.equals(TAG_GETUSERNAME)) {
 
 

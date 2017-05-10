@@ -37,6 +37,7 @@ import com.tiemuyu.chuanchuan.activity.bean.FindWaterBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.helper.PicassoRoundTransform;
+import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 
 import org.xutils.http.RequestParams;
@@ -293,8 +294,6 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
     //sl: 自定义的adapter
     class FindAdapter extends BaseAdapter {
 
-         int pos;
-
         private class ViewHolder {
             private LinearLayout find_first_article_adapter;
             public TextView title_txt;
@@ -321,10 +320,9 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View view = convertView;
             final ViewHolder holder;
-            pos = position;
             if (convertView == null) {
                 view = getActivity().getLayoutInflater().inflate(R.layout.find_item_layout, parent, false);
                 holder = new ViewHolder();
@@ -348,18 +346,37 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
             //imageLoader.displayImage(findWaterBean.getData().getList().get(position).getImg(), holder.main_img, options, animateFirstListener);
             holder.desp_txt.setText(findWaterBean.getData().getList().get(position).getMiaoshu());
             holder.view_num.setText(findWaterBean.getData().getList().get(position).getLooksum() + "");
-            final Intent intent = new Intent(getActivity(), MyWebview.class);
-            intent.putExtra("Intent_Data_Packet", findWaterBean.getData().getList().get(pos).getUrl());
-            intent.putExtra("title", findWaterBean.getData().getList().get(pos).getName());
-            intent.putExtra("type", 1);
-            intent.putExtra("img_url", findWaterBean.getData().getList().get(pos).getImg());
+
             //sl：每个adapter的点击事件
             holder.find_first_article_adapter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e("tag", "find fragment article clicked!");
-
-                    startActivity(intent);
+                    int type = JudgmentLegal.checkBannerType(findWaterBean.getData().getList().get(position).getUrl());
+                    Log.e("onClick: ", type+"test");
+                    if(type == 0){
+                        String[] sourceStrArray = findWaterBean.getData().getList().get(position).getUrl().split("id=");
+                        int id = Integer.parseInt(sourceStrArray[1]);
+                        Log.e("OnBannerClick: ", id + "");
+                        Intent intent = new Intent(getActivity(), FindWaterActivity.class);
+                        intent.putExtra("id", id);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }  else if (type == 1) {
+                        Log.e("tag", "find fragment article clicked!");
+                        Intent intent = new Intent(getActivity(), MyWebview.class);
+                        intent.putExtra("Intent_Data_Packet", findWaterBean.getData().getList().get(position).getUrl());
+                        intent.putExtra("title", findWaterBean.getData().getList().get(position).getName());
+                        intent.putExtra("type", 1);
+                        intent.putExtra("img_url", findWaterBean.getData().getList().get(position).getImg());
+                        startActivity(intent);
+                    } else if (type == 2) {
+                        String[] sourceStrArray = findWaterBean.getData().getList().get(position).getUrl().split("id=");
+                        int huo_dong_id = Integer.parseInt(sourceStrArray[1]);
+                        Intent intent = new Intent(getActivity(), FindTopicActivity.class);
+                        intent.putExtra("id", (int) huo_dong_id);
+                        startActivity(intent);
+                    } else {
+                    }
                 }
             });
             return view;
@@ -465,7 +482,7 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
             find_txt6.setOnClickListener(this);
 
         } else if (resultTag.equals(TAG_FIND_WATER)) {//sl: 如果是拉取瀑布流，执行此代码
-            logetag("find get water success!");
+            Log.e("callBackAction: ", callbackMsg);
             Gson gson = new Gson();
             findWaterBean = gson.fromJson(callbackMsg, FindWaterBean.class);
             logetag("find get water result:" + findWaterBean.getData().getList().get(0).getMiaoshu());//史力：测试通过

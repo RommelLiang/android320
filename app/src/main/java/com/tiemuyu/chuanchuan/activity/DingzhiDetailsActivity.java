@@ -45,6 +45,7 @@ import com.tiemuyu.chuanchuan.activity.chat_tools.inter.NetResponses;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.db.DBTools;
+import com.tiemuyu.chuanchuan.activity.inter.SimilarProClick;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.DataSharedPress;
 import com.tiemuyu.chuanchuan.activity.util.GlideImageLoader;
@@ -71,7 +72,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DingzhiDetailsActivity extends BaseActivityG implements NetResponses {
+public class DingzhiDetailsActivity extends BaseActivityG implements NetResponses,SimilarProClick {
 	//定制详情
 	private int one;
 	private int dx;// 动画图片偏移量
@@ -108,6 +109,8 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 	private DataSharedPress sharedPress;
 	private boolean isLogIn = false;
 	private int mType;
+	private SimilarProducts similarProducts;
+	private SimilarProductsAdapter waterAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -116,15 +119,7 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 		mIntent = getIntent();
 		initView();
 		Log.e("URL", "onCreate: " + UrlManager.Get_DIngZhi() + productid);
-		MyApplication.poolManager.addAsyncTask(
-				new ThreadPoolTaskHttp(this,
-						TAG_GET_buycustomize,
-						Constant.REQUEST_GET,
-						new RequestParams(
-								UrlManager.Get_DIngZhi() + productid),
-						this,
-						"获取产品信息",
-						false));
+		getMessage();
 		im_back.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -138,6 +133,18 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 				finish();
 			}
 		});
+	}
+
+	private void getMessage() {
+		MyApplication.poolManager.addAsyncTask(
+				new ThreadPoolTaskHttp(this,
+						TAG_GET_buycustomize,
+						Constant.REQUEST_GET,
+						new RequestParams(
+								UrlManager.Get_DIngZhi() + productid),
+						this,
+						"获取产品信息",
+						false));
 	}
 
 	private void initView() {
@@ -330,6 +337,7 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 			for ( ClothesDetail.DataBean.ImagesBean imagesBean : clothesDetail.getData().getImages() ) {
 				images.add(imagesBean.getImage());
 			}
+			mInstance.dismiss();
 			Log.e("clothesDetail", "successCallBack: " + clothesDetail.getData().getUser().getUserImg());
 			Picasso.with(this).load(clothesDetail.getData().getUser().getUserImg()).placeholder(R.drawable.circle_logo).into(im_user_header);
 			tv_user_name.setText(clothesDetail.getData().getUser().getNickName());
@@ -472,9 +480,15 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 			}
 		} else if (resultTag.equals(TAG_GET_GETSIMILAR)) {
 			Log.e("TAG_GET_GETSIMILAR: ", callBackMsg);
-			SimilarProducts similarProducts = GsonUtils.fromData(callBackMsg, SimilarProducts.class);
-			SimilarProductsAdapter waterAdapter = new SimilarProductsAdapter(similarProducts, DingzhiDetailsActivity.this);
+			if (similarProducts != null) {
+				similarProducts.getData().getSimilarProducts().clear();
+				waterAdapter.notifyDataSetChanged();
+				similarProducts = null;
+			}
+			similarProducts = GsonUtils.fromData(callBackMsg, SimilarProducts.class);
+			waterAdapter = new SimilarProductsAdapter(similarProducts, DingzhiDetailsActivity.this, this);
 			mCClistView.setAdapter(waterAdapter);
+			sv_view.fullScroll(ScrollView.FOCUS_UP);
 		}
 	}
 
@@ -663,5 +677,12 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 	@Override
 	public void fail() {
 
+	}
+
+	@Override
+	public void onSimilarProClickClick(int id) {
+		mInstance.show();
+		productid = id;
+		getMessage();
 	}
 }

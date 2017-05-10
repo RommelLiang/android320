@@ -1,20 +1,16 @@
 package com.tiemuyu.chuanchuan.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +18,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshGridView;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
@@ -37,8 +33,10 @@ import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
+import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
+import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 
 import org.xutils.http.RequestParams;
 
@@ -51,13 +49,13 @@ import java.util.List;
  * Created by CC2.0 on 2017/2/13.
  */
 
-public class MySaveItem extends BaseActivityG {
+public class MySaveItem extends BaseActivityG  implements PullToRefreshBase.OnRefreshListener2<ListView>, ThreadPoolTaskHttp.HttpCallBack{
 
     //类比本题目做我的收藏
 
     //=============L1瀑布流相关变量================
     private LinkedList<String> mListItems;//
-    private PullToRefreshGridView mPullRefreshListView;//
+    private PullToRefreshListView mPullRefreshListView;//
     private List<String> images;
     private int mItemCount = 12;
 
@@ -75,9 +73,8 @@ public class MySaveItem extends BaseActivityG {
 
     private ZhuantiWaterExtBean zhuantiinfo=new ZhuantiWaterExtBean();
 
-    ProgressDialog pd;
-
     private  static int watercount;
+    private FavBean mFavBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +82,7 @@ public class MySaveItem extends BaseActivityG {
         this.setContentView(R.layout.activity_saveitem);
         // 添加Activity到堆栈
         AppManager.getAppManager().addActivity(this);
-        pd = new ProgressDialog(this);//加载的ProgressDialog
-        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);//选择加载风格 这里是圆圈 STYLE_HORIZONTAL 是水平进度条
-        pd.setMessage("加载中....");
-        pd.show();
+        mInstance.show();
         //  Constant.VERSION = Version.getAppVersionName(this);
         // _global = GlobalVariable.getInstance();
         options = new DisplayImageOptions.Builder()
@@ -102,15 +96,11 @@ public class MySaveItem extends BaseActivityG {
         images=new ArrayList<String>();
         fav_goback = (LinearLayout) findViewById(R.id.MyShoucangBack);
         fav_goback.setOnClickListener(this);
-//不需要获取数据
-//        final String  information = getIntent().getStringExtra("Intent_Data_Packet");//.getStringExtra("et1");
-//        ZhuantiId=information;
-        mPullRefreshListView = (PullToRefreshGridView) findViewById(R.id.fav_listview);
+        mPullRefreshListView = (PullToRefreshListView) findViewById(R.id.fav_listview);
         initZuixinbaojiaDatas();//给瀑布流初始化数据
         initIndicator();//初始化indicator
 
         initProcess();
-        pd.dismiss();
     }
 
     public void onClick(View v) {
@@ -181,55 +171,6 @@ public class MySaveItem extends BaseActivityG {
         endLabels.setPullLabel("下拉刷新...");// 刚下拉时，显示的提示
         endLabels.setRefreshingLabel("正在刷新...");// 刷新时
         endLabels.setReleaseLabel("松开即可刷新...");// 下来达到一定距离时，显示的提示
-    }
-
-    //瀑布流所需
-    private class GetDataTaskDown extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                Thread.sleep(200);
-//                addupWater();
-//                for (int i = 0; i < 4; i++) {
-//                    mListItems.add("￥" + mItemCount++);
-//                }
-            } catch (InterruptedException e) {
-                // TODO: 2017/1/24
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-//            addupWater();
-            //      mListItems.add("" + mItemCount++);
-            waterAdapter.notifyDataSetChanged();
-            // Call onRefreshComplete when the list has been refreshed.
-            mPullRefreshListView.onRefreshComplete();
-        }
-    }
-
-    //瀑布流所需
-    private class GetDataTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                // TODO: 2017/1/24
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            addupWater();
-            waterAdapter.notifyDataSetChanged();
-            // Call onRefreshComplete when the list has been refreshed.
-            mPullRefreshListView.onRefreshComplete();
-        }
     }
 
     private  void addupWater() {
@@ -340,86 +281,47 @@ public class MySaveItem extends BaseActivityG {
         }
     }
 
-    /********************************高伟豪添加********************************/
+    @Override
+    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+        initHttpFirstData();
+        watercount = 1;
+    }
+
+    @Override
+    public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+        if (mFavBean.getData().size() == 0){
+            mPullRefreshListView.onRefreshComplete();
+            return;
+        }
+        watercount++;
+        addupWater();
+    }
     public void ShaituAction(String msg, String resultTag) {
         if (resultTag.equals(TAG_GetSaveItem)) {
-            mPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<GridView>() {
-
-                @Override
-                public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
-                    String label = DateUtils.formatDateTime(
-                            getApplicationContext(),
-                            System.currentTimeMillis(),
-                            DateUtils.FORMAT_SHOW_TIME
-                                    | DateUtils.FORMAT_SHOW_DATE
-                                    | DateUtils.FORMAT_ABBREV_ALL);
-                    // Update the LastUpdatedLabel
-                    refreshView.getLoadingLayoutProxy()
-                            .setLastUpdatedLabel(label);
-//                addupWater();
-                    new GetDataTaskDown().execute();
-                }
-
-                @Override
-                public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView) {
-                    Log.e("TAG", "onPullUpToRefresh"); // Do work to refresh the list here.
-                    System.out.println("######mPullRefreshListView  高伟豪");
-                    new GetDataTask().execute();
-                }
-            });
-            Log.e("TAG", msg);
-            //TODO  数据解析
-            //gwh旧方法：
-//            List<SaveItemBean> temp_shaitu_list;
-//            temp_shaitu_list =  DataContoler.parseSaveItemDetail(msg) ;// DataController.parseZhuantiWaterfallDetail(msg);
-//            waterfall_listwhole.add(temp_shaitu_list);
-//            initNewOfferDatas(temp_shaitu_list);
-//            watercount=2;
-
-            //sl: 用新方法解析json
             Gson gson = new Gson();
-            FavBean favBean = gson.fromJson(msg, FavBean.class);
-            Log.e("TAG", favBean.getData().get(0).getProductName());//sl: to test the json, test success!
-            initNewOfferDatas(favBean);
+            if (mFavBean != null) {
+                mPullRefreshListView.onRefreshComplete();
+            }
+            mFavBean = gson.fromJson(msg, FavBean.class);
+            mInstance.dismiss();
+            mPullRefreshListView.setOnRefreshListener(this);
+            if (mFavBean.getData().size() ==0) {
+                ToastHelper.show(MySaveItem.this,"你还没有收藏任何商品");
+                return;
+            }
+            Log.e("TAG", mFavBean.getData().get(0).getProductName());//sl: to test the json, test success!
+            waterAdapter = new WaterAdapter(mFavBean);
+            mPullRefreshListView.setAdapter(waterAdapter);
         } else if (resultTag.equals(TAG_GetMoreSaveItem)) {
-            //todo 数据解析
-            //后台都没做方法
-//            List<SaveItemBean> temp_shaitu_list=;
-//            temp_shaitu_list =  DataContoler.parseSaveItemDetail(msg) ;// DataController.parseZhuantiWaterfallDetail(msg);
-//            waterfall_listwhole.add(temp_shaitu_list);
-//            initNewOfferDatas(temp_shaitu_list);
-            System.out.println("########waterfall msg is: " + msg + "; " + resultTag);//打印信息验证是否正确
-            watercount++;
+            mFavBean.getData().addAll(GsonUtils.fromData(msg, FavBean.class).getData());
+            waterAdapter.notifyDataSetChanged();
+            mPullRefreshListView.onRefreshComplete();
+
         } else if (resultTag.equals("TAG_POST_Delfav")) {
             Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
         }
     }
 
-    //最新报价瀑布流初始化数据
-    private void initNewOfferDatas(FavBean favBean) {
-        //gwh的旧方法，弃用：
-//        System.out.println("size of water fall is " + waterfall_list_in.size());
-//        for (int i = 0; i < waterfall_list_in.size(); i++) {
-////            imageUrls[i]=waterfall_list_in.get(i).getImg_url();
-//            System.out.println(waterfall_list_in.get(i).getMainImage());
-//            images.add(waterfall_list_in.get(i).getMainImage());
-//        }
-
-        waterAdapter = new WaterAdapter(favBean);
-        //高伟豪 每次的瀑布流下拉都是调用数据生成然后set一次
-        mPullRefreshListView.setAdapter(waterAdapter);
-//        new WaterAdapter()
-        mPullRefreshListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MySaveItem.this, "哈哈", Toast.LENGTH_SHORT).show();
-                Intent intent2 = new Intent(MySaveItem.this, DingzhiDetailsActivity.class);
-                Log.e("商品", "onItemClick: " + waterfall_listwhole.get(position/10).get(position%10).getProductId());
-                intent2.putExtra("productid",Integer.parseInt(waterfall_listwhole.get(position/10).get(position%10).getProductId()));
-                startActivity(intent2);
-            }
-        });
-    }
     private String TAG_POST_Delfav = "TAG_POST_Delfav";
     private void delToFav(int id) {
         MyApplication.poolManager.addAsyncTask(

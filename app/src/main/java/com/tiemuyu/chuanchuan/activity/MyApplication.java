@@ -36,6 +36,7 @@ import com.tiemuyu.chuanchuan.activity.helper.CrashHandler;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolManager;
+import com.tiemuyu.chuanchuan.activity.util.UTagAndAlias;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UmengNotificationClickHandler;
@@ -65,12 +66,16 @@ public class MyApplication extends MultiDexApplication {
 	public static ThreadPoolManager poolManager;//线程池
 	private String device_token = "device_token";
 	private String pushmessage = "pushmessage";
+	private PushAgent mPushAgent;
+
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		context = this;
-		final PushAgent mPushAgent = PushAgent.getInstance(this);
+		init();
+		mPushAgent = PushAgent.getInstance(this);
+		UTagAndAlias.init(mPushAgent);
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 		SharedPreferences.Editor edit = sp.edit();
 		edit.putString(pushmessage, "");
@@ -186,7 +191,7 @@ public class MyApplication extends MultiDexApplication {
 		OpenInstall.init(this, "x40wn7");
 		OpenInstall.init(this);
 		OpenInstall.setDebug(true);
-		init();
+
 	}
 
 

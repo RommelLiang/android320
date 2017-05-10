@@ -279,6 +279,7 @@
         <activity
             android:name=".PublishPicToGetPriceActivity"
             android:label="PublishPicToGetPrice Activity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.litreily.PublishPicToGetPriceActivity"/>
@@ -363,7 +364,9 @@
         <activity android:name=".wxapi.Main2Activity"/>
         <activity android:name=".wxapi.WXEntryActivity"/>
         <activity android:name=".PushHistoryActivity"/>
-        <activity android:name=".DingzhiDetailsActivity">
+        <activity
+            android:name=".DingzhiDetailsActivity"
+            android:launchMode="singleTask">
         </activity>
         <activity android:name=".MyBodyManngerActivity">
         </activity>

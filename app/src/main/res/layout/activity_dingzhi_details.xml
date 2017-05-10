@@ -186,6 +186,7 @@
                 android:weightSum="5">
 
                 <LinearLayout
+                    android:layout_marginBottom="5dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -195,13 +196,13 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:background="@drawable/home_price"
+                        android:background="@drawable/fatu_for_price"
                         />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:lines="1"
                         android:text="发图询价"
                         android:textSize="10dp"/>
@@ -223,13 +224,13 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:background="@drawable/home_friend_y"
+                        android:background="@drawable/home_friend"
                         />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:lines="1"
                         android:text="客服沟通"
                         android:textSize="10dp"/>
@@ -251,13 +252,13 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:background="@drawable/home_fitting"
+                        android:background="@drawable/yangyi"
                         />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:lines="1"
                         android:text="免费试样"
                         android:textSize="10dp"/>
@@ -279,13 +280,13 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:background="@drawable/home_detail"
+                        android:background="@drawable/detail"
                         />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:lines="1"
                         android:text="细节沟通"
                         android:textSize="10dp"
@@ -308,13 +309,13 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:background="@drawable/home_clothing"
+                        android:background="@drawable/clear"
                         />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:lines="1"
                         android:text="成衣出品"
                         android:textSize="10dp"/>

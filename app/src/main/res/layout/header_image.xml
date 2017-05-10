@@ -9,6 +9,7 @@
         android:scaleType="fitXY"
         android:id="@+id/header_image"
         android:layout_width="match_parent"
+        android:minHeight="200dp"
         android:layout_height="200dp" />
     <TextView
         android:layout_marginRight="5dp"

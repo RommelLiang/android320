@@ -56,7 +56,7 @@ import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.db.DBTools;
 import com.tiemuyu.chuanchuan.activity.fragment.FindFragment;
 import com.tiemuyu.chuanchuan.activity.fragment.FriendFragment;
-import com.tiemuyu.chuanchuan.activity.fragment.HomeFragment;
+import com.tiemuyu.chuanchuan.activity.fragment.HomeFragmentR;
 import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
 import com.tiemuyu.chuanchuan.activity.helper.GuideHelper;
 import com.tiemuyu.chuanchuan.activity.new_activities.FatuActivity;
@@ -68,6 +68,7 @@ import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.SendCrashLog;
+import com.tiemuyu.chuanchuan.activity.util.SetNotificationBarColer;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 import com.tiemuyu.chuanchuan.activity.util.ViewTools;
 import com.tiemuyu.chuanchuan.activity.view.CustomButton;
@@ -99,7 +100,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 	private RelativeLayout header;
 	private LinearLayout goBackButton, top_right_linearlayout;
 	private ImageView im_setting;
-	private HomeFragment homeFragment;
+	private HomeFragmentR homeFragment;
 	private FindFragment findFragment;
 	private FriendFragment friendFragment;
 	private MineFragment mineFragment;
@@ -128,11 +129,14 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 	private DataSharedPress sharedPress;
 	private String pushmessage = "pushmessage";
 	private boolean isJump = false;
+	public static android.support.v4.app.FragmentManager mSupportFragmentManager;
+	private LinearLayout ll_heand;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		SharedPreferences jsp = PreferenceManager.getDefaultSharedPreferences(this);
+		mSupportFragmentManager = getSupportFragmentManager();
 		String json = jsp.getString(pushmessage, "");
 		if (!json.equals("")) {
 			Intent intent = new Intent(this, PushHistoryActivity.class);
@@ -140,13 +144,15 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		}
 		GuideHelper guideHelper = new GuideHelper(this);
 		guideHelper.openGuide();
-		//史力：设置键盘上抬
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 		//设置状态栏为透明
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-		//getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-		//gao 上面用哪个？
 		setContentView(R.layout.activity_main);
+
+		View statusView = SetNotificationBarColer.createStatusView(this, getResources().getColor(R.color.BarBackground));
+		//ll_heand.addView(statusView,0);
+		/*SetNotificationBarColer.init(this, getResources().getColor(R.color.BarBackground));
+		SetNotificationBarColer.setColor();*/
 		//一键跳转
 		onNewIntent(getIntent());
 		//以下by FY：与IM有关
@@ -165,11 +171,20 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		registerObservers(incomingMessageObserver, true);
 		header = (RelativeLayout) findViewById(R.id.header);
 		search = (LinearLayout) findViewById(R.id.search);
+		search.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
+		ll_heand = (LinearLayout) findViewById(R.id.ll_heand);
+		ll_heand.addView(statusView,0);
 		initView();
 		client.setHeader(header, search, im_setting, bottom);
 		ViewTools.showView(button_chuanchuan, buttons);
 		transaction = manager.beginTransaction();
-		homeFragment = new HomeFragment();
+		homeFragment = HomeFragmentR.getInstance(this);
+
 		homeFragment.setHeader(header, search, im_setting, bottom);
 		transaction.add(R.id.fra_webView, homeFragment);
 		transaction.show(homeFragment);
@@ -467,6 +482,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		switch (v.getId()) {
 			//穿穿
 			case R.id.main_ccbtn:
+				ll_heand.setVisibility(View.VISIBLE);
 				flag = 1;
 				im_setting.setVisibility(View.GONE);
 				ViewTools.showView(button_chuanchuan, buttons);
@@ -508,6 +524,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 
 			//发现
 			case R.id.main_ccfx:
+				ll_heand.setVisibility(View.VISIBLE);
 				flag = 3;
 				im_setting.setVisibility(View.GONE);
 				ViewTools.showView(button_faxian, buttons);
@@ -564,6 +581,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 				break;
 			//我的
 			case R.id.main_ccwd:
+				ll_heand.setVisibility(View.GONE);
 				flag = 4;
 				ViewTools.showView(button_wode, buttons);
 				ViewTools.changeTitle(header, search, "");
@@ -612,7 +630,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		Log.e("login: ", now + "!");
 		if (now != null) {
 			if (now.getAccid() == null) {
-				Toast.makeText(this, "身份信息异常", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(this, "身份信息异常", Toast.LENGTH_SHORT).show();
 			}
 		}
 		LoginInfo loginInfo = new LoginInfo(now.getAccid(), now.getAccToken());

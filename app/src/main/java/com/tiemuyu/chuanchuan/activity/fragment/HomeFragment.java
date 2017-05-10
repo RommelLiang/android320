@@ -31,7 +31,6 @@ import com.tiemuyu.chuanchuan.activity.FindWaterActivity;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
 import com.tiemuyu.chuanchuan.activity.MyWebview;
 import com.tiemuyu.chuanchuan.activity.R;
-import com.tiemuyu.chuanchuan.activity.adapter.DzcpAdapter;
 import com.tiemuyu.chuanchuan.activity.adapter.HeoizonListViewAdapter;
 import com.tiemuyu.chuanchuan.activity.adapter.WaterAdapter;
 import com.tiemuyu.chuanchuan.activity.adapter.ZhuanTiWaterAdapter;
@@ -60,7 +59,7 @@ import java.util.List;
  * Created by Lonze on 2016/8/23.
  */
 public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRefreshListener2<ListView> {
-
+//废弃傻逼设计模式下的类
 
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     DisplayImageOptions options;
@@ -101,7 +100,6 @@ public class HomeFragment extends BaseFragment implements PullToRefreshBase.OnRe
 
     //=============定制成品所需变量================
     private ListView lv_dzcp;
-    private DzcpAdapter dzcpAdapter;
     //=============================================
 
     //===============GWH==================

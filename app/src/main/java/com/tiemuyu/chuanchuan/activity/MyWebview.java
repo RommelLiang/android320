@@ -148,13 +148,7 @@ public class MyWebview extends BaseActivityG {
 
             @Override
             public void onClick(View v) {
-                if(task==0) {
-                    finish();
-                }
-                else {
-                    task--;
-                    im_webView.goBack();
-                }
+                finish();
             }
         });
     }

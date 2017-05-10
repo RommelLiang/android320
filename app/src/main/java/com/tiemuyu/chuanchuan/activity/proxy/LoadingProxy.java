@@ -1,6 +1,8 @@
 package com.tiemuyu.chuanchuan.activity.proxy;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.tiemuyu.chuanchuan.activity.proxy.impl.ProgressLoadIMPL;
 import com.tiemuyu.chuanchuan.activity.proxy.proxyInter.ProgressLoad;
@@ -12,10 +14,12 @@ import com.tiemuyu.chuanchuan.activity.proxy.proxyInter.ProgressLoad;
 public class LoadingProxy {
 	private static LoadingProxy mLoadingProxy;
 	private ProgressLoad mProgressLoad;
+	private Context mContext;
 
 	public LoadingProxy(Context mContext) {
 		mProgressLoad = new ProgressLoadIMPL();
 		mProgressLoad.create(mContext);
+		this.mContext = mContext;
 	}
 
 	public static LoadingProxy getInstance(Context mContext) {
@@ -25,7 +29,11 @@ public class LoadingProxy {
 
 
 	public void show() {
-		mProgressLoad.show();
+		if (!((Activity) mContext).isFinishing()) {
+			String localClassName = ((Activity) mContext).getLocalClassName();
+			Log.e("show: ", localClassName);
+			mProgressLoad.show();
+		}
 	}
 
 	public LoadingProxy setLable(String mLable) {
@@ -42,4 +50,6 @@ public class LoadingProxy {
 		mProgressLoad.dismiss();
 		return this;
 	}
+
+
 }

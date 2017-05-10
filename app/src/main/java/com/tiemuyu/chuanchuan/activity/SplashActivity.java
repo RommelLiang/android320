@@ -15,9 +15,11 @@ import com.fm.openinstall.model.AppData;
 import com.fm.openinstall.model.Error;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.NewShaituBean;
+import com.tiemuyu.chuanchuan.activity.bean.User;
 import com.tiemuyu.chuanchuan.activity.bean.VesionCodeBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
+import com.tiemuyu.chuanchuan.activity.db.DBTools;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.CheckVersion;
 import com.tiemuyu.chuanchuan.activity.util.ConnectionUtil;
@@ -25,6 +27,7 @@ import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
+import com.tiemuyu.chuanchuan.activity.util.UTagAndAlias;
 import com.tiemuyu.chuanchuan.activity.util.VeData;
 
 import org.xutils.http.RequestParams;
@@ -42,6 +45,8 @@ public class SplashActivity extends BaseActivityG implements AppInstallListener 
 	public static final String TAG_VERSION = "TAG_VERSION";
 	private boolean isGetVesion = false;
 	private boolean isJump = false;
+	private String TAGU;
+	private String alia;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,22 @@ public class SplashActivity extends BaseActivityG implements AppInstallListener 
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_splash);
+		UTagAndAlias.getAllTag();
+		User user = DBTools.getUser();
+		if (user != null){
+			TAGU =user.getUserId()+"";
+			alia =user.getUserId()+"";
+			SPUtils.setHasLogin(true);
+		} else {
+			if (SPUtils.getHasLogin()) {
+				TAGU = "-1";
+			} else {
+				TAGU = "-200";
+			}
+			alia = "0";
+		}
+		UTagAndAlias.addAlia(alia);
+		UTagAndAlias.addTag(TAGU);
 		if (!ConnectionUtil.isConn(this)) {
 			ToastHelper.show(this, "亲，网络断了哦，请检查网络设置");
 			jump();
@@ -96,9 +117,13 @@ public class SplashActivity extends BaseActivityG implements AppInstallListener 
 				Date openData = VeData.strToDateLong(openShaituTime);
 				Log.e("success Time: ", sharedTime);
 				Log.e("success Time: ", openShaituTime);
-				if (shareData.after(openData)) {
-					SPUtils.setIsNewShatiu(true);
-				} else {
+				try {
+					if (shareData.after(openData)) {
+						SPUtils.setIsNewShatiu(true);
+					} else {
+						SPUtils.setIsNewShatiu(false);
+					}
+				} catch (Exception e){
 					SPUtils.setIsNewShatiu(false);
 				}
 			}

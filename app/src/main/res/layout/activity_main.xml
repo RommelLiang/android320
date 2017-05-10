@@ -14,10 +14,16 @@
             android:id="@+id/hh"
             layout="@layout/head"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.4dp"
+            android:background="@color/colorGray"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipChildren="false"
+
             android:orientation="vertical">
 
             <!--<WebView-->
@@ -29,7 +35,7 @@
             <FrameLayout
                 android:id="@+id/fra_webView"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/colorLightWhite"/>
 
@@ -47,11 +53,11 @@
                 android:weightSum="5">
 
                 <com.tiemuyu.chuanchuan.activity.view.CustomButton
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
                     android:id="@+id/main_ccbtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"/>
@@ -63,11 +69,11 @@
                     android:gravity="center">
 
                     <com.tiemuyu.chuanchuan.activity.view.CustomButton
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="2dp"
                         android:id="@+id/main_kfbtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginTop="2dp"
                         android:orientation="vertical"/>
 
                     <TextView
@@ -94,11 +100,13 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="-30dp"
                     android:layout_weight="1">
+
                     <FrameLayout
-                        android:layout_gravity="bottom"
-                        android:background="@drawable/rectanger"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/rectanger">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
@@ -108,11 +116,11 @@
                         </LinearLayout>
 
                         <ImageView
-                            android:layout_marginBottom="20dp"
                             android:id="@+id/imageView_camera"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="20dp"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:layout_marginTop="5dp"
@@ -134,22 +142,22 @@
                 </FrameLayout>
 
                 <com.tiemuyu.chuanchuan.activity.view.CustomButton
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
                     android:id="@+id/main_ccfx"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"/>
 
 
                 <com.tiemuyu.chuanchuan.activity.view.CustomButton
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
                     android:id="@+id/main_ccwd"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"/>

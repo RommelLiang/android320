@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
@@ -37,6 +39,7 @@ import com.tiemuyu.chuanchuan.activity.proxy.LoadingProxy;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
 import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
+import com.tiemuyu.chuanchuan.activity.util.JumpToKeFU;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PicassoImageLoader;
 import com.tiemuyu.chuanchuan.activity.util.SocketHttpRequester;
@@ -252,7 +255,6 @@ public class FatuActivity extends BaseActivityG {
 	}
 
 
-
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -305,6 +307,7 @@ public class FatuActivity extends BaseActivityG {
 				case 2:
 					Log.e("图片上传失败", "handleMessage: ");
 					System.out.println("*******图片上传失败");
+					mInstance.dismiss();
 					break;
 				default:
 					break;
@@ -319,7 +322,7 @@ public class FatuActivity extends BaseActivityG {
 			int code = imageUrlBean.getCode();
 			if (code == 0) {
 				mInstance.dismiss();
-				ToastHelper.show(FatuActivity.this,"上传图片失败，请重试");
+				ToastHelper.show(FatuActivity.this, "上传图片失败，请重试");
 				return;
 			}
 			String[] split = imageUrlBean.getData().getImageUrl().split(",");
@@ -361,19 +364,44 @@ public class FatuActivity extends BaseActivityG {
 
 		User user = DBTools.getUser();
 		if (resultTag.equals(TAG_FABU_MOMENT)) {
-			Log.e("测试发图:","发布完成" );
+			Log.e("测试发图:", "发布完成");
 			System.out.println("######成功了callback");
-			ClassJumpTool.startToBackActivity(this, MainActivity.class, null, 10);
 			mInstance.dismiss();
-			ToastHelper.show(this, "发布成功");
 			MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
 					TAG_SENDMESSAGE, Constant.REQUEST_GET,
 					new RequestParams(UrlManager.sendMessage(user.getUserId() + "")), FatuActivity.this,
 					"发图中...", false));
 			Log.e("successCallBack: ", UrlManager.sendMessage(user.getUserId() + ""));
+			new AlertView.Builder().setContext(this)
+					.setStyle(AlertView.Style.Alert)
+					.setTitle("")
+					.setMessage("图片发送成功")
+					.setDestructive("完成")
+					.setCancelText("联系客服")
+					.setOthers(null)
+					.setOnItemClickListener(new OnItemClickListener() {
+						@Override
+						public void onItemClick(Object o, int position) {
+							Log.e("onItemClick: ",position+"" );
+							switch (position) {
+								case -1:
+									try {
+										JumpToKeFU jumpToKeFU = new JumpToKeFU();
+										jumpToKeFU.getInstance(FatuActivity.this);
+									} catch (Exception e) {
+										Log.e( "onItemClick: ", e.getLocalizedMessage());
+									}
+									break;
+								case 0:
+									ClassJumpTool.startToBackActivity(FatuActivity.this, MainActivity.class, null, 10);
+									break;
+							}
+						}
+					})
+					.build().show();
 		} else if (resultTag.equals(TAG_SENDMESSAGE)) {
-			Log.e("successCallBack: ", TAG_SENDMESSAGE+callBackMsg);
-			finish();
+			Log.e("successCallBack: ", TAG_SENDMESSAGE + callBackMsg);
+
 		}
 
 
@@ -387,7 +415,7 @@ public class FatuActivity extends BaseActivityG {
 		if (resultTag.equals(TAG_FABU_MOMENT)) {
 			System.out.println("######failShowCallBack ");
 			ToastHelper.show(this, "图片发布失败");
-			Log.e("测试发图:","发布完成" );
+			Log.e("测试发图:", "发布完成");
 		}
 	}
 
@@ -476,7 +504,7 @@ public class FatuActivity extends BaseActivityG {
 			if (position < items.size()) {
 				//Picasso.
 				(new PicassoImageLoader()).displayImage(FatuActivity.this, items.get(position).path, childHolder.imageView, width);
-				Log.e( "getView: ",  items.get(position).path);
+				Log.e("getView: ", items.get(position).path);
 				childHolder.delect.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -485,7 +513,7 @@ public class FatuActivity extends BaseActivityG {
 							mImages.clear();
 							//add_img1.setVisibility(View.VISIBLE);
 							adapter.notifyDataSetChanged();
-						} else if (mImages.size() > 1 && mImages.size() <= 9){
+						} else if (mImages.size() > 1 && mImages.size() <= 9) {
 							mImages.remove(position);
 							adapter.notifyDataSetChanged();
 						}

@@ -59,7 +59,6 @@ public class MyShaitu extends BaseActivityG {
     private PullToRefreshGridView mPullRefreshListView;//
     private List<String> images;
     private int mItemCount = 12;
-    private LinearLayout shaitu_back;
 
     protected ImageLoader imageLoader = ImageLoader.getInstance();
 
@@ -98,8 +97,6 @@ public class MyShaitu extends BaseActivityG {
                 .cacheOnDisc()
                 .displayer(new RoundedBitmapDisplayer(0))
                 .build();
-        shaitu_back = (LinearLayout) findViewById(R.id.MyShaituGoBack);
-        shaitu_back.setOnClickListener(this);
         images = new ArrayList<>();
         //不需要获取数据
         //        final String  information = getIntent().getStringExtra("Intent_Data_Packet");//.getStringExtra("et1");

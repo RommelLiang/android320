@@ -109,17 +109,21 @@ public class MyBodyManngerActivity extends BaseActivityG implements PullToRefres
 
 		} else if (resultTag.equals(TAG_GETBODYINFO)){
 			BodyDataBean bodyDataBean =GsonUtils.fromData(callBackMsg, BodyDataBean.class);
-			BodysBean.DataBean.UserCCInfoListBean dataBean = new BodysBean.DataBean.UserCCInfoListBean();
-			dataBean.setName("");
-			dataBean.setGENDER(bodyDataBean.getData().getGender());
-			dataBean.setWEIGHT(bodyDataBean.getData().getWeight());
-			dataBean.setHEIGHT(bodyDataBean.getData().getHeight());
-			dataBean.setAGE(bodyDataBean.getData().getAge());
-			if (dataBean.getName() == null || dataBean.getName().equals("")){
-				dataBean.setName(DBTools.getUser().getNickName()+"");
+			if (bodyDataBean.getData() != null) {
+				BodysBean.DataBean.UserCCInfoListBean dataBean = new BodysBean.DataBean.UserCCInfoListBean();
+				dataBean.setName("");
+				dataBean.setGENDER(bodyDataBean.getData().getGender());
+				dataBean.setWEIGHT(bodyDataBean.getData().getWeight());
+				dataBean.setHEIGHT(bodyDataBean.getData().getHeight());
+				dataBean.setAGE(bodyDataBean.getData().getAge());
+
+				if (dataBean.getName() == null || dataBean.getName().equals("")) {
+					dataBean.setName(DBTools.getUser().getNickName() + "");
+				}
+
+				Log.e(TAG_GETBODYINFO, "successCallBack: " + dataBean.getName());
+				mBodysBean.getData().getUserCCInfoList().add(0, dataBean);
 			}
-			Log.e(TAG_GETBODYINFO, "successCallBack: "+dataBean.getName());
-			mBodysBean.getData().getUserCCInfoList().add(0,dataBean);
 			pull_refresh_grid.setOnRefreshListener(MyBodyManngerActivity.this);
 			mBodyAdapter = new BodyAdapter(MyBodyManngerActivity.this, this,mBodysBean.getData().getUserCCInfoList());
 			mRefreshableView.setAdapter(mBodyAdapter);

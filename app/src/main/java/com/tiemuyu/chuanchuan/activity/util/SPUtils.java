@@ -34,6 +34,8 @@ public class SPUtils {
     public static final String OPEN_SHAITU_TIME = "OPEN_SHAITU_TIME";
     public static final String IS_Force_UPDATE = "IS_Force_UPDATE";
     public static final String IS_NEW_SHATIU= "IS_NEW_SHATIU";
+    public static final String OPEN_COUNT= "OPEN_COUNT";
+    public static final String HAS_LOGIN= "HAS_LOGIN";
 
     public static void init(Context context) {
         mContext = context;
@@ -77,6 +79,14 @@ public class SPUtils {
 
     public static boolean getRing(){
         return (boolean) get(IS_vibrate,false);
+    }
+
+    public static void setHasLogin(boolean mHasLogin){
+        put(HAS_LOGIN,mHasLogin);
+    }
+
+    public static boolean getHasLogin(){
+        return (boolean) get(HAS_LOGIN,false);
     }
 
     public static void setIsNewShatiu(boolean isNew){
@@ -172,6 +182,14 @@ public class SPUtils {
 
     public static void setOpenShaituTime(String time) {
         put(OPEN_SHAITU_TIME,time);
+    }
+
+    public static String getOpenCount() {
+        return (String) get(OPEN_COUNT,"0");
+    }
+
+    public static void setOpenCount(String time) {
+        put(OPEN_COUNT,time);
     }
 
     public static void put(String key, Object object) {
