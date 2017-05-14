@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
+import com.tiemuyu.chuanchuan.activity.util.SetNotificationBarColer;
 import com.tiemuyu.chuanchuan.activity.view.PinchImageView;
 
 import java.io.File;
@@ -27,6 +28,8 @@ public class ImageDetailsActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_image_details);
+		SetNotificationBarColer.init(this, getResources().getColor(R.color.colorBlack));
+		SetNotificationBarColer.setColor();
 		Intent intent = getIntent();
 		images = intent.getStringArrayListExtra("images");
 		position = intent.getIntExtra("position", 0);

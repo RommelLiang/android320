@@ -86,6 +86,7 @@
                 android:layout_toEndOf="@+id/reg_phone_new" />
 
             <View
+                android:layout_marginTop="5dp"
                 android:layout_below="@id/login_name"
                 android:layout_height="1dp"
                 android:background="@color/colorLightWhite"
@@ -128,6 +129,7 @@
                 android:layout_toEndOf="@+id/reg_pswd_new" />
 
             <View
+                android:layout_marginTop="5dp"
                 android:layout_below="@id/login_password"
                 android:layout_height="1dp"
                 android:background="@color/colorLightWhite"

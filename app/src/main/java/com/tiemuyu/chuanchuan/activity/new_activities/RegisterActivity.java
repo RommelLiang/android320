@@ -266,7 +266,6 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 					return;
 				//重新获取邀请码
 				MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
-
 						TAG_GETCODE, Constant.REQUEST_POST, ParamsTools.getCode(
 						UrlManager.GET_CODE(), name, yaoqingma), this, "获取验证码中", true));
 				break;
@@ -346,8 +345,8 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 
 		MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
 
-				TAG_GETCODE, Constant.REQUEST_POST, ParamsTools.getCode(
-				UrlManager.GET_CODE(), name, yaoqingma), this, "获取验证码中", true));
+				TAG_GETCODE, Constant.REQUEST_POST, ParamsTools.getCodeNew(
+				name), this, "获取验证码中", true));
 	}
 
 
@@ -361,6 +360,7 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 			ToastHelper.show(this, "获取验证码失败");
 			build1.show();
 		} else if (resultTag.equals(TAG_REGIST)) {
+			mInstance.dismiss();
 			Log.e("TAG_REGIST", "failCallBack: " + arg0.getLocalizedMessage());
 			ToastHelper.show(this, "注册失败");
 		} else if (resultTag.equals(TAG_REGIST_MODIFY)) {
@@ -372,13 +372,15 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 	@Override
 	public void failShowCallBack(String resultTag, BaseBean baseBean,
 	                             String callBackMsg, boolean isShowDiolog) {
+
 		// TODO Auto-generated method stub
 		super.failShowCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
 		Log.e("failShowCallBack: ", resultTag + ":" + callBackMsg);
+		mInstance.dismiss();
 		if (resultTag.equals(TAG_GETCODE)) {
 			int code = baseBean.getCode();
 			if (code == 0) {
-				ToastHelper.show(RegisterActivity.this, "您的手机号码已在穿穿注册，请直接登录");
+				ToastHelper.show(RegisterActivity.this, baseBean.getMsg());
 				return;
 			} else if (code != 1) {
 				build1 = new AlertView.Builder().setContext(RegisterActivity.this)
@@ -395,6 +397,7 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 
 		} else if (resultTag.equals(TAG_REGIST)
 				|| resultTag.equals(TAG_REGIST_MODIFY)) {
+
 			System.out.println("######-muji:" + callBackMsg);
 			ToastHelper.show(this, baseBean.getMsg());
 		}
@@ -441,6 +444,7 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 	 * @Description: TODO 注册结果操作
 	 */
 	private void registResult(String msg) {
+
 		if (isOk(msg)) {
 			Toast.makeText(this, "注册成功", Toast.LENGTH_LONG).show();
 //            isRegist = true;
@@ -522,9 +526,9 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 
 				System.out.println("#####getPasskeyAndRegist");
 
+				mInstance.show();
 				MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(
 						this,
-
 						TAG_REGIST, Constant.REQUEST_POST, ParamsTools.regist(
 						UrlManager.REGIST() + "android",//MyApplication.mChannel,
 						v1, get_code, yaoqingma, "", token), this,
@@ -552,8 +556,6 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 			setView(false, true);
 			reg_showinfo2.setText("亲,短信验证码已发送至" + name + ",请注意查收");
 			timeCount.start();
-//            tv_tishi.setText("亲,短信验证码已发送至" + name + ",请注意查收");
-//            timeCount.start();
 		}
 
 

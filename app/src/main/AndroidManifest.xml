@@ -60,7 +60,7 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme">
 
         <!--
      APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
@@ -341,6 +341,7 @@
         <activity android:name=".ExecuteChargeActivity"/>
         <activity android:name=".GetCashPasswordAcyivity"/>
         <activity
+            android:theme="@style/AppTheme.Launcher"
             android:name=".SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>

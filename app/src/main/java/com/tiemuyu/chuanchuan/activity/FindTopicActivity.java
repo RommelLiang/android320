@@ -19,12 +19,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.FindTopicBean;
 import com.tiemuyu.chuanchuan.activity.bean.TopicHeander;
@@ -32,6 +29,7 @@ import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
+import com.tiemuyu.chuanchuan.activity.util.PicassoImageBase;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 
@@ -69,9 +67,6 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
     FindTopicBean findTopicBean;
     FindTopicAdapter findTopicAdapter;
 
-    protected ImageLoader imageLoader = ImageLoader.getInstance();//sl：显示图片所需的一个变量
-    private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();//sl:显示图片所需
-    DisplayImageOptions options;//sl：显示图片所需变量
     private int id;
     int i = 0;
     private static final String SEARCH_ARTICLE_LIST = "SEARCH_ARTICLE_LIST";
@@ -170,16 +165,8 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
             ListView listView = pullToRefreshListView.getRefreshableView();
             listView.addHeaderView(headerview, null, true);
             pullToRefreshListView.setAdapter(null);
-            //sl: 给options赋值，参考晒图做法
-            options = new DisplayImageOptions.Builder()
-                    .showStubImage(R.drawable.icon_morentupian2)
-                    .showImageForEmptyUri(R.drawable.icon_morentupian2)
-                    .showImageOnFail(R.drawable.icon_morentupian2)
-                    .cacheInMemory()
-                    .cacheOnDisc()
-                    .displayer(new RoundedBitmapDisplayer(0))
-                    .build();
-            imageLoader.displayImage(topicss.getBigimg(), header_big_img, options, animateFirstListener);
+            PicassoImageBase.getIns(this)
+                    .setImageWithouRise(header_big_img,topicss.getBigimg());
             header_img_txt.setText(topicss.getMiaoshu());
             //用循环动态添加按钮
             for (i = 0; i < topicss.getGuanJianList().size(); i++) {
@@ -314,7 +301,10 @@ public class FindTopicActivity extends BaseActivityG implements View.OnClickList
             } else {
                 holder = (ViewHolder) view.getTag();
             }
-            imageLoader.displayImage(findTopicBean.getData().get(position).getImg(), holder.big_img, options, animateFirstListener);
+            Picasso.with(FindTopicActivity.this)
+                    .load(findTopicBean.getData().get(position).getImg())
+                    .placeholder(R.drawable.icon_morentupian2)
+                    .into(holder.big_img);
             holder.art_title.setText(findTopicBean.getData().get(position).getName());
             holder.art_des.setText(findTopicBean.getData().get(position).getMiaoshu());
             holder.view_count.setText(findTopicBean.getData().get(position).getLooksum() + "");

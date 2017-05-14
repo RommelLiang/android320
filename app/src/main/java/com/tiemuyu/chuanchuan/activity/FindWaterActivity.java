@@ -2,7 +2,6 @@ package com.tiemuyu.chuanchuan.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,12 +19,10 @@ import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.tiemuyu.chuanchuan.activity.adapter.FindSecondWaterAdapter;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.FindSecondWaterBean;
@@ -34,6 +31,7 @@ import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.new_activities.BaseActivityG;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
+import com.tiemuyu.chuanchuan.activity.util.PicassoImageBase;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -94,7 +92,6 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
 
     protected ImageLoader imageLoader = ImageLoader.getInstance();//sl：显示图片所需的一个变量
     private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();//sl:显示图片所需
-    DisplayImageOptions options;//sl：显示图片所需变量
     private int id;
     private WaterBean.DataBeanX.TopicssBean topicss;
     private int mType;
@@ -135,7 +132,6 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
         Log.e("onCreate: ", id+"" + mType+"!!!!!!!!");
         getHead();
         // headerDataBean = (FindHeaderBean.DataBean) intent.getSerializableExtra("img1_info");
-
     }
 
     void initData(int topic_id, int state, int index, String key_word) {
@@ -279,18 +275,9 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
             pullToRefreshListView.setAdapter(null);
             initIndicator(pullToRefreshListView);
             pullToRefreshListView.setOnRefreshListener(this);
-
-            options = new DisplayImageOptions.Builder()
-                    .showStubImage(R.drawable.icon_morentupian2)
-                    .showImageForEmptyUri(R.drawable.icon_morentupian2)
-                    .showImageOnFail(R.drawable.icon_morentupian2)
-                    .cacheInMemory()
-                    .cacheOnDisc()
-                    .displayer(new RoundedBitmapDisplayer(0))
-                    .build();
-
             tv_main_header_title.setText(topicss.getName().toString());
-            imageLoader.displayImage(topicss.getBigimg(), header_big_img, options, animateFirstListener);
+            PicassoImageBase.getIns(this)
+                    .setImageWithouRise(header_big_img,topicss.getBigimg());
             header_img_txt.setText(topicss.getMiaoshu());
             ll_sort_list.setVisibility(View.GONE);
             hsv_keys.setVisibility(View.GONE);
@@ -322,7 +309,7 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
     @Override
     public void failCallBack(Throwable arg0, String resultTag, boolean isShowDiolog) {
         super.failCallBack(arg0, resultTag, isShowDiolog);
-        Log.e("tag", "second waterfall failed!");
+        Log.e("tag", "second waterfall failed!"+arg0.getLocalizedMessage());
     }
 
     @Override
@@ -344,23 +331,28 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
     public void successCallBack(String resultTag, BaseBean baseBean, String callBackMsg, boolean isShowDiolog) {
         super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
         Log.e("tag", "second waterfall success: " + callBackMsg);
+
         FindSecondWaterAction(resultTag, callBackMsg);
+        pullToRefreshListView.onRefreshComplete();
     }
 
     @Override
     public void failShowCallBack(String resultTag, BaseBean baseBean, String callBackMsg, boolean isShowDiolog) {
         super.failShowCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
+        pullToRefreshListView.onRefreshComplete();
     }
 
     @Override
-    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {}
+    public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+        watercount=1;
+        initData(topic_id, state, watercount, key_word);
+    }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
         Log.e("tag", "pull up in second water!!");
         watercount++;
         initData(topic_id, state, watercount, key_word);
-        new GetDataTask().execute();
     }
 
     //sl: 显示图片所需的一个静态类，来自晒图代码
@@ -415,43 +407,6 @@ public class FindWaterActivity extends BaseActivityG implements View.OnClickList
         endLabels.setReleaseLabel("松开即可刷新...");// 下来达到一定距离时，显示的提示
     }
 
-    //瀑布流所需，貌似无用，先不要删 狗鸡巴安卓操你妈逼 日你奶奶的草拟吗
-    private class GetDataTaskDown extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                // TODO: 2017/1/24
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            pullToRefreshListView.onRefreshComplete();
-        }
-    }
-
-    //瀑布流所需
-    private class GetDataTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                // TODO: 2017/1/24
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            findSecondWaterAdapter.notifyDataSetChanged();
-            pullToRefreshListView.onRefreshComplete();
-        }
-    }
     private String TAG_GETHANDER = "TAG_GETHANDER";
     private void getHead(){
         MyApplication.poolManager.addAsyncTask(

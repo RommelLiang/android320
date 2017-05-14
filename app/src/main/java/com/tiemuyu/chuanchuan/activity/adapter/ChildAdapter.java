@@ -42,7 +42,7 @@ public class ChildAdapter extends BaseAdapter {
 
 		width = wm.getDefaultDisplay().getWidth();
 		height = wm.getDefaultDisplay().getHeight();
-		mPicassoWithImage = new PicassoWithImage(context);
+		mPicassoWithImage = PicassoWithImage.getIns(context);
 	}
 
 	@Override
@@ -80,20 +80,24 @@ public class ChildAdapter extends BaseAdapter {
 			childHolder = (ChildHolder) convertView.getTag();
 		}
 		Log.e("ChildHolder", "getView: " + position);
-		childHolder.imageView.setPadding(1,1,1,1);
+
 		if (position == 5) {
-			Drawable adddrawable=context.getResources().getDrawable(R.drawable.image_null);
+			childHolder.imageView.setPadding(80, 80, 80, 80);
+			childHolder.imageView.setImageBitmap(null);
+			childHolder.imageView.setImageBitmap(null);
+			Drawable adddrawable = context.getResources().getDrawable(R.drawable.image_null);
 			childHolder.rl_item.setBackground(adddrawable);
-			childHolder.imageView.setPadding(60,60,60,60);
 			Picasso.with(context)
 					.load(R.drawable.more)
 					.placeholder(R.drawable.more)
+					.error(R.drawable.more)
 					.into(childHolder.imageView);
 			childHolder.name.setText("");
 			childHolder.price.setText("");
 		}
-		if (position<5) {
-			Drawable adddrawable=context.getResources().getDrawable(R.drawable.image);
+		if (position < 5) {
+			childHolder.imageView.setPadding(1, 1, 1, 1);
+			Drawable adddrawable = context.getResources().getDrawable(R.drawable.image);
 			childHolder.rl_item.setBackground(adddrawable);
 			String promianpic = listBean.getAppdingzhilist().get(position).getPromianpic();
 			mPicassoWithImage.setImage(childHolder.imageView, promianpic);

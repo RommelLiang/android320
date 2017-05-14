@@ -23,7 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipChildren="false"
-
             android:orientation="vertical">
 
             <!--<WebView-->
@@ -94,50 +93,55 @@
                 </RelativeLayout>
 
                 <FrameLayout
-
                     android:id="@+id/main_ccftxj"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginTop="-30dp"
                     android:layout_weight="1">
 
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:background="@drawable/rectanger">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_gravity="bottom"
-                            android:background="@color/white"
-                            android:padding="-1dp">
-                        </LinearLayout>
-
-                        <ImageView
-                            android:id="@+id/imageView_camera"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="20dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginTop="5dp"
-                            android:src="@mipmap/camera"/>
-
-                        <TextView
-                            android:id="@+id/textView_camera"
-                            android:layout_width="match_parent"
+                        <FrameLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
                             android:layout_gravity="bottom"
-                            android:layout_marginTop="1dp"
-                            android:gravity="center"
-                            android:text="发图询价"
-                            android:textAlignment="center"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textSize="10dp"/>
-                    </FrameLayout>
+                            android:background="@drawable/rectanger">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_gravity="bottom"
+                                android:background="@color/white"
+                                android:padding="-1dp">
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/imageView_camera"
+                                android:layout_width="match_parent"
+                                android:layout_height="60dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="20dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginTop="5dp"
+                                android:src="@mipmap/camera"/>
+
+                            <TextView
+                                android:id="@+id/textView_camera"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:layout_marginTop="1dp"
+                                android:gravity="center"
+                                android:text="发图询价"
+                                android:textAlignment="center"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:textSize="10dp"/>
+                        </FrameLayout>
+                    </RelativeLayout>
 
                 </FrameLayout>
 

@@ -234,8 +234,8 @@ public class ClothesDetail {
             private String MainImage;
             private int Status;
             private int IsMultiPrice;
-            private int OriginalPrice;
-            private int Price;
+            private double OriginalPrice;
+            private double Price;
             private int MaxCoin;
             private int FabricId;
             private String FabricColorName;
@@ -400,18 +400,18 @@ public class ClothesDetail {
             }
 
             public int getOriginalPrice() {
-                return OriginalPrice;
+                return (int) Math.ceil(OriginalPrice);
             }
 
-            public void setOriginalPrice(int OriginalPrice) {
+            public void setOriginalPrice(double OriginalPrice) {
                 this.OriginalPrice = OriginalPrice;
             }
 
             public int getPrice() {
-                return Price;
+                return (int) Math.ceil(Price);
             }
 
-            public void setPrice(int Price) {
+            public void setPrice(double Price) {
                 this.Price = Price;
             }
 

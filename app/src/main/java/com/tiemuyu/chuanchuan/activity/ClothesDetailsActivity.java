@@ -404,7 +404,7 @@ public class ClothesDetailsActivity extends BaseActivityG implements NetResponse
 		}
 		User now = DBTools.getUser();
 		if (now.getAccid() == null) {
-			Toast.makeText(this, "网络异常", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(this, "网络异常", Toast.LENGTH_SHORT).show();
 		}
 		LoginInfo loginInfo = new LoginInfo(now.getAccid(), now.getAccToken());
 //        System.out.println("accid after new LoginInfo: " + accid);

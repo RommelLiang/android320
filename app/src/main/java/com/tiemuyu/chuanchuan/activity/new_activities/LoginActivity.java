@@ -30,7 +30,6 @@ import com.tiemuyu.chuanchuan.activity.fragment.MineFragment;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
 import com.tiemuyu.chuanchuan.activity.util.CheckPhoneLength;
 import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
-import com.tiemuyu.chuanchuan.activity.util.ConnectionUtil;
 import com.tiemuyu.chuanchuan.activity.util.DataContoler;
 import com.tiemuyu.chuanchuan.activity.util.DownloadService.DownloadStateListener;
 import com.tiemuyu.chuanchuan.activity.util.GetCustomer;
@@ -432,31 +431,42 @@ public class LoginActivity extends BaseActivityG implements
             Toast.makeText(this, "请输入账号", Toast.LENGTH_LONG).show();
             return;
         }
-        int cheeck = CheckPhoneLength.cheeck(name);
-        if (cheeck == 0) {
-            ToastHelper.show(this, "手机号码过短");
-            return;
-        } else if(cheeck == 2) {
-            ToastHelper.show(this, "手机号码过长");
-            return;
-        }
-        if (!JudgmentLegal.isPhoneOrEmail(name)) {
-            ToastHelper.show(this, "账号格式不对,请输入手机号或者邮箱");
-            return;
-        }
-        if (StringUtil.isNull(pass)) {
-            ToastHelper.show(this, "请输入密码");
-            return;
+        boolean isNum = name.matches("[0-9]+");
+        if (isNum) {
+            int cheeck = CheckPhoneLength.cheeck(name);
+            if (cheeck == 0) {
+                ToastHelper.show(this, "手机号码过短");
+                return;
+            } else if (cheeck == 2) {
+                ToastHelper.show(this, "手机号码过长");
+                return;
+            }
+            if (!JudgmentLegal.isPhoneOrEmail(name)) {
+                ToastHelper.show(this, "账号格式不对,请输入正确的手机号");
+                return;
+            }
+            if (StringUtil.isNull(pass)) {
+                ToastHelper.show(this, "请输入密码");
+                return;
+            }
+            getloginPasskeyMethod(TAG_GET_PASSKEY);
+            initPd();
+            pd.show();
+        } else {
+            if (name.endsWith("@myappcc.com")) {
+                if (StringUtil.isNull(pass)) {
+                    ToastHelper.show(this, "请输入密码");
+                    return;
+                }
+                getloginPasskeyMethod(TAG_GET_PASSKEY);
+                initPd();
+                pd.show();
+            } else {
+                ToastHelper.show(this, "账号格式不对,请输入手机号或者邮箱");
+            }
         }
 
 
-        if (!ConnectionUtil.isConn(this)) {
-//            ToastHelper.show(this, "请检查网络");
-            return;
-        }
-        getloginPasskeyMethod(TAG_GET_PASSKEY);
-        initPd();
-        pd.show();
 
     }
 
@@ -520,9 +530,9 @@ public class LoginActivity extends BaseActivityG implements
             passkey = key.getData().getPassKey();
 
 
-            if (JudgmentLegal.validatePhoneNumber(name))
+           /* if (JudgmentLegal.validatePhoneNumber(name))
 //                System.out.println("手机登录需要的oauthid：  " );
-//                oAuthId="";
+//                oAuthId="";*/
                 loginMethod(name, pass, passkey, "");
 
 

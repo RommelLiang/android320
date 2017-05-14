@@ -100,6 +100,10 @@ public class UrlManager {
 		return BASEURL + "api/registerapi?sendvalidcode";//获取注册验证码
 	}
 
+	public static String GET_CODE_NEW() {
+		return BASEURL + "api/registerapi?sendvalidcodeNew";//获取注册验证码
+	}
+
 
 	//  E:\MyWorks\CC2.0\SourceCode\Web.V2.0\CC.Admin\_Code\api\RegisterController.cs(22):        #region 用户注册                            POST api/register?sid=xxx&regSource=yyy
 	public static String REGIST() {
@@ -445,6 +449,15 @@ public class UrlManager {
 		return BASEURL + "api/loginapi?SendResetValidCode&mobile=";
 	}
 
+	public static final String GET_ForgetCodeNew() {
+		return BASEURL + "api/loginapi?SendResetValidCodeNew&mobile=";
+	}
+	/**
+	 * 获取支付密码短信
+	 */
+	public static final String GET_ForgetPayCodeNew() {
+		return BASEURL + "api/loginapi?sendSMSResetPayPwdNew&mobile=";
+	}
 //    http://test.myappcc.com/api/loginapi? SendResetValidCode&mobile=xx
 //    http://test.myappcc.com/api/loginapi?ResetPassword
 //    http://test.myappcc.com/api/loginapi? resetPasswordMobile&validcode=xx&token=xx&mobile=xx

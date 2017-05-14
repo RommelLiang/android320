@@ -356,6 +356,15 @@ public class FatuActivity extends BaseActivityG {
 	private String TAG_SENDMESSAGE = "TAG_SENDMESSAGE";
 
 	@Override
+	public void reLoginCallBack(String resultTag, boolean isShowDiolog) {
+		super.reLoginCallBack(resultTag, isShowDiolog);
+		if (resultTag.equals(TAG_FABU_MOMENT)) {
+			mInstance.dismiss();
+			ToastHelper.show(this, "图片发布失败,请重新发布");
+		}
+	}
+
+	@Override
 	public void successCallBack(String resultTag, BaseBean baseBean,
 	                            String callBackMsg, boolean isShowDiolog) {
 		// TODO Auto-generated method stub
@@ -382,14 +391,14 @@ public class FatuActivity extends BaseActivityG {
 					.setOnItemClickListener(new OnItemClickListener() {
 						@Override
 						public void onItemClick(Object o, int position) {
-							Log.e("onItemClick: ",position+"" );
+							Log.e("onItemClick: ", position + "");
 							switch (position) {
 								case -1:
 									try {
 										JumpToKeFU jumpToKeFU = new JumpToKeFU();
 										jumpToKeFU.getInstance(FatuActivity.this);
 									} catch (Exception e) {
-										Log.e( "onItemClick: ", e.getLocalizedMessage());
+										Log.e("onItemClick: ", e.getLocalizedMessage());
 									}
 									break;
 								case 0:
@@ -416,6 +425,7 @@ public class FatuActivity extends BaseActivityG {
 			System.out.println("######failShowCallBack ");
 			ToastHelper.show(this, "图片发布失败");
 			Log.e("测试发图:", "发布完成");
+			mInstance.dismiss();
 		}
 	}
 
@@ -431,6 +441,7 @@ public class FatuActivity extends BaseActivityG {
 		if (resultTag.equals(TAG_FABU_MOMENT)) {
 			System.out.println("#####失败:" + arg0.getMessage());
 			ToastHelper.show(this, "失败");
+			mInstance.dismiss();
 		}
 
 

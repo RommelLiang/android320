@@ -18,6 +18,6 @@ public class GlideImageLoader extends ImageLoader {
         Log.e("图片的路径",(String) path);
         this.imageView = imageView;
         Picasso.with(context).load((String) path).into(imageView);
-
+        PicassoWithImage.getIns(context).setImageWithPlaceholder(imageView,(String) path,0);
     }
 }

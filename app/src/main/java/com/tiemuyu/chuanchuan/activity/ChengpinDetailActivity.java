@@ -31,7 +31,6 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
-import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.tiemuyu.chuanchuan.activity.adapter.ClotherViewPager;
 import com.tiemuyu.chuanchuan.activity.adapter.SimilarProductsAdapter;
@@ -397,10 +396,10 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 					imageView = im;
 					mPicassoWithImage = new PicassoWithImage(ChengpinDetailActivity.this);
 				}
-				//mPicassoWithImage.setImage(im,xijie.get(i));
-				Picasso.with(this).load(xijie.get(i))
+				mPicassoWithImage.setImage(im,xijie.get(i));
+				/*Picasso.with(this).load(xijie.get(i))
 						.placeholder(R.drawable.icon_morentupian2)
-						.transform(transformation).into(im);
+						.transform(transformation).into(im);*/
 				im.setTag(i);
 				im.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -417,15 +416,17 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 
 			images.add(dIngzhi.getData().getDingzhiItem().getPromianpic());
 			//Log.e("clothesDetail", "successCallBack: " + clothesDetail.getData().getUser().getUserImg());
-			Picasso.with(this).load(dIngzhi.getData().getDingzhiItem().getUserimg())
-					.placeholder(R.drawable.circle_logo).into(im_user_header);
+			/*Picasso.with(this).load(dIngzhi.getData().getDingzhiItem().getUserimg())
+					.placeholder(R.drawable.circle_logo).into(im_user_header);*/
+			mPicassoWithImage.setImageWithPlaceholder(im_user_header,dIngzhi.getData().getDingzhiItem().getUserimg(),R.drawable.circle_logo);
 			tv_user_name.setText(dIngzhi.getData().getDingzhiItem().getUsername());
 			tv_product_name.setText(dIngzhi.getData().getDingzhiItem().getProname());
 			tv_price.setText("￥ " + dIngzhi.getData().getDingzhiItem().getPrice());
 			Log.e("imageUrl: ", dIngzhi.getData().getDingzhiItem().getFirstXiJieImg());
-			Picasso.with(this).load(dIngzhi.getData().getDingzhiItem().getFirstXiJieImg())
+			mPicassoWithImage.setImage(im_main_image,dIngzhi.getData().getDingzhiItem().getFirstXiJieImg());
+			/*Picasso.with(this).load(dIngzhi.getData().getDingzhiItem().getFirstXiJieImg())
 					.placeholder(R.drawable.icon_morentupian2)
-					.transform(transformation).into(im_main_image);
+					.transform(transformation).into(im_main_image);*/
 			im_main_image.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -716,7 +717,7 @@ public class ChengpinDetailActivity extends BaseActivityG implements NetResponse
 		}
 		User now = DBTools.getUser();
 		if (now.getAccid() == null) {
-			Toast.makeText(this, "网络异常", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(this, "网络异常", Toast.LENGTH_SHORT).show();
 		}
 		LoginInfo loginInfo = new LoginInfo(now.getAccid(), now.getAccToken());
 //        System.out.println("accid after new LoginInfo: " + accid);

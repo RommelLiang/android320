@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
@@ -50,7 +51,7 @@ public class HuoDongActivity extends BaseActivityG {
 	private int huo_dong_id;
 	public static final String strDir = "/data/chuanchuan/";
 	public static final String name = "huodong.jpg";
-	public static final String image_url = "/storage/emulated/0/DCIM/data/chuanchuan/huodong.jpg";
+	public static String image_url = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class HuoDongActivity extends BaseActivityG {
 		WindowManager wm = (WindowManager) this
 				.getSystemService(Context.WINDOW_SERVICE);
 		setContentView(R.layout.activity_huo_dong);
+		image_url = SPUtils.getHuoDongImage();
 		roundProgressBar = (RoundProgressBar) findViewById(R.id.roundProgressBar);
 		im_huodong = (ImageView) findViewById(R.id.im_huodong);
 		roundProgressBar.setMax(4000);
@@ -86,10 +88,9 @@ public class HuoDongActivity extends BaseActivityG {
 		if (SPUtils.getHuoDongID() != 0) {
 			Log.e("onCreate: ", isShowActivity() + "dsdsd");
 			if (isShowActivity()) {
-				Picasso.with(this)
-						.load(new File(image_url))
-						.error(R.drawable.splish)
-						.into(im_huodong);
+				Log.e("onCreate: ", image_url);
+				ImageLoader.getInstance()
+						.displayImage(SPUtils.getHuoDongImage(),im_huodong);
 				im_huodong.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -136,16 +137,16 @@ public class HuoDongActivity extends BaseActivityG {
 			mHuDongBean = GsonUtils.fromData(callBackMsg, HuDongBean.class);
 			mData = mHuDongBean.getData();
 			if (mData != null) {
-				mDataBean = mData.get(0);
+				mDataBean = mData.get(mData.size()-1);
 				int huoDongID = SPUtils.getHuoDongID();
 				if (huoDongID != mDataBean.getId()) {
 					SPUtils.saveHuoDongID(mDataBean.getId());
 					SPUtils.setStartTimeHuodong(mDataBean.getStartTime());
 					SPUtils.setEndHuodong(mDataBean.getEndTime());
 					SPUtils.setHuoDongUrl(mDataBean.getUrl());
-					SPUtils.setHuoDongImage(mDataBean.getBigimg());
 					SPUtils.setHuoDongMiashu(mDataBean.getMiaoshu());
-					Log.e("download", "successCallBack: ");
+					SPUtils.setHuoDongImage(mDataBean.getBigimg());
+					Log.e("HuoDongActivity", SPUtils.getHuoDongImage());
 					getBitmapFromUri(mDataBean.getBigimg());
 				}
 				if (guideCheck()) {
@@ -292,8 +293,10 @@ public class HuoDongActivity extends BaseActivityG {
 				} catch (Exception e) {
 				}
 			}
+			Log.e("getDCIMFile: ",image_url );
 			return file;
 		} else {
+			Log.e("getDCIMFile: ","文件不可用" );
 			return null;
 		}
 

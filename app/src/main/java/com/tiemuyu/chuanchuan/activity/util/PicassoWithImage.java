@@ -2,12 +2,15 @@ package com.tiemuyu.chuanchuan.activity.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.view.WindowManager;
+import android.graphics.BitmapFactory;
+import android.view.View;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Callback;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 import com.tiemuyu.chuanchuan.activity.R;
 
 /**
@@ -15,95 +18,131 @@ import com.tiemuyu.chuanchuan.activity.R;
  */
 
 public class PicassoWithImage {
-	private Context mContext;
+	private static Context mContext;
 	private Picasso singleton;
+	private static PicassoWithImage mPicassoWithImage;
 
 	public PicassoWithImage(Context mContext) {
 		this.mContext = mContext;
+		singleton = new Picasso.Builder(mContext).build();
 	}
-	public Picasso getIns(){
-		if (singleton == null) {
+
+	public static PicassoWithImage getIns(Context mcontext) {
+		mContext = mcontext;
+		if (mPicassoWithImage == null) {
 			synchronized (Picasso.class) {
-				if (singleton == null) {
-					singleton = new Picasso.Builder(mContext).build();
+				if (mPicassoWithImage == null) {
+					mPicassoWithImage = new PicassoWithImage(mContext);
 				}
 			}
 		}
-		return singleton;
+		return mPicassoWithImage;
 	}
+
+
 	public void setImage(final ImageView mImage, final String url) {
 		String promianpic = url;
 		String[] split = promianpic.split("\\." + "jpg");
 		split[0] += "_100x100";
 		final String uso = split[0] + ".jpg";
-		getIns().with(mContext)
-				.load(uso)
-				.transform(transformation)
-				.placeholder(R.drawable.icon_morentupian2)
-				.into(mImage, new Callback() {
+		final ImageSize mImageSize = new ImageSize(mImage.getWidth(), mImage.getHeight());
+		ImageLoader.getInstance().loadImage(uso, mImageSize, new ImageLoadingListener() {
+			@Override
+			public void onLoadingStarted(String mS, View mView) {
+				mImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_morentupian2));
+			}
+
+			@Override
+			public void onLoadingFailed(String mS, View mView, FailReason mFailReason) {
+				mImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_morentupian2));
+			}
+
+			@Override
+			public void onLoadingComplete(String mS, View mView, final Bitmap mBitmap) {
+				mImage.setImageBitmap(mBitmap);
+				ImageLoader.getInstance().loadImage(url, mImageSize, new ImageLoadingListener() {
 					@Override
-					public void onSuccess() {
-						getIns().with(mContext).load(url)
-								.transform(transformation)
-								.noPlaceholder()
-								.into(mImage);
+					public void onLoadingStarted(String mS, View mView) {
+						mImage.setImageBitmap(mBitmap);
 					}
+
 					@Override
-					public void onError() {
+					public void onLoadingFailed(String mS, View mView, FailReason mFailReason) {
+
+					}
+
+					@Override
+					public void onLoadingComplete(String mS, View mView, Bitmap bitmap) {
+						mImage.setImageBitmap(bitmap);
+					}
+
+					@Override
+					public void onLoadingCancelled(String mS, View mView) {
 
 					}
 				});
+			}
+
+			@Override
+			public void onLoadingCancelled(String mS, View mView) {
+
+			}
+		});
 	}
 
-	private int mWidth;
-	private int mHeight;
-	Transformation transformation = new Transformation() {
 
-		@Override
-		public Bitmap transform(Bitmap source) {
-
-			WindowManager wm = (WindowManager) mContext
-					.getSystemService(Context.WINDOW_SERVICE);
-			mWidth = wm.getDefaultDisplay().getWidth();
-			mHeight = wm.getDefaultDisplay().getHeight();
-			int mTargetWidth = mWidth * 3 / 4;
-			int mTargetHeight = mHeight * 3 / 4;
-
-
-			if (source.getWidth() == 0) {
-				return source;
-			}
-			if (source.getWidth() < source.getHeight()) {
-				double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
-				int targetHeight = (int) (mTargetWidth * aspectRatio);
-				if (targetHeight != 0 && mTargetWidth != 0) {
-					Bitmap result = Bitmap.createScaledBitmap(source, mTargetWidth, targetHeight, false);
-					if (result != source) {
-						source.recycle();
-					}
-					return result;
+	public void setImageWithPlaceholder(final ImageView mImage, final String url, final int id) {
+		final ImageSize mImageSize = new ImageSize(mImage.getWidth(), mImage.getHeight());
+		ImageLoader.getInstance().loadImage(url, mImageSize, new ImageLoadingListener() {
+			@Override
+			public void onLoadingStarted(String mS, View mView) {
+				if (id != 0) {
+					mImage.setImageDrawable(mContext.getResources().getDrawable(id));
 				} else {
-					return source;
-				}
-			} else {
-				double aspectRatio = (double) source.getWidth() / (double) source.getHeight();
-				int targetWidth = (int) (mTargetHeight * aspectRatio);
-				if (targetWidth != 0 && targetWidth != 0) {
-					Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, mTargetHeight, false);
-					if (result != source) {
-						// Same bitmap is returned if sizes are the same
-						source.recycle();
-					}
-					return result;
-				} else {
-					return source;
+					mImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_morentupian2));
 				}
 			}
-		}
 
-		@Override
-		public String key() {
-			return "transformation" + " desiredWidth";
-		}
-	};
+			@Override
+			public void onLoadingFailed(String mS, View mView, FailReason mFailReason) {
+
+			}
+
+			@Override
+			public void onLoadingComplete(String mS, View mView, Bitmap mBitmap) {
+				mImage.setImageBitmap(mBitmap);
+			}
+
+			@Override
+			public void onLoadingCancelled(String mS, View mView) {
+
+			}
+		});
+	}
+
+	public void setImageDrable(final ImageView mImage, final int id) {
+		final ImageSize mImageSize = new ImageSize(mImage.getWidth(), mImage.getHeight());
+		ImageLoader.getInstance().loadImage("", mImageSize, new ImageLoadingListener() {
+			@Override
+			public void onLoadingStarted(String mS, View mView) {
+				mImage.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(),id));
+			}
+
+			@Override
+			public void onLoadingFailed(String mS, View mView, FailReason mFailReason) {
+				mImage.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(),id));
+			}
+
+			@Override
+			public void onLoadingComplete(String mS, View mView, Bitmap mBitmap) {
+				mImage.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(),id));
+			}
+
+			@Override
+			public void onLoadingCancelled(String mS, View mView) {
+				mImage.setImageBitmap(BitmapFactory.decodeResource(mContext.getResources(),id));
+			}
+		});
+	}
+
 }

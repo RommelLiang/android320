@@ -1,11 +1,22 @@
 package com.tiemuyu.chuanchuan.activity.new_activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.SettingActivity;
@@ -20,9 +31,12 @@ import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.SetNotificationBarColer;
+import com.tiemuyu.chuanchuan.activity.util.ThreadPoolManager;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 
 import org.xutils.http.RequestParams;
+
+import java.io.File;
 
 /**
  * Created by CC2.0 on 2017/1/18.
@@ -32,7 +46,8 @@ public class BaseActivityG extends FragmentActivity implements
 		View.OnClickListener, ThreadPoolTaskHttp.HttpCallBack {
 
 	public LoadingProxy mInstance;
-
+	DisplayImageOptions defaultOptions;
+	public static ThreadPoolManager poolManager;//线程池
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -43,8 +58,8 @@ public class BaseActivityG extends FragmentActivity implements
 		AppManager.getAppManager().addActivity(this);
 		SPUtils.init(this);
 		mInstance = LoadingProxy.getInstance(this);
+		ImageLoading(this);
 	}
-//
 ///**
 // * 加载的流程
 // */
@@ -81,7 +96,37 @@ public class BaseActivityG extends FragmentActivity implements
 // */
 //protected void initListener() {
 //        }
+	/**
+	 * 图片加载
+	 */
+	private void ImageLoading(Context mContext) {
+		System.out.println("!!!!!!!!is ImageLoading executed?!!!!!!!");
+		//设置缓存目录
+		File cacheDir = StorageUtils.getOwnCacheDirectory(getApplicationContext(), "imageloader/Cache");
+		//图片缓存初始化
+		defaultOptions = new DisplayImageOptions.Builder()
+				.cacheInMemory(true).cacheOnDisc(true)
+				.imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+				.bitmapConfig(Bitmap.Config.RGB_565)
+				.showImageForEmptyUri(R.mipmap.icon)
+				.build();
 
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				mContext)
+				.defaultDisplayImageOptions(defaultOptions)
+				.threadPriority(Thread.NORM_PRIORITY - 2)
+				.denyCacheImageMultipleSizesInMemory()
+				.discCacheFileNameGenerator(new Md5FileNameGenerator())
+				.memoryCache(new WeakMemoryCache())
+				.memoryCacheSize(2 * 1024 * 1024) //缓存到内存的最大数据
+				.discCacheSize(50 * 1024 * 1024)
+				.memoryCacheExtraOptions(480, 800)
+				.discCacheFileCount(1000)//缓存到文件的最大数据
+				.discCache(new UnlimitedDiscCache(cacheDir))
+				.tasksProcessingOrder(QueueProcessingType.LIFO)
+				.build();
+		ImageLoader.getInstance().init(config);
+	}
 	@Override
 	public void onClick(View v) {
 

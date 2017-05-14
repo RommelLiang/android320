@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.tiemuyu.chuanchuan.activity.MainActivity;
 import com.tiemuyu.chuanchuan.activity.R;
-import com.tiemuyu.chuanchuan.activity.proxy.LoadingProxy;
 
 import java.util.ArrayList;
 
@@ -91,7 +90,7 @@ public class HomeFragmentR extends BaseFragment {
 		}
 	}
 
-	public String getWhoShow(){
-		return whoShow;
+	public SlidingTabLayout getTitle(){
+		return mSegmentTabLayout;
 	}
 }

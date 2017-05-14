@@ -342,6 +342,7 @@ public class FindFragment extends BaseFragment implements PullToRefreshBase.OnRe
             Picasso.with(getActivity())
                     .load(findWaterBean.getData().getList().get(position).getImg())
                     .transform(mTransformation)
+                    .placeholder(R.drawable.icon_morentupian2)
                     .into(holder.main_img);
             //imageLoader.displayImage(findWaterBean.getData().getList().get(position).getImg(), holder.main_img, options, animateFirstListener);
             holder.desp_txt.setText(findWaterBean.getData().getList().get(position).getMiaoshu());

@@ -167,7 +167,7 @@ public class HttpTools {
                 if(!StringUtil.isNull(cookie)){
                     PreferenceUtils.setPrefString(context, Constant.CC_COOKIE, cookie);
                 }
-
+                Log.e("测试酷尅", resultTag +":cookie:"+cookie+"!");
 
                 if (code == 1) {
                     callBack.successCallBack(resultTag, baseBean, re, isShowDialog);

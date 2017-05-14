@@ -84,7 +84,11 @@ public class PushHistoryActivity extends BaseActivityG implements SelectInterFac
 					@Override
 					public void onResponse(String mS) {
 						Log.e("onResponse", "onResponse: " + mS);
-						mInstance.dismiss();
+						try {
+							mInstance.dismiss();
+						} catch (Exception mE) {
+
+						}
 						setView(mS);
 					}
 				}, new Response.ErrorListener() {

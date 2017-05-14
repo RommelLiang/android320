@@ -21,6 +21,7 @@ import com.tiemuyu.chuanchuan.activity.DingzhiDetailsActivity;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.bean.LastPrice;
 import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
+import com.tiemuyu.chuanchuan.activity.util.PicassoWithImage;
 import com.tiemuyu.chuanchuan.activity.view.CircleImageView;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class WaterAdapter extends BaseAdapter {
 	protected ImageLoader imageLoader = ImageLoader.getInstance();
 	DisplayImageOptions options;
 	private ImageView imageView;
+	private PicassoWithImage mPicassoWithImage;
 
 	private class ViewHolder {
 		public TextView text_one;
@@ -65,6 +67,7 @@ public class WaterAdapter extends BaseAdapter {
 				.cacheOnDisc()
 				.displayer(new RoundedBitmapDisplayer(20))
 				.build();
+		mPicassoWithImage = PicassoWithImage.getIns(context);
 	}
 
 	@Override
@@ -111,16 +114,18 @@ public class WaterAdapter extends BaseAdapter {
 		}
 		holder.text.setText(JudgmentLegal.removeYear(rows.get((position + 1) * 2 - 1).getProductName()));
 		holder.price.setText("￥" + rows.get((position + 1) * 2 - 1).getPrice() + "");
-		Picasso.with(context)
+		mPicassoWithImage.setImage(holder.image,rows.get((position + 1) * 2 - 1).getMainImage());
+		/*Picasso.with(context)
 				.load(rows.get((position + 1) * 2 - 1).getMainImage())
 				.transform(transformation)
-				.into(holder.image);
+				.into(holder.image);*/
 		holder.text_one.setText(JudgmentLegal.removeYear(rows.get((position + 1) * 2 - 2).getProductName()));
 		holder.price_one.setText("￥" + rows.get((position + 1) * 2 - 2).getPrice() + "");
-		Picasso.with(context)
+		mPicassoWithImage.setImage(holder.image_one,rows.get((position + 1) * 2 - 2).getMainImage());
+		/*Picasso.with(context)
 				.load(rows.get((position + 1) * 2 - 2).getMainImage())
 				.transform(transformation)
-				.into(holder.image_one);
+				.into(holder.image_one);*/
 		holder.left.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

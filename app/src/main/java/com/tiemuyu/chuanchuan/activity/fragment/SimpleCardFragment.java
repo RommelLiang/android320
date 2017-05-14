@@ -8,13 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.flyco.tablayout.SlidingTabLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.FindTopicActivity;
 import com.tiemuyu.chuanchuan.activity.FindWaterActivity;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
@@ -34,6 +35,7 @@ import com.tiemuyu.chuanchuan.activity.proxy.LoadingProxy;
 import com.tiemuyu.chuanchuan.activity.util.GlideImageLoader;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
 import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
+import com.tiemuyu.chuanchuan.activity.util.PicassoWithImage;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.youth.banner.listener.OnBannerClickListener;
 
@@ -76,7 +78,11 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 	private LoadingProxy mInstance;
 	private boolean isGetHttp = true;
 	private int mHeight;
+	private PicassoWithImage mPicassoWithImage;
 	private HomeFragmentR mHomeFragmentR;
+	private SlidingTabLayout mHomeFragmentRTitle;
+	private ImageView back_head;
+	private int totalItem;
 
 	public static SimpleCardFragment getInstance(String title, Activity mContext, HomeFragmentR mHomeFragmentR) {
 		SimpleCardFragment sf = new SimpleCardFragment();
@@ -90,28 +96,37 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 
 	@Override
 	public int getLayout() {
-		Log.e(TAG, "声明周期getLayout"+mTitle );
+		Log.e(TAG, "声明周期getLayout" + mTitle);
 		return R.layout.fr_simple_card;
 	}
 
 	@Override
 	public void initView(View view) {
 		mPullRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pull_refresh_grid);
+		back_head = (ImageView) view.findViewById(R.id.back_head);
 		mRefreshableView = mPullRefreshListView.getRefreshableView();
 		WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
 		mHeight = wm.getDefaultDisplay().getHeight();
+		mPullRefreshListView.setOnRefreshListener(this);
+		mHomeFragmentRTitle = mHomeFragmentR.getTitle();
 	}
 
 	@Override
 	public void onInVisible() {
-		Log.e(TAG, "声明周期onInVisible"+mTitle+isVisible);
+		Log.e(TAG, "声明周期onInVisible" + mTitle + isVisible);
 		isVisible = false;
-		mInstance.dismiss();
+		dismiss();
+	}
+
+	private void dismiss() {
+		if (mInstance != null) {
+			mInstance.dismiss();
+		}
 	}
 
 	@Override
 	public void loadData() {
-		Log.e(TAG, "声明周期loadData "+mTitle );
+		Log.e(TAG, "声明周期loadData " + mTitle);
 		if (mTitle.equals("定制成品")) {
 
 		} else if (mTitle.equals("最新报价")) {
@@ -128,14 +143,20 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 			zhuanti = 23;
 		}
 		page = 1;
+		mPicassoWithImage = PicassoWithImage.getIns(mContext);
 		setView();
+		back_head.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mRefreshableView.smoothScrollToPosition(0);
+				mPullRefreshListView.onRefreshComplete();
+			}
+		});
 	}
 
 
-
-
 	private void setView() {
-		Log.e(TAG, "声明周期setView "+mTitle );
+		Log.e(TAG, "声明周期setView " + mTitle);
 		if (mTitle.equals("定制成品") || mTitle.equals("最新报价")) {
 			getBanner();
 		} else {
@@ -148,9 +169,9 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 			if (isVisible) {
 				Log.e("getBanner: ", mTitle);
 				try {
-					mInstance.show();
-				} catch (Exception e){
-					Log.e("getBannerException: ", mTitle+e.getLocalizedMessage());
+					showloding();
+				} catch (Exception e) {
+					Log.e("getBannerException: ", mTitle + e.getLocalizedMessage());
 				}
 			}
 		}
@@ -169,7 +190,7 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 	@Override
 	public void onResume() {
 		super.onResume();
-		Log.e(TAG, "声明周期onResume "+mTitle +isVisible );
+		Log.e(TAG, "声明周期onResume " + mTitle + isVisible);
 	}
 
 	private void getLastPrice(String tag) {
@@ -193,15 +214,15 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 		if (resultTag.equals(TAG_GETBANNER)) {
 			afterGetBanner(callBackMsg);
 		} else if (resultTag.equals(TAG_GETWATER)) {
-			mInstance.dismiss();
+			dismiss();
 			isGetHttp = true;
 			afterGetListWater(callBackMsg, resultTag);
 		} else if (resultTag.equals(TAG_GET_LIST)) {
-			mInstance.dismiss();
+			dismiss();
 			isGetHttp = true;
 			setListviewData(callBackMsg);
 		} else if (resultTag.equals(TAG_ADD_GET_LIST)) {
-			mInstance.dismiss();
+			dismiss();
 			setListDataUpdata(callBackMsg);
 		} else if (resultTag.equals(TAG_ADDWATER)) {
 			setDataUpdata(callBackMsg);
@@ -230,9 +251,7 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 	}
 
 	private void setListviewData(String callBackMsg) {
-		if (mZhuanTiMessage != null) {
-			mPullRefreshListView.onRefreshComplete();
-		}
+		mPullRefreshListView.onRefreshComplete();
 		mZhuanTiMessage = GsonUtils.fromData(callBackMsg, ZhuanTiMessage.class);
 		mZhuanTiWaterAdapter = new ZhuanTiWaterAdapter(mZhuanTiMessage.getData().getList(), mContext);
 		mRefreshableView.setAdapter(mZhuanTiWaterAdapter);
@@ -243,12 +262,12 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 			ViewGroup.LayoutParams layoutParams = image.getLayoutParams();
 			layoutParams.height = (int) (mHeight / 3.5);
 			tv_miaoshu = (TextView) headerImage.findViewById(R.id.tv_miaoshu);
-			Picasso.with(mContext).load(mZhuanTiMessage.getData().getTopics().getBigimg()).into(image);
+			//Picasso.with(mContext).load(mZhuanTiMessage.getData().getTopics().getBigimg()).into(image);
+			mPicassoWithImage.setImage(image,mZhuanTiMessage.getData().getTopics().getBigimg());
 			tv_miaoshu.setText(mZhuanTiMessage.getData().getTopics().getMiaoshu());
 			Log.e("refreshableView6", "setBanner: " + "refreshableView6");
 			mRefreshableView.addHeaderView(headerImage);
 		}
-		mPullRefreshListView.setOnRefreshListener(this);
 	}
 
 
@@ -266,9 +285,23 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 	@Override
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
 		page++;
-		if (mTitle.equals("定制成品") || mTitle.equals("最新报价")) {
+		if (mTitle.equals("最新报价")) {
+			if (wateradaper == null) {
+				mPullRefreshListView.onRefreshComplete();
+				return;
+			}
+			getLastPrice(TAG_ADDWATER);
+		} else if (mTitle.equals("定制成品")){
+			if (mHeoizonListViewAdapter == null) {
+				mPullRefreshListView.onRefreshComplete();
+				return;
+			}
 			getLastPrice(TAG_ADDWATER);
 		} else {
+			if (mZhuanTiWaterAdapter == null) {
+				mPullRefreshListView.onRefreshComplete();
+				return;
+			}
 			getZhuanTi(zhuanti, page, TAG_ADD_GET_LIST);
 		}
 	}
@@ -277,7 +310,8 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 	@Override
 	public void failCallBack(Throwable arg0, String resultTag, boolean isShowDiolog) {
 		Log.e(TAG, "failCallBack: " + arg0.getLocalizedMessage());
-		mInstance.dismiss();
+		dismiss();
+		mPullRefreshListView.onRefreshComplete();
 	}
 
 	@Override
@@ -287,13 +321,15 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 
 	@Override
 	public void cancelCallBack(String resultTag) {
-		mInstance.dismiss();
+
+		mPullRefreshListView.onRefreshComplete();dismiss();
 	}
 
 	@Override
 	public void failShowCallBack(String resultTag, BaseBean baseBean, String callBackMsg, boolean isShowDiolog) {
 		Log.e(TAG, "failCallBack: " + resultTag);
-		mInstance.dismiss();
+		dismiss();
+		mPullRefreshListView.onRefreshComplete();
 	}
 
 	@Override
@@ -306,9 +342,9 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 			if (isVisible) {
 				Log.e("getZhuanTi: ", mTitle);
 				try {
-					mInstance.show();
-				} catch (Exception e){
-					Log.e("getZhuanTiException: ", mTitle+e.getLocalizedMessage());
+					showloding();
+				} catch (Exception e) {
+					Log.e("getZhuanTiException: ", mTitle + e.getLocalizedMessage());
 				}
 			}
 		}
@@ -323,10 +359,14 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 						false));
 	}
 
-	private void afterGetListWater(String callBackMsg, String requestTag) {
-		if (wateradaper != null || mHeoizonListViewAdapter != null) {
-			mPullRefreshListView.onRefreshComplete();
+	private void showloding() {
+		if (mInstance != null) {
+			mInstance.show();
 		}
+	}
+
+	private void afterGetListWater(String callBackMsg, String requestTag) {
+		mPullRefreshListView.onRefreshComplete();
 		if (mTitle.equals("最新报价")) {
 			lastPrice = GsonUtils.fromData(callBackMsg, LastPrice.class);
 			rows = lastPrice.getData().getRows();
@@ -343,8 +383,24 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 			mPullRefreshListView.setAdapter(mHeoizonListViewAdapter);
 		}
 		if (requestTag.equals(TAG_GETWATER)) {
-			mPullRefreshListView.setOnRefreshListener(this);
+			mPullRefreshListView.onRefreshComplete();
 		}
+		mPullRefreshListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				Log.e(TAG, "onScrollStateChanged: "+totalItem );
+				if (totalItem > 10) {
+					back_head.setVisibility(View.VISIBLE);
+				} else {
+					back_head.setVisibility(View.INVISIBLE);
+				}
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				totalItem = firstVisibleItem;
+			}
+		});
 		setBannner();
 	}
 
@@ -410,13 +466,13 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		Log.e(TAG, "声明周期onDestroy: "+mTitle );
+		Log.e(TAG, "声明周期onDestroy: " + mTitle);
 	}
 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		Log.e(TAG, "声明周期onDestroyView: "+mTitle );
+		Log.e(TAG, "声明周期onDestroyView: " + mTitle);
 		wateradaper = null;
 		mZhuanTiWaterAdapter = null;
 	}
@@ -424,6 +480,6 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 	@Override
 	public void onPause() {
 		super.onPause();
-		Log.e(TAG, "声明周期onPause: "+mTitle +isVisible);
+		Log.e(TAG, "声明周期onPause: " + mTitle + isVisible);
 	}
 }

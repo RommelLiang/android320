@@ -1,11 +1,23 @@
 <resources>
 
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/branded_launch_screens</item>
+        <item name="colorPrimary">@color/ColorLaunchBackground</item>
+        <item name="colorPrimaryDark">@color/ColorLaunchBackground</item>
+        <item name="colorAccent">@color/ColorLaunchBackground</item>
+    </style>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/BarBackground</item>
+        <item name="colorPrimary">@color/BarBackground</item>
+        <item name="colorPrimaryDark">@color/BarBackground</item>
+        <item name="colorAccent">@color/ColorLaunchBackground</item>-->
+        <item name="colorPrimary">@color/ColorLaunchBackground</item>
+        <item name="colorPrimaryDark">@color/ColorLaunchBackground</item>
+        <item name="colorAccent">@color/ColorLaunchBackground</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

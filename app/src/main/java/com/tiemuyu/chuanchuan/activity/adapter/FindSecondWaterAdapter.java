@@ -15,12 +15,10 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.squareup.picasso.Transformation;
 import com.tiemuyu.chuanchuan.activity.DingzhiDetailsActivity;
 import com.tiemuyu.chuanchuan.activity.R;
-import com.tiemuyu.chuanchuan.activity.ZhuantiWaterActivity;
 import com.tiemuyu.chuanchuan.activity.bean.FindSecondWaterBean;
 import com.tiemuyu.chuanchuan.activity.util.PicassoWithImage;
 
@@ -38,7 +36,6 @@ public class FindSecondWaterAdapter extends BaseAdapter {
     FindSecondWaterBean findSecondWaterBean;
 
     private Context context;
-    private ImageLoadingListener animateFirstListener = new ZhuantiWaterActivity.AnimateFirstDisplayListener();
     private LayoutInflater layoutInflater;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     DisplayImageOptions options;

@@ -12,7 +12,7 @@ import com.tiemuyu.chuanchuan.activity.proxy.proxyInter.ProgressLoad;
 
 public class ProgressLoadIMPL implements ProgressLoad {
 	private static KProgressHUD SKProgressHUD;
-	private static String lable = "Please wait...";
+	public static String lable = "Please wait...";
 	private boolean cancellable = true;
 	private Context activity;
 
@@ -34,8 +34,13 @@ public class ProgressLoadIMPL implements ProgressLoad {
 	}
 
 	public void setLable(String mLable) {
-		if (!mLable.equals(""))
-			lable = mLable;
+		if (mLable != null) {
+			if (!mLable.equals("")) {
+				lable = mLable;
+			}
+		} else {
+			lable = "Please wait...";
+		}
 	}
 
 	public void setCancellable(boolean mCancellable) {

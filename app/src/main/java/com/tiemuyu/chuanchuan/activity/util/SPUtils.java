@@ -36,6 +36,7 @@ public class SPUtils {
     public static final String IS_NEW_SHATIU= "IS_NEW_SHATIU";
     public static final String OPEN_COUNT= "OPEN_COUNT";
     public static final String HAS_LOGIN= "HAS_LOGIN";
+    public static final String CODE_TOKEN= "CODE_TOKEN";
 
     public static void init(Context context) {
         mContext = context;
@@ -190,6 +191,14 @@ public class SPUtils {
 
     public static void setOpenCount(String time) {
         put(OPEN_COUNT,time);
+    }
+
+    public static String getCodeToken() {
+        return (String) get(CODE_TOKEN,"0");
+    }
+
+    public static void setCodeToken(String token) {
+        put(CODE_TOKEN,token);
     }
 
     public static void put(String key, Object object) {

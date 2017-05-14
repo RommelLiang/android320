@@ -26,7 +26,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
-import com.google.gson.Gson;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
@@ -323,8 +322,24 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 		super.successCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
 		if (resultTag.equals(TAG_GET_buycustomize)) {
 			Log.e("successCallBack", "successCallBack: " + callBackMsg);
+			try {
+				ClothesDetail simlier;
+				if (clothesDetail != null) {
+					simlier = GsonUtils.fromData(callBackMsg, ClothesDetail.class);
+					clothesDetail = null;
+					clothesDetail = simlier;
+				} else {
+					clothesDetail = GsonUtils.fromData(callBackMsg, ClothesDetail.class);
+				}
+			} catch (Exception e){
+				Toast.makeText(this, "拉取产品信息失败", Toast.LENGTH_SHORT).show();
+				Log.e( "拉取产品信息失败: ", e.getLocalizedMessage());
+				Log.e( "拉取产品信息失败: ", callBackMsg);
+				mInstance.dismiss();
+				return;
+			}
+
 			images = new ArrayList<>();
-			clothesDetail = (new Gson()).fromJson(callBackMsg, ClothesDetail.class);
 			MyApplication.poolManager.addAsyncTask(
 					new ThreadPoolTaskHttp(this,
 							TAG_GET_GETSIMILAR,
@@ -334,6 +349,7 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 							this,
 							"获取相似信息",
 							false));
+			images.clear();
 			for ( ClothesDetail.DataBean.ImagesBean imagesBean : clothesDetail.getData().getImages() ) {
 				images.add(imagesBean.getImage());
 			}
@@ -529,7 +545,7 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 	@Override
 	public void failCallBack(Throwable arg0, String resultTag, boolean isShowDiolog) {
 		super.failCallBack(arg0, resultTag, isShowDiolog);
-		Log.e("failCallBack", "failCallBack: " + arg0.getLocalizedMessage());
+		Log.e("拉取产品信息", resultTag + arg0.getLocalizedMessage());
 	}
 
 	public void share() {
@@ -583,7 +599,7 @@ public class DingzhiDetailsActivity extends BaseActivityG implements NetResponse
 		}
 		User now = DBTools.getUser();
 		if (now.getAccid() == null) {
-			Toast.makeText(this, "网络异常", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(this, "网络异常", Toast.LENGTH_SHORT).show();
 		}
 		LoginInfo loginInfo = new LoginInfo(now.getAccid(), now.getAccToken());
 //        System.out.println("accid after new LoginInfo: " + accid);

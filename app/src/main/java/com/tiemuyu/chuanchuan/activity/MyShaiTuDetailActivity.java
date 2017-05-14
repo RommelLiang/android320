@@ -30,11 +30,11 @@ public class MyShaiTuDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SetNotificationBarColer.init(this, getResources().getColor(R.color.BarBackground));
-        SetNotificationBarColer.setColor();
         rowsBean = (NewShaituBean.DataBean.PagedataBean.RowsBean) getIntent().getSerializableExtra("data");
         Log.e("onCreate: ",rowsBean.toString() );
         setContentView(R.layout.activity_my_shai_tu_detail);
+        SetNotificationBarColer.init(this, getResources().getColor(R.color.BarBackground));
+        SetNotificationBarColer.setColor();
         tv_time = (TextView) findViewById(R.id.tv_time);
         tv_shuoming = (TextView) findViewById(R.id.tv_shuoming);
         listview_horizon = (HorizontalListVIew) findViewById(R.id.listview_horizon);

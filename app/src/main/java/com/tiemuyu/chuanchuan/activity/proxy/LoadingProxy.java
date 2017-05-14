@@ -15,6 +15,7 @@ public class LoadingProxy {
 	private static LoadingProxy mLoadingProxy;
 	private ProgressLoad mProgressLoad;
 	private Context mContext;
+	private String lable;
 
 	public LoadingProxy(Context mContext) {
 		mProgressLoad = new ProgressLoadIMPL();
@@ -32,12 +33,15 @@ public class LoadingProxy {
 		if (!((Activity) mContext).isFinishing()) {
 			String localClassName = ((Activity) mContext).getLocalClassName();
 			Log.e("show: ", localClassName);
+			mProgressLoad.setLable(lable);
 			mProgressLoad.show();
 		}
 	}
 
 	public LoadingProxy setLable(String mLable) {
-		mProgressLoad.setLable(mLable);
+		if (!mLable.equals("")){
+			lable = mLable;
+		}
 		return this;
 	}
 
@@ -46,9 +50,10 @@ public class LoadingProxy {
 		return this;
 	}
 
-	public LoadingProxy dismiss() {
+	public void dismiss() {
+		mLoadingProxy.setLable(ProgressLoadIMPL.lable);
 		mProgressLoad.dismiss();
-		return this;
+		lable = "";
 	}
 
 

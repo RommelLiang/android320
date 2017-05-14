@@ -13,11 +13,9 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.tiemuyu.chuanchuan.activity.DingzhiDetailsActivity;
 import com.tiemuyu.chuanchuan.activity.R;
-import com.tiemuyu.chuanchuan.activity.ZhuantiWaterActivity;
 import com.tiemuyu.chuanchuan.activity.bean.SearchResultBean;
 
 /**
@@ -34,7 +32,6 @@ public class SearchWaterAdapter extends BaseAdapter {
     SearchResultBean searchResultBean;
 
     private Context context;
-    private ImageLoadingListener animateFirstListener = new ZhuantiWaterActivity.AnimateFirstDisplayListener();
     private LayoutInflater layoutInflater;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     DisplayImageOptions options;
@@ -104,12 +101,12 @@ public class SearchWaterAdapter extends BaseAdapter {
         }
         holder.text.setText(searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 1).getProductName());
         holder.price.setText("￥" + searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 1).getPrice() + "");
-        imageLoader.displayImage(searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 1).getMainImage(), holder.image, options, animateFirstListener);
+        imageLoader.displayImage(searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 1).getMainImage(), holder.image, options, null);
 
 
         holder.text_one.setText(searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 2).getProductName());
         holder.price_one.setText("￥" + searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 2).getPrice() + "");
-        imageLoader.displayImage(searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 2).getMainImage(), holder.image_one, options, animateFirstListener);
+        imageLoader.displayImage(searchResultBean.getData().getPageData().getRows().get((position + 1) * 2 - 2).getMainImage(), holder.image_one, options, null);
 
         // todo 点击跳转到产品详情页面
         holder.left.setOnClickListener(new View.OnClickListener() {

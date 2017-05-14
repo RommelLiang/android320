@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 梁文硕 on 2017/4/10.
@@ -104,6 +105,10 @@ public class SocketHttpRequester {
 		Log.e("post: " + String.valueOf(end - start), rsp);
 		int responseCode = conn.getResponseCode();
 		conn.disconnect();
+		if (responseCode == 200) {
+			Map<String, List<String>> headerFields = conn.getHeaderFields();
+
+		}
 		if(responseCode != 200){//读取web服务器返回的数据，判断请求码是否为200，如果不是200，代表请求失败
 			rsp = "{\"Code\":0,\"Msg\":\"OK\"," +
 					"\"Data\":{\"ImageUrl\":\"\"}}";

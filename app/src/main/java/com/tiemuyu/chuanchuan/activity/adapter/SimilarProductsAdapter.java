@@ -11,15 +11,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.tiemuyu.chuanchuan.activity.DingzhiDetailsActivity;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.bean.SimilarProducts;
 import com.tiemuyu.chuanchuan.activity.inter.SimilarProClick;
+import com.tiemuyu.chuanchuan.activity.util.PicassoWithImage;
 
 /**
  * Created by 梁文硕 on 2017/2/17.
@@ -31,8 +30,8 @@ public class SimilarProductsAdapter extends BaseAdapter {
 	private LayoutInflater layoutInflater;
 	protected ImageLoader imageLoader = ImageLoader.getInstance();
 	private SimilarProClick mSimilarProClick;
-	DisplayImageOptions options;
 	private ImageView imageView;
+	private PicassoWithImage mPicassoWithImage;
 
 	private class ViewHolder {
 		public TextView text_one;
@@ -51,14 +50,11 @@ public class SimilarProductsAdapter extends BaseAdapter {
 		this.context = context;
 		this.mSimilarProClick = mSimilarProClick;
 		layoutInflater = LayoutInflater.from(context);
-		options = new DisplayImageOptions.Builder()
-				.showStubImage(R.drawable.icon_morentupian2)
-				.showImageForEmptyUri(R.drawable.icon_morentupian2)
-				.showImageOnFail(R.drawable.icon_morentupian2)
-				.cacheInMemory()
-				.cacheOnDisc()
-				.displayer(new RoundedBitmapDisplayer(20))
-				.build();
+		init();
+	}
+
+	private void init() {
+		mPicassoWithImage = PicassoWithImage.getIns(context);
 	}
 
 	public SimilarProductsAdapter(SimilarProducts mSimilarProducts,
@@ -67,14 +63,7 @@ public class SimilarProductsAdapter extends BaseAdapter {
 		this.context = context;
 		this.mSimilarProClick = null;
 		layoutInflater = LayoutInflater.from(context);
-		options = new DisplayImageOptions.Builder()
-				.showStubImage(R.drawable.icon_morentupian2)
-				.showImageForEmptyUri(R.drawable.icon_morentupian2)
-				.showImageOnFail(R.drawable.icon_morentupian2)
-				.cacheInMemory()
-				.cacheOnDisc()
-				.displayer(new RoundedBitmapDisplayer(20))
-				.build();
+		init();
 	}
 
 	@Override
@@ -115,6 +104,7 @@ public class SimilarProductsAdapter extends BaseAdapter {
 		}
 		holder.text.setText(mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 1).getProductName());
 		holder.price.setText("￥" + mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 1).getPrice() + "");
+
 		Picasso.with(context)
 				.load(mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 1).getMianPic())
 				.transform(transformation)
@@ -125,6 +115,8 @@ public class SimilarProductsAdapter extends BaseAdapter {
 				.load(mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 2).getMianPic())
 				.transform(transformation)
 				.into(holder.image_one);
+		mPicassoWithImage.setImage(holder.image_one,
+				mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 2).getMianPic());
 		holder.left.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

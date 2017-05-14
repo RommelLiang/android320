@@ -2,6 +2,7 @@ package com.tiemuyu.chuanchuan.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.GetPassKey;
+import com.tiemuyu.chuanchuan.activity.bean.TokenResultBean;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.db.DBTools;
@@ -21,6 +23,7 @@ import com.tiemuyu.chuanchuan.activity.util.AppManager;
 import com.tiemuyu.chuanchuan.activity.util.DataContoler;
 import com.tiemuyu.chuanchuan.activity.util.JsonTools;
 import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
+import com.tiemuyu.chuanchuan.activity.util.MD5Util;
 import com.tiemuyu.chuanchuan.activity.util.MyCountTimer;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
@@ -204,7 +207,6 @@ public class ForgetPassword extends BaseActivityG {
                 // 发送验证短信
                 if (Utility.isFastDoubleClick()) // 连续点击
                     return;
-                Toast.makeText(this, "发验证码短信成功", Toast.LENGTH_LONG).show();
                 getForgetCodeMethod();
                 break;
             //点击下一步之后。。。做验证码check方法
@@ -263,7 +265,15 @@ public class ForgetPassword extends BaseActivityG {
     protected void     checkYanzhengCode() {
 
        System.out.println( "#####"+UrlManager.Reset_YanzhengCode()+get_code+"&token="+ token+ "&mobile="+name);
-
+        name = fp_name.getText().toString().trim();
+        if (StringUtil.isNull(name)) {
+            Toast.makeText(this,"请输入账号",Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!JudgmentLegal.isPhoneOrEmail(name)) {
+            ToastHelper.show(this, "账号格式不对,请输入手机号或者邮箱");
+            return;
+        }
         MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
                 TAG_YANZHENG, Constant.REQUEST_GET, new RequestParams(UrlManager
                 .Reset_YanzhengCode()+get_code+"&token="+ token+ "&mobile="+name), this, "验证码是否正确", false));
@@ -291,9 +301,15 @@ public class ForgetPassword extends BaseActivityG {
         }
 
         System.out.println("######getForgetCodeMethod");
+        long l = System.currentTimeMillis() / 1000;
+        String jiaMi = MD5Util.MD516(MD5Util.MD516(name + l) + "myappcc");
+        Log.e( "codeResult: ",l+"" );
         MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
                 TAG_ForgetCode, Constant.REQUEST_GET, new RequestParams(UrlManager
-                .GET_ForgetCode()+name), this, "获取忘记密码短信", false));
+                .GET_ForgetCodeNew() + name
+                + "&dateTimeNumbert=" + l
+                + "&jiaMi=" + jiaMi), this, "获取忘记密码短信", false));
+
     }
 
 
@@ -305,32 +321,33 @@ public class ForgetPassword extends BaseActivityG {
      * @throws
      */
     private void codeResult(String msg) {
-        System.out.println("#####亲,短信验证码已发送至\" + phone + \",请注意查收功->" + msg);
-        //高伟豪 忘记密码的token写的有点问题。是{code msg data{code msg data}}  做了双重结构
-        try{
-            JSONObject jsonObject = new JSONObject(msg);
-            String s_data = jsonObject.getString("Data");
-            System.out.println("######1"+s_data);
+        TokenResultBean bean = JsonTools.fromJson(msg, TokenResultBean.class);
+        if (bean.getCode() == 1) {
+            try {
+                JSONObject jsonObject = new JSONObject(msg);
+                String s_data = jsonObject.getString("Data");
+                System.out.println("######1" + s_data);
 
-            JSONObject jsonObject2 = new JSONObject(s_data);
-            String s_data2 = jsonObject2.getString("Data");
-            System.out.println("######2"+s_data2);
+                JSONObject jsonObject2 = new JSONObject(s_data);
+                String s_data2 = jsonObject2.getString("Data");
+                System.out.println("######2" + s_data2);
 
-            JSONObject jsonObject3 = new JSONObject(s_data2);
-            String s_data3 = jsonObject3.getString("Token");
-            System.out.println("######3"+s_data3);
+                JSONObject jsonObject3 = new JSONObject(s_data2);
+                String s_data3 = jsonObject3.getString("Token");
+                System.out.println("######3" + s_data3);
 
 
-            token=s_data3;
-            ToastHelper.show(this,"亲,短信验证码已发送至" + name + ",请注意查收");
-            timeCount.start();
+                token = s_data3;
+                timeCount.start();
 
-            System.out.println("######"+token);
+                System.out.println("######" + token);
 
-        }
-        catch (JSONException e) {
-            ToastHelper.show(this,"发生错误请重试");
-            e.printStackTrace();
+            } catch (JSONException e) {
+                ToastHelper.show(this, "发生错误请重试");
+                e.printStackTrace();
+            }
+        } else {
+            ToastHelper.show(this,bean.getMsg());
         }
 
 //// TODO: 2017/1/17 跳转             高伟豪。获取验证码成功点击下一步。
@@ -343,6 +360,7 @@ public class ForgetPassword extends BaseActivityG {
                                  String callBackMsg, boolean isShowDiolog) {
         // TODO Auto-generated method stub
         super.failShowCallBack(resultTag, baseBean, callBackMsg, isShowDiolog);
+        Log.e("failShowCallBack: ",resultTag+callBackMsg );
         if (resultTag.equals(TAG_ForgetCode) || resultTag.equals(TAG_RESETGETPASSKEY)
                 || resultTag.equals(TAG_YANZHENG)
                 || resultTag.equals(TAG_RESETPASSWORD)) {

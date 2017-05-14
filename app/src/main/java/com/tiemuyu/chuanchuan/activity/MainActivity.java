@@ -43,8 +43,10 @@ import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
 import com.tiemuyu.chuanchuan.activity.bean.CacheBean;
 import com.tiemuyu.chuanchuan.activity.bean.Jump;
+import com.tiemuyu.chuanchuan.activity.bean.NewShaituBean;
 import com.tiemuyu.chuanchuan.activity.bean.User;
 import com.tiemuyu.chuanchuan.activity.chat_tools.activity.MessageActivity;
 import com.tiemuyu.chuanchuan.activity.chat_tools.activity.NetworkActivity;
@@ -53,6 +55,7 @@ import com.tiemuyu.chuanchuan.activity.chat_tools.fragment.TextMessageActivity;
 import com.tiemuyu.chuanchuan.activity.chat_tools.inter.NetResponses;
 import com.tiemuyu.chuanchuan.activity.chat_tools.inter.UnReadChange;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
+import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.db.DBTools;
 import com.tiemuyu.chuanchuan.activity.fragment.FindFragment;
 import com.tiemuyu.chuanchuan.activity.fragment.FriendFragment;
@@ -69,7 +72,9 @@ import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.SendCrashLog;
 import com.tiemuyu.chuanchuan.activity.util.SetNotificationBarColer;
+import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
+import com.tiemuyu.chuanchuan.activity.util.VeData;
 import com.tiemuyu.chuanchuan.activity.util.ViewTools;
 import com.tiemuyu.chuanchuan.activity.view.CustomButton;
 import com.tiemuyu.chuanchuan.activity.web.ExampleWebViewClient;
@@ -79,9 +84,11 @@ import com.umeng.socialize.shareboard.SnsPlatform;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.xutils.http.RequestParams;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -91,7 +98,7 @@ import java.util.TreeSet;
  * Created by Administrator on 2016/8/4.
  * 这个页面用于呈现主页面
  */
-public class MainActivity extends NetworkActivity implements View.OnClickListener, NetResponses, UnReadChange, AppWakeUpListener {
+public class MainActivity extends NetworkActivity implements View.OnClickListener, NetResponses, UnReadChange, AppWakeUpListener, ThreadPoolTaskHttp.HttpCallBack {
 
 	// 史力：以下三个用于友盟分享：
 	private ListView listView;
@@ -148,7 +155,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		//设置状态栏为透明
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 		setContentView(R.layout.activity_main);
-
+		getShaiTu();
 		View statusView = SetNotificationBarColer.createStatusView(this, getResources().getColor(R.color.BarBackground));
 		//ll_heand.addView(statusView,0);
 		/*SetNotificationBarColer.init(this, getResources().getColor(R.color.BarBackground));
@@ -295,7 +302,18 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		}
 		checkUpdata();
 	}
-
+	private static String TAG_GetShaitu = "TAG_GetShaitu";
+	private void getShaiTu() {
+		MyApplication.poolManager.addAsyncTask(
+				new ThreadPoolTaskHttp(this,
+						TAG_GetShaitu,
+						Constant.REQUEST_GET,
+						new RequestParams(
+								UrlManager.Get_Shaitu()),
+						this,
+						"获取晒图信息",
+						false));
+	}
 	private void checkUpdata() {
 		if (SPUtils.getIsVersion()) {
 			if (SPUtils.getIsForceUp()) {
@@ -763,6 +781,59 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 	public void share_in_android_in_mainactivity(String title, String text, String image_url, String share_url, String type) {
 		System.out.println("进入share_in_android_in_main");
 		mineFragment.share();
+	}
+
+	@Override
+	public void successCallBack(String resultTag, BaseBean baseBean, String callBackMsg, boolean isShowDiolog) {
+		 if (resultTag.equals(TAG_GetShaitu)) {
+			NewShaituBean newShaituBean = GsonUtils.fromData(callBackMsg, NewShaituBean.class);
+			Log.e("successParse: ", newShaituBean.toString());
+			if (newShaituBean != null) {
+				String sharedTime = newShaituBean.getData().getPagedata().getRows().get(0).getSharedTime();
+				Date shareData = VeData.strToDateLong(sharedTime);
+				String openShaituTime = SPUtils.getOpenShaituTime();
+				if (openShaituTime.equals("")) {
+					openShaituTime = VeData.getStringDate();
+				}
+				Date openData = VeData.strToDateLong(openShaituTime);
+				Log.e("success Time: ", sharedTime);
+				Log.e("success Time: ", openShaituTime);
+				try {
+					if (shareData.after(openData)) {
+						SPUtils.setIsNewShatiu(true);
+					} else {
+						SPUtils.setIsNewShatiu(false);
+					}
+				} catch (Exception e){
+					SPUtils.setIsNewShatiu(false);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void failCallBack(Throwable arg0, String resultTag, boolean isShowDiolog) {
+
+	}
+
+	@Override
+	public void startCallBack(String resultTag, boolean isShowDiolog, String showTitle) {
+
+	}
+
+	@Override
+	public void cancelCallBack(String resultTag) {
+
+	}
+
+	@Override
+	public void failShowCallBack(String resultTag, BaseBean baseBean, String callBackMsg, boolean isShowDiolog) {
+
+	}
+
+	@Override
+	public void reLoginCallBack(String resultTag, boolean isShowDiolog) {
+
 	}
 
 

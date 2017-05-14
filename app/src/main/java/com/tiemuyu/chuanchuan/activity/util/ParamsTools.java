@@ -94,6 +94,19 @@ public class ParamsTools {
 		}
 		return params;
 	}
+
+	public static RequestParams getCodeNew(String mobile) {
+		long l = System.currentTimeMillis() / 1000;
+		String jiaMi = MD5Util.MD516(mobile+l);
+		Log.e("getCodeNew: ", l+"");
+		RequestParams params = new RequestParams(UrlManager.GET_CODE_NEW());
+		params.addBodyParameter(Constant.MOBILE, mobile);
+		params.addParameter("dateTimeNumbert",l);
+		params.addParameter("jiaMi",MD5Util.MD516(jiaMi+"myappcc"));
+		Log.e("getCodeNew: one:", jiaMi);
+		Log.e("getCodeNew: two:", MD5Util.MD516(jiaMi+"myappcc"));
+		return params;
+	}
 	
 	
 	/**

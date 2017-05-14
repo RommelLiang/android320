@@ -14,14 +14,12 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.tiemuyu.chuanchuan.activity.DingzhiDetailsActivity;
 import com.tiemuyu.chuanchuan.activity.R;
-import com.tiemuyu.chuanchuan.activity.ZhuantiWaterActivity;
 import com.tiemuyu.chuanchuan.activity.bean.ZhuanTiMessage;
+import com.tiemuyu.chuanchuan.activity.util.PicassoWithImage;
 
 import java.util.List;
 
@@ -31,8 +29,8 @@ import java.util.List;
 
 public class ZhuanTiWaterAdapter extends BaseAdapter {
     private ImageView imageView;
+    private PicassoWithImage mPicassoWithImage;
     private List<ZhuanTiMessage.DataBean.ListBean> messageList;
-    private ImageLoadingListener animateFirstListener = new ZhuantiWaterActivity.AnimateFirstDisplayListener();
     private LayoutInflater layoutInflater;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     DisplayImageOptions options;
@@ -62,6 +60,7 @@ public class ZhuanTiWaterAdapter extends BaseAdapter {
                 .cacheOnDisc()
                 .displayer(new RoundedBitmapDisplayer(20))
                 .build();
+        mPicassoWithImage = PicassoWithImage.getIns(context);
     }
 
     @Override
@@ -102,16 +101,10 @@ public class ZhuanTiWaterAdapter extends BaseAdapter {
         }
         holder.text_one.setText(messageList.get((position + 1) * 2 - 2).getProductname());
         holder.price_one.setText("￥ " + messageList.get((position + 1) * 2 - 2).getPrice() + "");
-        Picasso.with(context)
-                .load(messageList.get((position + 1) * 2 - 2).getProductmainpic())
-                .transform(transformation)
-                .into(holder.image_one);
+        mPicassoWithImage.setImage(holder.image_one,messageList.get((position + 1) * 2 - 2).getProductmainpic());
         holder.text.setText(messageList.get((position + 1) * 2 - 1).getProductname());
         holder.price.setText("￥ " + messageList.get((position + 1) * 2 - 1).getPrice() + "");
-        Picasso.with(context)
-                .load(messageList.get((position + 1) * 2 - 1).getProductmainpic())
-                .transform(transformation)
-                .into(holder.image);
+        mPicassoWithImage.setImage(holder.image,messageList.get((position + 1) * 2 - 1).getProductmainpic());
         holder.left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
