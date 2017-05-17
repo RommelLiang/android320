@@ -33,4 +33,10 @@
             <enum name="FILL" value="1"></enum>
         </attr>
     </declare-styleable>
+    <declare-styleable name="TasksCompletedView">
+        <attr name="radius" format="dimension"/>
+        <attr name="strokeWidth" format="dimension"/>
+        <attr name="circleColor" format="color"/>
+        <attr name="cColor" format="color"/>
+    </declare-styleable>
 </resources>

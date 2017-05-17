@@ -173,11 +173,11 @@ public class HttpTools {
                     callBack.successCallBack(resultTag, baseBean, re, isShowDialog);
                     System.out.println("#####http请求维护code==1-"+resultTag+"返回参数："+re);
                 }
-               /* else if (code == -2)
+               else if (code == -2)
                 {
                     System.out.println("#####http请求维护code==-2-"+resultTag);
                     callBack.reLoginCallBack(resultTag, isShowDialog);
-                }*/
+                }
                 else
                     callBack.failShowCallBack(resultTag, baseBean, re,isShowDialog );
 

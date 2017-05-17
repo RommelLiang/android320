@@ -40,13 +40,17 @@ public class PicassoWithImage {
 	}
 
 
-	public void setImage(final ImageView mImage, final String url) {
+	public void setImage(ImageView mImage, final String url) {
 		String promianpic = url;
+		if (url.equals("")) {
+			promianpic = (String) mImage.getTag();
+		}
 		String[] split = promianpic.split("\\." + "jpg");
 		split[0] += "_100x100";
 		final String uso = split[0] + ".jpg";
 		final ImageSize mImageSize = new ImageSize(mImage.getWidth(), mImage.getHeight());
-		ImageLoader.getInstance().loadImage(uso, mImageSize, new ImageLoadingListener() {
+		ImageLoader.getInstance().displayImage(promianpic,mImage);
+		/*ImageLoader.getInstance().loadImage(uso, mImageSize, new ImageLoadingListener() {
 			@Override
 			public void onLoadingStarted(String mS, View mView) {
 				mImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_morentupian2));
@@ -87,7 +91,7 @@ public class PicassoWithImage {
 			public void onLoadingCancelled(String mS, View mView) {
 
 			}
-		});
+		});*/
 	}
 
 

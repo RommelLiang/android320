@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.tiemuyu.chuanchuan.activity.new_activities.LoginActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context="com.tiemuyu.chuanchuan.activity.new_activities.LoginActivity">
 
     <RelativeLayout
         android:id="@+id/header"
@@ -15,28 +15,28 @@
         android:visibility="visible">
 
         <LinearLayout
+            android:gravity="center_vertical"
             android:id="@+id/PostPicGoBack"
             android:layout_width="60dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="22dp">
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true">
 
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="23dp"
                 android:layout_marginLeft="20dp"
-                android:background="@mipmap/back" />
+                android:background="@mipmap/back"/>
         </LinearLayout>
 
         <TextView
+
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/goBack"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
             android:text="@string/TextLargeIcon"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
     </RelativeLayout>
 
     <ScrollView
@@ -46,16 +46,14 @@
         android:layout_below="@id/header">
 
         <LinearLayout
-            android:focusable="true"
-        android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorLightWhite"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <TextView
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
                 android:id="@+id/customize_description"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -63,14 +61,16 @@
                 android:background="@color/colorWhite"
                 android:hint="@string/MessagePostHint"
                 android:maxLength="100"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:textColor="@color/colorBlack"
                 android:textColorHint="@color/colorBlack"
-                android:textSize="17dp" />
+                android:textSize="17dp"/>
 
             <LinearLayout
-                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:background="@color/colorWhite"
                 android:orientation="horizontal">
 
@@ -83,7 +83,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="5dp"
                     android:src="@drawable/add_image"
-                    android:visibility="visible" />
+                    android:visibility="visible"/>
 
                 <com.tiemuyu.chuanchuan.activity.view.HorizontalListVIew
                     android:id="@+id/listview_horizon"
@@ -91,7 +91,7 @@
                     android:layout_height="80dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"/>
 
             </LinearLayout>
 
@@ -180,7 +180,7 @@
                     android:layout_marginLeft="40dp"
                     android:layout_weight="1"
                     android:checked="true"
-                    android:text="@string/TextTop" />
+                    android:text="@string/TextTop"/>
 
                 <RadioButton
                     android:id="@+id/bottom1"
@@ -188,14 +188,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checked="false"
-                    android:text="@string/TextBottom" />
+                    android:text="@string/TextBottom"/>
 
                 <RadioButton
                     android:id="@+id/suite1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/TextSuite" />
+                    android:text="@string/TextSuite"/>
             </RadioGroup>
 
             <TextView
@@ -207,13 +207,13 @@
                 android:gravity="center"
                 android:text="@string/MessageDefaultType"
                 android:textColor="@color/ColorSendButtonText"
-                android:textSize="12dp" />
+                android:textSize="12dp"/>
 
             <LinearLayout
-                android:background="@color/colorWhite"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@color/colorWhite"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical">
@@ -224,7 +224,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="5dp"
                     android:text="要给穿穿交代点什么："
-                    android:textColor="@color/colorBlack" />
+                    android:textColor="@color/colorBlack"/>
 
                 <EditText
                     android:id="@+id/message"
@@ -239,27 +239,28 @@
                     android:lines="6"
                     android:paddingLeft="5dp"
                     android:paddingTop="5dp"
-                    android:textSize="15dp" />
+                    android:textSize="15dp"/>
 
                 <TextView
-                    android:textSize="20dp"
-                    android:gravity="center_horizontal"
-                    android:textColor="@color/ColorLaunchBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="40px"
-                    android:text="请注意接收报价信息" />
-                <TextView
-                    android:textSize="16dp"
                     android:gravity="center_horizontal"
-                    android:textColor="@color/ColorSendButtonText"
+                    android:text="请注意接收报价信息"
+                    android:textColor="@color/ColorLaunchBackground"
+                    android:textSize="20dp"/>
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:text="设计师在线报价时间为每天9：00-24：00" />
+                    android:gravity="center_horizontal"
+                    android:text="设计师在线报价时间为每天9：00-24：00"
+                    android:textColor="@color/ColorSendButtonText"
+                    android:textSize="16dp"/>
             </LinearLayout>
 
 
@@ -274,5 +275,5 @@
         android:background="@color/ColorLaunchBackground"
         android:text="@string/TextPostPic"
         android:textColor="@color/colorWhite"
-        android:textSize="20dp" />
+        android:textSize="20dp"/>
 </RelativeLayout>

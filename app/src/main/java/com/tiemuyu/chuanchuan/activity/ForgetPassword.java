@@ -27,6 +27,7 @@ import com.tiemuyu.chuanchuan.activity.util.MD5Util;
 import com.tiemuyu.chuanchuan.activity.util.MyCountTimer;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
+import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.SetNotificationBarColer;
 import com.tiemuyu.chuanchuan.activity.util.StringUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
@@ -149,7 +150,9 @@ public class ForgetPassword extends BaseActivityG {
                 finish();
             }
         });
-
+        if(!SPUtils.getCodeToken().equals("")) {
+            token=SPUtils.getCodeToken();
+        }
     }
 
 
@@ -263,7 +266,7 @@ public class ForgetPassword extends BaseActivityG {
      * @throws
      */
     protected void     checkYanzhengCode() {
-
+        SPUtils.setCodeToken("");
        System.out.println( "#####"+UrlManager.Reset_YanzhengCode()+get_code+"&token="+ token+ "&mobile="+name);
         name = fp_name.getText().toString().trim();
         if (StringUtil.isNull(name)) {
@@ -304,6 +307,7 @@ public class ForgetPassword extends BaseActivityG {
         long l = System.currentTimeMillis() / 1000;
         String jiaMi = MD5Util.MD516(MD5Util.MD516(name + l) + "myappcc");
         Log.e( "codeResult: ",l+"" );
+        SPUtils.setCodeToken("");
         MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
                 TAG_ForgetCode, Constant.REQUEST_GET, new RequestParams(UrlManager
                 .GET_ForgetCodeNew() + name
@@ -339,7 +343,7 @@ public class ForgetPassword extends BaseActivityG {
 
                 token = s_data3;
                 timeCount.start();
-
+                SPUtils.setCodeToken(token);
                 System.out.println("######" + token);
 
             } catch (JSONException e) {

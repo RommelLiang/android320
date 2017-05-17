@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.tiemuyu.chuanchuan.activity.inter.ProgressOfImage;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -17,7 +19,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 梁文硕 on 2017/4/10.
@@ -25,10 +26,17 @@ import java.util.Map;
 
 public class SocketHttpRequester {
 
-	private static long start;
-	private static long end;
+	private  long start;
+	private  long end;
+	private  int bitmapByteCount;
+	private  int SAvailable;
+	private ProgressOfImage mProgressOfImage;
 
-	public static String post(String urlStr, List<String> filePaths) throws Exception {
+	public SocketHttpRequester(ProgressOfImage mProgressOfImage) {
+		this.mProgressOfImage = mProgressOfImage;
+	}
+
+	public String post(String urlStr, List<String> filePaths, ProgressOfImage mProgressOfImage) throws Exception {
 		String rsp = "";
 		HttpURLConnection conn = null;
 		String BOUNDARY = "|"; // request头和上传文件内容分隔符
@@ -75,16 +83,27 @@ public class SocketHttpRequester {
 			start = System.currentTimeMillis();
 			out.write(fileExplain.toString().getBytes());
 			Bitmap bitmap = decodeFile(file);
+			bitmapByteCount += bitmap.getByteCount();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			//得到输出流
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
 			//转输入流
 			InputStream isBm = new ByteArrayInputStream(baos .toByteArray());
 			DataInputStream in = new DataInputStream(isBm);
+			SAvailable += in.available();
+
 			int bytes = 0;
 			byte[] bufferOut = new byte[1024];
+
+
+			Log.e("进度张数：",i+1+"");
+			int length = 0;
+			int total = in.available();
 			while ((bytes = in.read(bufferOut)) != -1) {
 				out.write(bufferOut, 0, bytes);
+				length += bytes;
+				Log.e("进度单长", (int) ((length / (float) total) * 100) +"%");
+				mProgressOfImage.getProgress(i+1,(int) ((length / (float) total) * 100));
 			}
 			in.close();
 		}
@@ -92,9 +111,11 @@ public class SocketHttpRequester {
 		out.write(endData);
 		out.flush();
 		out.close();
-
+		Log.e( "文件大小",bitmapByteCount+"" );
+		Log.e( "文件大小",SAvailable+"" );
 		// 读取返回数据
 		StringBuffer buffer = new StringBuffer();
+		//attention Please
 		BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
 		String line = "";
 		while ((line = reader.readLine()) != null) {
@@ -105,14 +126,11 @@ public class SocketHttpRequester {
 		Log.e("post: " + String.valueOf(end - start), rsp);
 		int responseCode = conn.getResponseCode();
 		conn.disconnect();
-		if (responseCode == 200) {
-			Map<String, List<String>> headerFields = conn.getHeaderFields();
-
-		}
 		if(responseCode != 200){//读取web服务器返回的数据，判断请求码是否为200，如果不是200，代表请求失败
 			rsp = "{\"Code\":0,\"Msg\":\"OK\"," +
 					"\"Data\":{\"ImageUrl\":\"\"}}";
 		}
+		Log.e("post: ", rsp);
 		reader.close();
 		return rsp;
 	}
@@ -142,5 +160,4 @@ public class SocketHttpRequester {
 		}
 		return b;
 	}
-
 }

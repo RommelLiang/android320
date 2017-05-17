@@ -73,10 +73,6 @@ public class UTagAndAlias {
 		mPushAgent.getTagManager().list(new TagManager.TagListCallBack() {
 			@Override
 			public void onMessage(boolean isSuccess, List<String> result) {
-				Log.e("友盟TAG", "查看所有TAG: " + isSuccess);
-				for ( String s : result ) {
-					Log.e("友盟TAG", "查看所有单个TAG: " + result.get(0));
-				}
 			}
 		});
 	}

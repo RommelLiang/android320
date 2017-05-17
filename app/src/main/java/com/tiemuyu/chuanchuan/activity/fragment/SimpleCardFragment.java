@@ -268,6 +268,22 @@ public class SimpleCardFragment extends HomeFragmentBasw implements PullToRefres
 			Log.e("refreshableView6", "setBanner: " + "refreshableView6");
 			mRefreshableView.addHeaderView(headerImage);
 		}
+		mPullRefreshListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				Log.e(TAG, "onScrollStateChanged: "+totalItem );
+				if (totalItem > 10) {
+					back_head.setVisibility(View.VISIBLE);
+				} else {
+					back_head.setVisibility(View.INVISIBLE);
+				}
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				totalItem = firstVisibleItem;
+			}
+		});
 	}
 
 

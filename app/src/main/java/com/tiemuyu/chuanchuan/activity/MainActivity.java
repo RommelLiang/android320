@@ -149,6 +149,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 			Intent intent = new Intent(this, PushHistoryActivity.class);
 			startActivity(intent);
 		}
+		SPUtils.setCodeToken("");
 		GuideHelper guideHelper = new GuideHelper(this);
 		guideHelper.openGuide();
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -190,7 +191,7 @@ public class MainActivity extends NetworkActivity implements View.OnClickListene
 		client.setHeader(header, search, im_setting, bottom);
 		ViewTools.showView(button_chuanchuan, buttons);
 		transaction = manager.beginTransaction();
-		homeFragment = HomeFragmentR.getInstance(this);
+		homeFragment = HomeFragmentR.getInstance();
 
 		homeFragment.setHeader(header, search, im_setting, bottom);
 		transaction.add(R.id.fra_webView, homeFragment);

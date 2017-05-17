@@ -1,6 +1,5 @@
 package com.tiemuyu.chuanchuan.activity.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,11 +29,9 @@ public class HomeFragmentR extends BaseFragment {
 	};
 	private String whoShow = "定制成品";
 	private int mPostion = 0;
-	private Activity mContext;
 
-	public static HomeFragmentR getInstance(Activity mContext) {
+	public static HomeFragmentR getInstance() {
 		HomeFragmentR sf = new HomeFragmentR();
-		sf.mContext = mContext;
 		return sf;
 	}
 
@@ -59,7 +56,7 @@ public class HomeFragmentR extends BaseFragment {
 	private void initView() {
 		mSegmentTabLayout = (SlidingTabLayout) view.findViewById(R.id.segmentTabLayout);
 		for (String title : mTitles) {
-			SimpleCardFragment instance = SimpleCardFragment.getInstance(title, mContext,this);
+			SimpleCardFragment instance = SimpleCardFragment.getInstance(title, getActivity(),this);
 			mFragments.add(instance);
 		}
 		ViewPager vp = (ViewPager) view.findViewById(R.id.vp);

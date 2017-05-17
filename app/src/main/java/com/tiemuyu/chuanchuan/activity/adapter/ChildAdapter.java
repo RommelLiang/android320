@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 import com.tiemuyu.chuanchuan.activity.ChengpinDetailActivity;
 import com.tiemuyu.chuanchuan.activity.MoreDingzhiActivity;
@@ -100,7 +101,8 @@ public class ChildAdapter extends BaseAdapter {
 			Drawable adddrawable = context.getResources().getDrawable(R.drawable.image);
 			childHolder.rl_item.setBackground(adddrawable);
 			String promianpic = listBean.getAppdingzhilist().get(position).getPromianpic();
-			mPicassoWithImage.setImage(childHolder.imageView, promianpic);
+			childHolder.imageView.setTag(promianpic);
+			ImageLoader.getInstance().displayImage((String) childHolder.imageView.getTag(),childHolder.imageView);
 			childHolder.name.setText(listBean.getAppdingzhilist().get(position).getProname());
 			childHolder.price.setText(Html.fromHtml("定制价" +
 					"<font color=\"#450525\"><b>￥ " + listBean.getAppdingzhilist().get(position).getPrice() + "</b></font>"));

@@ -19,6 +19,7 @@ import com.tiemuyu.chuanchuan.activity.util.JsonTools;
 import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.util.MD5Util;
 import com.tiemuyu.chuanchuan.activity.util.MyCountTimer;
+import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.StringUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
@@ -65,6 +66,7 @@ public class ForgetPayPasswordActivity extends BaseActivityG {
 				String jiaMi = MD5Util.MD516(MD5Util.MD516(phone + l) + "myappcc");
 				Log.e("codeResult: ", l + "");
 				Log.e("codeResult: ", jiaMi);
+				SPUtils.setCodeToken("");
 				MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(ForgetPayPasswordActivity.this,
 						TAG_ForgetCode, Constant.REQUEST_GET, new RequestParams(UrlManager
 						.GET_ForgetCodeNew() + phone + "&imei=android"
@@ -103,6 +105,9 @@ public class ForgetPayPasswordActivity extends BaseActivityG {
 				finish();
 			}
 		});
+		if(!SPUtils.getCodeToken().equals("")) {
+			token=SPUtils.getCodeToken();
+		}
 	}
 
 	@Override
@@ -156,6 +161,7 @@ public class ForgetPayPasswordActivity extends BaseActivityG {
 
 				token = s_data3;
 				timeCount.start();
+				SPUtils.setCodeToken(token);
 				System.out.println("######" + token);
 
 			} catch (JSONException e) {
@@ -168,6 +174,7 @@ public class ForgetPayPasswordActivity extends BaseActivityG {
 	}
 
 	protected void checkYanzhengCode() {
+		SPUtils.setCodeToken("");
 		MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
 				TAG_YANZHENG, Constant.REQUEST_GET, new RequestParams(UrlManager
 				.Reset_YanzhengCode() + code + "&token=" + token + "&mobile=" + phone), this, "验证码是否正确", false));

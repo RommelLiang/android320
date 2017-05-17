@@ -197,7 +197,11 @@ public class HuoDongActivity extends BaseActivityG {
 			count++;
 			roundProgressBar.setProgress((int) (4000 - millisUntilFinished));
 			if (count % 42 == 0) {
-				roundProgressBar.setTime(5 - count / 42);
+				int progress = 5 - count / 42;
+				if(progress <= 0) {
+					progress =0;
+				}
+				roundProgressBar.setTime(progress);
 			}
 		}
 

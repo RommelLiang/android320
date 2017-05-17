@@ -35,6 +35,7 @@ import com.tiemuyu.chuanchuan.activity.util.JudgmentLegal;
 import com.tiemuyu.chuanchuan.activity.util.MyCountTimer;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
+import com.tiemuyu.chuanchuan.activity.util.SPUtils;
 import com.tiemuyu.chuanchuan.activity.util.SetNotificationBarColer;
 import com.tiemuyu.chuanchuan.activity.util.StringUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
@@ -185,7 +186,9 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 		AppManager.getAppManager().addActivity(this);
 		//  Constant.VERSION = Version.getAppVersionName(this);
 		// _global = GlobalVariable.getInstance();
-
+		if (!SPUtils.getCodeToken().equals("")) {
+			token = SPUtils.getCodeToken();
+		}
 		initProcess();
 		findViewById(R.id.return_button).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -325,7 +328,7 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 		if (cheeck == 0) {
 			ToastHelper.show(this, "手机号码过短");
 			return;
-		} else if(cheeck == 2) {
+		} else if (cheeck == 2) {
 			ToastHelper.show(this, "手机号码过长");
 			return;
 		}
@@ -342,7 +345,7 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 			return;
 		}
 
-
+		SPUtils.setCodeToken("");
 		MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
 
 				TAG_GETCODE, Constant.REQUEST_POST, ParamsTools.getCodeNew(
@@ -533,6 +536,7 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 						UrlManager.REGIST() + "android",//MyApplication.mChannel,
 						v1, get_code, yaoqingma, "", token), this,
 						"正在注册...", true));
+				SPUtils.setCodeToken("");
 			}
 
 		}
@@ -552,6 +556,7 @@ public class RegisterActivity extends BaseActivityG implements OnItemClickListen
 		Log.e("codeResult: ", msg);
 		if (bean != null) {
 			token = bean.getData().getToken();
+			SPUtils.setCodeToken(token);
 //// TODO: 2017/1/17 跳转   发送成功跳转到第二个界面
 			setView(false, true);
 			reg_showinfo2.setText("亲,短信验证码已发送至" + name + ",请注意查收");

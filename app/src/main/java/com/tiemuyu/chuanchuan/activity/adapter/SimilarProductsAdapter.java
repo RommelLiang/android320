@@ -104,7 +104,8 @@ public class SimilarProductsAdapter extends BaseAdapter {
 		}
 		holder.text.setText(mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 1).getProductName());
 		holder.price.setText("￥" + mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 1).getPrice() + "");
-
+		//holder.image.setTag(mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 1).getMianPic());
+		//mPicassoWithImage.setImage(holder.image,mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 1).getMianPic());
 		Picasso.with(context)
 				.load(mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 1).getMianPic())
 				.transform(transformation)
@@ -115,8 +116,8 @@ public class SimilarProductsAdapter extends BaseAdapter {
 				.load(mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 2).getMianPic())
 				.transform(transformation)
 				.into(holder.image_one);
-		mPicassoWithImage.setImage(holder.image_one,
-				mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 2).getMianPic());
+		//holder.image_one.setTag((mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 2).getMianPic()));
+		//mPicassoWithImage.setImage(holder.image_one, mSimilarProducts.getData().getSimilarProducts().get((position + 1) * 2 - 2).getMianPic());
 		holder.left.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

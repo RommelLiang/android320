@@ -30,19 +30,25 @@ import com.tiemuyu.chuanchuan.activity.MainActivity;
 import com.tiemuyu.chuanchuan.activity.MyApplication;
 import com.tiemuyu.chuanchuan.activity.R;
 import com.tiemuyu.chuanchuan.activity.bean.BaseBean;
+import com.tiemuyu.chuanchuan.activity.bean.GetPassKey;
 import com.tiemuyu.chuanchuan.activity.bean.ImageUrlBean;
 import com.tiemuyu.chuanchuan.activity.bean.User;
 import com.tiemuyu.chuanchuan.activity.constant.Constant;
 import com.tiemuyu.chuanchuan.activity.constant.UrlManager;
 import com.tiemuyu.chuanchuan.activity.db.DBTools;
-import com.tiemuyu.chuanchuan.activity.proxy.LoadingProxy;
+import com.tiemuyu.chuanchuan.activity.helper.ProgressHelper;
+import com.tiemuyu.chuanchuan.activity.http.HttpTools;
+import com.tiemuyu.chuanchuan.activity.inter.ProgressOfImage;
 import com.tiemuyu.chuanchuan.activity.util.AppManager;
 import com.tiemuyu.chuanchuan.activity.util.ClassJumpTool;
+import com.tiemuyu.chuanchuan.activity.util.DataContoler;
 import com.tiemuyu.chuanchuan.activity.util.GsonUtils;
-import com.tiemuyu.chuanchuan.activity.util.JumpToKeFU;
+import com.tiemuyu.chuanchuan.activity.util.JsonTools;
 import com.tiemuyu.chuanchuan.activity.util.ParamsTools;
 import com.tiemuyu.chuanchuan.activity.util.PicassoImageLoader;
+import com.tiemuyu.chuanchuan.activity.util.PreferenceUtils;
 import com.tiemuyu.chuanchuan.activity.util.SocketHttpRequester;
+import com.tiemuyu.chuanchuan.activity.util.StringUtil;
 import com.tiemuyu.chuanchuan.activity.util.ThreadPoolTaskHttp;
 import com.tiemuyu.chuanchuan.activity.util.ToastHelper;
 import com.tiemuyu.chuanchuan.activity.view.HorizontalListVIew;
@@ -58,7 +64,7 @@ import java.util.List;
  * Created by CC2.0 on 2017/1/16.
  */
 
-public class FatuActivity extends BaseActivityG {
+public class FatuActivity extends BaseActivityG implements ProgressOfImage{
 	private static final int IMAGE_PICKER = 255;
 
 //两个按钮
@@ -97,7 +103,11 @@ public class FatuActivity extends BaseActivityG {
 	private MyAdapter adapter;
 	private String mPost;
 	private String tag = "上装";
-	private LoadingProxy mInstance;
+	//private LoadingProxy mInstance;
+	private ProgressHelper mProgressHelper;
+	private String login_v;
+	String oauthid = "";
+	private String mPassKey;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -125,11 +135,14 @@ public class FatuActivity extends BaseActivityG {
 		add_img1 = (ImageView) findViewById(R.id.add_img1);
 		add_img1.setOnClickListener(this);
 		horizontalListVIew = (HorizontalListVIew) findViewById(R.id.listview_horizon);
-
+		MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
+				HttpTools.TAG_GETPASSKEY, Constant.REQUEST_GET, new RequestParams(UrlManager
+				.GET_PASSKEY()), this, "获取passkey", false));
 		AppManager.getAppManager().addActivity(this);
 		tv_message = (EditText) findViewById(R.id.message);
 		initProcess();
-		mInstance = LoadingProxy.getInstance(this);
+		//mInstance = LoadingProxy.getInstance(this);
+
 	}
 
 
@@ -226,11 +239,9 @@ public class FatuActivity extends BaseActivityG {
 	}
 
 	private void sendImage() {
-		String lable = "图片上传中";
-		if (mImages.size() > 4) {
-			lable = "请耐心等待...";
-		}
-		mInstance.setLable(lable).show();
+		//mInstance.show();
+		mProgressHelper = new ProgressHelper(this,mImages.size());
+		mProgressHelper.openGuide();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -240,7 +251,8 @@ public class FatuActivity extends BaseActivityG {
 					imageUrl.add(image.path);
 				}
 				try {
-					mPost = SocketHttpRequester.post(URL.UPLOAD_URLMoment, imageUrl);
+					SocketHttpRequester socketHttpRequester = new SocketHttpRequester(FatuActivity.this);
+					mPost = socketHttpRequester.post(URL.UPLOAD_URLMoment, imageUrl,FatuActivity.this);
 					if (!TextUtils.isEmpty(mPost)) {
 						System.out.println("******进入非空判断");
 						handler.sendEmptyMessage(1);
@@ -248,6 +260,8 @@ public class FatuActivity extends BaseActivityG {
 						handler.sendEmptyMessage(2);//失败
 					}
 				} catch (Exception mE) {
+					mProgressHelper.closeGuide();
+					ToastHelper.show(FatuActivity.this,"发送图片失败");
 					Log.e("runmE: ", mE.getLocalizedMessage());
 				}
 			}
@@ -299,6 +313,7 @@ public class FatuActivity extends BaseActivityG {
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
+			mProgressHelper.closeGuide();
 			switch (msg.what) {
 				case 1:
 					System.out.println("*******图片上传成功");
@@ -307,7 +322,7 @@ public class FatuActivity extends BaseActivityG {
 				case 2:
 					Log.e("图片上传失败", "handleMessage: ");
 					System.out.println("*******图片上传失败");
-					mInstance.dismiss();
+					//mInstance.dismiss();
 					break;
 				default:
 					break;
@@ -321,7 +336,7 @@ public class FatuActivity extends BaseActivityG {
 			ImageUrlBean imageUrlBean = GsonUtils.fromData(mPost, ImageUrlBean.class);
 			int code = imageUrlBean.getCode();
 			if (code == 0) {
-				mInstance.dismiss();
+				//mInstance.dismiss();
 				ToastHelper.show(FatuActivity.this, "上传图片失败，请重试");
 				return;
 			}
@@ -359,7 +374,7 @@ public class FatuActivity extends BaseActivityG {
 	public void reLoginCallBack(String resultTag, boolean isShowDiolog) {
 		super.reLoginCallBack(resultTag, isShowDiolog);
 		if (resultTag.equals(TAG_FABU_MOMENT)) {
-			mInstance.dismiss();
+			//mInstance.dismiss();
 			ToastHelper.show(this, "图片发布失败,请重新发布");
 		}
 	}
@@ -375,7 +390,7 @@ public class FatuActivity extends BaseActivityG {
 		if (resultTag.equals(TAG_FABU_MOMENT)) {
 			Log.e("测试发图:", "发布完成");
 			System.out.println("######成功了callback");
-			mInstance.dismiss();
+			//mInstance.dismiss();
 			MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(this,
 					TAG_SENDMESSAGE, Constant.REQUEST_GET,
 					new RequestParams(UrlManager.sendMessage(user.getUserId() + "")), FatuActivity.this,
@@ -386,21 +401,12 @@ public class FatuActivity extends BaseActivityG {
 					.setTitle("")
 					.setMessage("图片发送成功")
 					.setDestructive("完成")
-					.setCancelText("联系客服")
 					.setOthers(null)
 					.setOnItemClickListener(new OnItemClickListener() {
 						@Override
 						public void onItemClick(Object o, int position) {
 							Log.e("onItemClick: ", position + "");
 							switch (position) {
-								case -1:
-									try {
-										JumpToKeFU jumpToKeFU = new JumpToKeFU();
-										jumpToKeFU.getInstance(FatuActivity.this);
-									} catch (Exception e) {
-										Log.e("onItemClick: ", e.getLocalizedMessage());
-									}
-									break;
 								case 0:
 									ClassJumpTool.startToBackActivity(FatuActivity.this, MainActivity.class, null, 10);
 									break;
@@ -411,6 +417,26 @@ public class FatuActivity extends BaseActivityG {
 		} else if (resultTag.equals(TAG_SENDMESSAGE)) {
 			Log.e("successCallBack: ", TAG_SENDMESSAGE + callBackMsg);
 
+		} else if (resultTag.equals(HttpTools.TAG_GETPASSKEY)) {
+			GetPassKey key = JsonTools.fromJson(callBackMsg, GetPassKey.class);
+			if (key != null) {
+				// LogHelper.d("---获取pass1111111->");
+
+				mPassKey = key.getData().getPassKey();
+				PreferenceUtils.setPrefString(FatuActivity.this, Constant.PASSKEY,
+						mPassKey);
+			}
+			User mUser = DBTools.getUser();
+			login_v = DataContoler.getLoginV(mUser.getUsername(), mUser.getPass(), mPassKey);
+			if (!StringUtil.isNull(login_v)) {
+				MyApplication.poolManager.addAsyncTask(new ThreadPoolTaskHttp(
+						this, HttpTools.TAG_AULOGIN, Constant.REQUEST_POST,
+						ParamsTools.login(UrlManager.LOGIN(), login_v, oauthid),
+						this, "正在登录...", false));
+			}
+
+		} else if (resultTag.equals(HttpTools.TAG_AULOGIN)) {
+			ToastHelper.show(FatuActivity.this,"自动登陆成功");
 		}
 
 
@@ -425,7 +451,7 @@ public class FatuActivity extends BaseActivityG {
 			System.out.println("######failShowCallBack ");
 			ToastHelper.show(this, "图片发布失败");
 			Log.e("测试发图:", "发布完成");
-			mInstance.dismiss();
+			//mInstance.dismiss();
 		}
 	}
 
@@ -441,12 +467,34 @@ public class FatuActivity extends BaseActivityG {
 		if (resultTag.equals(TAG_FABU_MOMENT)) {
 			System.out.println("#####失败:" + arg0.getMessage());
 			ToastHelper.show(this, "失败");
-			mInstance.dismiss();
+			//.dismiss();
 		}
 
 
 	}
 
+	@Override
+	public void getProgress(int page, int progress) {
+		Log.e("发图图层显示: ", page+":"+progress);
+		//fabu_bt.setText(page+":"+progress);
+		Message message = new Message();
+		message.arg1 = page;
+		message.arg2 = progress;
+		mHandler.sendMessage(message);
+	}
+
+	Handler mHandler = new Handler(){
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			Log.e("handleMessage: ",msg.toString() );
+			Log.e( "handleMessage:",msg.arg1+"" );
+			int page = msg.arg1;
+			int progress = msg.arg2;
+			//fabu_bt.setText(page+":"+progress);
+			mProgressHelper.setView(page,progress);
+		}
+	};
 
 	/*************************************************/
 

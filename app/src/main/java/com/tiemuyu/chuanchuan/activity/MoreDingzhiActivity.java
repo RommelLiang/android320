@@ -93,10 +93,10 @@ public class MoreDingzhiActivity extends BaseActivityG {
 					@Override
 					public void onClick(View v) {
 						title = mMoreBean.getData().get(0).getName() + "选";
-						img_url =mMoreBean.getData().get(0).getImg();
-						url = "http://ios.myappcc.com/cc/Home/customizeListShow?id="+
+						img_url =mMoreBean.getData().get(0).getAppdingzhilist().get(0).getPromianpic();
+						url = "http://testios.myappcc.com/product/Cus_Product?id="+
 								mId
-								+"&from=singlemessage&isappinstalled=0";
+								+"&type=1";
 						Log.e("url", "onClick: " + url);
 						share();
 					}
